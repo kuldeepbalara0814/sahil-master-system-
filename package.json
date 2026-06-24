@@ -1,0 +1,9 @@
+{
+  "name": "sahil-master-system",
+  "private": true,
+  "scripts": {
+    "build": "pnpm --filter @workspace/api-server run build",
+    "start": "pnpm --filter @workspace/api-server run start"
+  },
+  "packageManager": "pnpm@10.12.1"
+}
