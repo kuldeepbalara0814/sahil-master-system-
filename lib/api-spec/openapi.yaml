@@ -1,0 +1,412 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: Sahil Master System API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: sahil
+    description: Sahil number prediction system
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /sahil/records:
+    get:
+      operationId: getRecords
+      tags: [sahil]
+      summary: Get all records
+      responses:
+        "200":
+          description: List of records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DayRecord"
+    post:
+      operationId: addRecord
+      tags: [sahil]
+      summary: Add a new day record
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DayRecordInput"
+      responses:
+        "201":
+          description: Record added
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "409":
+          description: Record already exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /sahil/records/{date}:
+    put:
+      operationId: updateRecord
+      tags: [sahil]
+      summary: Update a record by date
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DayRecordInput"
+      responses:
+        "200":
+          description: Record updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "404":
+          description: Record not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /sahil/pending:
+    get:
+      operationId: getPending
+      tags: [sahil]
+      summary: Get pending partial results
+      responses:
+        "200":
+          description: Pending results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PendingEntry"
+    post:
+      operationId: savePendingEntry
+      tags: [sahil]
+      summary: Save a partial result (FD/GB/GL/DS individually)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PendingInput"
+      responses:
+        "200":
+          description: Entry saved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PendingResult"
+
+  /sahil/predict:
+    post:
+      operationId: runPrediction
+      tags: [sahil]
+      summary: Run the prediction engine
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PredictInput"
+      responses:
+        "200":
+          description: Prediction result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PredictOutput"
+
+  /sahil/predictions:
+    get:
+      operationId: getPredictions
+      tags: [sahil]
+      summary: Get prediction history with pass/fail status
+      responses:
+        "200":
+          description: Prediction history
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PredictionEntry"
+
+  /sahil/predictions/check:
+    post:
+      operationId: checkPrediction
+      tags: [sahil]
+      summary: Check a prediction against actual result
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CheckInput"
+      responses:
+        "200":
+          description: Check result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CheckOutput"
+
+  /sahil/stats:
+    get:
+      operationId: getStats
+      tags: [sahil]
+      summary: Get pass/fail statistics summary
+      responses:
+        "200":
+          description: Stats summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatsOutput"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required: [status]
+
+    DayRecord:
+      type: object
+      properties:
+        date:
+          type: string
+        fd:
+          type: integer
+        gb:
+          type: integer
+        gl:
+          type: integer
+        ds:
+          type: integer
+      required: [date, fd, gb, gl, ds]
+
+    DayRecordInput:
+      type: object
+      properties:
+        date:
+          type: string
+        fd:
+          type: integer
+        gb:
+          type: integer
+        gl:
+          type: integer
+        ds:
+          type: integer
+      required: [date, fd, gb, gl, ds]
+
+    PendingEntry:
+      type: object
+      properties:
+        date:
+          type: string
+        fd:
+          type: ["integer", "null"]
+        gb:
+          type: ["integer", "null"]
+        gl:
+          type: ["integer", "null"]
+        ds:
+          type: ["integer", "null"]
+        complete:
+          type: boolean
+      required: [date, fd, gb, gl, ds, complete]
+
+    PendingInput:
+      type: object
+      properties:
+        date:
+          type: string
+        field:
+          type: string
+          enum: [fd, gb, gl, ds]
+        value:
+          type: integer
+      required: [date, field, value]
+
+    PendingResult:
+      type: object
+      properties:
+        saved:
+          type: boolean
+        complete:
+          type: boolean
+        entry:
+          $ref: "#/components/schemas/PendingEntry"
+      required: [saved, complete, entry]
+
+    PredictInput:
+      type: object
+      properties:
+        fd:
+          type: integer
+        gb:
+          type: integer
+        gl:
+          type: integer
+        ds:
+          type: integer
+        formula:
+          type: array
+          items:
+            type: string
+        gameDate:
+          type: string
+      required: [fd, gb, gl, ds, formula, gameDate]
+
+    PredictOutput:
+      type: object
+      properties:
+        tokari:
+          type: array
+          items:
+            type: object
+            properties:
+              jodi:
+                type: string
+              count:
+                type: integer
+            required: [jodi, count]
+        L1:
+          type: array
+          items:
+            type: string
+        L2:
+          type: array
+          items:
+            type: string
+        L3:
+          type: array
+          items:
+            type: string
+        gameDate:
+          type: string
+      required: [tokari, L1, L2, L3, gameDate]
+
+    PredictionEntry:
+      type: object
+      properties:
+        gameDate:
+          type: string
+        L1:
+          type: array
+          items:
+            type: string
+        L2:
+          type: array
+          items:
+            type: string
+        L3:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+        matched:
+          type: array
+          items:
+            type: string
+        actualResult:
+          type: array
+          items:
+            type: string
+      required: [gameDate, L1, L2, L3, status]
+
+    CheckInput:
+      type: object
+      properties:
+        date:
+          type: string
+        fd:
+          type: integer
+        gb:
+          type: integer
+        gl:
+          type: integer
+        ds:
+          type: integer
+      required: [date, fd, gb, gl, ds]
+
+    CheckOutput:
+      type: object
+      properties:
+        status:
+          type: string
+        matched:
+          type: array
+          items:
+            type: string
+      required: [status, matched]
+
+    StatsOutput:
+      type: object
+      properties:
+        total:
+          type: integer
+        passed:
+          type: integer
+        failed:
+          type: integer
+        pending:
+          type: integer
+        passL1:
+          type: integer
+        passL2:
+          type: integer
+        passL3:
+          type: integer
+        successRate:
+          type: number
+      required: [total, passed, failed, pending, passL1, passL2, passL3, successRate]
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      required: [success, message]
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
