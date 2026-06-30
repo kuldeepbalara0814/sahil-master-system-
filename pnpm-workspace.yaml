@@ -1,3 +1,7 @@
 packages:
   - "artifacts/*"
   - "lib/*"
+
+catalogs:
+  default:
+    '@types/node': ^20.0.0
