@@ -1,7 +1,10 @@
 packages:
   - "artifacts/*"
   - "lib/*"
+  - "packages/*"
+  - "apps/*"
 
 catalogs:
   default:
     '@types/node': ^20.0.0
+    'drizzle-orm': ^0.33.0
