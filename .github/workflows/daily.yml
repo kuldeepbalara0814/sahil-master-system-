@@ -1,0 +1,42 @@
+name: daily-update
+
+# Roz subah 7:00 IST (= 01:30 UTC) site se nayi line laata hai, paper trading aur monitor update karta hai
+# aur data/ ke badlav ko repo me commit karta hai.  Manual: Actions tab -> daily-update -> Run workflow.
+on:
+  schedule:
+    - cron: "30 1 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Tests (galat data na jaye)
+        run: python -m unittest discover -s tests
+      - name: Update (fetch + paper trading + monitor)
+        run: python -m lab.update
+      - name: Commit data
+        run: |
+          git config user.name "sahil-lab-bot"
+          git config user.email "sahil-lab-bot@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then
+            echo "kuch naya nahi"
+          else
+            git commit -m "auto: daily update $(date -u +%F)"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push
+          fi
