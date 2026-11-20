@@ -22,10 +22,10 @@ if DATA_DIR != os.path.join(ROOT, "data"):                      # shuru ki files
             shutil.copy(os.path.join(ROOT, "data", f), os.path.join(DATA_DIR, f))
 os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 
-from flask import Flask, jsonify, request, send_file, send_from_directory   # noqa: E402
+from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import data, friends, gh, monitor, paper, picks, update            # noqa: E402
+from lab import backtest, data, export_xlsx, friends, gh, idea, monitor, paper, picks, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -165,6 +165,115 @@ def api_overview(period):
         t = friends.top_friends(fr.cnt[period], x, 3)
         out.append({"number": x, "top": [{"n": f["n"], "together": f["together"]} for f in t], "seen": int(fr.cnt[period][2][x])})
     return jsonify(out)
+
+
+# ---------------- record (range + Excel) ----------------
+def _range():
+    try:
+        a = dt.date.fromisoformat(request.args["from"]) if request.args.get("from") else None
+        b = dt.date.fromisoformat(request.args["to"]) if request.args.get("to") else None
+    except ValueError:
+        return None, None, "Tarikh galat (YYYY-MM-DD)"
+    if a and b and a > b:
+        return None, None, "'Se' tarikh 'Tak' se badi hai"
+    return a, b, None
+
+
+@app.get("/api/record")
+def api_record():
+    a, b, e = _range()
+    if e:
+        return err(e)
+    rows, _ = state()
+    sel = export_xlsx.select(rows, a, b)
+    return jsonify({"first": rows[0][0].isoformat(), "last": rows[-1][0].isoformat(), "count": len(sel),
+                    "rows": [[d.isoformat(), *v] for d, v, _ in sel]})
+
+
+@app.get("/api/export/record.xlsx")
+def api_export():
+    a, b, e = _range()
+    if e:
+        return err(e)
+    rows, _ = state()
+    sel = export_xlsx.select(rows, a, b)
+    if not sel:
+        return err("Is range me koi din nahi")
+    blob = export_xlsx.build(rows, a, b)
+    name = f"SahilLab_Record_{sel[0][0].isoformat()}_to_{sel[-1][0].isoformat()}.xlsx"
+    return Response(blob, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    headers={"Content-Disposition": f'attachment; filename="{name}"'})
+
+
+# ---------------- lab (idea backtest) ----------------
+_lab_cache = {}
+
+
+@app.post("/api/lab/parse")
+def lab_parse():
+    text = str((request.get_json(silent=True) or {}).get("text", ""))[:400]
+    return jsonify(idea.parse(text))
+
+
+@app.post("/api/lab/test")
+def lab_test():
+    raw = (request.get_json(silent=True) or {}).get("spec") or {}
+    try:
+        spec = idea.clean(raw)
+    except (ValueError, TypeError, KeyError) as e:
+        return err(str(e))
+    rows, _ = state()
+    key = (json.dumps(spec, sort_keys=True), len(rows), rows[-1][0])
+    with _lock:
+        res = _lab_cache.get(key)
+    if res is None:
+        res = backtest.run(rows, spec)
+        with _lock:
+            if len(_lab_cache) > 40:
+                _lab_cache.clear()
+            _lab_cache[key] = res
+    return jsonify({"spec": spec, "explain": idea.explain(spec), "result": res, "asof": rows[-1][0].isoformat()})
+
+
+@app.get("/api/lab/ideas")
+def lab_ideas():
+    refresh()
+    return jsonify(jload("ideas.json", []))
+
+
+@app.post("/api/lab/save")
+@guarded
+def lab_save():
+    b = request.get_json(silent=True) or {}
+    try:
+        spec = idea.clean(b.get("spec") or {})
+    except (ValueError, TypeError, KeyError) as e:
+        return err(str(e))
+    ideas = jload("ideas.json", [])
+    if len(ideas) >= 60:
+        return err("60 se zyada idea save nahi ho sakte. Purane hata do.")
+    name = str(b.get("name") or idea.explain(spec))[:80]
+    ideas.insert(0, {"id": int(time.time() * 1000), "name": name, "text": str(b.get("text", ""))[:300], "spec": spec,
+                     "saved": dt.datetime.now(IST).isoformat(timespec="minutes"), "summary": b.get("summary")})
+    jsave("ideas.json", ideas)
+    try:
+        persist(["ideas.json"], "lab: idea save")
+    except gh.SyncError as e:
+        return err(str(e), 502)
+    return jsonify({"ok": True, "count": len(ideas)})
+
+
+@app.post("/api/lab/delete")
+@guarded
+def lab_delete():
+    iid = (request.get_json(silent=True) or {}).get("id")
+    ideas = [x for x in jload("ideas.json", []) if x.get("id") != iid]
+    jsave("ideas.json", ideas)
+    try:
+        persist(["ideas.json"], "lab: idea delete")
+    except gh.SyncError as e:
+        return err(str(e), 502)
+    return jsonify({"ok": True, "count": len(ideas)})
 
 
 # ---------------- aaj ki list ----------------
