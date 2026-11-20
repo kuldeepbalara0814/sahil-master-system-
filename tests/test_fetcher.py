@@ -30,7 +30,7 @@ class FetcherTests(unittest.TestCase):
     def test_reproduces_stored_data_exactly(self):
         """Purani line se aage ki lines site se banao -> wahi jo file me hain (parser + niyam ki jaanch)."""
         rows = [r for r in data.load() if r[0] <= D(2026, 10, 15)]
-        stored = {d: v for d, v, _ in data.load() if d > D(2026, 10, 15)}
+        stored = {d: v for d, v, _ in data.load() if D(2026, 10, 15) < d <= D(2026, 11, 19)}   # fixture sirf 19 Nov tak
         new, info = fetcher.new_lines(rows, today=D(2026, 11, 21), fetch=fake_fetch, pause=0)
         self.assertEqual(info["errors"], [])
         got = {d: v for d, v, _ in new}
@@ -67,7 +67,7 @@ class UpdateTests(unittest.TestCase):
             r1 = update.run(today=D(2026, 11, 21), data_dir=tmp, fetch_fn=fake_fetch, pause=0, stake=5)
             self.assertEqual(r1["last_date"], "2026-11-19")
             self.assertEqual(r1["problems"], [])
-            self.assertEqual(len(r1["added"]), len(data.load()) - len(rows))
+            self.assertEqual(len(r1["added"]), len([r for r in data.load() if D(2026, 10, 15) < r[0] <= D(2026, 11, 19)]))
             self.assertEqual(r1["new_bets"], 3 + 40 + 10)
             r2 = update.run(today=D(2026, 11, 21), data_dir=tmp, fetch_fn=fake_fetch, pause=0, stake=5)   # dobara chalao
             self.assertEqual(r2["added"], [])                       # kuch duplicate nahi

@@ -4,9 +4,12 @@ Site ka niyam: DSWR column me DS us tarikh par dikhta hai jis tarikh subah khula
 Isliye  line(d) = FD,GB,GL (site ki tarikh d)  +  DS (site ki tarikh d+1).
 Mahine ka aakhri din chhuti: us din FD/GB/GL = XX, par DS dikhta hai (pichle din ki line ka).
 """
+import contextlib
 import datetime as dt
 import html as _html
 import re
+import socket
+import threading
 import time
 import urllib.request
 
@@ -21,16 +24,35 @@ class FetchError(Exception):
     pass
 
 
+_ipv4_lock = threading.Lock()
+
+
+@contextlib.contextmanager
+def ipv4_first():
+    """Kuch networks (jaise phone) par IPv6 ruk jaata hai aur har try ~40 sec kha jaata hai. IPv4 pehle try karo."""
+    real = socket.getaddrinfo
+
+    def patched(*a, **k):
+        res = real(*a, **k)
+        return sorted(res, key=lambda r: 0 if r[0] == socket.AF_INET else 1)
+    with _ipv4_lock:
+        socket.getaddrinfo = patched
+        try:
+            yield
+        finally:
+            socket.getaddrinfo = real
+
+
 def month_url(y, m):
     return URL.format(name=MONTHS[m - 1], year=y, month=m)
 
 
-def fetch_month(y, m, timeout=40, retries=2):
+def fetch_month(y, m, timeout=30, retries=2):
     last = None
     for i in range(retries + 1):
         try:
             req = urllib.request.Request(month_url(y, m), headers={"User-Agent": UA})
-            with urllib.request.urlopen(req, timeout=timeout) as r:
+            with ipv4_first(), urllib.request.urlopen(req, timeout=timeout) as r:
                 return r.read().decode("utf-8", errors="replace")
         except Exception as e:            # network ya site ki galti
             last = e

@@ -1,23 +1,31 @@
-# Sahil Master System
+# Sahil Lab  -  data, dost list, aaj ki list, paper trading
 
-Lottery jodi prediction system — FD/GB/GL/DS games.
+Paper trading (kalpnik paisa) aur R&D ke liye software. **Asli paisa lagane ki salaah nahi.**
+Result lagbhag random hain; 13 saal ke test me sirf chhota, ghat-ta hua "number kuch din me dobara aata hai" wala asar mila.
 
-Python (Flask) service: `sahil_system/` engine + `sahil_system/static/index.html` web UI.
-Purana React/Express code `artifacts/` me padha hai (adhura export, build nahi hota).
+## Kya kya hai  (index)
+| # | Hissa | Kahan |
+|---|---|---|
+| 1 | Data (2013 se, duplicate-free) + roz auto fetch | `data/results.csv`, `lab/fetcher.py`, `lab/update.py`, `.github/workflows/daily.yml` |
+| 2 | Dost Khojo (3 samay: poora, pichle 3 mahine, is mahina; hara/peela/narangi; drift) | `lab/friends.py` |
+| 3 | Aaj ki List (single jodi + 10 number ki list) | `lab/picks.py` |
+| 4 | Paper Trading + Monitor | `lab/paper.py`, `lab/monitor.py` |
+| - | Web app | `lab_server.py`, `lab_static/index.html` (andar "Guide" tab me poori samjhaayi) |
 
-## Data kahan rehta hai
-`sahil_system/lifetime_record.txt` (format `YYYY-MM-DD | FD GB GL DS`, DS = us date ke agle din subah ka Desawar),
-`prediction_history.json`, `pending_result.json`. Site se likhne par ye GitHub me commit hote hain
-(Render free par disk restart par mit jaata hai).
+## Roz ka kaam kaise chalta hai
+1. **Subah 7:00 IST** GitHub Action `daily-update` chalta hai: site se kal ki poori line (DS subah 5:30 ko khulta hai), paper bet settle, aaj ki nayi paper bet, dost-list ka drift, monitor. Badla hua `data/` commit ho jaata hai.
+2. **Manual:** web app ke "Data" tab me *Abhi result fetch karo* (PIN), ya GitHub > Actions > daily-update > *Run workflow*, ya phone se `bash scripts/fetch_now.sh`.
+3. **Backup:** phone me `/sdcard/SahilLab_Data/` (results.csv ki copy). Bhari ho to Drive me move.
 
-## Local chalana
+## Data ka niyam
+FD GB GL usi tarikh ke. DS = agli subah khula Desawar, usi tarikh ki line me. Mahine ka aakhri din chhuti (us din ki line nahi).
+`00` ko `0` likha hai. Site ke chart me DS us tarikh par dikhta hai jis subah khula; isliye `line(d).DS = site DS (d+1)`.
+
+## Chalana
 ```
 pip install -r requirements.txt
-cd sahil_system && python3 server.py        # http://localhost:5000, GITHUB_TOKEN nahi to local files
+python -m unittest discover -s tests          # 24 test
+python -m lab.update                          # fetch + paper + monitor
+PORT=5000 LAB_SYNC=0 python lab_server.py     # web app (local)
 ```
-
-## Render par deploy
-1. GitHub: Settings → Developer settings → Fine-grained token → sirf is repo, `Contents: Read and write`.
-2. Render: New → Blueprint → is repo ko chuno (`render.yaml` apne aap padh lega).
-3. Env vars: `GITHUB_TOKEN` (upar wala token), `ADMIN_PIN` (apna PIN). Token/PIN kabhi repo me mat likhna.
-4. Site khulne par record dekhna sabko dikhta hai; likhne (result, prediction) ke liye PIN lagta hai.
+Render: `render.yaml` (Blueprint). Env: `GITHUB_TOKEN` (Contents: Read and write, sirf is repo par) aur `ADMIN_PIN`.
