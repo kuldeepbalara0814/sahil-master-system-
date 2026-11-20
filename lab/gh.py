@@ -11,6 +11,8 @@ import time
 import urllib.error
 import urllib.request
 
+from .fetcher import ipv4_first
+
 FILES = ["results.csv", "paper_ledger.json", "friends_snapshot.json", "drift_log.json", "monitor.json", "fetch_log.json"]
 API = os.environ.get("GITHUB_API", "https://api.github.com").rstrip("/")
 RAW = os.environ.get("GITHUB_RAW", "https://raw.githubusercontent.com").rstrip("/")
@@ -38,7 +40,7 @@ class Sync:
             h["Content-Type"] = "application/json"
         req = urllib.request.Request(url, data=json.dumps(body).encode() if body is not None else None, method=method, headers=h)
         try:
-            with urllib.request.urlopen(req, timeout=25) as r:
+            with ipv4_first(), urllib.request.urlopen(req, timeout=25) as r:
                 return r.status, r.read()
         except urllib.error.HTTPError as e:
             return e.code, e.read()

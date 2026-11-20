@@ -97,7 +97,9 @@ if __name__ == "__main__":
 class NoTokenSyncTests(unittest.TestCase):
     def test_write_refused_without_token_when_sync_on(self):
         from lab import gh
+        import time
         lab_server.SYNC = gh.Sync(TMP, "o/r", "main", "")
+        lab_server.SYNC.last = time.time()            # pull chhod do (test me internet nahi)
         try:
             r = lab_server.app.test_client().post("/api/paper/place", json={"strategy": "manual", "numbers": [1], "games": ["FD"], "stake": 5}, headers=H)
             self.assertEqual(r.status_code, 502)
