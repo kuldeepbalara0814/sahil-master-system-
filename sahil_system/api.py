@@ -91,6 +91,12 @@ def cmd_records_add(args):
         return {"success": False, "message": f"{date_str} ka record pehle se hai.", "conflict": True}
 
     line = f"{date_str} | {fmt_num(fd)} {fmt_num(gb)} {fmt_num(gl)} {fmt_num(ds)}\n"
+    # Agar file ki aakhri line me newline nahi hai to naya row usse chipak jata hai
+    if os.path.exists(RECORD_FILE) and os.path.getsize(RECORD_FILE) > 0:
+        with open(RECORD_FILE, "rb") as f:
+            f.seek(-1, os.SEEK_END)
+            if f.read(1) != b"\n":
+                line = "\n" + line
     with open(RECORD_FILE, "a", encoding="utf-8") as f:
         f.write(line)
 

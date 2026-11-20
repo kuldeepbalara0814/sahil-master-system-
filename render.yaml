@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: sahil-master-system
+    runtime: python
+    plan: free
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --chdir sahil_system server:app --workers 1 --threads 4 --timeout 60 --bind 0.0.0.0:$PORT
+    healthCheckPath: /api/healthz
+    autoDeployTrigger: commit
+    # Record/history ke commits (site se likhe hue) par redeploy nahi hona chahiye
+    buildFilter:
+      ignoredPaths:
+        - sahil_system/lifetime_record.txt
+        - sahil_system/prediction_history.json
+        - sahil_system/pending_result.json
+        - record_update.xlsx
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: GITHUB_REPO
+        value: kuldeepbalara0814/sahil-master-system-
+      - key: GITHUB_BRANCH
+        value: main
+      - key: GITHUB_TOKEN   # fine-grained token: sirf is repo par Contents = Read and write
+        sync: false
+      - key: ADMIN_PIN      # site par likhne ka PIN (aap khud chuno)
+        sync: false
