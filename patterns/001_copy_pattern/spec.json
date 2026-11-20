@@ -1,0 +1,18 @@
+{
+  "id": "001",
+  "name": "copy_pattern",
+  "taught_on": "2026-11-20",
+  "valid_window_months": [3, 6],
+  "note": "Chal badalti rehti hai - sirf pichle 3-6 mahine me parkho, 13 saal par nahi.",
+  "pair": {
+    "same_game": true,
+    "copy_rule": "y in N(x) or y in N(palat(x)), y not in (x, palat(x)); N(v) = v+-1, v+-10 (0..99)",
+    "shapes": {
+      "seedha": "din1 = x, din2 = y, [din3 gap], din4 = teesra",
+      "ulta": "din1 = x, [din2 gap], din3 = y, din4 = teesra"
+    }
+  },
+  "set": "x, y, palat(x), palat(y)  (4 jodi; palat wale halka play)",
+  "pass": "din4 par set ka koi number kisi bhi game me aaye",
+  "unclear": ["'10 dane' ka matlab (maine +-10 ka farak maana)", "teesra number x se ya y se - maine dono + palat liye", "pass kis game me - maine kisi bhi game"]
+}

@@ -1,0 +1,16 @@
+date,game,number,color,role
+2026-10-06,GB,38,blue,pair_1
+2026-10-07,GB,84,blue,pair_2
+2026-10-09,GL,83,blue,third
+2026-10-13,DS,97,blue,pair_1
+2026-10-15,DS,98,blue,pair_2
+2026-10-16,DS,97,blue,third
+2026-10-18,GL,73,blue,pair_1
+2026-10-19,GL,47,blue,pair_2
+2026-10-21,DS,47,blue,third
+2026-11-09,DS,16,yellow,pair_1
+2026-11-10,DS,51,yellow,pair_2
+2026-11-12,GL,15,yellow,third
+2026-11-17,DS,80,yellow,pair_1
+2026-11-18,DS,70,yellow,pair_2
+2026-11-20,ALL,,yellow,third_pending
