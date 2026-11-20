@@ -77,8 +77,9 @@ def state():
 
 
 def persist(names, message):
-    if SYNC and SYNC.can_write:
-        SYNC.push(names, message)
+    """GitHub par save. Sync on ho aur token na ho to error (warna restart par data gayab ho jaata)."""
+    if SYNC:
+        SYNC.push(names, message)        # token na ho to SyncError
         return True
     return False
 
@@ -148,6 +149,7 @@ def api_friends(x):
 
 @app.get("/api/drift")
 def api_drift():
+    refresh()                                   # GitHub se taaza drift_log
     log = jload("drift_log.json", [])
     return jsonify(log[-14:][::-1])
 

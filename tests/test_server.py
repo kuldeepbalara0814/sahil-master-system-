@@ -92,3 +92,15 @@ class ServerTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class NoTokenSyncTests(unittest.TestCase):
+    def test_write_refused_without_token_when_sync_on(self):
+        from lab import gh
+        lab_server.SYNC = gh.Sync(TMP, "o/r", "main", "")
+        try:
+            r = lab_server.app.test_client().post("/api/paper/place", json={"strategy": "manual", "numbers": [1], "games": ["FD"], "stake": 5}, headers=H)
+            self.assertEqual(r.status_code, 502)
+            self.assertIn("GITHUB_TOKEN", r.get_json()["error"])
+        finally:
+            lab_server.SYNC = None
