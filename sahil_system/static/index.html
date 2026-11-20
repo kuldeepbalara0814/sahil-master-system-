@@ -113,8 +113,13 @@ async tracker(m){
       el("td",{class:p.status.startsWith("PASS")?"ok":p.status==="FAIL"?"bad":"mut"},p.status.replace("_"," ")),el("td",{class:"mut"},(p.matched||[]).join(" "))))))));},
 
 async backtest(m){
-  const out=el("div");
-  m.append(el("div",{class:"card"},el("h2","Backtest: formula sach me kaam karta hai?"),
+  const out=el("div"),all=el("div",{class:"card"},el("h2","Sab formula ki list"),el("p",{class:"mut"},"Load ho raha hai..."));
+  api("GET","/sahil/backtest/all").then(r=>{const f=x=>`${x.hit} (${x.random})`;all.replaceChildren(el("h2","Sab formula ki list"),
+    el("p",{class:"mut"},`${r.days} din (${r.from} se ${r.to}). Bracket me random. Har naya result judne par ye apne-aap taaza hota hai.`),
+    el("table",{},el("thead",{},el("tr",{},["Formula","L1 4","L1+L2 14","Top 30"].map(h=>el("th",{},h)))),el("tbody",{},
+      r.rows.map(x=>el("tr",{},el("td",{},(x.id.length===1&&x.id!=="-"?x.id+" ":"")+x.name),el("td",{},f(x.L1)),el("td",{},f(x.L1L2)),
+        el("td",{class:x.top30.hit-x.top30.random>0?"ok":"bad"},f(x.top30)))))),el("p",{class:"mut"},r.note))}).catch(e=>all.replaceChildren(el("p",{class:"bad"},e.message)));
+  m.append(all,el("div",{class:"card"},el("h2","Backtest: formula sach me kaam karta hai?"),
     el("p",{class:"mut"},"Har din ka predict, agle din ke asli result se match. 'Random' = bina soche utne number chunne ka chance. Farak chhota ho to formula ka koi asli fayda nahi."),
     el("label","Formula"),formulaBox(["2","5","6"]),
     el("button",{class:"b",on:{click:async()=>{out.textContent="Chal raha hai...";

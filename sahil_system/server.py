@@ -222,6 +222,15 @@ def stats():
     return run_read("stats")
 
 
+@app.get("/api/sahil/backtest/all")
+def backtest_all():
+    try:
+        store.pull()
+        return jsonify(backtest.report())
+    except store.StoreError as e:
+        return err(str(e), 502)
+
+
 @app.get("/api/sahil/backtest")
 def backtest_view():
     formula = [c for c in request.args.get("formula", "256") if c in FORMULAS]
