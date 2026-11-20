@@ -52,6 +52,13 @@ def counts(rows, since=None):
     return C, kk, seen
 
 
+def pair_pct(cnt, x, y):
+    """x aur y ke saath aane ka % (dono ke mauke me se)."""
+    C, kk, seen = cnt
+    trials = int(seen[x] + seen[y])
+    return (int(C[x, y] + C[y, x]) / trials) if trials else 0.0
+
+
 def top_friends(cnt, x, k=10):
     """x ke top-k dost. Sirf wahi jo kam se kam 1 baar saath aaye."""
     C, kk, seen = cnt
@@ -92,6 +99,13 @@ class Friends:
             for i, f in enumerate(res[name]):
                 j = base.get(f["n"])
                 f["change"] = "naya" if j is None else ("upar" if i < j else "neeche" if i > j else "wahi")
+                ov = pair_pct(self.cnt["poora"], x, f["n"])
+                f["overall_pct"] = ov
+                f["boost"] = round(f["pct"] / ov, 2) if ov > 0 else None      # overall se kitna guna zyada
+        for name in ("last3m", "month"):
+            few = int(self.cnt[name][2][x]) < 8
+            for f in res[name]:
+                f["few"] = few                                              # bahut kam data ka nishaan
         for f in res["poora"]:
             f["change"] = "-"
         return {"number": x, "seen": {n: int(self.cnt[n][2][x]) for n in self.per},
