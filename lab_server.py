@@ -4,6 +4,7 @@ Chalane ke liye:  gunicorn lab_server:app --workers 1 --threads 4 --timeout 120 
 Env:  GITHUB_TOKEN (likhne ke liye), ADMIN_PIN (likhne wale kaam ka PIN), GITHUB_REPO, GITHUB_BRANCH,
       LAB_SYNC=0 (sirf local files), LAB_DATA_DIR
 """
+import calendar
 import datetime as dt
 import hmac
 import json
@@ -214,6 +215,99 @@ def api_band():
     r = band.status(rows, m)
     r["history"] = band.history(rows, m)
     return jsonify(r)
+
+
+# ---------------- pattern window (lamba mahine-jorna table + rang save) ----------------
+def _months(start, n):
+    out, y, m = [], start.year, start.month
+    for _ in range(n):
+        out.append((y, m))
+        y, m = (y + 1, 1) if m == 12 else (y, m + 1)
+    return out
+
+
+@app.get("/api/pattern/sheet")
+def api_pattern_sheet():
+    """?from=YYYY-MM&months=3[&gaps=3,4&days=15] -> har calendar din ki ek row (mahine upar-niche jude)."""
+    rows, _ = state()
+    try:
+        if request.args.get("from"):
+            y, m = [int(x) for x in request.args["from"].split("-")[:2]]
+            start = dt.date(y, m, 1)
+        else:
+            start = None
+        n = max(1, min(int(request.args.get("months", 3)), 12))
+        gap = _gap(rows)
+    except (ValueError, TypeError) as e:
+        return err(str(e) or "from/months galat")
+    if start is None:                                         # pichle n mahine (aakhri line ka mahina samet)
+        ly, lm = rows[-1][0].year, rows[-1][0].month
+        k = ly * 12 + lm - 1 - (n - 1)
+        start = dt.date(k // 12, k % 12 + 1, 1)
+    by = {d: v for d, v, _ in rows}
+    out = []
+    for y, m in _months(start, n):
+        for day in range(1, calendar.monthrange(y, m)[1] + 1):
+            d = dt.date(y, m, day)
+            out.append([d.isoformat(), by.get(d)])
+    res = {"from": start.strftime("%Y-%m"), "months": n, "last": rows[-1][0].isoformat(), "days": out}
+    if gap:
+        res["gap"] = {k: gap[k] for k in ("start", "end", "gaps", "legend", "chains")}
+        res["marks"] = gapchain.marks(gap)
+    return jsonify(res)
+
+
+@app.get("/api/pattern/boards")
+def api_boards():
+    return jsonify(jload("boards.json", []))
+
+
+@app.post("/api/pattern/save")
+@guarded
+def api_board_save():
+    b = request.get_json(silent=True) or {}
+    cells = b.get("cells") or {}
+    if not isinstance(cells, dict) or len(cells) > 4000:
+        return err("Rang wale cell galat ya bahut zyada")
+    clean = {}
+    for k, c in cells.items():
+        try:
+            d, g = str(k).split("|")
+            dt.date.fromisoformat(d)
+            assert int(g) in range(4) and len(str(c)) == 6 and int(str(c), 16) >= 0
+        except (ValueError, AssertionError):
+            return err("Cell ya rang galat: " + str(k)[:20])
+        clean[f"{d}|{int(g)}"] = str(c).upper()
+    boards = jload("boards.json", [])
+    name = str(b.get("name") or "Mera pattern")[:60]
+    bid = b.get("id")
+    item = {"id": bid or int(time.time() * 1000), "name": name, "from": str(b.get("from", ""))[:7], "months": int(b.get("months", 3)),
+            "cells": clean, "saved": dt.datetime.now(IST).isoformat(timespec="minutes")}
+    if bid and any(x.get("id") == bid for x in boards):
+        boards = [item if x.get("id") == bid else x for x in boards]
+    else:
+        if len(boards) >= 40:
+            return err("40 se zyada pattern save nahi ho sakte. Purane hata do.")
+        boards.insert(0, item)
+    jsave("boards.json", boards)
+    try:
+        persist(["boards.json"], "pattern: save")
+    except gh.SyncError as e:
+        return err(str(e), 502)
+    return jsonify({"ok": True, "id": item["id"], "count": len(boards)})
+
+
+@app.post("/api/pattern/delete")
+@guarded
+def api_board_delete():
+    bid = (request.get_json(silent=True) or {}).get("id")
+    boards = [x for x in jload("boards.json", []) if x.get("id") != bid]
+    jsave("boards.json", boards)
+    try:
+        persist(["boards.json"], "pattern: delete")
+    except gh.SyncError as e:
+        return err(str(e), 502)
+    return jsonify({"ok": True, "count": len(boards)})
 
 
 @app.get("/api/gaps")

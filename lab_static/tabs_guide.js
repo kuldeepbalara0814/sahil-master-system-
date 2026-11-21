@@ -79,7 +79,7 @@ tabs.record=async function(m){
   try{const d=await api("GET","/record?"+q);
    info.textContent=d.count?`${d.count} din ka result (${d.rows[0][0]} se ${d.rows[d.rows.length-1][0]} tak)`:"Is range me koi din nahi.";
    if(!d.count){prev.replaceChildren();return}
-   const s=sheet(d.rows,gres&&gres.marks);prev.replaceChildren(s.node,s.cut?el("p",{class:"note small"},`Yahan sirf aakhri ${MAXM} mahine dikh rahe hain. Poora range Excel me aayega.`):null)}
+   const s=sheet(d.rows,gres&&gres.marks);prev.replaceChildren(s.node,s.cut?el("p",{class:"note small"},`Yahan sirf aakhri ${MAXM} mahine dikh rahe hain. Poora range Excel me aayega.`):null);const mk0=prev.querySelector("td.mk");if(mk0){const w=mk0.closest(".sheetwrap");setTimeout(()=>{w.scrollLeft=Math.max(0,mk0.offsetLeft-80);w.scrollTop=Math.max(0,mk0.offsetTop-90)},50)}}
   catch(e){prev.replaceChildren(el("div",{class:"warn"},e.message))}}
  from.onchange=to.onchange=show;
  m.append(gcard,el("div",{class:"card"},el("h2",{},"Record ",el("span",{class:"sub"},"(Excel jaisa chart)")),

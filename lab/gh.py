@@ -13,7 +13,7 @@ import urllib.request
 
 from .fetcher import ipv4_first
 
-FILES = ["results.csv", "paper_ledger.json", "friends_snapshot.json", "drift_log.json", "monitor.json", "fetch_log.json", "ideas.json"]
+FILES = ["results.csv", "paper_ledger.json", "friends_snapshot.json", "drift_log.json", "monitor.json", "fetch_log.json", "ideas.json", "boards.json"]
 API = os.environ.get("GITHUB_API", "https://api.github.com").rstrip("/")
 RAW = os.environ.get("GITHUB_RAW", "https://raw.githubusercontent.com").rstrip("/")
 

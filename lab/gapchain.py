@@ -9,7 +9,7 @@ import datetime as dt
 from lab import data
 
 GAME_NAMES = ("FB", "GB", "GL", "DS")
-PALETTE = ["FF9800", "E040FB", "1DE9B6", "FF5252", "C6FF00", "7C4DFF", "FFD740", "40C4FF"]   # pehla = narangi
+GAP_COLORS = {1: "FFD740", 2: "FF5252", 3: "FF9800", 4: "E040FB", 5: "1DE9B6", 6: "40C4FF", 7: "C6FF00", 8: "7C4DFF", 9: "FF80AB", 10: "B0BEC5"}   # har gap ka apna rang
 STATUS = {"aane": "aane wala", "pass": "pass", "miss": "nahi aaya", "chhuti": "chhuti"}
 
 
@@ -57,10 +57,11 @@ def find(rows, gaps=(3, 4, 5, 6, 7), days=15, end=None, show="all"):
     chains.sort(key=lambda x: (order[x["status"]], x["due"] or "9", x["steps"][-1]["date"], x["cls"][0], x["gap"]))
     if show in order:
         chains = [x for x in chains if x["status"] == show]
-    for i, x in enumerate(chains):
-        x["color"] = PALETTE[i % len(PALETTE)]
+    for x in chains:
+        x["color"] = GAP_COLORS[x["gap"]]
         x["status_text"] = STATUS[x["status"]]
-    return {"end": end.isoformat(), "start": start.isoformat(), "gaps": gaps, "days": days, "chains": chains}
+    return {"end": end.isoformat(), "start": start.isoformat(), "gaps": gaps, "days": days, "chains": chains,
+            "legend": {str(g): GAP_COLORS[g] for g in gaps}}
 
 
 def marks(res):

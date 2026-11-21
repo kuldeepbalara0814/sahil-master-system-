@@ -95,3 +95,18 @@ table.sheet td.due{font-style:italic}
 .pill.o{background:#ff9800;color:#000}.pill.g{background:#1de9b6;color:#000}.pill.r{background:#ff5252;color:#fff}.pill.m{background:#777;color:#fff}
 .gt td.small{font-size:12px;white-space:normal;min-width:180px}
 .tw{overflow-x:auto}
+
+/* pattern window */
+.sheetwrap.pat{max-height:74vh}
+table.pt{width:100%;min-width:300px}
+table.pt th{position:sticky;top:0;z-index:3}
+table.pt td.c{cursor:pointer;min-width:46px;height:30px;user-select:none;-webkit-tap-highlight-color:transparent}
+table.pt td.d{text-align:left;padding-left:8px;white-space:nowrap}
+table.pt td.dn{color:#7aa;font-weight:500;font-size:12px;left:auto;position:static}
+table.pt tr.sun td.d{color:#ff8a80}
+table.pt tr.mrow td{background:#1f2a44;color:#ffc000;font-weight:800;text-align:left;padding:6px 8px;border-top:4px solid #e0e0e0;position:sticky;left:0}
+table.pt td.paint{box-shadow:inset 0 0 0 2px #fff}
+.sw{width:32px;height:32px;border-radius:50%;border:2px solid transparent;cursor:pointer;padding:0}
+.sw.on{border-color:#fff;box-shadow:0 0 0 2px #888}
+.b.on{outline:2px solid #fff}
+.b.r{background:#c62828;color:#fff}

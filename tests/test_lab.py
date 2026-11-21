@@ -201,7 +201,8 @@ class GapFilterTests(unittest.TestCase):
         cut = gapchain.find([r for r in ROWS if r[0] <= dt.date(2026, 11, 10)], days=30)
         self.assertEqual(full["chains"], cut["chains"])
         r = gapchain.find(ROWS, days=15)
-        self.assertEqual(r["chains"][0]["color"], "FF9800")                       # pehli chain narangi
+        for c in r["chains"]:                                                     # rang gap ke hisaab se
+            self.assertEqual(c["color"], gapchain.GAP_COLORS[c["gap"]])
         self.assertGreater(len({c["color"] for c in r["chains"]}), 1)
 
     def test_api_and_excel(self):
@@ -214,7 +215,7 @@ class GapFilterTests(unittest.TestCase):
         wb = load_workbook(io.BytesIO(x.data))
         self.assertIn("Gap Filter", wb.sheetnames)
         ws = wb["Record"]
-        filled = [cell for row in ws.iter_rows() for cell in row if cell.fill.fgColor.rgb in ("00FF9800", "FFFF9800")]
+        filled = [cell for row in ws.iter_rows() for cell in row if cell.fill.fgColor.rgb in ("00FF9800", "FFFF9800", "00E040FB", "FFE040FB")]
         self.assertTrue(filled)
         self.assertTrue(any(isinstance(cell.value, str) and cell.value.endswith("?") for row in ws.iter_rows() for cell in row))
 
@@ -241,6 +242,30 @@ class BandTests(unittest.TestCase):
         j = c.get("/api/band?min=15").get_json()
         self.assertIn("history", j)
         self.assertEqual(c.get("/api/band?min=x").status_code, 400)
+
+
+class PatternWindowTests(unittest.TestCase):
+    def test_sheet_boards(self):
+        c = lab_server.app.test_client()
+        r = c.get("/api/pattern/sheet?from=2026-09&months=3&gaps=3,4,5,6,7&days=15").get_json()
+        self.assertEqual(r["days"][0][0], "2026-09-01")
+        self.assertEqual(len(r["days"]), 30 + 31 + 30)                       # Sep + Oct + Nov, har calendar din
+        self.assertEqual([x for x in r["days"] if x[0] == "2026-11-30"][0][1], None)       # aakhri din / aage ka din khaali
+        self.assertTrue(r["marks"] and r["gap"]["legend"]["3"] == gapchain.GAP_COLORS[3])
+        auto = c.get("/api/pattern/sheet?months=2").get_json()               # pichle 2 mahine
+        self.assertEqual(auto["from"][5:], "10")
+        self.assertEqual(c.get("/api/pattern/sheet?from=x").status_code, 400)
+        cells = {"2026-11-12|2": "FF9800", "2026-11-16|2": "E040FB"}
+        self.assertEqual(c.post("/api/pattern/save", json={"cells": cells}).status_code, 401)         # PIN chahiye
+        s = c.post("/api/pattern/save", json={"name": "t1", "from": "2026-09", "months": 3, "cells": cells}, headers=H)
+        self.assertEqual(s.status_code, 200)
+        bid = s.get_json()["id"]
+        self.assertEqual(c.post("/api/pattern/save", json={"cells": {"bad": "FF9800"}}, headers=H).status_code, 400)
+        self.assertEqual(c.post("/api/pattern/save", json={"cells": {"2026-11-12|9": "FF9800"}}, headers=H).status_code, 400)
+        s2 = c.post("/api/pattern/save", json={"id": bid, "name": "t1b", "from": "2026-09", "months": 3, "cells": {"2026-11-12|2": "FF9800"}}, headers=H)
+        L = c.get("/api/pattern/boards").get_json()
+        self.assertEqual((len(L), L[0]["name"], len(L[0]["cells"])), (1, "t1b", 1))          # update hua, naya nahi bana
+        self.assertEqual(c.post("/api/pattern/delete", json={"id": bid}, headers=H).get_json()["count"], 0)
 
 
 if __name__ == "__main__":
