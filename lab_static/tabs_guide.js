@@ -7,8 +7,9 @@ const parse=s=>{const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)}
 const monthsBack=(d,n)=>{const x=new Date(d.getFullYear(),d.getMonth()-n,d.getDate()+1);return x};
 const MAXM=12;                                             // preview me max itne mahine
 
-function sheet(rows){
+function sheet(rows,marks){
  const by=new Map(rows.map(r=>[r[0],r.slice(1)]));
+ const mk=new Map();for(const m of marks||[]){const k=m.date+"|"+m.g;(mk.get(k)||mk.set(k,[]).get(k)).push(m)}
  const ym=[...new Set(rows.map(r=>r[0].slice(0,7)))].sort();
  const shown=ym.slice(-MAXM),years=[...new Set(shown.map(k=>k.slice(0,4)))];
  const out=el("div");
@@ -16,19 +17,55 @@ function sheet(rows){
   const ms=shown.filter(k=>k.startsWith(y)).map(k=>+k.slice(5));
   const t=el("table",{class:"sheet"}),th=el("thead");
   th.append(el("tr",{},el("th",{class:"ttl",colspan:1+4*ms.length},`YEAR ${y} — ANNUAL RESULT CHART (FB | GB | GL | DS)`)));
-  th.append(el("tr",{},el("th",{class:"d",rowspan:2},"Date"),ms.map(mm=>el("th",{class:"mh",colspan:4},`${MN[mm-1]}-${y.slice(2)}`))));
-  th.append(el("tr",{},ms.flatMap(()=>["FB","GB","GL","DS"].map(g=>el("th",{class:"sh"},g)))));
+  th.append(el("tr",{},el("th",{class:"d",rowspan:2},"Date"),ms.map(mm=>el("th",{class:"mh mb mr",colspan:4},`${MN[mm-1]}-${y.slice(2)}`))));
+  th.append(el("tr",{},ms.flatMap(()=>["FB","GB","GL","DS"].map((g,j)=>el("th",{class:"sh"+(j==0?" mb":"")+(j==3?" mr":"")},g)))));
   const tb=el("tbody");
   for(let d=1;d<=31;d++){
-   tb.append(el("tr",{},el("td",{class:"d"},d),ms.flatMap(mm=>{const v=by.get(`${y}-${String(mm).padStart(2,"0")}-${String(d).padStart(2,"0")}`);return [0,1,2,3].map(j=>el("td",{},v?p2(v[j]):""))})));
+   tb.append(el("tr",{},el("td",{class:"d"},d),ms.flatMap(mm=>{const key=`${y}-${String(mm).padStart(2,"0")}-${String(d).padStart(2,"0")}`,v=by.get(key);
+    return [0,1,2,3].map(j=>{const ms2=mk.get(key+"|"+j),m=ms2&&ms2[ms2.length-1];
+     const td=el("td",{class:(j==0?"mb ":"")+(j==3?"mr ":"")+(m?"mk "+m.kind:"")},m&&m.kind==="due"?m.text:(v?p2(v[j]):""));
+     if(m){td.style.background="#"+m.color;td.style.color="#000";td.title=ms2.map(x=>x.tip).join("\n");if(m.kind==="pass")td.style.outline="3px solid #fff";if(m.kind==="due")td.style.fontSize="11px"}
+     return td})})));
   }
   t.append(th,tb);out.append(el("div",{class:"sheetwrap",style:"margin-bottom:12px"},t));
  }
  return {node:out,cut:ym.length>shown.length};
 }
 
+const GAPS=[1,2,3,4,5,6,7,8,9,10],QDAYS=[12,15,20,30,45,60,90];
+const dm=s=>{const d=parse(s);return `${d.getDate()} ${MN[d.getMonth()]}`};
+const pr=c=>c[0]===c[1]?p2(c[0]):`${p2(c[0])}/${p2(c[1])}`;
+
 tabs.record=async function(m){
  const last=parse(ST.last_date);
+ // ---- gap filter ----
+ const gset=new Set([3,4,5,6,7]);let gdays=15,gshow="all",gres=null;
+ const gbox=el("div",{class:"row"}),gnote=el("p",{class:"mut small"}),gtab=el("div");
+ const gdays_in=el("input",{type:"number",min:3,max:400,value:gdays,style:"width:80px"});
+ const gq=()=>`gaps=${[...gset].sort((a,b)=>a-b).join(",")}&days=${gdays}&show=${gshow}`;
+ async function gload(){
+  if(!gset.size){gtab.replaceChildren(el("p",{class:"mut"},"Kam se kam ek gap chuno."));gres=null;return show()}
+  gtab.replaceChildren(el("p",{class:"mut"},el("span",{class:"spin"}),"Dhundh raha hai..."));
+  try{gres=await api("GET","/gaps?"+gq());
+   const c=gres.chains;
+   gnote.textContent=`${dm(gres.start)} se ${dm(gres.end)} tak (${gres.days} din) me ${c.length} chain mili.`;
+   gtab.replaceChildren(c.length?el("div",{class:"tw"},el("table",{class:"t gt"},
+    el("thead",{},el("tr",{},["","Number/palat","Gap","Step bane","3rd step","Haal"].map(h=>el("th",{},h)))),
+    el("tbody",{},c.map(ch=>el("tr",{},
+     el("td",{},el("span",{class:"dot",style:"background:#"+ch.color})),
+     el("td",{class:"b"},pr(ch.cls)),el("td",{},`${ch.gap} din`),
+     el("td",{class:"small"},ch.steps.map(st=>`${dm(st.date)} ${st.hits.map(h=>h.game+" "+p2(h.n)).join("/")}`).join(" → ")),
+     el("td",{},ch.due?dm(ch.due):(ch.next_due?"agla "+dm(ch.next_due):(ch.len>=3?dm(ch.steps[2].date):"-"))),
+     el("td",{},el("span",{class:"pill "+({aane:"o",pass:"g",miss:"r",chhuti:"m"}[ch.status])},ch.status_text))))))):el("p",{class:"mut"},"Is range me koi chain nahi bani."));
+  }catch(e){gtab.replaceChildren(el("div",{class:"warn"},e.message));gres=null}
+  show();dl.href=`/api/export/record.xlsx?from=${from.value}&to=${to.value}&${gq()}`}
+ const gcard=el("div",{class:"card"},el("h2",{},"Gap Filter ",el("span",{class:"sub"},"(ek jaise gap se bane step)")),
+  el("p",{class:"mut"},"Ek number (ya uska palat) kisi bhi game me aaye aur wahi ek jitne din ke gap par dobara aaye to 2 step bane. 3rd step ab us tarikh par aane wala hai. Chart me narangi (ya alag rang) se mark hoga, 3rd step ki tarikh par 'NN?' likha aayega. Aa gaya to 'pass', nahi aaya to 'nahi aaya'."),
+  el("div",{class:"row"},el("span",{},"Gap (din):"),GAPS.map(g=>{const cb=el("input",{type:"checkbox",checked:gset.has(g),on:{change:()=>{cb.checked?gset.add(g):gset.delete(g);gload()}}});return el("label",{class:"chk"},cb,String(g))})),
+  el("div",{class:"row"},el("span",{},"Pichle kitne din me step bane:"),gdays_in,QDAYS.map(n=>el("button",{class:"b g sm",on:{click:()=>{gdays=n;gdays_in.value=n;gload()}}},`${n}`))),
+  el("div",{class:"row"},el("span",{},"Dikhao:"),el("select",{on:{change:e=>{gshow=e.target.value;gload()}}},[["all","Sab"],["aane","Sirf aane wale"],["pass","Sirf pass"],["miss","Sirf nahi aaya"]].map(([v,t])=>el("option",{value:v},t)))),
+  gnote,gtab);
+ gdays_in.onchange=()=>{gdays=Math.max(3,Math.min(400,+gdays_in.value||15));gdays_in.value=gdays;gload()};
  const from=el("input",{type:"date",min:"2013-01-01",max:ST.last_date}),to=el("input",{type:"date",min:"2013-01-01",max:ST.last_date});
  const info=el("p",{class:"mut"}),prev=el("div"),dl=el("a",{href:"#"},el("button",{class:"b"},"Excel download"));
  const presets=[["Is mahina",()=>new Date(last.getFullYear(),last.getMonth(),1)],["Pichle 3 mahine",()=>monthsBack(last,3)],["Pichle 6 mahine",()=>monthsBack(last,6)],
@@ -37,21 +74,21 @@ tabs.record=async function(m){
  async function show(){
   if(!from.value||!to.value)return;
   if(from.value>to.value)return toast("'Se' tarikh 'Tak' se badi hai");
-  const q=`from=${from.value}&to=${to.value}`;dl.href=`/api/export/record.xlsx?${q}`;
+  const q=`from=${from.value}&to=${to.value}`;dl.href=`/api/export/record.xlsx?${q}`+(gres?"&"+gq():"");
   prev.replaceChildren(el("p",{class:"mut"},el("span",{class:"spin"}),"Load ho raha hai..."));
   try{const d=await api("GET","/record?"+q);
    info.textContent=d.count?`${d.count} din ka result (${d.rows[0][0]} se ${d.rows[d.rows.length-1][0]} tak)`:"Is range me koi din nahi.";
    if(!d.count){prev.replaceChildren();return}
-   const s=sheet(d.rows);prev.replaceChildren(s.node,s.cut?el("p",{class:"note small"},`Yahan sirf aakhri ${MAXM} mahine dikh rahe hain. Poora range Excel me aayega.`):null)}
+   const s=sheet(d.rows,gres&&gres.marks);prev.replaceChildren(s.node,s.cut?el("p",{class:"note small"},`Yahan sirf aakhri ${MAXM} mahine dikh rahe hain. Poora range Excel me aayega.`):null)}
   catch(e){prev.replaceChildren(el("div",{class:"warn"},e.message))}}
  from.onchange=to.onchange=show;
- m.append(el("div",{class:"card"},el("h2",{},"Record ",el("span",{class:"sub"},"(Excel jaisa chart)")),
+ m.append(gcard,el("div",{class:"card"},el("h2",{},"Record ",el("span",{class:"sub"},"(Excel jaisa chart)")),
   el("p",{class:"mut"},"Kab se kab tak ka chahiye chuno, ya neeche se jaldi wala button dabao. Neeche chart dikhega aur 'Excel download' se wahi chart aap ke Excel me aa jayega (saath me seedhi table wali sheet bhi, filter ke liye)."),
   el("div",{class:"presets"},presets.map(([n,f])=>el("button",{class:"b g sm",on:{click:()=>preset(f)}},n))),
   el("div",{class:"row"},el("span",{},"Se:"),from,el("span",{},"Tak:"),to,dl),info),
   el("div",{class:"card flat",style:"padding:10px"},prev),
   el("p",{class:"mut small"},"DS us line me likha agli subah ka Desawar hai. Mahine ka aakhri din chhuti hai, isliye khaali dikhega."));
- preset(presets[1][1]);
+ preset(presets[1][1]);gload();
 };
 
 tabs.guide=async function(m){

@@ -20,7 +20,8 @@ import numpy as np  # noqa: E402
 from openpyxl import load_workbook  # noqa: E402
 
 import lab_server  # noqa: E402
-from lab import backtest as bt, data, export_xlsx, idea  # noqa: E402
+from lab import backtest as bt, band, data, export_xlsx, gapchain, idea  # noqa: E402
+import datetime as dt  # noqa: E402
 
 H = {"X-Admin-Pin": "1234"}
 ROWS = data.load(os.path.join(ROOT, "data", "results.csv"))
@@ -159,6 +160,87 @@ class ExportAndApiTests(unittest.TestCase):
         self.assertEqual(L[0]["name"], "mera idea")
         d = self.c.post("/api/lab/delete", json={"id": L[0]["id"]}, headers=H)
         self.assertEqual(d.get_json()["count"], 0)
+
+
+class GapFilterTests(unittest.TestCase):
+    """Gap filter: number+palat, koi bhi game, ek jaisa gap, 3rd step aane wala / pass / nahi aaya."""
+
+    @staticmethod
+    def rows(*lines):
+        d0 = dt.date(2026, 3, 2)
+        return [(d0 + dt.timedelta(days=i), list(v), "t") for i, v in enumerate(lines)]
+
+    def test_two_steps_then_due_then_pass(self):
+        L = [[1, 2, 3, 4]] * 20
+        L = [list(x) for x in L]
+        L[0] = [15, 70, 71, 72]                  # din 0: 15 (FB)
+        L[4] = [60, 51, 61, 62]                  # din 4: 51 = 15 ka palat (GB), gap 4
+        rows = self.rows(*L[:8])                 # din 7 tak ka data
+        r = gapchain.find(rows, gaps=[4], days=15)
+        ch = [c for c in r["chains"] if c["cls"] == [15, 51]]
+        self.assertEqual(len(ch), 1)
+        self.assertEqual((ch[0]["status"], ch[0]["len"], ch[0]["due"]), ("aane", 2, "2026-03-10"))
+        L[8] = [15, 0, 0, 0]
+        rows = self.rows(*L[:9])                 # din 8: 3rd step aa gaya
+        c = [c for c in gapchain.find(rows, gaps=[4], days=15)["chains"] if c["cls"] == [15, 51]][0]
+        self.assertEqual((c["status"], c["len"], c["due"]), ("pass", 3, None))
+        rows = self.rows(*(L[:8] + [[9, 9, 9, 9], [9, 9, 9, 9]]))        # din 8 par nahi aaya
+        c = [c for c in gapchain.find(rows, gaps=[4], days=15)["chains"] if c["cls"] == [15, 51]][0]
+        self.assertEqual(c["status"], "miss")
+
+    def test_real_example_15_chain(self):
+        """20 Nov: 12 Nov 15(GL) -> 16 Nov 51(GL) -> 20 Nov 15(GB), gap 4: pass; 18 Nov tak 'aane wala' (due 20)."""
+        r = gapchain.find(ROWS, gaps=[4], days=15, end=dt.date(2026, 11, 20))
+        self.assertTrue(any(c["cls"] == [15, 51] and c["status"] == "pass" for c in r["chains"]))
+        r = gapchain.find(ROWS, gaps=[4], days=15, end=dt.date(2026, 11, 18))
+        c = [c for c in r["chains"] if c["cls"] == [15, 51]][0]
+        self.assertEqual((c["status"], c["due"]), ("aane", "2026-11-20"))
+
+    def test_no_lookahead_and_colors(self):
+        full = gapchain.find(ROWS, days=30, end=dt.date(2026, 11, 10))
+        cut = gapchain.find([r for r in ROWS if r[0] <= dt.date(2026, 11, 10)], days=30)
+        self.assertEqual(full["chains"], cut["chains"])
+        r = gapchain.find(ROWS, days=15)
+        self.assertEqual(r["chains"][0]["color"], "FF9800")                       # pehli chain narangi
+        self.assertGreater(len({c["color"] for c in r["chains"]}), 1)
+
+    def test_api_and_excel(self):
+        c = lab_server.app.test_client()
+        g = c.get("/api/gaps?gaps=3,4,5,6,7&days=15").get_json()
+        self.assertTrue(g["chains"] and g["marks"])
+        self.assertEqual(c.get("/api/gaps?gaps=&days=15").status_code, 400)
+        x = c.get("/api/export/record.xlsx?from=2026-09-01&to=2026-11-20&gaps=3,4,5,6,7&days=15")
+        self.assertEqual(x.status_code, 200)
+        wb = load_workbook(io.BytesIO(x.data))
+        self.assertIn("Gap Filter", wb.sheetnames)
+        ws = wb["Record"]
+        filled = [cell for row in ws.iter_rows() for cell in row if cell.fill.fgColor.rgb in ("00FF9800", "FFFF9800")]
+        self.assertTrue(filled)
+        self.assertTrue(any(isinstance(cell.value, str) and cell.value.endswith("?") for row in ws.iter_rows() for cell in row))
+
+
+class BandTests(unittest.TestCase):
+    def test_rashi_families_match_user(self):
+        fam = {k: sorted(v) for k, v in band.RASHIS.items()}
+        self.assertEqual(len(fam), 15)
+        self.assertEqual(sorted(len(v) for v in fam.values()), [4] * 5 + [8] * 10)
+        self.assertEqual(fam[band.key(1)], [1, 6, 10, 15, 51, 56, 60, 65])
+        self.assertEqual(fam[band.key(2)], [2, 7, 20, 25, 52, 57, 70, 75])
+        self.assertEqual(fam[band.key(3)], [3, 8, 30, 35, 53, 58, 80, 85])
+        self.assertEqual(fam[band.key(11)], [11, 16, 61, 66])
+        self.assertEqual(fam[band.key(33)], [33, 38, 83, 88])
+        self.assertEqual(sorted(n for v in fam.values() for n in v), list(range(100)))
+
+    def test_status_and_api(self):
+        r = band.status(ROWS, 7)
+        self.assertTrue(all(x["band"] >= 7 for x in r["rashis"] + r["numbers"]))
+        last = ROWS[-1]
+        for n in last[1]:                                    # aakhri line ke number 0 din band
+            self.assertEqual([x["band"] for x in band.status(ROWS, 0)["numbers"] if x["n"] == n][0], 0)
+        c = lab_server.app.test_client()
+        j = c.get("/api/band?min=15").get_json()
+        self.assertIn("history", j)
+        self.assertEqual(c.get("/api/band?min=x").status_code, 400)
 
 
 if __name__ == "__main__":

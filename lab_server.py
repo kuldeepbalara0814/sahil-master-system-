@@ -25,7 +25,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import backtest, data, export_xlsx, friends, gh, idea, monitor, paper, picks, update            # noqa: E402
+from lab import backtest, band, data, export_xlsx, friends, gapchain, gh, idea, monitor, paper, picks, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -190,6 +190,43 @@ def api_record():
                     "rows": [[d.isoformat(), *v] for d, v, _ in sel]})
 
 
+def _gap(rows):
+    """?gaps=3,4,5&days=15&show=all  -> gapchain natija (gaps na ho to None)."""
+    if request.args.get("gaps") is None:
+        return None
+    try:
+        gaps = [int(x) for x in request.args["gaps"].split(",") if x.strip()]
+        days = int(request.args.get("days", 15))
+    except ValueError:
+        raise ValueError("gaps/days sankhya hone chahiye")
+    if not gaps:
+        raise ValueError("Kam se kam ek gap chuno")
+    return gapchain.find(rows, gaps, days, show=request.args.get("show", "all"))
+
+
+@app.get("/api/band")
+def api_band():
+    try:
+        m = max(1, min(int(request.args.get("min", 15)), 400))
+    except ValueError:
+        return err("min sankhya hona chahiye")
+    rows, _ = state()
+    r = band.status(rows, m)
+    r["history"] = band.history(rows, m)
+    return jsonify(r)
+
+
+@app.get("/api/gaps")
+def api_gaps():
+    rows, _ = state()
+    try:
+        res = _gap(rows) or gapchain.find(rows)
+    except ValueError as e:
+        return err(str(e))
+    res["marks"] = gapchain.marks(res)
+    return jsonify(res)
+
+
 @app.get("/api/export/record.xlsx")
 def api_export():
     a, b, e = _range()
@@ -199,7 +236,11 @@ def api_export():
     sel = export_xlsx.select(rows, a, b)
     if not sel:
         return err("Is range me koi din nahi")
-    blob = export_xlsx.build(rows, a, b)
+    try:
+        gap = _gap(rows)
+    except ValueError as e:
+        return err(str(e))
+    blob = export_xlsx.build(rows, a, b, gap)
     name = f"SahilLab_Record_{sel[0][0].isoformat()}_to_{sel[-1][0].isoformat()}.xlsx"
     return Response(blob, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     headers={"Content-Disposition": f'attachment; filename="{name}"'})

@@ -61,8 +61,34 @@ async aaj(m){
  }
  async function place(b){try{b.stake=parseInt(stake.value,10);const r=await api("POST","/paper/place",b);toast(`${r.added} nayi paper bet lagi (${r.play_date})`+(r.saved_to_github?" - GitHub par save":""))}catch(e){toast(e.message)}}
  known.forEach(k=>k.addEventListener("change",()=>load().catch(e=>toast(e.message))));
+ /* ---- band rashi / number ---- */
+  const dm=s=>{const [y,mo,d]=s.split("-").map(Number);return d+" "+["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][mo-1]};
+ let bmin=15;const bbox=el("div"),bin=el("input",{type:"number",min:1,max:400,value:bmin,style:"width:80px"});
+ const BQ=[[15,"15 din"],[30,"1 mahina"],[60,"2 mahine"],[90,"3 mahine"]];
+ async function bload(){
+  try{const r=await api("GET","/band?min="+bmin);
+   const zc={zone:"green",kam:"orange",chhota:"blue"};
+   const zt={zone:"15-30 din (khulne layak)",kam:"30 din se zyada (kam chance)",chhota:""};
+   const h=r.history,h8=h["8"],h4=h["4"];
+   bbox.replaceChildren(
+    el("h3",{},`Band rashi (${bmin} din ya zyada se nahi aayi) - ${r.rashis.length}`),
+    r.rashis.length?el("table",{},el("thead",{},el("tr",{},["Rashi","Number","Band","Aakhri baar","Haal"].map(x=>el("th",{},x)))),
+     el("tbody",{},r.rashis.map(x=>el("tr",{},el("td",{class:"b"},x.rashi+(x.kind==="jodi"?" (jodi)":"")),
+      el("td",{},el("div",{class:"row",style:"gap:4px"},x.numbers.map(n=>chip(n,zc[x.zone],"sm")))),
+      el("td",{class:"b"},x.band+" din"),el("td",{},dm(x.last)),el("td",{class:"small"},zt[x.zone]||"-"))))):
+    el("p",{class:"mut"},`Abhi koi rashi ${bmin} din se band nahi hai. Sabse zyada band: `+r.closest.map(x=>`${x.rashi}${x.kind==="jodi"?" (jodi)":""} - ${x.band} din`).join(", ")+"."),
+    el("h3",{},`Band number (${bmin} din ya zyada) - ${r.numbers.length}`),
+    r.numbers.length?el("div",{class:"row",style:"gap:6px"},r.numbers.map(x=>el("span",{class:"chip "+zc[x.zone],title:`${x.band} din se band, rashi ${x.rashi}, aakhri ${x.last}`},p2(x.n)+" · "+x.band+"d"))):el("p",{class:"mut"},"Koi nahi."),
+    el("p",{class:"mut small"},`Itihas (13 saal): jab 8-number rashi ${bmin} din se band thi (${h8.cases} mauke), agle din ${h8.next1}% me khuli (random ${h8.random1}%), 5 din me ${h8.next5}%. Jodi rashi (4 number): ${h4.cases} mauke, agle din ${h4.next1}% (random ${h4.random1}%), 5 din me ${h4.next5}%.`),
+    el("p",{class:"warn"},"Band rehne ke baad khulne ka chance abhi tak random jaisa hi raha hai. Ye sirf dikhane ke liye hai, pakka nahi."))
+  }catch(e){bbox.replaceChildren(el("div",{class:"warn"},e.message))}}
+ bin.onchange=()=>{bmin=Math.max(1,Math.min(400,+bin.value||15));bin.value=bmin;bload()};
+ const bcard=el("div",{class:"card"},el("h2",{},"Band Rashi / Number ",el("span",{class:"sub"},"(kitne din se nahi aaye)")),
+  el("p",{class:"mut"},"Rashi = number ke har ank me 5 jodne se bani family: jaise 01 ki 01 10 15 51 56 65 60 06 (8 number), jodi rashi 11 ki 11 16 61 66. Cross aur half jodi alag rashi me aate hain. Kisi bhi game me aaye to rashi khuli maani jati hai."),
+  el("div",{class:"row"},el("span",{},"Kam se kam band:"),BQ.map(([n,t])=>el("button",{class:"b g sm",on:{click:()=>{bmin=n;bin.value=n;bload()}}},t)),bin,el("span",{},"din")),bbox);
+ bload();
  m.append(el("div",{class:"card"},el("h2",{},"Aaj ki List"),el("p",{class:"mut"},"Aaj ke ab tak aaye result (FB, GB, GL) niche likho to baad ke game ki list unke hisaab se badal jayegi."),
-  el("div",{class:"row"},el("span",{},"Aaj ke result:"),known,el("span",{},"Stake:"),stake)),out);
+  el("div",{class:"row"},el("span",{},"Aaj ke result:"),known,el("span",{},"Stake:"),stake)),bcard,out);
  await load()},
 
 /* ---------------- 3. PAPER TRADING ---------------- */

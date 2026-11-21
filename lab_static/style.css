@@ -85,3 +85,13 @@ table.sheet th.d{position:sticky;left:0;z-index:2;background:#00b0f0;color:#fff}
 .presets{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
 .spin{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--ac);border-radius:50%;animation:sp .8s linear infinite;vertical-align:-2px;margin-right:6px}
 @keyframes sp{to{transform:rotate(360deg)}}
+
+/* month ki moti border + gap filter */
+table.sheet th.mb,table.sheet td.mb{border-left:3px solid #e0e0e0}
+table.sheet th.mr,table.sheet td.mr{border-right:3px solid #e0e0e0}
+table.sheet td.due{font-style:italic}
+.chk{display:inline-flex;align-items:center;gap:3px;margin-right:6px}
+.dot{display:inline-block;width:14px;height:14px;border-radius:50%}
+.pill.o{background:#ff9800;color:#000}.pill.g{background:#1de9b6;color:#000}.pill.r{background:#ff5252;color:#fff}.pill.m{background:#777;color:#fff}
+.gt td.small{font-size:12px;white-space:normal;min-width:180px}
+.tw{overflow-x:auto}
