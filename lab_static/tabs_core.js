@@ -44,6 +44,12 @@ async aaj(m){
    el("h3",{},"SINGLE JODI  (kal ka GB number)"),el("div",{class:"row"},chip(t.single.number,"blue","big"),el("div",{},el("div",{},"Khelo: ",el("b",{},"FB, GL, DS")),el("div",{class:"mut"},"GB me nahi. Har bet 95 guna (40 se kam number)."),
    el("button",{class:"b",on:{click:()=>place({strategy:"manual",numbers:[t.single.number],games:t.single.games})}},"Paper bet: single jodi"))),
    el("p",{class:"warn"},"Ye paper trading hai (kalpnik paisa). Asar chhota hai aur ghat-badh sakta hai, pakka nahi.")));
+  const pn={poora:"Poora",last3m:"3 mahine",month:"Is mahina"},pc={poora:"green",last3m:"yellow",month:"orange"};
+  out.append(el("div",{class:"card"},el("h2",{},"Dost jodi ",el("span",{class:"sub"},"(kal ke aur aaj ke result ke dost)")),
+   el("p",{class:"mut small"},"Har aaye number ke sabse bade dost: hara = poora 13 saal, peela = pichle 3 mahine, narangi = is mahine. Inme se jo dost 2-3 samay me dikhe wo mazboot."),
+   el("table",{},el("thead",{},el("tr",{},["Kab/Game","Number",...Object.values(pn)].map(h=>el("th",{},h)))),
+    el("tbody",{},t.dost.map(d=>el("tr",{},el("td",{},d.when+" "+GN[d.game]),el("td",{},chip(d.number,"blue")),
+     Object.keys(pn).map(k=>el("td",{},d.top[k].length?el("div",{class:"row",style:"gap:4px"},d.top[k].map(f=>chip(f.n,pc[k],"sm"))):el("span",{class:"mut"},"-")))))))));
   const g4=el("div",{class:"grid4"});
   ["FD","GB","GL","DS"].forEach((g,gi)=>{const seq=t.list10[g];const lst=seq||t.list10_static[g];
    g4.append(el("div",{class:"card",style:"margin:0"},el("h3",{},GN[g]+(seq?"  (aaj ke result dekh kar)":"  (subah wali)")),

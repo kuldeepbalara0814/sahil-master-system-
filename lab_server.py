@@ -279,13 +279,18 @@ def lab_delete():
 # ---------------- aaj ki list ----------------
 @app.get("/api/today")
 def api_today():
-    rows, _ = state()
+    rows, fr = state()
     known = [num(v) for v in request.args.get("known", "").split(",") if v.strip() != ""]
     if None in known or len(known) > 3:
         return err("aaj ke result (FD, GB, GL) 0-99 ke number me")
     plan = picks.daily_plan(rows, known)
     plan["known"] = known
     plan["last_line"] = {"date": rows[-1][0].isoformat(), "results": dict(zip(data.GAMES, rows[-1][1]))}
+    # dost jodi: kal ke (aur aaj ke aaye) result ke top-3 dost, teeno samay me
+    srcs = [("kal", g, n) for g, n in zip(data.GAMES, rows[-1][1])] + [("aaj", data.GAMES[i], n) for i, n in enumerate(known)]
+    plan["dost"] = [{"when": w, "game": g, "number": n,
+                     "top": {per: [{"n": f["n"], "together": f["together"]} for f in friends.top_friends(fr.cnt[per], n, 3)] for per in fr.cnt}}
+                    for w, g, n in srcs]
     return jsonify(plan)
 
 

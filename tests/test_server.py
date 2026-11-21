@@ -37,6 +37,8 @@ class ServerTests(unittest.TestCase):
 
     def test_today_lists(self):
         t = self.c.get("/api/today").get_json()
+        self.assertEqual(len(t["dost"]), 4)
+        self.assertEqual(set(t["dost"][0]["top"]), {"poora", "last3m", "month"})
         self.assertEqual(t["single"]["games"], ["FD", "GL", "DS"])
         self.assertEqual(len(t["list10_static"]["GB"]), 10)
         t2 = self.c.get("/api/today?known=12,47").get_json()
@@ -45,8 +47,9 @@ class ServerTests(unittest.TestCase):
         self.assertEqual(self.c.get("/api/today?known=1,2,3,4").status_code, 400)
 
     def test_write_needs_pin_and_valid_stake(self):
-        if os.path.exists(os.path.join(TMP, "paper_ledger.json")):
-            os.remove(os.path.join(TMP, "paper_ledger.json"))          # test alag-alag rahe
+        led = os.path.join(lab_server.DATA_DIR, "paper_ledger.json")      # lab_server ek hi baar import hota hai (pehle wale test ka dir)
+        if os.path.exists(led):
+            os.remove(led)                                              # test alag-alag rahe
         r = self.c.post("/api/paper/place", json={"strategy": "auto", "stake": 5})
         self.assertEqual(r.status_code, 401)
         r = self.c.post("/api/paper/place", json={"strategy": "auto", "stake": 7}, headers=H)
