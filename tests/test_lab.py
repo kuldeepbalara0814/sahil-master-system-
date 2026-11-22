@@ -20,7 +20,7 @@ import numpy as np  # noqa: E402
 from openpyxl import load_workbook  # noqa: E402
 
 import lab_server  # noqa: E402
-from lab import backtest as bt, band, data, export_xlsx, gapchain, idea, scan_view, scanner  # noqa: E402
+from lab import backtest as bt, baar, band, data, export_xlsx, gapchain, idea, scan_view, scanner  # noqa: E402
 import datetime as dt  # noqa: E402
 
 H = {"X-Admin-Pin": "1234"}
@@ -281,6 +281,33 @@ class AutoFetchTests(unittest.TestCase):
         self.assertFalse(lab_server.maybe_auto_fetch(ROWS))
 
 
+class BaarTests(unittest.TestCase):
+    def test_tokri_counts_and_palat(self):
+        d0 = dt.date(2026, 3, 2)                                  # Somvar
+        rows = []
+        for i in range(30):
+            v = [11, 22, 33, 44] if i % 7 else [88, 88, 12, 99]        # Somvar ko 88 do baar, 12, 99
+            rows.append((d0 + dt.timedelta(days=i), v, "t"))
+        t = baar.tokri(rows, 0, days=0, asof=d0 + dt.timedelta(days=30))
+        self.assertEqual(t["top"][0]["n"], 88)
+        self.assertEqual(t["top"][0]["count"], 10)                # 5 Somvar x 2
+        self.assertIn(21, t["numbers"])                           # 12 ka palat
+        self.assertEqual(sorted(t["numbers"]), sorted(set(t["numbers"])))
+        self.assertEqual(t["cases"], 5)
+
+    def test_asof_no_lookahead_and_api(self):
+        a = baar.tokri(ROWS, 2, 365, asof=dt.date(2026, 6, 1))
+        self.assertLess(a["to"], "2026-06-01")
+        c = lab_server.app.test_client()
+        r = c.get("/api/baar").get_json()
+        self.assertEqual(r["play_date"], data.play_date(ROWS).isoformat())
+        self.assertTrue(r["is_today"])
+        self.assertEqual(len(r["top"]), 6)
+        self.assertEqual(c.get("/api/baar?weekday=7").status_code, 400)
+        self.assertEqual(c.get("/api/baar?days=10").status_code, 400)
+        self.assertGreater(c.get("/api/baar?weekday=2&days=0").get_json()["cases"], 600)
+
+
 class ScannerTests(unittest.TestCase):
     def test_names_stable_and_distinct(self):
         self.assertEqual(scanner.name_for("Naksha", "12:2025-09-19"), scanner.name_for("Naksha", "12:2025-09-19"))
@@ -304,9 +331,10 @@ class ScannerTests(unittest.TestCase):
 
     def test_run_report_shape_and_error_isolation(self):
         rep = scanner.run(ROWS)
-        self.assertEqual((rep["asof"], len(rep["patterns"]), rep["errors"]), (ROWS[-1][0].isoformat(), 2, []))
-        self.assertTrue(rep["patterns"][1]["items"])
-        for it in rep["patterns"][1]["items"]:
+        self.assertEqual((rep["asof"], len(rep["patterns"]), rep["errors"]), (ROWS[-1][0].isoformat(), 3, []))
+        nak = [p for p in rep["patterns"] if p["key"] == "naksha"][0]
+        self.assertTrue(nak["items"])
+        for it in nak["items"]:
             self.assertIn(it["strength"], ("mazboot", "theek", "kamzor"))
         orig = scanner.SCANNERS["copy"]
         scanner.SCANNERS["copy"] = lambda rows, asof: 1 / 0
@@ -316,13 +344,13 @@ class ScannerTests(unittest.TestCase):
             scanner.SCANNERS["copy"] = orig
         self.assertEqual(bad["errors"][0]["pattern"], "Jodi-Copy")
         self.assertIn("ZeroDivisionError", bad["errors"][0]["error"])
-        self.assertTrue(bad["patterns"][1]["items"])               # dusra pattern phir bhi chala
+        self.assertTrue([p for p in bad["patterns"] if p["key"] == "naksha"][0]["items"])               # dusra pattern phir bhi chala
 
     def test_no_lookahead(self):
         cut = [r for r in ROWS if r[0] <= dt.date(2026, 10, 15)]
         a, b = scanner.run(cut), scanner.run(ROWS)
         self.assertEqual(a["asof"], "2026-10-15")
-        ids = lambda rep: [i["id"] for i in rep["patterns"][1]["items"]]
+        ids = lambda rep: [i["id"] for p in rep["patterns"] if p["key"] == "naksha" for i in p["items"]]
         self.assertTrue(ids(a))
         self.assertNotEqual(ids(a), ids(b))                       # alag din par alag nateeja, par a me aage ka data nahi
 
@@ -342,8 +370,51 @@ class ScannerTests(unittest.TestCase):
                 self.assertEqual(wb.active.title, "Pattern")
         self.assertEqual(c.get("/api/scanner/view?id=bakwas").status_code, 400)
 
+    def test_family_events_shapes_location_and_status(self):
+        d0 = dt.date(2026, 3, 2)
+        L = [[11, 13, 14, 16] for _ in range(8)]
+        fam = {2, 7, 20, 25, 52, 57, 70, 75}               # 02 rashi
+        L[0][1] = 25                                        # din 0 GB 25 (step 1)
+        L[1][3] = 57                                        # din 1 DS 57 (step 2)
+        L[3][0] = 70                                        # din 3 FB 70 (3rd step, pass)
+        rows = [(d0 + dt.timedelta(days=i), v, "t") for i, v in enumerate(L)]
+        ev = [e for e in scanner.family_events(rows, d0, d0) if e["rashi"] == 2 and e["shape"] == "seedha"]
+        self.assertEqual((len(ev), ev[0]["status"], ev[0]["loc"], ev[0]["amb"]), (1, "pass", [1, 3], False))   # GB, DS location
+        self.assertEqual(ev[0]["hit"], [(0, 70)])                                    # out of location, phir bhi pass
+        L2 = [list(x) for x in L]
+        L2[0][0] = 52                                       # step 1 din 2 cell: location tay nahi
+        rows2 = [(d0 + dt.timedelta(days=i), v, "t") for i, v in enumerate(L2)]
+        e2 = [e for e in scanner.family_events(rows2, d0, d0) if e["rashi"] == 2 and e["shape"] == "seedha"][0]
+        self.assertEqual((e2["amb"], e2["loc"]), (True, []))
+        pending = scanner.family_events(rows[:3], d0, d0, today=d0 + dt.timedelta(days=3))                       # 3rd step aaj
+        self.assertTrue(any(e["status"] == "aaj" and e["rashi"] == 2 for e in pending))
+        self.assertTrue(fam >= set(ev[0]["numbers"]))
+
+    def test_family_scan_ids_view_and_play_log(self):
+        rep = scanner.run(ROWS)
+        fam = [p for p in rep["patterns"] if p["key"] == "family"][0]
+        self.assertEqual(rep["errors"], [])
+        self.assertTrue(fam["items"])
+        c = lab_server.app.test_client()
+        it = fam["items"][0]
+        v = c.get("/api/scanner/view?id=" + it["id"]).get_json()
+        self.assertEqual(len(v["blocks"][0]["rows"]), 4)
+        self.assertEqual(c.get("/api/scanner/xlsx?id=" + it["id"]).status_code, 200)
+        body = {"id": it["id"], "plays": {"GB": {"numbers": [25, 57], "stake": 20}, "DS": {"numbers": [2], "stake": 10}}, "note": "test"}
+        self.assertEqual(c.post("/api/scanner/play", json=body).status_code, 401)                 # PIN chahiye
+        self.assertEqual(c.post("/api/scanner/play", json=body, headers=H).status_code, 200)
+        self.assertEqual(c.get("/api/scanner/plays").get_json()[it["id"]]["plays"]["GB"]["numbers"], [25, 57])
+        bad = dict(body, plays={"GB": {"numbers": [100], "stake": 10}})
+        self.assertEqual(c.post("/api/scanner/play", json=bad, headers=H).status_code, 400)
+        bad2 = dict(body, plays={"XX": {"numbers": [1], "stake": 10}})
+        self.assertEqual(c.post("/api/scanner/play", json=bad2, headers=H).status_code, 400)
+        bad3 = dict(body, plays={"GB": {"numbers": [1], "stake": 7}})
+        self.assertEqual(c.post("/api/scanner/play", json=bad3, headers=H).status_code, 400)
+        self.assertEqual(c.post("/api/scanner/play", json={"id": it["id"], "plays": {}}, headers=H).status_code, 200)     # hata do
+        self.assertNotIn(it["id"], c.get("/api/scanner/plays").get_json())
+
     def test_naksha_view_colours_match_both_sides(self):
-        it = scanner.run(ROWS)["patterns"][1]["items"][0]
+        it = [p for p in scanner.run(ROWS)["patterns"] if p["key"] == "naksha"][0]["items"][0]
         v = scan_view.view(ROWS, it["id"])
         old, new = v["blocks"]
         n_old = sum(1 for r in old["rows"] for k in r["kind"] if k == "step")

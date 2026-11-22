@@ -89,6 +89,33 @@ def view(rows, pid):
         return {"id": pid, "title": f"{scanner.name_for('Copy', f'{shape}:{g}:{d0.isoformat()}')}: {shape} {GAMES[g]} {e['x']:02d}/{e['y']:02d}",
                 "note": f"Hara = jodi ({GAMES[g]} me {e['x']:02d} aur {e['y']:02d}). Gulabi = din 4 par set ka number aaya (PASS). Set: {sets}.",
                 "blocks": [{"label": "Din 1 se din 4", "rows": out}]}
+    if parts[0] == "family":
+        rashi, shape, d0 = int(parts[1]), parts[2], dt.date.fromisoformat(parts[3])
+        today = data.play_date(rows)
+        ev = [e for e in scanner.family_events(rows, d0, d0, today) if e["rashi"] == rashi and e["shape"] == shape]
+        if not ev:
+            raise ValueError("Ye family pattern nahi mili")
+        e = ev[0]
+        st = set(e["numbers"])
+        i0 = D.index(e["d"])
+        out = []
+        for k in range(i0, i0 + 4):
+            if k < N:
+                c, kind = [None] * 4, [None] * 4
+                for g in range(4):
+                    if rows[k][1][g] in st:
+                        if D[k] in (e["d"], e["j"]):
+                            c[g], kind[g] = "FF9800", "step"
+                        elif D[k] == e["t"]:
+                            c[g], kind[g] = "FF4FA3", "pass"
+                out.append(_row(D[k].isoformat(), [int(x) for x in rows[k][1]], c, kind))
+            else:
+                out.append(_row(e["t"].isoformat(), None, [LIGHT["FF4FA3"]] * 4, ["light"] * 4, ["?"] * 4))
+        fam = " ".join(f"{x:02d}" for x in e["numbers"])
+        key = f"{rashi}:{shape}:{d0.isoformat()}"
+        return {"id": pid, "title": f"{scanner.name_for('Family', key)}: {rashi:02d} rashi {shape}",
+                "note": f"Narangi = step 1 aur 2 (family ke cell). Gulabi = 3rd step par family ka number aaya (PASS). '?' = 3rd step ka din abhi baaki. Family: {fam}.",
+                "blocks": [{"label": "Step 1 se 3rd step", "rows": out}]}
     raise ValueError("Pattern id samajh nahi aayi")
 
 

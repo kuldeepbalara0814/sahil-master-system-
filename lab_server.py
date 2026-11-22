@@ -26,7 +26,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import backtest, band, data, export_xlsx, friends, gapchain, gh, idea, monitor, paper, picks, scan_view, scanner, update            # noqa: E402
+from lab import backtest, baar, band, data, export_xlsx, friends, gapchain, gh, idea, monitor, paper, picks, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -242,6 +242,24 @@ def _gap(rows):
     return gapchain.find(rows, gaps, days, show=request.args.get("show", "all"))
 
 
+@app.get("/api/baar")
+def api_baar():
+    """?weekday=0..6 (nahi diya to aaj khelne ki tarikh ka) &days=365|1095|0(poora). Is baar ki tokri (6 number + palat)."""
+    rows, _ = state()
+    play = data.play_date(rows)
+    try:
+        wd = int(request.args.get("weekday", play.weekday()))
+        days = int(request.args.get("days", 365))
+    except ValueError:
+        return err("weekday aur days sankhya hone chahiye")
+    if not 0 <= wd <= 6 or days not in (0, 365, 1095, 1825):
+        return err("weekday 0-6 (Somvar=0) aur days 365, 1095, 1825 ya 0 (poora) hona chahiye")
+    r = baar.tokri(rows, wd, days)
+    r["play_date"] = play.isoformat()
+    r["is_today"] = wd == play.weekday()
+    return jsonify(r)
+
+
 @app.get("/api/band")
 def api_band():
     try:
@@ -369,6 +387,119 @@ def api_scanner_run():
         return err(f"Script chali hi nahi: {type(e).__name__}: {str(e)[:200]}", 500)
     jsave("patterns_today.json", rep)
     return jsonify(rep)
+
+
+PATTERN_DIRS = {"001": "001_copy_pattern", "002": "002_mapping_pattern", "003": "003_family_pattern"}
+
+
+@app.get("/api/patterns/index")
+def api_patterns_index():
+    """Pattern ki index: naam, kya hai, README (kaise bana), kitne abhi chal rahe hain."""
+    rows, _ = state()
+    rep = jload("patterns_today.json", None)
+    if not rep or rep.get("asof") != rows[-1][0].isoformat():
+        rep = scanner.run(rows)
+        jsave("patterns_today.json", rep)
+    out = []
+    for p in rep["patterns"]:
+        txt = ""
+        try:
+            with open(os.path.join(ROOT, "patterns", PATTERN_DIRS.get(p["id"], "x"), "README.md"), encoding="utf-8") as f:
+                txt = f.read()
+        except OSError:
+            txt = "(README abhi is server par nahi mila)"
+        out.append({"id": p["id"], "key": p["key"], "naam": p["naam"], "about": p["about"], "pushti": p.get("pushti", False), "readme": txt,
+                    "count": len(p["items"]), "aaj": sum(1 for i in p["items"] if i["status"] == "aaj")})
+    return jsonify(out)
+
+
+@app.get("/api/scanner/months")
+def api_scanner_months():
+    """Ek pattern ke jitne bhi chal rahe hain: har ek ki alag copy (mahine ki sheet), alag rang. scope=recent (abhi chalte) ya month (poore mahine ke)."""
+    rows, _ = state()
+    key = request.args.get("key", "family")
+    scope = request.args.get("scope", "recent")
+    rep = jload("patterns_today.json", None)
+    if not rep or rep.get("asof") != rows[-1][0].isoformat():
+        rep = scanner.run(rows)
+        jsave("patterns_today.json", rep)
+    pat = [p for p in rep["patterns"] if p["key"] == key]
+    if not pat:
+        return err("Pattern nahi mila")
+    items = {i["id"]: i for i in pat[0]["items"]}
+    total = len(items)
+    try:
+        if scope == "month":
+            ids, total = scanner.ids_for_month(rows, key, rows[-1][0].year, rows[-1][0].month)
+        else:
+            ids = list(items)[:24]
+            total = len(items)
+    except ValueError as e:
+        return err(str(e))
+    by = {d: v for d, v, _ in rows}
+    copies, months = [], {}
+    for n, pid in enumerate(ids):
+        try:
+            v = scan_view.view(rows, pid)
+        except (ValueError, IndexError):
+            continue
+        cells = []
+        for r in v["blocks"][0]["rows"]:
+            for g in range(4):
+                if r["kind"][g]:
+                    cells.append({"date": r["date"], "g": g, "kind": r["kind"][g], "text": r["txt"][g] or ""})
+        yms = sorted({c["date"][:7] for c in cells})
+        for ym in yms:
+            if ym not in months:
+                y, m = int(ym[:4]), int(ym[5:])
+                months[ym] = {"label": f"{calendar.month_abbr[m]} {y}", "days": [[(dt.date(y, m, d)).isoformat(), by.get(dt.date(y, m, d))]
+                                                                                for d in range(1, calendar.monthrange(y, m)[1] + 1)]}
+        it = items.get(pid)
+        copies.append({"id": pid, "name": v["title"].split(":")[0], "title": v["title"], "remark": "\n".join(it["lines"]) if it else v["note"],
+                       "status": it["status"] if it else "", "color": scanner.COPY_COLORS[n % len(scanner.COPY_COLORS)], "ym": yms, "cells": cells})
+    return jsonify({"key": key, "scope": scope, "total": total, "shown": len(copies), "capped": total > len(copies), "months": months, "copies": copies})
+
+
+@app.get("/api/scanner/plays")
+def api_scanner_plays():
+    return jsonify(jload("play_log.json", {}))
+
+
+@app.post("/api/scanner/play")
+@guarded
+def api_scanner_play():
+    """Aap ne kis pattern par kis game me kaun se number khele (manual note). plays={'FB':{'numbers':[..],'stake':10}}; khaali plays = hata do."""
+    b = request.get_json(silent=True) or {}
+    pid = str(b.get("id", ""))[:80]
+    plays = b.get("plays") or {}
+    if not pid or not isinstance(plays, dict):
+        return err("Pattern id aur plays chahiye")
+    clean = {}
+    for g, v in plays.items():
+        if g not in ("FB", "GB", "GL", "DS"):
+            return err("Game galat: " + str(g)[:10])
+        try:
+            nums = sorted({int(x) for x in (v.get("numbers") or [])})
+            stake = int(v.get("stake", 10))
+        except (TypeError, ValueError, AttributeError):
+            return err("Number ya stake galat")
+        if any(not 0 <= x <= 99 for x in nums) or not 5 <= stake <= 500 or stake % 5:
+            return err("Number 0-99 aur stake 5 ke multiple me (5 se 500) chahiye")
+        if nums:
+            clean[g] = {"numbers": nums, "stake": stake}
+    log = jload("play_log.json", {})
+    if clean:
+        if len(log) >= 400 and pid not in log:
+            return err("Bahut zyada purane note hain")
+        log[pid] = {"plays": clean, "note": str(b.get("note", ""))[:200], "saved": dt.datetime.now(IST).isoformat(timespec="minutes")}
+    else:
+        log.pop(pid, None)
+    jsave("play_log.json", log)
+    try:
+        persist(["play_log.json"], "pattern play note")
+    except gh.SyncError as e:
+        return err(str(e), 502)
+    return jsonify({"ok": True, "count": len(log)})
 
 
 @app.get("/api/scanner/view")

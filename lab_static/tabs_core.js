@@ -87,8 +87,35 @@ async aaj(m){
   el("p",{class:"mut"},"Rashi = number ke har ank me 5 jodne se bani family: jaise 01 ki 01 10 15 51 56 65 60 06 (8 number), jodi rashi 11 ki 11 16 61 66. Cross aur half jodi alag rashi me aate hain. Kisi bhi game me aaye to rashi khuli maani jati hai."),
   el("div",{class:"row"},el("span",{},"Kam se kam band:"),BQ.map(([n,t])=>el("button",{class:"b g sm",on:{click:()=>{bmin=n;bin.value=n;bload()}}},t)),bin,el("span",{},"din")),bbox);
  bload();
+ /* ---- baar ki tokri: aaj ke weekday ke number highlight (hint) ---- */
+ let bwd="",bdays=365,btok=null;
+ const WN=["Somvar","Mangalvar","Budhvar","Guruvar","Shukravar","Shanivar","Ravivar"];
+ const tokBox=el("div"),outBox=el("div"),inTa=el("textarea",{rows:3,placeholder:"Apni jodi yahan likho ya paste karo, jaise: 12 47 85 03 ...",style:"width:100%"}),srt=el("input",{type:"checkbox"});
+ const wsel=el("select",{on:{change:()=>{bwd=wsel.value;tload()}}},[el("option",{value:""},"Aaj ka baar"),...WN.map((n,i)=>el("option",{value:i},n))]);
+ const dsel=el("select",{on:{change:()=>{bdays=+dsel.value;tload()}}},[[365,"Pichla 1 saal"],[1095,"Pichle 3 saal"],[1825,"Pichle 5 saal"],[0,"Poora record (13 saal)"]].map(([v,t])=>el("option",{value:v},t)));
+ async function tload(){
+  try{btok=await api("GET",`/baar?days=${bdays}`+(bwd!==""?`&weekday=${bwd}`:""));
+   tokBox.replaceChildren(el("p",{class:"b"},`${btok.is_today?"Aaj":"Is"} ${btok.weekday_name} ki tokri`,el("span",{class:"mut small"},`  (${btok.cases} ${btok.weekday_name} ke din, ${btok.from} se ${btok.to} tak)`)),
+    el("div",{class:"row"},btok.top.map(t=>el("span",{class:"chip orange",title:`${t.count} baar aaya, palat ${p2(t.palat)}`},p2(t.n)+" · "+t.count))),
+    el("p",{class:"mut small"},"Palat samet kul "+btok.numbers.length+" number: "+btok.numbers.map(p2).join(" ")+(btok.ties.length?`. Barabari wale aur: ${btok.ties.slice(0,12).map(p2).join(" ")}`:"")));
+   hl()}catch(e){tokBox.replaceChildren(el("div",{class:"warn"},e.message))}}
+ function hl(){
+  if(!btok)return;
+  const nums=[...new Set((inTa.value.match(/\d+/g)||[]).map(Number).filter(n=>n>=0&&n<=99))];
+  if(!nums.length){outBox.replaceChildren();return}
+  const S=new Set(btok.numbers),yes=nums.filter(n=>S.has(n)),no=nums.filter(n=>!S.has(n));
+  const order=srt.checked?[...yes,...no]:nums;
+  outBox.replaceChildren(el("p",{},`${nums.length} jodi me se `,el("b",{},String(yes.length)),` ${btok.weekday_name} ki tokri me hain`+(yes.length?": "+yes.map(p2).join(" "):".")),
+   el("div",{class:"row",style:"gap:6px"},order.map(n=>el("span",{class:"chip "+(S.has(n)?"orange":"grey"),title:S.has(n)?btok.weekday_name+" ki tokri me":""},p2(n)))),
+   el("p",{class:"mut small"},"Narangi = is baar ki tokri me. Ye sirf hint hai: jaanch me tokri se chance badhta nahi dikha. Faisla aap ka."))}
+ inTa.oninput=hl;srt.onchange=hl;
+ const baarCard=el("div",{class:"card"},el("h2",{},"Baar Filter ",el("span",{class:"sub"},"(aaj ke weekday ke number highlight)")),
+  el("p",{class:"mut"},"Us weekday par jo 6 number sabse zyada aaye + unke palat ek tokri hai. Neeche apni jodi likho to jo us tokri me hongi wo narangi me chamkengi, taaki chhantna aasan ho."),
+  el("div",{class:"row"},el("span",{},"Baar:"),wsel,el("span",{},"Data:"),dsel),tokBox,inTa,
+  el("div",{class:"row"},el("label",{class:"chk"},srt,"Tokri wale pehle dikhao")),outBox);
+ tload();
  m.append(el("div",{class:"card"},el("h2",{},"Aaj ki List"),el("p",{class:"mut"},"Aaj ke ab tak aaye result (FB, GB, GL) niche likho to baad ke game ki list unke hisaab se badal jayegi."),
-  el("div",{class:"row"},el("span",{},"Aaj ke result:"),known,el("span",{},"Stake:"),stake)),bcard,out);
+  el("div",{class:"row"},el("span",{},"Aaj ke result:"),known,el("span",{},"Stake:"),stake)),bcard,baarCard,out);
  await load()},
 
 /* ---------------- 3. PAPER TRADING ---------------- */
