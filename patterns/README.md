@@ -8,3 +8,5 @@ Niyam: pattern sirf 3-6 mahine me parkho. Aap ki pushti ke baad hi pakka maano. 
 | 003 | family pattern (rashi chain) | sikhana jari, pichle 1 saal ki jaanch likhi, aap ki pushti baaki |
 
 HANDOFF.md = niyam aur facts. GLOSSARY.md = shabd (rashi, cross, jodi, half jodi, gap).
+
+App me pattern ki index (Pattern Scan tab): naam par click karo to wo pattern jitne chal rahe hain sab dikhte hain, har pattern ka README bhi. Details: HANDOFF.md.

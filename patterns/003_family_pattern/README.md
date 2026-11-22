@@ -58,6 +58,13 @@ Design: koi rashi din d aur d+1 (ya d+2) par aaye, phir din d+3 par wahi rashi a
 - **Location saaf ho:** location wale game me har number par **20 Rs (2 guna)**, baaki game me 10 Rs.
 - Ye sirf **paper trading** hai taaki software majboot bane. Asli paise se khelna nahi.
 
+## Software me kaise dikhana hai (aap ka kehna)
+- **Index:** pattern ka naam (Family pattern) index me ho. Naam par click karo to jitne family pattern **abhi chal rahe hain** sab dikhen.
+- **Ek hi mahine me family pattern kai ek saath bante hain.** Har ek ke liye us **mahine ki sheet ki alag copy**, har copy me ek pattern **alag rang** me. Saari copy ek image me jud sakti hain.
+- **Rang koi bhi**, bas **niche ka ank saaf dikhe** (rang par kaala ank) aur pattern saaf dikhe. **Tarikh, mahina aur saal saaf likha ho.** Zarurat ho to remark.
+- **Jitne bane ya shuru huye sab dikhao.** Jab ek se zyada jagah ban raha ho to location tay mat karo, sirf mark karo; aap khud dekh kar tay karoge.
+- Aap koi pattern par click kar ke likh sakte ho ki kis location par kaun sa number khela.
+
 ## Facts (HANDOFF.md me bhi)
 - Ye design tabhi kaam kare jab DS ko pichle din ki line me likha ho (DS agli subah ka). Time: FB 6:15-6:30 pm, GB 10-10:15 pm, GL 12-12:15 am, DS 5:20-5:40 am.
 - Mahine ke aakhri din chhuti se ek din aage-peeche (vibration). Mahine ke aas-paas +-1 din pass maana jata hai.
