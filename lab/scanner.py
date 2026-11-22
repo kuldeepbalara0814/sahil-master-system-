@@ -28,6 +28,7 @@ WORDS = ["Mor", "Sher", "Chita", "Hans", "Baaz", "Hathi", "Ghoda", "Tota", "Mach
 # random jagah par bhi best z kitna aata hai (120 random mahine, 13 saal): L -> (median, max). Isse 'mazboot/theek/kamzor' tay hota hai.
 BASE = {10: (6.5, 9.4), 12: (6.0, 9.7), 15: (5.8, 10.8), 18: (5.5, 7.8)}
 LENS = (10, 12, 15, 18)
+TOP = 6                                                  # har lambai ke itne milan dikhao
 PAL = ["FF9800", "AB47BC", "66BB6A", "EF5350", "26C6DA", "F06292", "8D6E63", "9CCC65"]
 
 
@@ -171,8 +172,20 @@ def scan_naksha(rows, asof):
         valid = np.zeros(len(m), bool)
         valid[:max(0, sc - L - 1)] = True
         z = (m - m[valid].mean()) / (m[valid].std() + 1e-9)
-        so = int(np.argmax(np.where(valid, z, -9)))
-        zb = float(z[so])
+        zz = np.where(valid, z, -9)
+        picks = []
+        for i in np.argsort(-zz):                        # sabse achhe milan, ek dusre se kam se kam 20 din door
+            if zz[i] < 0 or len(picks) >= TOP:
+                break
+            if all(abs(int(i) - j) >= 20 for j in picks):
+                picks.append(int(i))
+        for rank, so in enumerate(picks, 1):
+            items.append(_naksha_item(rows, D, C, so, sc, L, float(z[so]), rank, int(m[so])))
+    return {"summary": "Naye mahine ke naksha ko 13 saal me khoja; har lambai (10/12/15/18 line) ke sabse achhe %d milan dikhaye (ek dusre se 20 din door). Sirf wahi link ginta hoon jahan same ya palat number same jagah par ho; rashi ya sirf rang wale link abhi nahi ginta, isliye aap ki aankh se kam milte hain. 'mazboot' tabhi jab z random ke best se bhi upar ho, baaki random jaisa." % TOP, "items": items}
+
+
+def _naksha_item(rows, D, C, so, sc, L, zb, rank, nlinks):
+    if True:
         med, mx = BASE[L]
         strength = "mazboot" if zb >= mx else ("theek" if zb >= (med + mx) / 2 else "kamzor")
         info = match_info(rows, so, sc, L)
@@ -185,11 +198,10 @@ def scan_naksha(rows, asof):
             lines.append(f"Aaj {today:%d %b} ka andaza: " + "; ".join(f"{t['game']} me {' / '.join(f'{x:02d}' for x in t['numbers'])}" for t in tg))
         else:
             lines.append(f"Aaj {today:%d %b} ke liye purane me koi andaza wali jagah nahi.")
-        items.append({"id": f"naksha:{L}:{D[so].isoformat()}", "kind": "naksha", "name": name_for("Naksha", key),
-                      "status": "aaj" if tg else "dekho", "strength": strength, "steps": len(info["comps"]), "z": round(zb, 1),
-                      "title": f"{D[so]:%b %Y} jaisa ({L} line)", "lines": lines,
+        return ({"id": f"naksha:{L}:{D[so].isoformat()}", "kind": "naksha", "name": name_for("Naksha", key),
+                      "status": "aaj" if tg else "dekho", "strength": strength, "steps": len(info["comps"]), "z": round(zb, 1), "rank": rank,
+                      "title": f"#{rank} {D[so]:%b %Y} jaisa ({L} line)", "lines": lines,
                       "target": {"date": today.isoformat(), "games": ", ".join(sorted({t['game'] for t in tg})), "numbers": sorted({x for t in tg for x in t["numbers"]})} if tg else None})
-    return {"summary": "Naye mahine ke naksha ko 13 saal me khoja. 'mazboot' tabhi jab z random ke best se bhi upar ho; baaki random jaisa.", "items": items}
 
 
 # ---------------------------------------------------------------- 003 family

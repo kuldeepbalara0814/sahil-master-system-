@@ -42,3 +42,8 @@ Software ne andaza diya tha: **FB me 58 / 85**. Aaj ka FB result **13** aaya. Aa
 4. **Result:** 13 aaya. 13 63 ki rashi me hai (13 rashi), 10 Rs x 95 = **950 Rs**. Wahi 13 software me **band number** me tha: aakhri baar 24 Jun 2026, yaani **151 din band** (aap ne 150 kaha), aur ab FB me aa gaya.
 Maine isko pass ki tarah note kiya. Mera sujhav (aap ki pushti ke baad): jab Naksha ka andaza aaye to software **dono** numbers dikhaye: naye taraf ka (85/58) aur purani taraf ka (63/36), aur dono ki rashi family (16 number), location FB. Solid 4 par zyada paise (jaise 20 Rs) aur baaki par 10 Rs.
 Dhyan: ek location par 16 number ka random chance lagbhag 16% hai. 180 Rs lagakar 950 Rs milta hai, isliye faida tabhi jab ye pattern random se zyada baar pass ho. Isko paper trading me naapenge (abhi kuch pakka nahi).
+
+## 23 Nov 2026: 13 saal me kitne milan hain? (aap ka sawal: "2-3 hi kyun?")
+Pehle software har lambai (10/12/15/18 line) ka sirf **sabse achha 1** dikhata tha. Ab har lambai ke sabse achhe **6** (ek dusre se 20 din door), kul 24 dikhta hai.
+Sach: jaise software milata hai (same/palat number, same jagah) 13 saal me bahut kam milte hain: 10 line me 3-4 jode hi milte hain, 12 me 4-5, 15 me 5-6, 18 me 5-6. Sab random ke best z (6 se 10) ke andar, yaani "kamzor". Sabse zyada milta: May 2022 (15 aur 18 line, 6 jode), Sep 2025 (12 line z 6.4), May 2021.
+Aap ki aankh zyada milan dekhti hai (rashi aur sirf rang/design ke link bhi). Wo link software abhi nahi ginta, isliye kam milte hain. Aage: rashi-link bhi ginna.
