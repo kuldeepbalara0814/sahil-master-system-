@@ -17,8 +17,8 @@ from . import data
 
 GAMES = ("FB", "GB", "GL", "DS")
 PATTERNS = [
-    {"id": "001", "key": "copy", "naam": "Jodi-Copy", "about": "Ek game me do number jinme 1 ya 10 ka farak (palat samet). Din 1, din 2 (ya 3), din 4 par set ka number aaye to PASS."},
-    {"id": "002", "key": "naksha", "naam": "Naksha", "about": "Naye mahine ke jodon (same/palat) ka naksha purane 13 saal me kahin ban chuka hai? Jahan mila wahan aage kya hua wo aaj ka andaza hai."},
+    {"id": "001", "key": "copy", "naam": "Jodi-Copy", "pushti": False, "about": "Ek game me do number jinme 1 ya 10 ka farak (palat samet). Din 1, din 2 (ya 3), din 4 par set ka number aaye to PASS."},
+    {"id": "002", "key": "naksha", "naam": "Naksha", "pushti": False, "about": "Naye mahine ke jodon (same/palat) ka naksha purane 13 saal me kahin ban chuka hai? Jahan mila wahan aage kya hua wo aaj ka andaza hai."},
 ]
 WORDS = ["Mor", "Sher", "Chita", "Hans", "Baaz", "Hathi", "Ghoda", "Tota", "Machhli", "Cheel", "Bagula", "Kachua", "Hiran", "Bhalu", "Lomdi", "Nilgai",
          "Titli", "Koyal", "Bulbul", "Garud", "Sarus", "Gainda", "Panda", "Sambhar", "Chakor", "Morni", "Bakri", "Uloo", "Kabutar", "Ghariyal",

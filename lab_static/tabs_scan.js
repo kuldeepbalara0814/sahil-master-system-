@@ -47,7 +47,7 @@ tabs.scan=async function(m){
   errBox.replaceChildren(...(rep.errors.length?[el("div",{class:"warn"},el("b",{},`Script me ${rep.errors.length} galti:`),rep.errors.map(e=>el("div",{style:"margin-top:6px"},el("b",{},e.pattern+": "),e.error,el("pre",{class:"small",style:"white-space:pre-wrap"},e.trace))))]:[el("p",{class:"ok small"},"Script me koi galti nahi.")]));
   list.replaceChildren(...rep.patterns.map(p=>{
    let items=p.items;if(filter==="aaj")items=items.filter(i=>i.status==="aaj");if(filter==="strong")items=items.filter(i=>i.strength==="mazboot"||i.strength==="theek");
-   return el("div",{class:"card"},el("h2",{},`${p.id} ${p.naam}`),el("p",{class:"mut small"},p.about),el("p",{class:"small"},p.summary),
+   return el("div",{class:"card"},el("h2",{},`${p.id} ${p.naam} `,el("span",{class:"pill "+(p.pushti?"g":"o")},p.pushti?"aap ki pushti ho chuki":"pushti baaki (abhi seekh rahe hain)")),el("p",{class:"mut small"},p.about),el("p",{class:"small"},p.summary),
     items.length?items.map(card):el("p",{class:"mut"},filter==="all"?"Abhi kuch nahi bana.":"Is filter me kuch nahi."))}))}
  m.append(el("div",{class:"card"},el("h2",{},"Pattern Scan ",el("span",{class:"sub"},"(sikhaye hue pattern aaj kya bana rahe hain)")),
   el("p",{class:"mut"},"Har sikhaya hua pattern roz subah data aate hi apne aap chalta hai. Har pattern ko apna naam diya hai (jaise Naksha-Hathi-44) taaki mix na ho. 'Kholo' dabao to saaf rang me chart dikhega, 'Excel download' se Excel aayega. 'Mazboot' tabhi likha jata hai jab milan random se bhi zyada ho; zyadatar abhi 'kamzor' hi nikalte hain."),
