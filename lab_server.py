@@ -516,11 +516,22 @@ def api_scanner_view():
         return err(str(e) or "Pattern nahi mila")
 
 
+@app.get("/api/scanner/month_view")
+def api_scanner_month_view():
+    """Family pattern ka poora mahina, har rashi alag rang."""
+    rows, _ = state()
+    try:
+        return jsonify(scan_view.family_month(rows, request.args.get("id", "")))
+    except (ValueError, IndexError) as e:
+        return err(str(e) or "Pattern nahi mila")
+
+
 @app.get("/api/scanner/xlsx")
 def api_scanner_xlsx():
     rows, _ = state()
     try:
-        blob, title = scan_view.xlsx(rows, request.args.get("id", ""))
+        pid = request.args.get("id", "")
+        blob, title = scan_view.family_month_xlsx(rows, pid) if pid.startswith("family:") else scan_view.xlsx(rows, pid)
     except (ValueError, IndexError) as e:
         return err(str(e) or "Pattern nahi mila")
     name = "".join(ch if ch.isalnum() or ch in "-_" else "_" for ch in title)[:60] + ".xlsx"

@@ -65,6 +65,12 @@ Design: koi rashi din d aur d+1 (ya d+2) par aaye, phir din d+3 par wahi rashi a
 - **Jitne bane ya shuru huye sab dikhao.** Jab ek se zyada jagah ban raha ho to location tay mat karo, sirf mark karo; aap khud dekh kar tay karoge.
 - Aap koi pattern par click kar ke likh sakte ho ki kis location par kaun sa number khela.
 
+## Family pattern ka poora mahina (aap ka kehna, 2026-11-22 raat)
+- Card me "Kholo" dabane par **poora mahina** dikhta hai, **har rashi family alag rang** me (15 rang, legend ke saath). Is pattern ke cell moti safed border me, 3rd step gulabi "?".
+- **"Ye kaise bana":** step 1, step 2, kaun sa design (din 0, +1, +3) aur is mahine wo rashi kin-kin dino me aayi (poori list), taaki pata chale ki ye design kaise banta hai.
+- Kisi family ke rang par dabao to sirf wahi family dikhti hai. "Sirf is pattern ki family" bhi chun sakte ho. Excel download me bhi wahi poora mahina.
+- Udaharan: Family-Titli-55 (24 rashi, 47 47 47): 19 Nov GB 47, DS 47; 20 Nov GL 47; 3rd step 22 Nov.
+
 ## Facts (HANDOFF.md me bhi)
 - Ye design tabhi kaam kare jab DS ko pichle din ki line me likha ho (DS agli subah ka). Time: FB 6:15-6:30 pm, GB 10-10:15 pm, GL 12-12:15 am, DS 5:20-5:40 am.
 - Mahine ke aakhri din chhuti se ek din aage-peeche (vibration). Mahine ke aas-paas +-1 din pass maana jata hai.

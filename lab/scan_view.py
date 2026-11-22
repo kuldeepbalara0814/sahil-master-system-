@@ -1,11 +1,12 @@
 """Pattern Scan: ek pattern ka saaf rang wala chart (app me dikhane ke liye) aur wahi Excel me."""
+import calendar
 import datetime as dt
 import io
 
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 
-from . import data, scanner
+from . import band, data, scanner
 from .scanner import GAMES, pal
 
 LIGHT = {"FF9800": "FFE0B2", "AB47BC": "E1BEE7", "66BB6A": "C8E6C9", "EF5350": "FFCDD2", "26C6DA": "B2EBF2", "F06292": "F8BBD0", "8D6E63": "D7CCC8", "9CCC65": "DCEDC8",
@@ -156,6 +157,115 @@ def xlsx(rows, pid):
         for j in range(5):
             ws.column_dimensions[ws.cell(1, col + j).column_letter].width = 11 if j == 0 else 6
         col += 6
+    buf = io.BytesIO()
+    wb.save(buf)
+    return buf.getvalue(), v["title"]
+
+
+FAM_COLORS = ["FFB74D", "CE93D8", "80DEEA", "A5D6A7", "EF9A9A", "FFF176", "90CAF9", "BCAAA4", "F48FB1", "C5E1A5", "FFCC80", "B39DDB", "80CBC4", "E6EE9C", "B0BEC5"]
+
+
+def family_month(rows, pid):
+    """Family pattern ka poora mahina: har rashi family alag rang, is pattern ke cell bold. Saath me 'ye kaise bana' ki baat."""
+    parts = pid.split(":")
+    if parts[0] != "family":
+        raise ValueError("Ye sirf family pattern ke liye hai")
+    rashi, shape, d0 = int(parts[1]), parts[2], dt.date.fromisoformat(parts[3])
+    today = data.play_date(rows)
+    ev = [e for e in scanner.family_events(rows, d0, d0, today) if e["rashi"] == rashi and e["shape"] == shape]
+    if not ev:
+        raise ValueError("Ye family pattern nahi mili")
+    e = ev[0]
+    by = {d: v for d, v, _ in rows}
+    fams = []
+    fam_idx = {}
+    for i, (k, nums) in enumerate(sorted(band.RASHIS.items(), key=lambda kv: kv[1][0])):
+        for n in nums:
+            fam_idx[n] = i
+        fams.append({"rashi": nums[0], "name": f"{nums[0]:02d} rashi" + (" (jodi)" if len(nums) == 4 else ""), "numbers": sorted(nums), "color": FAM_COLORS[i % len(FAM_COLORS)]})
+    yms = sorted({x.strftime("%Y-%m") for x in (e["d"], e["j"], e["t"])})
+    months, cellfam = {}, {}
+    for ym in yms:
+        y, m = int(ym[:4]), int(ym[5:])
+        days = []
+        for d in range(1, calendar.monthrange(y, m)[1] + 1):
+            dd = dt.date(y, m, d)
+            v = by.get(dd)
+            days.append([dd.isoformat(), v])
+            if v:
+                for g in range(4):
+                    cellfam[f"{dd.isoformat()}|{g}"] = fam_idx[v[g]]
+        months[ym] = {"label": f"{calendar.month_abbr[m]} {y}", "days": days}
+    sel = []
+    for day, cols in ((e["d"], e["c1"]), (e["j"], e["c2"])):
+        for g in cols:
+            sel.append({"date": day.isoformat(), "g": g, "kind": "step", "text": ""})
+    if e["status"] == "aaj":
+        for g in range(4):
+            sel.append({"date": e["t"].isoformat(), "g": g, "kind": "target", "text": "?"})
+    else:
+        for g, _ in e["hit"]:
+            sel.append({"date": e["t"].isoformat(), "g": g, "kind": "pass", "text": ""})
+    nums = set(e["numbers"])
+    seen = [(d, [(GAMES[g], v) for g, v in enumerate(by[d]) if v in nums]) for d in sorted(by) if e["d"] - dt.timedelta(days=e["d"].day - 1) <= d <= rows[-1][0] and any(v in nums for v in by[d])]
+    timeline = [f"{d:%d %b}: " + ", ".join(f"{g} {v:02d}" for g, v in hs) for d, hs in seen]
+    gap = (e["j"] - e["d"]).days
+    expl = [f"{rashi:02d} rashi ki family: " + " ".join(f"{x:02d}" for x in e["numbers"]) + ".",
+            f"Step 1: {e['d']:%d %b} ({', '.join(GAMES[g] for g in e['c1'])}). Step 2: {e['j']:%d %b} ({', '.join(GAMES[g] for g in e['c2'])}), step 1 se {gap} din baad.",
+            f"Design {e['shape']}: din 0, +{gap}, +3. Isliye 3rd step {e['t']:%d %b} par banta hai" + (" (aaj, abhi baaki)." if e["status"] == "aaj" else f" ({'PASS' if e['hit'] else 'FAIL'})."),
+            ]
+    if e["amb"]:
+        expl.append("Step ke din family ke ek se zyada cell hain, isliye location software tay nahi karta, aap tay karo.")
+    expl.append("Is mahine ye rashi in dino me aayi (neeche list), isliye ye design bana:")
+    return {"id": pid, "title": f"{scanner.name_for('Family', f'{rashi}:{shape}:{d0.isoformat()}')}: {rashi:02d} rashi {shape}",
+            "months": months, "families": fams, "cellfam": cellfam, "sel": sel, "sel_family": fam_idx[rashi], "explain": expl, "timeline": timeline,
+            "status": e["status"]}
+
+
+def family_month_xlsx(rows, pid):
+    v = family_month(rows, pid)
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Pattern"
+    thin = Side(style="thin", color="888888")
+    box = Border(left=thin, right=thin, top=thin, bottom=thin)
+    cen = Alignment(horizontal="center", vertical="center")
+    ws["A1"] = v["title"]
+    ws["A1"].font = Font(bold=True, size=13)
+    for i, t in enumerate(v["explain"], 2):
+        ws.cell(i, 1, t)
+    r0 = len(v["explain"]) + 3
+    selk = {(c["date"], c["g"]): c for c in v["sel"]}
+    col = 1
+    for ym, mo in v["months"].items():
+        ws.cell(r0, col, mo["label"].upper()).font = Font(bold=True, size=14)
+        for j, h in enumerate(["Tarikh", *GAMES]):
+            c = ws.cell(r0 + 1, col + j, h)
+            c.font, c.alignment, c.fill = Font(bold=True, color="FFFFFF"), cen, PatternFill("solid", fgColor="37474F")
+        for i, (iso, vals) in enumerate(mo["days"]):
+            rr = r0 + 2 + i
+            ws.cell(rr, col, dt.date.fromisoformat(iso).strftime("%d-%b-%y")).alignment = cen
+            for g in range(4):
+                sc = selk.get((iso, g))
+                cell = ws.cell(rr, col + 1 + g, (sc["text"] if sc and sc["text"] else (None if vals is None else vals[g])))
+                cell.alignment, cell.border, cell.number_format = cen, box, "00"
+                fi = v["cellfam"].get(f"{iso}|{g}")
+                if fi is not None:
+                    cell.fill = PatternFill("solid", fgColor=v["families"][fi]["color"])
+                cell.font = Font(bold=bool(sc), color="000000" if fi is not None or sc else "333333")
+                if sc:
+                    s2 = Side(style="thick", color="000000")
+                    cell.border = Border(left=s2, right=s2, top=s2, bottom=s2)
+        col += 6
+    lr = r0 + 2 + max(len(m["days"]) for m in v["months"].values()) + 1
+    ws.cell(lr, 1, "Family ke rang:").font = Font(bold=True)
+    for i, f in enumerate(v["families"]):
+        c = ws.cell(lr + 1 + i, 1, f["name"])
+        c.fill = PatternFill("solid", fgColor=f["color"])
+        ws.cell(lr + 1 + i, 2, " ".join(f"{x:02d}" for x in f["numbers"]))
+    for j in range(2, 16):
+        ws.column_dimensions[ws.cell(1, j).column_letter].width = 7
+    ws.column_dimensions["A"].width = 14
     buf = io.BytesIO()
     wb.save(buf)
     return buf.getvalue(), v["title"]

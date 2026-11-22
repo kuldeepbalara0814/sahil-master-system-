@@ -400,6 +400,17 @@ class ScannerTests(unittest.TestCase):
         v = c.get("/api/scanner/view?id=" + it["id"]).get_json()
         self.assertEqual(len(v["blocks"][0]["rows"]), 4)
         self.assertEqual(c.get("/api/scanner/xlsx?id=" + it["id"]).status_code, 200)
+        mv = c.get("/api/scanner/month_view?id=" + it["id"]).get_json()                           # poora mahina, har rashi alag rang
+        self.assertEqual(len(mv["families"]), 15)
+        self.assertEqual(len({f["color"] for f in mv["families"]}), 15)
+        self.assertTrue(mv["sel"] and mv["timeline"] and mv["explain"])
+        days = list(mv["months"].values())[0]["days"]
+        self.assertGreaterEqual(len(days), 28)
+        for k, fi in mv["cellfam"].items():                                                      # har cell ki family sahi
+            iso, g = k.split("|")
+            val = dict((d, v) for d, v in days)[iso][int(g)]
+            self.assertIn(val, mv["families"][fi]["numbers"])
+        self.assertEqual(c.get("/api/scanner/month_view?id=naksha:10:2021-05-06").status_code, 400)
         body = {"id": it["id"], "plays": {"GB": {"numbers": [25, 57], "stake": 20}, "DS": {"numbers": [2], "stake": 10}}, "note": "test"}
         self.assertEqual(c.post("/api/scanner/play", json=body).status_code, 401)                 # PIN chahiye
         self.assertEqual(c.post("/api/scanner/play", json=body, headers=H).status_code, 200)

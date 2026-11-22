@@ -20,6 +20,38 @@ function chart(v){
  t.append(th,tb);return el("div",{},el("p",{class:"mut small"},v.note),el("div",{class:"sheetwrap",style:"max-height:60vh"},t));
 }
 
+/* family pattern: poora mahina, har rashi family alag rang; is pattern ke cell bold + moti border; neeche 'ye kaise bana' */
+function famMonth(v){
+ let mode="all",iso=null;const box=el("div"),tabs2=el("div",{class:"row"}),legend=el("div",{class:"row",style:"gap:6px"});
+ const selk=new Map(v.sel.map(c=>[c.date+"|"+c.g,c]));
+ const lighten=h=>{const n=parseInt(h,16),r=(n>>16)&255,g=(n>>8)&255,b=n&255,f=c=>Math.round(c+(255-c)*.6);return "#"+[f(r),f(g),f(b)].map(x=>x.toString(16).padStart(2,"0")).join("")};
+ function table(ym){
+  const mo=v.months[ym],t=el("table",{class:"sheet scn mc"}),th=el("thead"),tb=el("tbody");
+  th.append(el("tr",{},el("th",{class:"ttl2",colspan:5},mo.label.toUpperCase())));
+  th.append(el("tr",{},["Tarikh",...G].map((h,i)=>el("th",{class:i==0?"d":"sh"},h))));
+  for(const [d,vals] of mo.days){const day=+d.slice(8);
+   tb.append(el("tr",{},el("td",{class:"d"},day+" "+MN[+d.slice(5,7)-1]),...[0,1,2,3].map(g=>{
+    const s=selk.get(d+"|"+g),fi=v.cellfam[d+"|"+g];
+    const show=fi!==undefined&&(mode==="all"?(iso===null||fi===iso):fi===v.sel_family);
+    const td=el("td",{class:"c"},s&&s.text?s.text:(vals?p2(vals[g]):""));
+    if(show){td.style.background="#"+v.families[fi].color;td.style.color="#000"}
+    if(s){td.style.fontWeight="900";td.style.outline="3px solid "+(s.kind==="pass"?"#000":"#fff");td.style.outlineOffset="-3px";
+     if(s.kind==="target"){td.style.background="#ffd0e6";td.style.color="#000";td.style.fontStyle="italic"}if(!show&&s.kind!=="target"){td.style.background="#555"}}
+    return td})))}
+  t.append(th,tb);return el("div",{class:"sheetwrap",style:"max-height:70vh;margin-bottom:8px"},t)}
+ function draw(){
+  box.replaceChildren(...Object.keys(v.months).map(table));
+  tabs2.replaceChildren(
+   el("button",{class:"b sm"+(mode==="all"?"":" g"),on:{click:()=>{mode="all";iso=null;draw()}}},"Sab family alag rang"),
+   el("button",{class:"b sm"+(mode==="one"?"":" g"),on:{click:()=>{mode="one";draw()}}},"Sirf is pattern ki family"));
+  legend.replaceChildren(...v.families.map((f,i)=>el("button",{class:"b g sm",title:f.numbers.map(p2).join(" "),style:"background:#"+f.color+";color:#000;border:"+(i===v.sel_family?"3px solid #000":"1px solid #888"),
+   on:{click:()=>{mode="all";iso=(iso===i?null:i);draw()}}},f.name)))}
+ draw();
+ return el("div",{},el("div",{class:"card flat",style:"margin:6px 0"},el("b",{},"Ye kaise bana"),...v.explain.map(l=>el("p",{class:"mut small",style:"margin:3px 0"},l)),
+   el("pre",{class:"small remark",style:"max-height:none"},v.timeline.join("\n"))),
+  el("p",{class:"mut small"},"Har rashi family ka apna rang (rang par kaala ank). Is pattern ke cell moti safed border me, 3rd step gulabi '?'. Kisi family ke rang par dabao to sirf wahi family dikhegi (dobara dabao to sab)."),
+  tabs2,el("div",{class:"row",style:"gap:6px"},legend),box)}
+
 tabs.scan=async function(m){
  let rep=null,filter="all",plays={},sel=null,idx=[],mscope="recent";
  const info=el("p",{class:"mut small"}),errBox=el("div"),list=el("div"),runBtn=el("button",{class:"b"},"Script abhi chalao (manual)");
@@ -35,7 +67,7 @@ tabs.scan=async function(m){
   const open=el("button",{class:"b g sm"},"Kholo (rang me dekho)");let on=false;
   open.onclick=async()=>{on=!on;if(!on){view.replaceChildren();open.textContent="Kholo (rang me dekho)";return}
    open.textContent="Band karo";view.replaceChildren(el("p",{class:"mut"},el("span",{class:"spin"}),"Load..."));
-   try{view.replaceChildren(chart(await api("GET","/scanner/view?id="+encodeURIComponent(it.id))))}catch(e){view.replaceChildren(el("div",{class:"warn"},e.message))}};
+   try{view.replaceChildren(it.kind==="family"?famMonth(await api("GET","/scanner/month_view?id="+encodeURIComponent(it.id))):chart(await api("GET","/scanner/view?id="+encodeURIComponent(it.id))))}catch(e){view.replaceChildren(el("div",{class:"warn"},e.message))}};
   const panel=el("div"),saved=el("div"),pb=el("button",{class:"b g sm"},"Maine kahan kya khela");
   const showSaved=()=>{const q=plays[it.id];saved.replaceChildren(...(q?[el("p",{class:"ok small"},"Aap ka note: "+Object.entries(q.plays).map(([g,v])=>`${g}: ${v.numbers.map(p2).join(" ")} (${v.stake} Rs)`).join(" | ")+(q.note?" - "+q.note:""))]:[]))};
   showSaved();
