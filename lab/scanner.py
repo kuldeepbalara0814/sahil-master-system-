@@ -18,8 +18,8 @@ from . import band, data
 GAMES = ("FB", "GB", "GL", "DS")
 PATTERNS = [
     {"id": "001", "key": "copy", "naam": "Jodi-Copy", "pushti": False, "about": "Ek game me do number jinme 1 ya 10 ka farak (palat samet). Din 1, din 2 (ya 3), din 4 par set ka number aaye to PASS."},
-    {"id": "003", "key": "family", "naam": "Family", "pushti": False, "about": "Ek rashi (family) 3 baar: din d, d+1 (ya d+2), phir d+3. Do step ban gaye to 3rd step ke din poori family (8 jodi) khelte hain. Jitne bane ya shuru huye sab yahan dikhte hain."},
     {"id": "002", "key": "naksha", "naam": "Naksha", "pushti": False, "about": "Naye mahine ke jodon (same/palat) ka naksha purane 13 saal me kahin ban chuka hai? Jahan mila wahan aage kya hua wo aaj ka andaza hai."},
+    {"id": "003", "key": "family", "naam": "Family", "pushti": False, "about": "Ek rashi (family) 3 baar: din d, d+1 (ya d+2), phir d+3. Do step ban gaye to 3rd step ke din poori family (8 jodi) khelte hain. Jitne bane ya shuru huye sab yahan dikhte hain."},
 ]
 WORDS = ["Mor", "Sher", "Chita", "Hans", "Baaz", "Hathi", "Ghoda", "Tota", "Machhli", "Cheel", "Bagula", "Kachua", "Hiran", "Bhalu", "Lomdi", "Nilgai",
          "Titli", "Koyal", "Bulbul", "Garud", "Sarus", "Gainda", "Panda", "Sambhar", "Chakor", "Morni", "Bakri", "Uloo", "Kabutar", "Ghariyal",

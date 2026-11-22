@@ -389,7 +389,15 @@ def api_scanner_run():
     return jsonify(rep)
 
 
-PATTERN_DIRS = {"001": "001_copy_pattern", "002": "002_mapping_pattern", "003": "003_family_pattern"}
+PATTERN_DIRS = {"001": "001_copy_pattern", "002": "002_mapping_pattern", "003": "003_family_pattern", "004": "004_baar_tokri"}
+
+
+def _readme(pid):
+    try:
+        with open(os.path.join(ROOT, "patterns", PATTERN_DIRS.get(pid, "x"), "README.md"), encoding="utf-8") as f:
+            return f.read()
+    except OSError:
+        return "(README abhi is server par nahi mila)"
 
 
 @app.get("/api/patterns/index")
@@ -402,14 +410,11 @@ def api_patterns_index():
         jsave("patterns_today.json", rep)
     out = []
     for p in rep["patterns"]:
-        txt = ""
-        try:
-            with open(os.path.join(ROOT, "patterns", PATTERN_DIRS.get(p["id"], "x"), "README.md"), encoding="utf-8") as f:
-                txt = f.read()
-        except OSError:
-            txt = "(README abhi is server par nahi mila)"
+        txt = _readme(p["id"])
         out.append({"id": p["id"], "key": p["key"], "naam": p["naam"], "about": p["about"], "pushti": p.get("pushti", False), "readme": txt,
                     "count": len(p["items"]), "aaj": sum(1 for i in p["items"] if i["status"] == "aaj")})
+    out.append({"id": "004", "key": "baar", "naam": "Baar Tokri", "pushti": False, "count": 0, "aaj": 0, "readme": _readme("004"),
+                "about": "Har weekday ke sabse zyada aaye 6 number + palat. Aaj ki jodi me jo us baar ki tokri me hon unko highlight (sirf hint)."})
     return jsonify(out)
 
 

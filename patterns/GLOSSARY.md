@@ -122,3 +122,4 @@ Ye mere samajhne ke liye hai. Software me bhi yahi niyam chalenge. Naam bolo to 
 - **Seedha / ulta**: seedha = date 1 se 30 ki taraf niche; ulta = 30 se 1 ki taraf upar.
 - **With location / out of location (variation)**: pass design wale location par aaya / doosre location par aaya.
 - **Jodi rashi**: 11, 22, 33, 44, 55, 66, 77, 88, 99, 00 ki 4-number wali rashi (jaise 11 16 61 66). 8-number wali ~90%, jodi rashi ~10%.
+- **Baar**: weekday (Ravivar, Somvar ...). **Tokri**: us baar ko sabse zyada aaye 6 number (aur palat samet ~12 number). Software me Baar Filter highlight karta hai (hint).

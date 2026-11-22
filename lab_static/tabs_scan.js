@@ -21,7 +21,7 @@ function chart(v){
 }
 
 tabs.scan=async function(m){
- let rep=null,filter="all",plays={};
+ let rep=null,filter="all",plays={},sel=null,idx=[],mscope="recent";
  const info=el("p",{class:"mut small"}),errBox=el("div"),list=el("div"),runBtn=el("button",{class:"b"},"Script abhi chalao (manual)");
  const fsel=el("select",{on:{change:()=>{filter=fsel.value;draw()}}},[["all","Sab dikhao"],["aaj","Sirf aaj ke andaze wale"],["strong","Sirf mazboot/theek"]].map(([v,t])=>el("option",{value:v},t)));
  async function run(){
@@ -59,19 +59,96 @@ tabs.scan=async function(m){
    el("div",{class:"b"},it.title),it.lines.map(l=>el("p",{class:"mut small",style:"margin:3px 0"},l)),
    it.target?el("p",{class:"tgt"},`Aaj ${dm(it.target.date)}: ${it.target.games} me `,el("b",{},it.target.numbers.map(p2).join(" ")),it.kind==="copy"?" (set ka koi bhi)":" (andaza)"):null,
    el("div",{class:"row"},open,pb,el("a",{href:"/api/scanner/xlsx?id="+encodeURIComponent(it.id)},el("button",{class:"b g sm"},"Excel download"))),saved,panel,view)}
+ const idxBox=el("div"),detail=el("div");
+ const lighten=h=>{const n=parseInt(h,16),r=(n>>16)&255,g=(n>>8)&255,b=n&255,f=c=>Math.round(c+(255-c)*.6);return "#"+[f(r),f(g),f(b)].map(x=>x.toString(16).padStart(2,"0")).join("")};
+ /* ---- ek mahine ki sheet ki kai copy: har copy me ek pattern, alag rang ---- */
+ function sheetTable(c,months,ym){
+  const mo=months[ym],cells=new Map();for(const x of c.cells)cells.set(x.date+"|"+x.g,x);
+  const t=el("table",{class:"sheet scn mc"}),th=el("thead"),tb=el("tbody");
+  th.append(el("tr",{},el("th",{class:"ttl2",colspan:5},mo.label.toUpperCase())));
+  th.append(el("tr",{},["Tarikh",...G].map((h,i)=>el("th",{class:i==0?"d":"sh"},h))));
+  for(const [iso,v] of mo.days){const d=+iso.slice(8);
+   tb.append(el("tr",{},el("td",{class:"d"},d+" "+MN[+iso.slice(5,7)-1]),...[0,1,2,3].map(g=>{const x=cells.get(iso+"|"+g);
+    const td=el("td",{class:"c"},x&&x.text?x.text:(v?p2(v[g]):""));
+    if(x){td.style.background=x.kind==="light"?lighten(c.color):"#"+c.color;td.style.color="#000";td.style.fontWeight="800";if(x.kind==="pass")td.style.outline="3px solid #000";if(x.kind==="light")td.style.fontStyle="italic"}
+    return td})))}
+  t.append(th,tb);return t}
+ function copiesView(data){
+  const wrap=el("div",{class:"mcopies"});
+  data.copies.forEach((c,n)=>{
+   const st=ST[c.status]||ST.dekho;
+   wrap.append(el("div",{class:"mcopy"},
+    el("div",{class:"mh2",style:"background:#"+c.color},el("b",{},`Copy ${n+1}: ${c.name}`)," ",el("span",{class:"pill "+st[0]},st[1])),
+    el("div",{class:"small",style:"margin:4px 0"},c.title.split(": ").slice(1).join(": ")),
+    el("pre",{class:"small remark"},c.remark),
+    ...c.ym.map(ym=>el("div",{class:"sheetwrap",style:"max-height:none;margin-bottom:6px"},sheetTable(c,data.months,ym)))))});
+  return wrap}
+ function drawPng(data,key){
+  const cv=document.createElement("canvas"),ctx=cv.getContext&&cv.getContext("2d");if(!ctx){toast("Is browser me image nahi ban sakti");return}
+  const W=232,H=22,pad=14,cols=Math.min(4,Math.max(1,data.copies.length)),lh=p=>56+p.ym.length*(26+22+31*H+10);
+  const rowsH=[];for(let i=0;i<data.copies.length;i+=cols)rowsH.push(Math.max(...data.copies.slice(i,i+cols).map(lh)));
+  cv.width=cols*(W+pad)+pad;cv.height=rowsH.reduce((a,b)=>a+b+pad,pad)+30;
+  ctx.fillStyle="#111";ctx.fillRect(0,0,cv.width,cv.height);ctx.fillStyle="#fff";ctx.font="bold 16px sans-serif";ctx.fillText(`${key} pattern: ${data.copies.length} copy (alag rang)`,pad,22);
+  let y0=30;
+  data.copies.forEach((c,k)=>{const col=k%cols,row=Math.floor(k/cols);if(col===0&&row>0)y0+=rowsH[row-1]+pad;const x0=pad+col*(W+pad);let y=y0+pad/2;
+   ctx.fillStyle="#"+c.color;ctx.fillRect(x0,y,W,22);ctx.fillStyle="#000";ctx.font="bold 13px sans-serif";ctx.fillText(`Copy ${k+1}: ${c.name}`.slice(0,30),x0+4,y+16);y+=26;
+   ctx.fillStyle="#ddd";ctx.font="11px sans-serif";ctx.fillText(c.title.split(": ").slice(1).join(": ").slice(0,36),x0+4,y+10);y+=16;
+   ctx.fillText((c.remark.split("\n")[0]||"").slice(0,40),x0+4,y+10);y+=14;
+   for(const ym of c.ym){const mo=data.months[ym],cells=new Map(c.cells.map(x=>[x.date+"|"+x.g,x]));
+    ctx.fillStyle="#1f2a44";ctx.fillRect(x0,y,W,24);ctx.fillStyle="#ffc000";ctx.font="bold 14px sans-serif";ctx.fillText(mo.label.toUpperCase(),x0+6,y+17);y+=26;
+    ctx.fillStyle="#00b0f0";ctx.fillRect(x0,y,W,22);ctx.fillStyle="#fff";ctx.font="bold 12px sans-serif";["Tarikh",...G].forEach((h,i)=>ctx.fillText(h,x0+(i?56+(i-1)*44+10:4),y+15));y+=22;
+    for(const [iso,v] of mo.days){const d=+iso.slice(8),x=[0,1,2,3].map(g=>cells.get(iso+"|"+g));
+     ctx.fillStyle="#111";ctx.fillRect(x0,y,W,H);ctx.fillStyle="#00b0f0";ctx.font="bold 12px sans-serif";ctx.fillText(d+" "+MN[+iso.slice(5,7)-1],x0+3,y+15);
+     for(let g=0;g<4;g++){const cx=x0+56+g*44,xx=x[g];if(xx){ctx.fillStyle=xx.kind==="light"?lighten(c.color):"#"+c.color;ctx.fillRect(cx,y,43,H-1)}
+      ctx.fillStyle=xx?"#000":"#fff";ctx.font="bold 13px sans-serif";const txt=xx&&xx.text?xx.text:(v?p2(v[g]):"");ctx.fillText(txt,cx+12,y+15);
+      if(xx&&xx.kind==="pass"){ctx.strokeStyle="#000";ctx.lineWidth=3;ctx.strokeRect(cx+1.5,y+1.5,40,H-4)}}
+     ctx.strokeStyle="#444";ctx.lineWidth=1;ctx.strokeRect(x0,y,W,H);y+=H}
+    y+=10}});
+  cv.toBlob(b=>{const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=`Pattern_${key}.png`;a.click()})}
+ async function loadCopies(key,box){
+  box.replaceChildren(el("p",{class:"mut"},el("span",{class:"spin"}),"Copy bana raha hai..."));
+  try{const d=await api("GET",`/scanner/months?key=${key}&scope=${mscope}`);
+   box.replaceChildren(el("p",{class:"mut small"},`${d.shown} copy dikh rahi hain${d.capped?` (kul ${d.total}, pehli ${d.shown} dikhayi)`:""}. Har copy me ek hi pattern, alag rang; rang par kaala ank. Tarikh, mahina aur saal upar likha hai.`),
+    d.copies.length?el("div",{class:"row"},el("button",{class:"b g sm",on:{click:()=>drawPng(d,key)}},"Image download (PNG, saari copy ek image me)")):null,
+    d.copies.length?copiesView(d):el("p",{class:"mut"},"Abhi koi pattern nahi chal raha."))}
+  catch(e){box.replaceChildren(el("div",{class:"warn"},e.message))}}
+ function showDetail(){
+  if(!sel){detail.replaceChildren();return}
+  const p=rep.patterns.find(x=>x.key===sel),ix=idx.find(x=>x.key===sel)||{};
+  const items=p?p.items:[],rd=el("pre",{class:"readme small",style:"display:none"},ix.readme||"(README nahi mila)");
+  const rb=el("button",{class:"b g sm",on:{click:()=>{const on=rd.style.display==="none";rd.style.display=on?"block":"none";rb.textContent=on?"README band karo":"README padho (kaise bana)"}}},"README padho (kaise bana)");
+  const copies=el("div"),sc=el("select",{on:{change:()=>{mscope=sc.value;loadCopies(sel,copies)}}},[["recent","Abhi chalte hue (aaj + pichle 3 din)"],["month","Is mahine ke saare (max 24)"]].map(([v,t])=>el("option",{value:v,selected:v===mscope},t)));
+  const hasCopies=(sel==="family"||sel==="copy");
+  detail.replaceChildren(el("div",{class:"card"},
+   el("h2",{},`${ix.id||""} ${ix.naam||sel} `,el("span",{class:"pill "+(ix.pushti?"g":"o")},ix.pushti?"aap ki pushti ho chuki":"pushti baaki (abhi seekh rahe hain)")),
+   el("p",{class:"mut"},ix.about||""),p?el("p",{class:"small"},p.summary):null,
+   el("p",{class:"mut small"},"Is README me kuch galat lage to mujhe batao, main README sahi kar dunga."),
+   el("div",{class:"row"},rb,el("button",{class:"b g sm",on:{click:()=>{sel=null;draw()}}},"Sab pattern dikhao")),rd),
+   sel==="baar"?el("div",{class:"card"},el("p",{},"Ye ek hint (highlight) wala tool hai. Aaj ki List tab ke 'Baar Filter' card me apni jodi daalo, aaj ke baar ki tokri wale number narangi me chamkenge."),el("button",{class:"b sm",on:{click:()=>go("aaj")}},"Aaj ki List kholo")):null,
+   hasCopies?el("div",{class:"card"},el("h2",{},"Mahine ki sheet ki copy ",el("span",{class:"sub"},"(har copy me ek pattern)")),el("div",{class:"row"},el("span",{},"Dikhao:"),sc),copies):null,
+   p?el("div",{class:"card"},el("h2",{},`${ix.naam||sel}: abhi ke pattern (${items.length})`),items.length?items.map(card):el("p",{class:"mut"},"Abhi kuch nahi bana.")):null);
+  if(hasCopies)loadCopies(sel,copies)}
+ function drawIdx(){
+  idxBox.replaceChildren(el("div",{class:"card"},el("h2",{},"Pattern Index ",el("span",{class:"sub"},"(naam par click karo)")),
+   el("p",{class:"mut small"},"Har pattern ka apna naam aur README. Naam par click karo to wo pattern jitne abhi chal rahe hain sab dikhenge, aur ek mahine me kai hon to alag-alag copy me alag rang se."),
+   idx.map(x=>el("button",{class:"idxrow"+(sel===x.key?" on":""),on:{click:()=>{sel=x.key;draw();detail.scrollIntoView&&detail.scrollIntoView({behavior:"smooth"})}}},
+    el("b",{},`${x.id} ${x.naam}`)," ",el("span",{class:"pill "+(x.pushti?"g":"o")},x.pushti?"pushti ho chuki":"pushti baaki"),
+    x.key!=="baar"?el("span",{class:"mut small"},`  ${x.count} chal rahe, aaj ${x.aaj}`):null,el("div",{class:"mut small"},x.about)))))}
  function draw(){
   if(!rep)return;
   const nA=rep.patterns.reduce((a,p)=>a+p.items.filter(i=>i.status==="aaj").length,0),nAll=rep.patterns.reduce((a,p)=>a+p.items.length,0);
   info.textContent=`Kul ${nAll} pattern dikh rahe hain, unme ${nA} aaj ban rahe hain (3rd step aaj). `+`Aakhri line: ${dm(rep.asof)} | Aaj khelne ki tarikh: ${dm(rep.play_date)} | script chali: ${rep.time.replace("T"," ")} (${rep.seconds} sec)`;
   errBox.replaceChildren(...(rep.errors.length?[el("div",{class:"warn"},el("b",{},`Script me ${rep.errors.length} galti:`),rep.errors.map(e=>el("div",{style:"margin-top:6px"},el("b",{},e.pattern+": "),e.error,el("pre",{class:"small",style:"white-space:pre-wrap"},e.trace))))]:[el("p",{class:"ok small"},"Script me koi galti nahi.")]));
-  list.replaceChildren(...rep.patterns.map(p=>{
+  drawIdx();showDetail();
+  list.replaceChildren(...(sel?[]:rep.patterns.map(p=>{
    let items=p.items;if(filter==="aaj")items=items.filter(i=>i.status==="aaj");if(filter==="strong")items=items.filter(i=>i.strength==="mazboot"||i.strength==="theek");
    return el("div",{class:"card"},el("h2",{},`${p.id} ${p.naam} `,el("span",{class:"pill "+(p.pushti?"g":"o")},p.pushti?"aap ki pushti ho chuki":"pushti baaki (abhi seekh rahe hain)")),el("p",{class:"mut small"},p.about),el("p",{class:"small"},p.summary),
-    items.length?items.map(card):el("p",{class:"mut"},filter==="all"?"Abhi kuch nahi bana.":"Is filter me kuch nahi."))}))}
+    items.length?items.map(card):el("p",{class:"mut"},filter==="all"?"Abhi kuch nahi bana.":"Is filter me kuch nahi."))})))}
  m.append(el("div",{class:"card"},el("h2",{},"Pattern Scan ",el("span",{class:"sub"},"(sikhaye hue pattern aaj kya bana rahe hain)")),
   el("p",{class:"mut"},"Har sikhaya hua pattern roz subah data aate hi apne aap chalta hai. Har pattern ko apna naam diya hai (jaise Naksha-Hathi-44) taaki mix na ho. 'Kholo' dabao to saaf rang me chart dikhega, 'Excel download' se Excel aayega. 'Mazboot' tabhi likha jata hai jab milan random se bhi zyada ho; zyadatar abhi 'kamzor' hi nikalte hain."),
-  el("div",{class:"row"},runBtn,el("span",{},"Dikhao:"),fsel),info,errBox),list);
+  el("div",{class:"row"},runBtn,el("span",{},"Dikhao:"),fsel),info,errBox),idxBox,detail,list);
  try{plays=await api("GET","/scanner/plays")}catch(e){plays={}}
+ try{idx=await api("GET","/patterns/index")}catch(e){idx=[]}
  try{rep=await api("GET","/scanner");draw()}catch(e){errBox.replaceChildren(el("div",{class:"warn"},"Load nahi hua: "+e.message))}
 };
 })();
