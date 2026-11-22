@@ -53,6 +53,11 @@ Design: koi rashi din d aur d+1 (ya d+2) par aaye, phir din d+3 par wahi rashi a
 - Agar ek din me family ke kai cell aa jayen ya ek se zyada jagah same design ban raha ho, to **software location tay nahi karega.** Wo sirf pattern bata kar **mark laga dega** ki "ek se zyada jagah ban raha hai".
 - Phir aap **khud aankh se manual dekh kar** tay karoge ki kahan khelna hai. Aap README me baad me notes jod/badal sakte ho; jaise-jaise baat dimaag me aaye, time aur halat ke saath saaf karte rahenge.
 
+## Paper trading me paise (Sawal 9, aap ka jawab)
+- **Location saaf nahi / bina location:** family ke har number par **10 Rs**, chaaron game me.
+- **Location saaf ho:** location wale game me har number par **20 Rs (2 guna)**, baaki game me 10 Rs.
+- Ye sirf **paper trading** hai taaki software majboot bane. Asli paise se khelna nahi.
+
 ## Facts (HANDOFF.md me bhi)
 - Ye design tabhi kaam kare jab DS ko pichle din ki line me likha ho (DS agli subah ka). Time: FB 6:15-6:30 pm, GB 10-10:15 pm, GL 12-12:15 am, DS 5:20-5:40 am.
 - Mahine ke aakhri din chhuti se ek din aage-peeche (vibration). Mahine ke aas-paas +-1 din pass maana jata hai.
