@@ -4,8 +4,8 @@ Niyam: pattern sirf 3-6 mahine me parkho. Aap ki pushti ke baad hi pakka maano. 
 | id | naam | haal |
 |---|---|---|
 | 001 | copy pattern | likha, aap ki pushti baaki |
-| 002 | mapping pattern (naksha) | sikhana jari: 3rd step ka niyam baaki |
-| 002b | naksha part 2 (rashi movement) | likha, software me, aap ki pushti baaki |
+| 002 | mapping pattern (naksha) | dikhane ka version APPROVED (23 Nov 2026, tag naksha-approved-2026-11-23); kamai ki pushti baaki |
+| 002b | naksha part 2 (rashi movement) | dikhane ka version APPROVED (23 Nov 2026); kamai ki pushti baaki |
 | 003 | family pattern (rashi chain) | sikhana jari, pichle 1 saal ki jaanch likhi, aap ki pushti baaki |
 | 004 | baar tokri (weekday ke zyada aaye 6 number) | likha, hint (highlight) ki tarah software me, aap ki pushti baaki |
 | 005 | dana-farak (4 din box) | likha, aap ki pushti baaki, 6 mahine ki jaanch likhi, software (Pattern Scan) me hai |

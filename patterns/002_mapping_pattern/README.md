@@ -57,3 +57,6 @@ Aap ne kaha: naksha ka poora formula wahi rahe, par link **sirf same number nahi
 - Random jaanch: rashi me sirf 15 group hain, to random jagah par bhi zyada milan aate hain. Isliye random ka best z alag naapa (60 random jagah): 10 line (median 5.0, max 8.9), 12 line (5.0, 7.3), 15 line (4.9, 6.2), 18 line (4.5, 6.5). 'mazboot' tabhi jab isse upar ho.
 - Aaj ka nateeja: rashi me bhi sab "kamzor" (z 3.8 se 5.8, 10 line me best Aug 2025 aur Jan 2016, z 5.8). Yani sirf rashi jodne se bhi koi milan random ke best se upar nahi gaya. Paper trading me naapenge.
 - Dhyan: rashi ka andaza bada hota hai (8 number ek jagah), isliye random pass chance bhi zyada hoga. Pass rate ko is hisab se tolna padega.
+
+## APPROVED version (23 Nov 2026)
+User ne Naksha (part 1) aur Naksha-Rashi (part 2) ka ye roop approve kiya: har lambai ke top 12 milan, rang wala purana/naya naksha, aaj ka andaza. Is version ko khona nahi hai: git tag `naksha-approved-2026-11-23` (commit 50452a6). Bina user ke kehne na badlo.
