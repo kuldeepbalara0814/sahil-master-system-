@@ -1,1 +1,37 @@
-[]
+[
+ {
+  "asof": "2026-11-21",
+  "changes": [
+   {
+    "number": 12,
+    "period": "month",
+    "old": 76,
+    "new": 70
+   },
+   {
+    "number": 41,
+    "period": "last3m",
+    "old": 7,
+    "new": 15
+   },
+   {
+    "number": 41,
+    "period": "month",
+    "old": 38,
+    "new": 15
+   },
+   {
+    "number": 67,
+    "period": "last3m",
+    "old": 88,
+    "new": 76
+   },
+   {
+    "number": 95,
+    "period": "last3m",
+    "old": 59,
+    "new": 47
+   }
+  ]
+ }
+]
