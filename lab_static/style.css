@@ -120,3 +120,10 @@ table.pt.side th{top:0}
 table.pt.side thead tr:nth-child(2) th{top:30px}
 table.pt th.mb,table.pt td.mb{border-left:3px solid #e0e0e0}
 table.pt th.mr,table.pt td.mr{border-right:3px solid #e0e0e0}
+
+/* pattern scan */
+table.scn th.ttl2{background:#1f2a44;color:#ffc000;font-weight:800;padding:6px;border-left:3px solid #e0e0e0}
+table.scn td.c{min-width:34px}
+.scard{border-left:4px solid var(--line);margin-bottom:10px}
+.tgt{background:#ff980033;border:1px solid #ff9800;border-radius:8px;padding:6px 10px;margin:6px 0}
+.pill.y{background:#ffd740;color:#000}

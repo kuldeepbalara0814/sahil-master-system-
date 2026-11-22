@@ -19,3 +19,9 @@ Ye file naye session/engineer ke liye hai taaki aap ko baar-baar samjhana na pad
 
 ## Shabd
 Rashi, cross, jodi, half jodi, gap: `GLOSSARY.md`. Mapping/naksha pattern: `002_mapping_pattern/README.md`.
+
+## Software me pattern (Pattern Scan tab)
+- `lab/scanner.py`: har sikhaya hua pattern ek `scan_xxx(rows, asof)` hai aur `PATTERNS` list me ek entry. **Naya pattern sikhaya to yahin jodo** (scan function + PATTERNS + SCANNERS), phir wo apne aap roz chalega.
+- Roz subah data aate hi `lab/update.py` (GitHub Action) scan chalata hai aur `data/patterns_today.json` banata hai. App me tab **Pattern Scan** hai: aaj kya ban raha hai, saaf rang wala chart, Excel download, aur **manual "Script abhi chalao"** button (galti aaye to wahi dikhti hai).
+- Har pattern ko apna naam milta hai (Naksha-Hathi-44, Copy-Sher-50) taaki mix na ho. `lab/scan_view.py` chart aur Excel banata hai.
+- 001 Jodi-Copy aur 002 Naksha scan chalte hain. 002 abhi 'Naksha' ke naam se same/palat links ka milan dekhta hai (aap ke pic ke design ko poora nahi pakadta, sudhar baaki).

@@ -20,7 +20,7 @@ import numpy as np  # noqa: E402
 from openpyxl import load_workbook  # noqa: E402
 
 import lab_server  # noqa: E402
-from lab import backtest as bt, band, data, export_xlsx, gapchain, idea  # noqa: E402
+from lab import backtest as bt, band, data, export_xlsx, gapchain, idea, scan_view, scanner  # noqa: E402
 import datetime as dt  # noqa: E402
 
 H = {"X-Admin-Pin": "1234"}
@@ -279,6 +279,77 @@ class AutoFetchTests(unittest.TestCase):
 
     def test_no_auto_fetch_without_token(self):
         self.assertFalse(lab_server.maybe_auto_fetch(ROWS))
+
+
+class ScannerTests(unittest.TestCase):
+    def test_names_stable_and_distinct(self):
+        self.assertEqual(scanner.name_for("Naksha", "12:2025-09-19"), scanner.name_for("Naksha", "12:2025-09-19"))
+        names = {scanner.name_for("Naksha", f"{L}:{d}") for L in (10, 12, 15, 18) for d in ("2021-05-06", "2022-05-13", "2013-04-15")}
+        self.assertEqual(len(names), 12)
+
+    def test_copy_detection_rule(self):
+        self.assertTrue(scanner.is_copy(38, 84))                  # 84 = 83 + 1 (palat 83)
+        self.assertTrue(scanner.is_copy(80, 70))
+        self.assertFalse(scanner.is_copy(38, 38))
+        self.assertFalse(scanner.is_copy(38, 83))                 # palat khud copy nahi
+        d0 = dt.date(2026, 3, 2)
+        L = [[1, 2, 3, 4]] * 6
+        L = [list(x) for x in L]
+        L[0][1], L[1][1], L[3][2] = 38, 84, 83                    # GB 38, 84, din 4 GL 83 = PASS
+        rows = [(d0 + dt.timedelta(days=i), v, "t") for i, v in enumerate(L)]
+        ev = [e for e in scanner.copy_events(rows, d0, d0 + dt.timedelta(days=5)) if e["shape"] == "seedha" and e["x"] == 38]
+        self.assertEqual((len(ev), ev[0]["status"]), (1, "pass"))
+        pending = scanner.copy_events(rows[:3], d0, d0, today=d0 + dt.timedelta(days=3))      # din 4 abhi baaki
+        self.assertTrue(any(e["status"] == "aaj" and e["x"] == 38 for e in pending))
+
+    def test_run_report_shape_and_error_isolation(self):
+        rep = scanner.run(ROWS)
+        self.assertEqual((rep["asof"], len(rep["patterns"]), rep["errors"]), (ROWS[-1][0].isoformat(), 2, []))
+        self.assertTrue(rep["patterns"][1]["items"])
+        for it in rep["patterns"][1]["items"]:
+            self.assertIn(it["strength"], ("mazboot", "theek", "kamzor"))
+        orig = scanner.SCANNERS["copy"]
+        scanner.SCANNERS["copy"] = lambda rows, asof: 1 / 0
+        try:
+            bad = scanner.run(ROWS)
+        finally:
+            scanner.SCANNERS["copy"] = orig
+        self.assertEqual(bad["errors"][0]["pattern"], "Jodi-Copy")
+        self.assertIn("ZeroDivisionError", bad["errors"][0]["error"])
+        self.assertTrue(bad["patterns"][1]["items"])               # dusra pattern phir bhi chala
+
+    def test_no_lookahead(self):
+        cut = [r for r in ROWS if r[0] <= dt.date(2026, 10, 15)]
+        a, b = scanner.run(cut), scanner.run(ROWS)
+        self.assertEqual(a["asof"], "2026-10-15")
+        ids = lambda rep: [i["id"] for i in rep["patterns"][1]["items"]]
+        self.assertTrue(ids(a))
+        self.assertNotEqual(ids(a), ids(b))                       # alag din par alag nateeja, par a me aage ka data nahi
+
+    def test_api_view_xlsx(self):
+        c = lab_server.app.test_client()
+        r = c.post("/api/scanner/run").get_json()
+        self.assertEqual(r["errors"], [])
+        g = c.get("/api/scanner").get_json()
+        self.assertEqual(g["asof"], ROWS[-1][0].isoformat())
+        for p in g["patterns"]:
+            for it in p["items"][:2]:
+                v = c.get("/api/scanner/view?id=" + it["id"]).get_json()
+                self.assertTrue(v["blocks"])
+                x = c.get("/api/scanner/xlsx?id=" + it["id"])
+                self.assertEqual(x.status_code, 200)
+                wb = load_workbook(io.BytesIO(x.data))
+                self.assertEqual(wb.active.title, "Pattern")
+        self.assertEqual(c.get("/api/scanner/view?id=bakwas").status_code, 400)
+
+    def test_naksha_view_colours_match_both_sides(self):
+        it = scanner.run(ROWS)["patterns"][1]["items"][0]
+        v = scan_view.view(ROWS, it["id"])
+        old, new = v["blocks"]
+        n_old = sum(1 for r in old["rows"] for k in r["kind"] if k == "step")
+        n_new = sum(1 for r in new["rows"] for k in r["kind"] if k == "step")
+        self.assertEqual(n_old, n_new)                            # jitne rang purane me utne naye me
+        self.assertGreater(n_old, 3)
 
 
 if __name__ == "__main__":

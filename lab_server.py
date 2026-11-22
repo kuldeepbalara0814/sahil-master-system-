@@ -26,7 +26,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import backtest, band, data, export_xlsx, friends, gapchain, gh, idea, monitor, paper, picks, update            # noqa: E402
+from lab import backtest, band, data, export_xlsx, friends, gapchain, gh, idea, monitor, paper, picks, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -345,6 +345,51 @@ def api_board_delete():
     except gh.SyncError as e:
         return err(str(e), 502)
     return jsonify({"ok": True, "count": len(boards)})
+
+
+# ---------------- pattern scan (sikhaye hue pattern roz apne aap) ----------------
+@app.get("/api/scanner")
+def api_scanner():
+    rows, _ = state()
+    saved = jload("patterns_today.json", None)
+    if not saved or saved.get("asof") != rows[-1][0].isoformat():
+        saved = scanner.run(rows)                      # saved purani ho to abhi chala lo
+        jsave("patterns_today.json", saved)
+    return jsonify(saved)
+
+
+@app.post("/api/scanner/run")
+def api_scanner_run():
+    """Manual: script abhi chalao. Galti aaye to 'errors' me dikhegi."""
+    rows, _ = state()
+    try:
+        rep = scanner.run(rows)
+    except Exception as e:
+        app.logger.exception("scanner run fail")
+        return err(f"Script chali hi nahi: {type(e).__name__}: {str(e)[:200]}", 500)
+    jsave("patterns_today.json", rep)
+    return jsonify(rep)
+
+
+@app.get("/api/scanner/view")
+def api_scanner_view():
+    rows, _ = state()
+    try:
+        return jsonify(scan_view.view(rows, request.args.get("id", "")))
+    except (ValueError, IndexError) as e:
+        return err(str(e) or "Pattern nahi mila")
+
+
+@app.get("/api/scanner/xlsx")
+def api_scanner_xlsx():
+    rows, _ = state()
+    try:
+        blob, title = scan_view.xlsx(rows, request.args.get("id", ""))
+    except (ValueError, IndexError) as e:
+        return err(str(e) or "Pattern nahi mila")
+    name = "".join(ch if ch.isalnum() or ch in "-_" else "_" for ch in title)[:60] + ".xlsx"
+    return Response(blob, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    headers={"Content-Disposition": f'attachment; filename="{name}"'})
 
 
 @app.get("/api/gaps")

@@ -28,10 +28,11 @@ const ICONS={dost:"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8
  lab:"M10 2v7.5L4.5 19a2 2 0 0 0 1.7 3h11.6a2 2 0 0 0 1.7-3L14 9.5V2 M8.5 2h7 M7 16h10",
  paper:"M3 17l6-6 4 4 8-8 M15 7h6v6",monitor:"M22 12h-4l-3 9L9 3l-3 9H2",
  record:"M3 3h18v18H3z M3 9h18 M3 15h18 M9 3v18",
+ scan:"M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16z M21 21l-4.3-4.3 M8 11h6 M11 8v6",
  pattern:"M12 20h9 M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z",
  data:"M12 8c4.4 0 8-1.3 8-3s-3.6-3-8-3-8 1.3-8 3 3.6 3 8 3z M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5 M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3",
  guide:"M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"};
-const NAMES={dost:"Dost Khojo",aaj:"Aaj ki List",lab:"Lab",paper:"Paper Trading",monitor:"Monitor",record:"Record",pattern:"Pattern",data:"Data",guide:"Guide"};
+const NAMES={dost:"Dost Khojo",aaj:"Aaj ki List",lab:"Lab",paper:"Paper Trading",monitor:"Monitor",record:"Record",pattern:"Pattern",scan:"Pattern Scan",data:"Data",guide:"Guide"};
 function icon(k){const s=document.createElementNS("http://www.w3.org/2000/svg","svg");s.setAttribute("viewBox","0 0 24 24");const p=document.createElementNS("http://www.w3.org/2000/svg","path");p.setAttribute("d",ICONS[k]);s.append(p);return s}
 async function go(t){
  try{localStorage.setItem("tab",t)}catch(e){}

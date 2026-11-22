@@ -72,6 +72,14 @@ def run(fetch=True, today=None, stake=5, auto_bets=True, data_dir=None, fetch_fn
     rep["drift_changes"] = len(changes)
     # 4) monitor
     _save_json(_path(data_dir, "monitor.json"), monitor.health(rows))
+    # 5) pattern scan (sikhaye hue pattern: aaj kya ban raha hai). Galti ho to baaki kaam na ruke.
+    try:
+        from . import scanner
+        srep = scanner.run(rows)
+        _save_json(_path(data_dir, "patterns_today.json"), srep)
+        rep["scan_errors"] = [f"{e['pattern']}: {e['error']}" for e in srep["errors"]]
+    except Exception as e:
+        rep["scan_errors"] = [f"scan chala hi nahi: {type(e).__name__}: {e}"]
     # log
     flog = _load_json(_path(data_dir, "fetch_log.json"), [])
     flog.append({k: rep[k] for k in ("time", "added", "errors", "settled", "new_bets", "last_date")})
