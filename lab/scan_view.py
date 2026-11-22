@@ -117,6 +117,38 @@ def view(rows, pid):
         return {"id": pid, "title": f"{scanner.name_for('Family', key)}: {rashi:02d} rashi {shape}",
                 "note": f"Narangi = step 1 aur 2 (family ke cell). Gulabi = 3rd step par family ka number aaya (PASS). '?' = 3rd step ka din abhi baaki. Family: {fam}.",
                 "blocks": [{"label": "Step 1 se 3rd step", "rows": out}]}
+    if parts[0] == "dana":
+        from . import dana_farak as dfk
+        kind = parts[1]
+        (d1, g1), (d2, g2) = [(dt.date.fromisoformat(x[:10]), int(x[11:])) for x in parts[2:4]]
+        ev = [e for e in dfk.events(rows, d1, d1) if e["kind"] == kind and e["c1"][:2] == (d1, g1) and e["c2"][:2] == (d2, g2)]
+        if not ev:
+            raise ValueError("Ye dana-farak pair nahi mila")
+        e = ev[0]
+        byd = {r[0]: r[1] for r in rows}
+        out = []
+        for k in range(4):
+            d = d1 + dt.timedelta(days=k)
+            if d in byd:
+                c, kd = [None] * 4, [None] * 4
+                for g in range(4):
+                    cell = (d, g)
+                    if cell in ((d1, g1), (d2, g2)):
+                        c[g], kd[g] = "00E676", "step"
+                    elif (d, g) > (d2, g2) and byd[d][g] in e["core"]:
+                        c[g], kd[g] = "FF4FA3", "pass"
+                    elif (d, g) > (d2, g2) and byd[d][g] in e["series"]:
+                        c[g], kd[g] = "40C4FF", "pass"
+                out.append(_row(d.isoformat(), [int(x) for x in byd[d]], c, kd))
+            elif not data.is_last_day(d):
+                out.append(_row(d.isoformat(), None, [LIGHT["FF4FA3"]] * 4, ["light"] * 4, ["?"] * 4))
+            else:
+                out.append(_row(d.isoformat() + " chhuti"))
+        core = " ".join(f"{x:02d}" for x in e["core"])
+        sr = " ".join(f"{x:02d}" for x in e["series"])
+        return {"id": pid, "title": f"Dana-Farak {e['c1'][2]:02d} + {e['c2'][2]:02d} ({e['kind']}): 4 din box",
+                "note": f"Hara = pair ke do number. Gulabi = khelne ka number aaya (PASS). Neela = series ka number (part 2). Khelo: {core}. Series spot: {sr or '-'}." + (" " + dfk.NOTE if e["amb"] else ""),
+                "blocks": [{"label": f"Din 1 ({d1:%d %b}) se din 4", "rows": out}]}
     raise ValueError("Pattern id samajh nahi aayi")
 
 

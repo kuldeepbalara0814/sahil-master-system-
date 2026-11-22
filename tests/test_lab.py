@@ -347,7 +347,7 @@ class ScannerTests(unittest.TestCase):
 
     def test_run_report_shape_and_error_isolation(self):
         rep = scanner.run(ROWS)
-        self.assertEqual((rep["asof"], len(rep["patterns"]), rep["errors"]), (ROWS[-1][0].isoformat(), 3, []))
+        self.assertEqual((rep["asof"], len(rep["patterns"]), rep["errors"]), (ROWS[-1][0].isoformat(), 4, []))
         nak = [p for p in rep["patterns"] if p["key"] == "naksha"][0]
         self.assertTrue(nak["items"])
         for it in nak["items"]:
@@ -452,3 +452,40 @@ class ScannerTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DanaFarakTests(unittest.TestCase):
+    def test_numbers(self):
+        from lab import dana_farak as df
+        self.assertEqual(df.play_numbers(df.relation(10, 20), 10)[0], [1, 2, 10, 20])
+        self.assertEqual(df.play_numbers(df.relation(54, 35), 54)[0], [35, 45, 53, 54])
+        self.assertEqual(df.play_numbers(df.relation(78, 78), 78)[0], [68, 78, 79, 86, 87, 88, 97])
+        self.assertEqual(df.play_numbers(df.relation(45, 45), 45)[0], [35, 45, 46, 53, 54, 55, 64])
+        self.assertEqual(df.play_numbers(df.relation(40, 41), 40)[1], [24, 39, 42, 93])
+        self.assertEqual(df.play_numbers(df.relation(14, 43), 14)[0], [24, 42])      # beech ka number
+        self.assertIsNone(df.relation(10, 30) and None)                              # farak 20 gap hai, pair nahi
+        self.assertEqual(df.relation(10, 30)[0], "gap")
+        self.assertIsNone(df.relation(10, 45))
+
+    def test_box_pass_fail_and_confusion(self):
+        from lab import dana_farak as df
+        base = dt.date(2026, 3, 2)
+        used, pool = [10, 20, 2, 54, 45], []
+        for n in range(3, 100):                                  # aise number jo kisi se pair na banayein
+            if all((df.relation(n, u) or ('gap',))[0] == 'gap' for u in used + pool):
+                pool.append(n)
+        pool = pool[:32]
+        rows = [(base + dt.timedelta(days=i), pool[4 * i:4 * i + 4], "t") for i in range(8)]
+        rows[0][1][0], rows[1][1][1] = 10, 20                    # pair din1 FB 10, din2 GB 20
+        rows[3][1][2] = 2                                        # din 4 GL: 02 = pass
+        ev = [e for e in df.events(rows, base, base) if e["kind"] == "farak" and e["c1"][2] == 10 and e["c2"][2] == 20]
+        self.assertEqual(len(ev), 1)
+        self.assertEqual((ev[0]["status"], ev[0]["end"]), ("pass", base + dt.timedelta(days=3)))
+        rows[3][1][2] = pool[-1]                                 # koi number nahi aaya
+        ev = [e for e in df.events(rows, base, base) if e["c1"][2] == 10 and e["c2"][2] == 20]
+        self.assertEqual(ev[0]["status"], "fail")
+        ev = [e for e in df.events(rows, base, base) if e["c1"][2] == 10 and e["c2"][2] == 20]
+        self.assertFalse(ev[0]["amb"])                           # saaf box
+        rows[0][1][1], rows[0][1][2] = 54, 45                    # usi box me doosra pair (din 1 GB/GL)
+        ev = [e for e in df.events(rows, base, base) if e["c1"][2] == 10 and e["c2"][2] == 20]
+        self.assertTrue(ev[0]["amb"])

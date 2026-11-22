@@ -13,13 +13,14 @@ from typing import Any
 import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
 
-from . import band, data
+from . import band, dana_farak, data
 
 GAMES = ("FB", "GB", "GL", "DS")
 PATTERNS = [
     {"id": "001", "key": "copy", "naam": "Jodi-Copy", "pushti": False, "about": "Ek game me do number jinme 1 ya 10 ka farak (palat samet). Din 1, din 2 (ya 3), din 4 par set ka number aaye to PASS."},
     {"id": "002", "key": "naksha", "naam": "Naksha", "pushti": False, "about": "Naye mahine ke jodon (same/palat) ka naksha purane 13 saal me kahin ban chuka hai? Jahan mila wahan aage kya hua wo aaj ka andaza hai."},
     {"id": "003", "key": "family", "naam": "Family", "pushti": False, "about": "Ek rashi (family) 3 baar: din d, d+1 (ya d+2), phir d+3. Do step ban gaye to 3rd step ke din poori family (8 jodi) khelte hain. Jitne bane ya shuru huye sab yahan dikhte hain."},
+    {"id": "005", "key": "dana", "naam": "Dana-Farak", "pushti": False, "about": "4 din ke box me do number jinme dana 10/01 ka farak (palat samet). Pair banne ke baad box ke aakhri DS tak pair ke number khelte hain; series ke agle/pichle number spot. Ek se zyada pair ho to confusion note."},
 ]
 WORDS = ["Mor", "Sher", "Chita", "Hans", "Baaz", "Hathi", "Ghoda", "Tota", "Machhli", "Cheel", "Bagula", "Kachua", "Hiran", "Bhalu", "Lomdi", "Nilgai",
          "Titli", "Koyal", "Bulbul", "Garud", "Sarus", "Gainda", "Panda", "Sambhar", "Chakor", "Morni", "Bakri", "Uloo", "Kabutar", "Ghariyal",
@@ -264,7 +265,22 @@ def scan_family(rows, asof):
     return {"summary": summary, "items": items}
 
 
-SCANNERS = {"copy": scan_copy, "naksha": scan_naksha, "family": scan_family}
+def scan_dana(rows, asof):
+    today = data.play_date(rows)
+    last = rows[-1][0]
+    ev = dana_farak.events(rows, last - dt.timedelta(days=180), last)
+    st = dana_farak.stats(ev, ("same", "farak"))
+    s, c = st["saaf"], st["confusion"]
+    live = [e for e in ev if e["status"] == "chalu"]
+    live.sort(key=lambda e: (e["amb"], e["c2"][0], e["c2"][1]), reverse=False)
+    recent = [e for e in ev if e["status"] != "chalu" and (last - e["end"]).days <= 2]
+    items = [dana_farak.item(e, today) for e in (live + recent)[:40]]
+    summary = (f"Pichle 6 mahine (same + farak pair): saaf box {s['pass']}/{s['n']} pass (random ~{s['random']:.0f}), "
+               f"confusion box {c['pass']}/{c['n']} (random ~{c['random']:.0f}). Abhi {len(live)} box chalu.")
+    return {"summary": summary, "items": items}
+
+
+SCANNERS = {"copy": scan_copy, "naksha": scan_naksha, "family": scan_family, "dana": scan_dana}
 COPY_COLORS = ["FFB74D", "CE93D8", "80DEEA", "A5D6A7", "EF9A9A", "FFF176", "90CAF9", "BCAAA4", "F48FB1", "C5E1A5", "FFCC80", "B39DDB"]   # kaale ank saaf dikhen
 
 

@@ -30,3 +30,16 @@ Paper trading: saaf box aur confusion box ka pass rate alag alag dikhana (aap ne
 ## Baaki
 - Overlap (pair B ka box A ke beech me shuru) ki exact skip ginti aap ne "ankho se dekho + note" kah ke tay ki.
 - Pichle 6 mahine me bana ke dekhna (aap ne kaha) -- aap ke "end" ke baad.
+
+## Pichle 6 mahine ki jaanch (22 Nov 2026, lab/dana_farak.py, bina aage dekhe)
+Har pair (pehla number + doosra number) ek alag event gina. Random = us event me jitne game baaki the unme 4 (ya 7) number ka sirf sanyog.
+| | saaf box | confusion box |
+|---|---|---|
+| farak pair (10/01) | 67 / 179 pass (37%), random ~61 | 76 / 423 (18%), random ~76 |
+| same number do baar | 21 / 54, random ~27 | 29 / 116, random ~30 |
+| beech ka khali (gap) | 22 / 151, random ~28 | 35 / 415, random ~38 |
+| farak + series spot (part 2) | 108 / 179, random ~101 | 132 / 423, random ~134 |
+
+Padh ke: farak pair saaf box me random se thoda upar (67 vs 61), baaki sab random ke barabar. Ek hi din ke kai events aapas me jude hai (ek box ke kai pair), isliye ginti pakki nahi, sirf sanket. Mahine-wise saaf farak pair: May 1/7, Jun 9/28, Jul 10/34, Aug 15/31, Sep 10/27, Oct 14/31, Nov 8/21.
+Excel: Dana_Farak_6_mahine.xlsx (Saaf box / Confusion box sheet, rang se pass/fail).
+Software: Pattern Scan tab me 005 (chalu box + pichle 2 din), har item ka rang wala 4-din box view aur Excel.
