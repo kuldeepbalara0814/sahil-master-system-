@@ -47,3 +47,13 @@ Dhyan: ek location par 16 number ka random chance lagbhag 16% hai. 180 Rs lagaka
 Pehle software har lambai (10/12/15/18 line) ka sirf **sabse achha 1** dikhata tha. Ab har lambai ke sabse achhe **6** (ek dusre se 20 din door), kul 24 dikhta hai.
 Sach: jaise software milata hai (same/palat number, same jagah) 13 saal me bahut kam milte hain: 10 line me 3-4 jode hi milte hain, 12 me 4-5, 15 me 5-6, 18 me 5-6. Sab random ke best z (6 se 10) ke andar, yaani "kamzor". Sabse zyada milta: May 2022 (15 aur 18 line, 6 jode), Sep 2025 (12 line z 6.4), May 2021.
 Aap ki aankh zyada milan dekhti hai (rashi aur sirf rang/design ke link bhi). Wo link software abhi nahi ginta, isliye kam milte hain. Aage: rashi-link bhi ginna.
+
+## 23 Nov 2026: Part 2 = Naksha-Rashi (002b) - aap ka kehna
+Aap ne kaha: naksha ka poora formula wahi rahe, par link **sirf same number nahi, rashi ki movement** bhi ho. Maine aisa banaya:
+- **Part 1 (Naksha, 002):** link = same number ya uska palat, same jagah, same duri (gap).
+- **Part 2 (Naksha-Rashi, 002b):** link = **same rashi** (15 rashi: 10 badi 8 number ki + 5 jodi rashi 4 number ki), same jagah, same duri. Matlab 26 aur 71 ek rashi me hai to wo link hai.
+- Baaki sab same: naye mahine ke 10/12/15/18 line ka naksha purane 13 saal me dhoondhna, milte jode ek rang me, aaj ka andaza (jis game me purane me agla cell tha, wahan naye ki rashi ke saare number).
+- **Zyada milan:** ab har lambai ke sabse achhe **12** milan (ek dusre se 20 din door), part 1 aur part 2 dono me. Pehle 1 hi aata tha.
+- Random jaanch: rashi me sirf 15 group hain, to random jagah par bhi zyada milan aate hain. Isliye random ka best z alag naapa (60 random jagah): 10 line (median 5.0, max 8.9), 12 line (5.0, 7.3), 15 line (4.9, 6.2), 18 line (4.5, 6.5). 'mazboot' tabhi jab isse upar ho.
+- Aaj ka nateeja: rashi me bhi sab "kamzor" (z 3.8 se 5.8, 10 line me best Aug 2025 aur Jan 2016, z 5.8). Yani sirf rashi jodne se bhi koi milan random ke best se upar nahi gaya. Paper trading me naapenge.
+- Dhyan: rashi ka andaza bada hota hai (8 number ek jagah), isliye random pass chance bhi zyada hoga. Pass rate ko is hisab se tolna padega.

@@ -347,7 +347,7 @@ class ScannerTests(unittest.TestCase):
 
     def test_run_report_shape_and_error_isolation(self):
         rep = scanner.run(ROWS)
-        self.assertEqual((rep["asof"], len(rep["patterns"]), rep["errors"]), (ROWS[-1][0].isoformat(), 4, []))
+        self.assertEqual((rep["asof"], len(rep["patterns"]), rep["errors"]), (ROWS[-1][0].isoformat(), 5, []))
         nak = [p for p in rep["patterns"] if p["key"] == "naksha"][0]
         self.assertTrue(nak["items"])
         for it in nak["items"]:
@@ -489,3 +489,16 @@ class DanaFarakTests(unittest.TestCase):
         rows[0][1][1], rows[0][1][2] = 54, 45                    # usi box me doosra pair (din 1 GB/GL)
         ev = [e for e in df.events(rows, base, base) if e["c1"][2] == 10 and e["c2"][2] == 20]
         self.assertTrue(ev[0]["amb"])
+
+
+class NakshaRashiTests(unittest.TestCase):
+    def test_rashi_part2_view_and_counts(self):
+        a = scanner.scan_naksha(ROWS, "x")
+        b = scanner.scan_naksha2(ROWS, "x")
+        self.assertTrue(len(a["items"]) > 4 and len(b["items"]) > 4)           # ab ek-do nahi, zyada milan
+        it = b["items"][0]
+        self.assertTrue(it["id"].startswith("naksha2:"))
+        v = scan_view.view(ROWS, it["id"])
+        self.assertTrue(v["blocks"] and "rashi" in v["title"])
+        self.assertEqual(scanner.RID[1], scanner.RID[6])                       # 01 aur 06 ek rashi
+        self.assertNotEqual(scanner.RID[1], scanner.RID[2])

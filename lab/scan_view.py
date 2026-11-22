@@ -13,6 +13,14 @@ LIGHT = {"FF9800": "FFE0B2", "AB47BC": "E1BEE7", "66BB6A": "C8E6C9", "EF5350": "
          "00E676": "C8F7DC", "FF4FA3": "FFD0E6"}
 
 
+def _lt(c):
+    """Rang ka halka roop (safed me milakar)."""
+    if c in LIGHT:
+        return LIGHT[c]
+    r, g, b = (int(c[i:i + 2], 16) for i in (0, 2, 4))
+    return "%02X%02X%02X" % tuple(int(x + (255 - x) * 0.6) for x in (r, g, b))
+
+
 def _row(date, v=None, c=None, kind=None, txt=None):
     return {"date": date, "v": v, "c": c or [None] * 4, "kind": kind or [None] * 4, "txt": txt or [None] * 4}
 
@@ -22,10 +30,11 @@ def view(rows, pid):
     parts = pid.split(":")
     D = [r[0] for r in rows]
     N = len(rows)
-    if parts[0] == "naksha":
+    if parts[0] in ("naksha", "naksha2"):
+        mode = "r" if parts[0] == "naksha2" else "n"
         L, so = int(parts[1]), D.index(dt.date.fromisoformat(parts[2]))
         sc, F = N - L, 8
-        info = scanner.match_info(rows, so, sc, L)
+        info = scanner.match_info(rows, so, sc, L, mode)
         colour = {}
         for k in info["comps"]:
             for x in k["cells"]:
@@ -42,7 +51,7 @@ def view(rows, pid):
                     elif i >= L:
                         for k in info["comps"]:
                             if info["C"][po, g] == k["old_class"]:
-                                c[g], kind[g] = LIGHT[k["color"]], "light"
+                                c[g], kind[g] = _lt(k["color"]), "light"
                 olds.append(_row(D[po].isoformat(), [int(x) for x in rows[po][1]], c, kind))
             else:
                 olds.append(_row(""))
@@ -58,10 +67,10 @@ def view(rows, pid):
                     for g in range(4):
                         for k in info["comps"]:
                             if info["C"][po, g] == k["old_class"]:
-                                c[g], kind[g], txt[g] = LIGHT[k["color"]], "light", "?"
+                                c[g], kind[g], txt[g] = _lt(k["color"]), "light", "?"
                 news.append(_row("aage", None, c, kind, txt))
         tg = "; ".join(f"{t['game']} me {' / '.join(f'{x:02d}' for x in t['numbers'])}" for t in info["targets"]) or "koi andaza nahi"
-        return {"id": pid, "title": f"{scanner.name_for('Naksha', f'{L}:{D[so].isoformat()}')}: {D[so]:%b %Y} jaisa naksha",
+        return {"id": pid, "title": f"{scanner.name_for('Naksha-Rashi' if mode == 'r' else 'Naksha', f'{L}:{D[so].isoformat()}')}: {D[so]:%b %Y} jaisa naksha" + (" (rashi)" if mode == "r" else ""),
                 "note": f"Same rang = mile hue jode (same/palat, same jagah). Halka rang = purane me wahi class wapas aayi, naye me wahi jagah '?'. Aaj ka andaza: {tg}.",
                 "blocks": [{"label": f"PURANA {D[so]:%d %b %Y} se", "rows": olds}, {"label": f"NAYA {D[sc]:%d %b %Y} se (ab tak)", "rows": news}]}
     if parts[0] == "copy":

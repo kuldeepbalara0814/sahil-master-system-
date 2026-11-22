@@ -19,6 +19,7 @@ GAMES = ("FB", "GB", "GL", "DS")
 PATTERNS = [
     {"id": "001", "key": "copy", "naam": "Jodi-Copy", "pushti": False, "about": "Ek game me do number jinme 1 ya 10 ka farak (palat samet). Din 1, din 2 (ya 3), din 4 par set ka number aaye to PASS."},
     {"id": "002", "key": "naksha", "naam": "Naksha", "pushti": False, "about": "Naye mahine ke jodon (same/palat) ka naksha purane 13 saal me kahin ban chuka hai? Jahan mila wahan aage kya hua wo aaj ka andaza hai."},
+    {"id": "002b", "key": "naksha2", "naam": "Naksha-Rashi", "pushti": False, "about": "Naksha ka part 2: link same number nahi, same rashi (family). Naye mahine ki rashi ki movement purane 13 saal me kahin same duri/gap se bani? Jahan mili wahan aage kya hua wo aaj ka andaza."},
     {"id": "003", "key": "family", "naam": "Family", "pushti": False, "about": "Ek rashi (family) 3 baar: din d, d+1 (ya d+2), phir d+3. Do step ban gaye to 3rd step ke din poori family (8 jodi) khelte hain. Jitne bane ya shuru huye sab yahan dikhte hain."},
     {"id": "005", "key": "dana", "naam": "Dana-Farak", "pushti": False, "about": "4 din ke box me do number jinme dana 10/01 ka farak (palat samet). Pair banne ke baad box ke aakhri DS tak pair ke number khelte hain; series ke agle/pichle number spot. Ek se zyada pair ho to confusion note."},
 ]
@@ -27,8 +28,9 @@ WORDS = ["Mor", "Sher", "Chita", "Hans", "Baaz", "Hathi", "Ghoda", "Tota", "Mach
          "Suraj", "Chanda", "Tara", "Badal", "Bijli", "Nadi", "Pahad", "Jharna", "Sagar", "Hawa"]
 # random jagah par bhi best z kitna aata hai (120 random mahine, 13 saal): L -> (median, max). Isse 'mazboot/theek/kamzor' tay hota hai.
 BASE = {10: (6.5, 9.4), 12: (6.0, 9.7), 15: (5.8, 10.8), 18: (5.5, 7.8)}
+BASE_R = {10: (5.0, 8.9), 12: (5.0, 7.3), 15: (4.9, 6.2), 18: (4.5, 6.5)}   # rashi wala: 60 random jagah (13 saal)
 LENS = (10, 12, 15, 18)
-TOP = 6                                                  # har lambai ke itne milan dikhao
+TOP = 12                                                 # har lambai ke itne milan dikhao
 PAL = ["FF9800", "AB47BC", "66BB6A", "EF5350", "26C6DA", "F06292", "8D6E63", "9CCC65"]
 
 
@@ -42,10 +44,19 @@ def name_for(kind, key):
     return f"{kind}-{WORDS[h % len(WORDS)]}-{(h >> 8) % 90 + 10}"
 
 
-def _arrays(rows):
+RKEYS = sorted(band.RASHIS)
+RID = np.zeros(100, dtype=int)                               # number -> rashi (0..14)
+for _i, _k in enumerate(RKEYS):
+    for _n in band.RASHIS[_k]:
+        RID[_n] = _i
+RPAL = ["FF9800", "AB47BC", "66BB6A", "EF5350", "26C6DA", "F06292", "8D6E63", "9CCC65", "FFB74D", "CE93D8", "80DEEA", "A5D6A7", "EF9A9A", "FFF176", "90CAF9"]
+
+
+def _arrays(rows, mode="n"):
+    """mode n: number ya uska palat ek class. mode r: poori rashi (15 me se ek) ek class."""
     D = [r[0] for r in rows]
     V = np.array([r[1] for r in rows])
-    C = np.minimum(V, (V % 10) * 10 + V // 10)
+    C = RID[V] if mode == "r" else np.minimum(V, (V % 10) * 10 + V // 10)
     return D, V, C
 
 
@@ -141,26 +152,28 @@ def _comps(cur_links, old_links, n):
     return sorted((sorted(v) for v in g.values()), key=lambda v: v[0]), len(common)
 
 
-def match_info(rows, so, sc, L):
+def match_info(rows, so, sc, L, mode="n"):
     """Purana (so se) aur naya (sc se) L line ka naksha: milte jode, unke rang aur aaj ka andaza."""
-    D, V, C = _arrays(rows)
+    D, V, C = _arrays(rows, mode)
+    colors = RPAL if mode == "r" else PAL
     N = len(rows)
     comp, ncommon = _comps(_links(C[sc:sc + L]), _links(C[so:so + L]), 4 * L)
     flatc, flato = C[sc:sc + L].reshape(-1), C[so:so + L].reshape(-1)
     comps = []
     for k, g in enumerate(comp):
-        comps.append({"color": PAL[k % len(PAL)], "cells": g, "new_class": int(flatc[g[0]]), "old_class": int(flato[g[0]])})
+        comps.append({"color": colors[k % len(colors)], "cells": g, "new_class": int(flatc[g[0]]), "old_class": int(flato[g[0]])})
     targets = []
     if so + L < N and so + L < sc:
         for c in comps:
             for g in range(4):
                 if C[so + L, g] == c["old_class"]:
-                    targets.append({"game": GAMES[g], "g": g, "numbers": sorted({c["new_class"], pal(c["new_class"])}), "color": c["color"]})
+                    nums = sorted(band.RASHIS[RKEYS[c["new_class"]]]) if mode == "r" else sorted({c["new_class"], pal(c["new_class"])})
+                    targets.append({"game": GAMES[g], "g": g, "numbers": nums, "color": c["color"]})
     return {"D": D, "V": V, "C": C, "comps": comps, "targets": targets, "ncommon": ncommon, "N": N}
 
 
-def scan_naksha(rows, asof):
-    D, V, C = _arrays(rows)
+def scan_naksha(rows, asof, mode="n"):
+    D, V, C = _arrays(rows, mode)
     N = len(rows)
     items = []
     for L in LENS:
@@ -180,16 +193,17 @@ def scan_naksha(rows, asof):
             if all(abs(int(i) - j) >= 20 for j in picks):
                 picks.append(int(i))
         for rank, so in enumerate(picks, 1):
-            items.append(_naksha_item(rows, D, C, so, sc, L, float(z[so]), rank, int(m[so])))
+            items.append(_naksha_item(rows, D, C, so, sc, L, float(z[so]), rank, int(m[so]), mode))
     return {"summary": "Naye mahine ke naksha ko 13 saal me khoja; har lambai (10/12/15/18 line) ke sabse achhe %d milan dikhaye (ek dusre se 20 din door). Sirf wahi link ginta hoon jahan same ya palat number same jagah par ho; rashi ya sirf rang wale link abhi nahi ginta, isliye aap ki aankh se kam milte hain. 'mazboot' tabhi jab z random ke best se bhi upar ho, baaki random jaisa." % TOP, "items": items}
 
 
-def _naksha_item(rows, D, C, so, sc, L, zb, rank, nlinks):
+def _naksha_item(rows, D, C, so, sc, L, zb, rank, nlinks, mode="n"):
     if True:
-        med, mx = BASE[L]
+        med, mx = (BASE_R if mode == "r" else BASE)[L]
         strength = "mazboot" if zb >= mx else ("theek" if zb >= (med + mx) / 2 else "kamzor")
-        info = match_info(rows, so, sc, L)
+        info = match_info(rows, so, sc, L, mode)
         key = f"{L}:{D[so].isoformat()}"
+        pid, nm = ("naksha2", "Naksha-Rashi") if mode == "r" else ("naksha", "Naksha")
         today = data.play_date(rows)
         tg = info["targets"]
         lines = [f"Naya {D[sc]:%d %b} se {D[-1]:%d %b} ({L} line) ka naksha purane {D[so]:%d %b %Y} se {D[so + L - 1]:%d %b %Y} me mila. {len(info['comps'])} jode milte hain (step), z={zb:.1f}.",
@@ -198,7 +212,7 @@ def _naksha_item(rows, D, C, so, sc, L, zb, rank, nlinks):
             lines.append(f"Aaj {today:%d %b} ka andaza: " + "; ".join(f"{t['game']} me {' / '.join(f'{x:02d}' for x in t['numbers'])}" for t in tg))
         else:
             lines.append(f"Aaj {today:%d %b} ke liye purane me koi andaza wali jagah nahi.")
-        return ({"id": f"naksha:{L}:{D[so].isoformat()}", "kind": "naksha", "name": name_for("Naksha", key),
+        return ({"id": f"{pid}:{L}:{D[so].isoformat()}", "kind": pid, "name": name_for(nm, key),
                       "status": "aaj" if tg else "dekho", "strength": strength, "steps": len(info["comps"]), "z": round(zb, 1), "rank": rank,
                       "title": f"#{rank} {D[so]:%b %Y} jaisa ({L} line)", "lines": lines,
                       "target": {"date": today.isoformat(), "games": ", ".join(sorted({t['game'] for t in tg})), "numbers": sorted({x for t in tg for x in t["numbers"]})} if tg else None})
@@ -292,7 +306,14 @@ def scan_dana(rows, asof):
     return {"summary": summary, "items": items}
 
 
-SCANNERS = {"copy": scan_copy, "naksha": scan_naksha, "family": scan_family, "dana": scan_dana}
+def scan_naksha2(rows, asof):
+    out = scan_naksha(rows, asof, "r")
+    out["summary"] = ("Naksha ka part 2: link number ka nahi, **rashi** ka. Purane 13 saal me wahi design (same duri, same jagah) jahan naye mahine ki rashi ki movement milti hai; "
+                      "har lambai ke sabse achhe %d milan. Rashi ke 15 hi group hain, isliye random me bhi zyada milan aate hain; 'mazboot' tabhi jab z random ke best se upar ho." % TOP)
+    return out
+
+
+SCANNERS = {"copy": scan_copy, "naksha": scan_naksha, "naksha2": scan_naksha2, "family": scan_family, "dana": scan_dana}
 COPY_COLORS = ["FFB74D", "CE93D8", "80DEEA", "A5D6A7", "EF9A9A", "FFF176", "90CAF9", "BCAAA4", "F48FB1", "C5E1A5", "FFCC80", "B39DDB"]   # kaale ank saaf dikhen
 
 
