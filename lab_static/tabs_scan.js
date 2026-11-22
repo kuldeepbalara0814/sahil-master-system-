@@ -156,7 +156,7 @@ tabs.scan=async function(m){
    el("p",{class:"mut"},ix.about||""),p?el("p",{class:"small"},p.summary):null,
    el("p",{class:"mut small"},"Is README me kuch galat lage to mujhe batao, main README sahi kar dunga."),
    el("div",{class:"row"},rb,el("button",{class:"b g sm",on:{click:()=>{sel=null;draw()}}},"Sab pattern dikhao")),rd),
-   sel==="baar"?el("div",{class:"card"},el("p",{},"Ye ek hint (highlight) wala tool hai. Aaj ki List tab ke 'Baar Filter' card me apni jodi daalo, aaj ke baar ki tokri wale number narangi me chamkenge."),el("button",{class:"b sm",on:{click:()=>go("aaj")}},"Aaj ki List kholo")):null,
+   sel==="baar"?el("div",{class:"card"},el("p",{},"Ye ek hint (highlight) wala tool hai. Aaj ki List tab ke 'Baar Filter' card me apni jodi daalo, aaj ke baar ki tokri wale number narangi me chamkenge."),el("div",{class:"row"},el("button",{class:"b sm",on:{click:()=>go("baar")}},"Din (Baar) tab kholo: saatho din ki list"),el("button",{class:"b g sm",on:{click:()=>go("aaj")}},"Aaj ki List (Baar Filter)"))):null,
    hasCopies?el("div",{class:"card"},el("h2",{},"Mahine ki sheet ki copy ",el("span",{class:"sub"},"(har copy me ek pattern)")),el("div",{class:"row"},el("span",{},"Dikhao:"),sc),copies):null,
    p?el("div",{class:"card"},el("h2",{},`${ix.naam||sel}: abhi ke pattern (${items.length})`),items.length?items.map(card):el("p",{class:"mut"},"Abhi kuch nahi bana.")):null);
   if(hasCopies)loadCopies(sel,copies)}

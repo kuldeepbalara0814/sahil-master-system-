@@ -26,6 +26,12 @@ Ravi: 88 (6), 06 (5), 21, 23, 31, 40 | Som: 39 (5), 59 (5), 10, 19, 46, 54 | Man
 - **Aaj ki List tab → "Baar Filter":** aaj ka baar (ya koi bhi weekday) ki tokri dikhti hai (1 saal, 3 saal, 5 saal ya 13 saal ke data se). Apni jodi (jaise 30) paste karo, jo tokri me hain wo narangi me chamkti hain. Sirf hint hai.
 - Ye faisla **insaan ka** hai, software sirf dikhata hai (HANDOFF item 10).
 
+## Din (Baar) tab (aap ka kehna, 2026-11-22 raat)
+- Alag tab **"Din (Baar)"**: Ravivar se Shanivar saatho din ki list ek saath. Har din ke 6 **seedha** number (kitni baar aaye) aur unke **palat** alag box me ("PALAT (ye palat hai)"), kul number, barabari wale aur number.
+- "Kab-kab aaya (tarikh aur game)" dabane par har number ki tarikh aur game ki list.
+- Upar **kaun sa din sabse zyada** (6 number ke baar ka jod): 1 saal me Shukravar 33, phir baaki. Aaj ka din alag nishan se.
+- Data chun sakte ho: pichla 1 saal (shuruat me), 3 saal, 5 saal, poora 13 saal.
+
 ## Baaki (aap bataoge)
 - Tokri kitne purane data se banani hai (1 saal ya 13 saal): abhi 1 saal rakha hai, chunne ka option hai.
 - 16 number ka set (aap ne ek baar "16 number" kaha tha): 6 + palat = ~12, 8 + palat = ~16. Dono ki jaanch ki, aap bataoge kaun sa.

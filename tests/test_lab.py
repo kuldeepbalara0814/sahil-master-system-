@@ -308,6 +308,22 @@ class BaarTests(unittest.TestCase):
         self.assertGreater(c.get("/api/baar?weekday=2&days=0").get_json()["cases"], 600)
 
 
+class BaarAllTests(unittest.TestCase):
+    def test_all_days(self):
+        r = baar.all_days(ROWS, 365)
+        self.assertEqual([i["weekday"] for i in r["items"]], [6, 0, 1, 2, 3, 4, 5])            # Ravi se Shani
+        self.assertEqual(sorted(i["rank"] for i in r["items"]), list(range(1, 8)))
+        for i in r["items"]:
+            self.assertEqual(len(i["top"]), 6)
+            for t in i["top"]:
+                self.assertEqual(len(t["when"]), t["count"])                                  # kab-kab aaya ginti se milta hai
+        c = lab_server.app.test_client()
+        j = c.get("/api/baar/all?days=0").get_json()
+        self.assertEqual(len(j["order"]), 7)
+        self.assertEqual(c.get("/api/baar/all?days=7").status_code, 400)
+        self.assertEqual(c.get("/api/baar/all").get_json()["items"][0]["from"], baar.tokri(ROWS, 6, 365)["from"])
+
+
 class ScannerTests(unittest.TestCase):
     def test_names_stable_and_distinct(self):
         self.assertEqual(scanner.name_for("Naksha", "12:2025-09-19"), scanner.name_for("Naksha", "12:2025-09-19"))

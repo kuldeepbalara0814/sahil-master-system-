@@ -242,6 +242,22 @@ def _gap(rows):
     return gapchain.find(rows, gaps, days, show=request.args.get("show", "all"))
 
 
+@app.get("/api/baar/all")
+def api_baar_all():
+    """Saatho din ki tokri (Ravi se Shani) ek saath, kab-kab aaya samet."""
+    rows, _ = state()
+    try:
+        days = int(request.args.get("days", 365))
+    except ValueError:
+        return err("days sankhya hona chahiye")
+    if days not in (0, 365, 1095, 1825):
+        return err("days 365, 1095, 1825 ya 0 (poora) hona chahiye")
+    r = baar.all_days(rows, days)
+    r["play_date"] = data.play_date(rows).isoformat()
+    r["today_weekday"] = data.play_date(rows).weekday()
+    return jsonify(r)
+
+
 @app.get("/api/baar")
 def api_baar():
     """?weekday=0..6 (nahi diya to aaj khelne ki tarikh ka) &days=365|1095|0(poora). Is baar ki tokri (6 number + palat)."""
