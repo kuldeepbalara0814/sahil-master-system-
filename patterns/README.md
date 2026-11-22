@@ -4,3 +4,6 @@ Niyam: pattern sirf 3-6 mahine me parkho. Aap ki pushti ke baad hi pakka maano. 
 | id | naam | haal |
 |---|---|---|
 | 001 | copy pattern | likha, aap ki pushti baaki |
+| 002 | mapping pattern (naksha) | sikhana jari: 3rd step ka niyam baaki |
+
+HANDOFF.md = niyam aur facts. GLOSSARY.md = shabd (rashi, cross, jodi, half jodi, gap).
