@@ -73,6 +73,13 @@ class Sync:
                     f.write(content)
             self.last = time.time()
 
+    def dispatch(self, workflow="daily.yml"):
+        """GitHub Action ko haath se chalao (workflow_dispatch). (code, jawab). 204 = chal gaya."""
+        if not self.can_write:
+            return 0, "GITHUB_TOKEN nahi hai"
+        code, body = self._req("POST", f"{API}/repos/{self.repo}/actions/workflows/{workflow}/dispatches", {"ref": self.branch})
+        return code, body.decode("utf-8", "replace")[:200]
+
     def push(self, names, message):
         """Badli hui files GitHub par commit karo (token chahiye)."""
         if not self.can_write:

@@ -130,13 +130,50 @@ def healthz():
     return jsonify({"status": "ok"})
 
 
+_auto = {"t": 0.0, "running": False}
+
+
+def expected_last(now):
+    """Is waqt tak jiski poori line (DS samet, subah 5:30 ko khulta hai) aa chuki honi chahiye."""
+    d = now.date() - dt.timedelta(days=1 if (now.hour, now.minute) >= (5, 45) else 2)
+    while data.is_last_day(d):                        # mahine ke aakhri din chhuti, line nahi
+        d -= dt.timedelta(days=1)
+    return d
+
+
+def _auto_run():
+    try:
+        with _lock:
+            SYNC.pull(force=True)
+            rep = update.run(fetch=True, stake=5, data_dir=DATA_DIR, pause=1.0)
+            if rep["added"] or rep["settled"] or rep["new_bets"]:
+                persist(gh.FILES, f"auto fetch {rep['last_date']}")
+    except Exception:
+        app.logger.exception("auto fetch fail")
+    finally:
+        _auto["running"] = False
+        _cache["key"] = None
+
+
+def maybe_auto_fetch(rows):
+    """GitHub ka roz wala schedule der se chalta hai. Isliye jab koi app kholta hai aur naya din baaki ho to server khud le aata hai (20 min me ek baar)."""
+    if not (SYNC and SYNC.can_write) or _auto["running"] or time.time() - _auto["t"] < 1200:
+        return False
+    if rows[-1][0] >= expected_last(dt.datetime.now(IST)):
+        return False
+    _auto["t"], _auto["running"] = time.time(), True
+    threading.Thread(target=_auto_run, daemon=True).start()
+    return True
+
+
 @app.get("/api/status")
 def status():
     rows, _ = state()
+    fetching = maybe_auto_fetch(rows)
     flog = jload("fetch_log.json", [])
     return jsonify({"last_date": rows[-1][0].isoformat(), "days": len(rows), "play_date": data.play_date(rows).isoformat(),
                     "github": bool(SYNC), "can_write": bool(SYNC and SYNC.can_write) or not SYNC_ON, "pin_required": bool(ADMIN_PIN),
-                    "last_fetch": flog[-1] if flog else None, "today_ist": dt.datetime.now(IST).date().isoformat()})
+                    "last_fetch": flog[-1] if flog else None, "auto_fetching": fetching, "today_ist": dt.datetime.now(IST).date().isoformat()})
 
 
 # ---------------- dost ----------------
@@ -506,8 +543,15 @@ def api_fetch():
                 SYNC.pull(force=True)
             rep = update.run(fetch=True, stake=stake, data_dir=DATA_DIR, pause=1.0)
             rep["saved_to_github"] = persist(gh.FILES, f"manual fetch {rep['last_date']}") if rep["added"] or rep["settled"] or rep["new_bets"] else False
+        if rep["errors"] and not rep["added"] and SYNC and rep["last_date"] < expected_last(dt.datetime.now(IST)).isoformat():
+            code, body = SYNC.dispatch()                 # site se seedha nahi aaya: GitHub Action se mangao
+            rep["errors"].append("Server se seedha fetch nahi hua, isliye GitHub Action chalane ki koshish: " +
+                                 ("chal gaya, 1-2 minute baad dobara dekho" if code == 204 else f"nahi chala (code {code}) {body}"))
     except (ValueError, gh.SyncError) as e:
         return err(str(e), 502)
+    except Exception as e:
+        app.logger.exception("manual fetch fail")
+        return err(f"Fetch me galti: {type(e).__name__}: {str(e)[:200]}", 500)
     _cache["key"] = None
     return jsonify(rep)
 

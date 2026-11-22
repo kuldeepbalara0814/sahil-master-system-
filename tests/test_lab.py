@@ -268,5 +268,18 @@ class PatternWindowTests(unittest.TestCase):
         self.assertEqual(c.post("/api/pattern/delete", json={"id": bid}, headers=H).get_json()["count"], 0)
 
 
+class AutoFetchTests(unittest.TestCase):
+    IST = dt.timezone(dt.timedelta(hours=5, minutes=30))
+
+    def test_expected_last(self):
+        f = lambda *a: lab_server.expected_last(dt.datetime(*a, tzinfo=self.IST))
+        self.assertEqual(f(2026, 11, 22, 11, 0), dt.date(2026, 11, 21))          # subah 5:45 ke baad kal ki line
+        self.assertEqual(f(2026, 11, 22, 4, 0), dt.date(2026, 11, 20))           # DS abhi khula nahi
+        self.assertEqual(f(2026, 12, 1, 9, 0), dt.date(2026, 11, 29))            # 30 Nov chhuti: 29 ki line
+
+    def test_no_auto_fetch_without_token(self):
+        self.assertFalse(lab_server.maybe_auto_fetch(ROWS))
+
+
 if __name__ == "__main__":
     unittest.main()
