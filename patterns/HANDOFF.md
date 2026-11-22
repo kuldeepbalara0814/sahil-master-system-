@@ -25,3 +25,14 @@ Rashi, cross, jodi, half jodi, gap: `GLOSSARY.md`. Mapping/naksha pattern: `002_
 - Roz subah data aate hi `lab/update.py` (GitHub Action) scan chalata hai aur `data/patterns_today.json` banata hai. App me tab **Pattern Scan** hai: aaj kya ban raha hai, saaf rang wala chart, Excel download, aur **manual "Script abhi chalao"** button (galti aaye to wahi dikhti hai).
 - Har pattern ko apna naam milta hai (Naksha-Hathi-44, Copy-Sher-50) taaki mix na ho. `lab/scan_view.py` chart aur Excel banata hai.
 - 001 Jodi-Copy aur 002 Naksha scan chalte hain. 002 abhi 'Naksha' ke naam se same/palat links ka milan dekhta hai (aap ke pic ke design ko poora nahi pakadta, sudhar baaki).
+
+## Game ke window aur samay (aap ne bataya, 2026-11-22)
+FB, GB, GL, DS ek hi company ke 4 window hain (ek game hota to log 60-80 number khelte aur company ko nuksan hota, isliye load baant diya).
+FB result 6:15-6:30 pm | GB 10:00-10:15 pm | GL 12:00-12:15 am | DS 5:20-5:40 am (window 2:30 am band). Mere samajh se baaki window result se 40 minute pehle band (pakka nahi).
+Isliye DS agli subah ka hai aur pichli tarikh ki line me likhte hain. App ka auto-fetch DS ke liye subah 5:45 ke baad chalta hai.
+
+## Pass ke prakar (sab pattern ke liye, jab tak aap alag na kaho)
+Din par pattern ka koi number kisi bhi game me aaya = PASS, nahi aaya = FAIL. Pattern ne jis location (game) ka andaza diya wahan aaya = with location, doosre game me aaya = out of location (variation); dono PASS.
+
+## Sikhane ka kram (zaroori)
+1. Pattern poora sikhao, main apne shabdon me README likhunga, phir ek-ek sawal poochunga. 2. Aap ke sawal main uttar dunga, galti ho to turant sahi karunga. 3. **Pushti ke baad hi software me**, pushti se pehle app me "pushti baaki" ka nishan rahega. 4. Jab tak pichla pattern sahi na ho, agle par nahi jaunga. Kachra jama nahi karna.

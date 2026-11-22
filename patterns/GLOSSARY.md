@@ -114,3 +114,11 @@ Ye mere samajhne ke liye hai. Software me bhi yahi niyam chalenge. Naam bolo to 
 | 97 |  | 24 29 42 47 74 79 92 97 | 27 49 72 94 |
 | 98 |  | 34 39 43 48 84 89 93 98 | 38 49 83 94 |
 | 99 | jodi | 44 49 94 99 | - |
+
+## Aur shabd (aap ke, 2026-11-22)
+- **Standing**: ek hi game column me agle din (GB se GB...). Same number ho ya family ka number, dono standing repeat.
+- **Cross**: agle din doosre column me. Ye aankh ka naam hai; machine ke liye "agle din koi bhi column". Zaroori nahi.
+- **Step 1/2/3**: sirf ek hi (current) mahine ke. Do alag mahine me same design = mapping/naksha, step nahi.
+- **Seedha / ulta**: seedha = date 1 se 30 ki taraf niche; ulta = 30 se 1 ki taraf upar.
+- **With location / out of location (variation)**: pass design wale location par aaya / doosre location par aaya.
+- **Jodi rashi**: 11, 22, 33, 44, 55, 66, 77, 88, 99, 00 ki 4-number wali rashi (jaise 11 16 61 66). 8-number wali ~90%, jodi rashi ~10%.
