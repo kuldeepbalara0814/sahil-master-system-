@@ -33,3 +33,12 @@ Daayein row 32 DS = 19 Nov DS. Data me **47** aaya. 20 Nov (95 15 47 76) aur 21 
 ## Abhi baaki (aap baad me bataoge)
 - Step 1 / step 2 / 3rd step ka niyam aur 3rd step ka number kaise nikalte ho (Sawal 5).
 - Pass-fail ki parakh ka tareeka (Sawal 6). Parakh sirf pichle 3-6 mahine par hogi.
+
+## Udaharan: 22 Nov 2026, Naksha-Hathi-44 (Sep 2025 jaisa naksha) - aap ne PASS kaha (screenshot 2026-11-22)
+Software ne andaza diya tha: **FB me 58 / 85**. Aaj ka FB result **13** aaya. Aap ke hisaab se ye pass hai, aur kyun:
+1. **Solid number 4:** naye mahine ki taraf ka number **85** (aur uska palat 58), aur **dusri (purani) taraf ka number 63** (purane mahine me wahi location FB, 2 Oct ki row) aur uska palat **36**. Yani wahi location FB par 85, 58, 63, 36 "super solid" hain, kyunki banane wala udhar wala (purani taraf ka) number bhi de sakta hai.
+2. **Family khelte hain:** 85 ki rashi (03 rashi: 03 08 30 35 53 58 80 85) aur 63 ki rashi (13 rashi: 13 18 31 36 63 68 81 86) = **16 number**, ek hi location FB par.
+3. **Paise:** sab 16 par 10 Rs ho to 160 Rs. Aap ka tareeka: solid 85 aur 58 par 20 Rs (40 Rs) + baaki 14 number par 10 Rs (140 Rs) = **180 Rs**.
+4. **Result:** 13 aaya. 13 63 ki rashi me hai (13 rashi), 10 Rs x 95 = **950 Rs**. Wahi 13 software me **band number** me tha: aakhri baar 24 Jun 2026, yaani **151 din band** (aap ne 150 kaha), aur ab FB me aa gaya.
+Maine isko pass ki tarah note kiya. Mera sujhav (aap ki pushti ke baad): jab Naksha ka andaza aaye to software **dono** numbers dikhaye: naye taraf ka (85/58) aur purani taraf ka (63/36), aur dono ki rashi family (16 number), location FB. Solid 4 par zyada paise (jaise 20 Rs) aur baaki par 10 Rs.
+Dhyan: ek location par 16 number ka random chance lagbhag 16% hai. 180 Rs lagakar 950 Rs milta hai, isliye faida tabhi jab ye pattern random se zyada baar pass ho. Isko paper trading me naapenge (abhi kuch pakka nahi).
