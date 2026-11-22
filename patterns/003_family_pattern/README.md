@@ -44,6 +44,11 @@ Design: koi rashi din d aur d+1 (ya d+2) par aaye, phir din d+3 par wahi rashi a
 - Pic ki chaar chain me 3rd step ka column step wale column me 3 baar mila (peela 03, peela 02, narangi 02 ka 18 Nov: GB 57, DS 70), ek baar nahi (narangi 24: GL 29).
 - Pic ki narangi 02 chain ka 18 Nov wala 3rd step **PASS** hua (with location, GB aur DS).
 
+## Kaun se design khelte ho (Sawal 7, aap ka jawab)
+- Pic me sirf 4 chain rang ki gayi thi **aap ko dikhane aur sikhane ke liye**. Isi design ke jitne bhi bane wo sab khel sakte hain.
+- **Paper trading me har pattern jo lage wahi khela jayega.** Machine ka kaam hai ye dekhna ki kaun sa pattern zyada pass ho raha hai aur kaun sa kam; tabhi graph banega. Software jitna zyada sikhaya jayega utna zyada pakadna seekhega.
+- Isliye machine ka dimaag sirf unhi pattern tak nahi rahega jo ab tak sikhaye gaye, wo alag-alag tareeke se tezi se naye pattern bhi try karega (jab aap kahoge).
+
 ## Facts (HANDOFF.md me bhi)
 - Ye design tabhi kaam kare jab DS ko pichle din ki line me likha ho (DS agli subah ka). Time: FB 6:15-6:30 pm, GB 10-10:15 pm, GL 12-12:15 am, DS 5:20-5:40 am.
 - Mahine ke aakhri din chhuti se ek din aage-peeche (vibration). Mahine ke aas-paas +-1 din pass maana jata hai.

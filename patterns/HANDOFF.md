@@ -36,3 +36,8 @@ Din par pattern ka koi number kisi bhi game me aaya = PASS, nahi aaya = FAIL. Pa
 
 ## Sikhane ka kram (zaroori)
 1. Pattern poora sikhao, main apne shabdon me README likhunga, phir ek-ek sawal poochunga. 2. Aap ke sawal main uttar dunga, galti ho to turant sahi karunga. 3. **Pushti ke baad hi software me**, pushti se pehle app me "pushti baaki" ka nishan rahega. 4. Jab tak pichla pattern sahi na ho, agle par nahi jaunga. Kachra jama nahi karna.
+
+## Software ka usool (aap ne bataya, 2026-11-22)
+1. **Sikhane ka tareeka:** ek-ek cheez alag sikhate hain: rashi, design, gap, standing/cross/repeat, same duri ka matlab, variation, sab game me kyu khelna, chhuti kab, FB GB GL DS kya, rang kyu aur kaise. Sab saaf alag-alag, **mix-sabzi nahi** (na khud confuse, na saamne wale ko kachra dena).
+2. **Rang sirf sikhane/dikhane ke liye** ki kaun sa pattern kaisa banta hai. Paper trading me **jo bhi pattern bane wo khela jayega.** Machine dekhega kaun sa zyada pass, kaun sa kam, aur graph banayega. Machine ka dimaag sirf feed kiye hue pattern tak seemit nahi, wo aur pattern bhi try karega.
+3. **Dikhane ka tareeka (insani aankh ke liye):** ek mahine me ek jaise kai pattern bane hon to us mahine ki **ek se zyada copy** banao, har copy me **ek hi pattern saaf alag rang me**, phir sabhi copy ko **ek image me jod do.** (Abhi banana baaki, aap ki pushti ke baad.)
