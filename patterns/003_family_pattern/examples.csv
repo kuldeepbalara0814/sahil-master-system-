@@ -1,0 +1,13 @@
+pic_row,date,game,number,color,rashi,role
+36,2026-11-04,GL,02,yellow,02,peela chain 1 (02 rashi)
+38,2026-11-06,FB,75,yellow,02,peela chain 1
+39,2026-11-07,GL,57,yellow,02,peela chain 1
+39,2026-11-07,GB,24,orange,24,narangi chain 1 (24 rashi)
+40,2026-11-08,DS,24,orange,24,narangi chain 1
+42,2026-11-10,GL,29,orange,24,narangi chain 1
+46,2026-11-14,DS,85,yellow,03,peela chain 2 (03 rashi)
+47,2026-11-15,GB,85,yellow,03,peela chain 2
+49,2026-11-17,DS,80,yellow,03,peela chain 2
+47,2026-11-15,DS,57,orange,02,narangi chain 2 (02 rashi)
+48,2026-11-16,GB,25,orange,02,narangi chain 2
+50,2026-11-18,GB/GL/DS,,orange (khaali),02,"narangi chain 2 ka 3rd step (andaza); asli: GB 57, GL 05, DS 70"
