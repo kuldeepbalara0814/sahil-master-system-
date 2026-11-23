@@ -107,24 +107,34 @@ def analyse(vals, a, b, c, L):
     common = sorted(set(ka) & set(kb))
     if len(common) < 2:
         return None
-    present, pend, pend2 = [], [], []
+    present, pend, pend2, found = [], [], [], {}
     for k in common:
         i, aa, j, bb = k
-        if c + i < N and c + j < N:
-            if cls(vals[c + i][aa]) == cls(vals[c + j][bb]):
-                present.append(k)
-        elif c + i < N:
-            pend.append((k, cls(vals[c + i][aa])))
-        else:
+        if c + i >= N:
             pend2.append(k)
+            continue
+        first = cls(vals[c + i][aa])
+        hit = None                      # Step 3: wahi number boundary ke andar KISI BHI location me aa jaye
+        for rr in range(c + i + 1, min(N - 1, c + L - 1) + 1):
+            for g in range(4):
+                if cls(vals[rr][g]) == first:
+                    hit = (rr, g)
+                    break
+            if hit:
+                break
+        if hit:
+            present.append(k)
+            found[k] = hit
+        elif c + L - 1 > N - 1:
+            pend.append((k, first))
     avoid = set()
     for k in common:
         i, aa, j, bb = k
         for s in (a, b):
             avoid |= {(s + i, aa), (s + j, bb)}
         if k in present:
-            avoid |= {(c + i, aa), (c + j, bb)}
-    return {"L": L, "a": a, "b": b, "c": c, "common": common, "present": present, "pend": pend, "pend2": pend2,
+            avoid |= {(c + i, aa), found[k]}
+    return {"L": L, "a": a, "b": b, "c": c, "common": common, "present": present, "found": found, "pend": pend, "pend2": pend2,
             "ind": indicator(vals, a, b, c, L, N, avoid), "end_idx": c + L - 1}
 
 
@@ -180,10 +190,12 @@ def paint(r, vals):
     for n, k in enumerate(r["common"]):
         col = COLS[n % len(COLS)]
         i, aa, j, bb = k
-        for w in range(3):
-            if w < 2 or k in r["present"]:
-                colour[w][(starts[w] + i, aa)] = col
-                colour[w][(starts[w] + j, bb)] = col
+        for w in range(2):
+            colour[w][(starts[w] + i, aa)] = col
+            colour[w][(starts[w] + j, bb)] = col
+        if k in r["present"]:
+            colour[2][(r["c"] + i, aa)] = col
+            colour[2][r["found"][k]] = col
     pend = {}
     for k, cl in r["pend"]:
         col = COLS[r["common"].index(k) % len(COLS)]

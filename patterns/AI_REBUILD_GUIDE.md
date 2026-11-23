@@ -18,7 +18,7 @@
 3. **Boundary** = design ke pehle cell se aakhri cell tak box ginti (dono sire samet). Teeno step me wahi.
 4. **Rang:** jude hue cell (ek link) ka **ek hi rang**; wahi rang har step me wahi link. Alag link alag rang. Digits kaale. **Ek link ke sirf do cell** mark karo, bina logic koi cell nahi.
 5. **Indicator** = ek number jo teeno boundary me aaya (palat valid), **laal rang**, har boundary me ek cell. Zaroori nahi.
-6. **Step 3** = current mahina, adhura: jo link ka pehla cell aaya, uska doosra cell '?' (halka rang). Boundary ke andar andaza wala number aaya = **PASS**, bahar = **FAIL**.
+6. **Step 3** = current mahina, adhura: jo link ka pehla cell aaya, uska doosra cell '?' (halka rang). Boundary ke andar andaza wala number **kisi bhi location me** aaya = **PASS** (user ne confirm kiya), bahar = **FAIL**.
 7. Pichle 1-2 mahine check karo ki design pehle hi chal chuka ho to step ginke (4th, 5th...) likho; insaan faisla karega.
 
 ## Shabd

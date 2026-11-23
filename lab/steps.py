@@ -102,26 +102,36 @@ def analyse(vals, D, a, b, c, L):
     common = sorted(set(ka) & set(kb))
     if len(common) < 2:
         return None
-    present, pend, pend2 = [], [], []
+    present, pend, pend2, found = [], [], [], {}
     for k in common:
         i, aa, j, bb = k
-        if c + i < N and c + j < N:
-            if cls(vals[c + i][aa]) == cls(vals[c + j][bb]):
-                present.append(k)
-        elif c + i < N:
-            pend.append((k, cls(vals[c + i][aa])))
-        else:
+        if c + i >= N:
             pend2.append(k)
+            continue
+        first = cls(vals[c + i][aa])
+        hit = None                                               # Step 3: wahi number boundary ke andar KISI BHI location me aa jaye (user ne tay kiya)
+        for rr in range(c + i + 1, min(N - 1, c + L - 1) + 1):
+            for g in range(4):
+                if cls(vals[rr][g]) == first:
+                    hit = (rr, g)
+                    break
+            if hit:
+                break
+        if hit:
+            present.append(k)
+            found[k] = hit
+        elif c + L - 1 > N - 1:
+            pend.append((k, first))
     link_cells = set()
     for n, k in enumerate(common):
         i, aa, j, bb = k
         for s in (a, b):
             link_cells |= {(s + i, aa), (s + j, bb)}
         if k in present:
-            link_cells |= {(c + i, aa), (c + j, bb)}
+            link_cells |= {(c + i, aa), found[k]}
     ind = _indicator(vals, a, b, c, L, N, link_cells)
     end_idx = c + L - 1
-    return {"L": L, "a": a, "b": b, "c": c, "common": common, "present": present, "pend": pend, "pend2": pend2, "ind": ind, "end_idx": end_idx}
+    return {"L": L, "a": a, "b": b, "c": c, "common": common, "present": present, "found": found, "pend": pend, "pend2": pend2, "ind": ind, "end_idx": end_idx}
 
 
 def _windows(rows):
@@ -206,14 +216,14 @@ def item(r, rows, today):
     st = status_of(r, N)
     end_d = _cd(D, r["end_idx"], N, fut)
     lines = [f"Boundary {L} box: Step 1 {D[r['a']]:%d %b} se {D[r['a'] + L - 1]:%d %b}, Step 2 {D[r['b']]:%d %b} se {D[r['b'] + L - 1]:%d %b}, Step 3 {D[r['c']]:%d %b} se {end_d:%d %b}.",
-             f"{len(r['common'])} link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me {len(r['present'])} mila."]
+             f"{len(r['common'])} link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) {len(r['present'])} mila."]
     tg, hint = [], []
     for k, cl in r["pend"]:
         i, aa, j, bb = k
         dd = _cd(D, r["c"] + j, N, fut)
         nums = sorted({cl, pal(cl)})
         tg.append({"game": GAMES[bb], "numbers": nums})
-        hint.append(f"{dd:%d %b} ko {GAMES[bb]} me {'/'.join(f'{x:02d}' for x in nums)} aana chahiye (boundary {end_d:%d %b} tak: andar = PASS, bahar = FAIL)")
+        hint.append(f"{'/'.join(f'{x:02d}' for x in nums)} kisi bhi location me boundary ({end_d:%d %b}) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box {dd:%d %b} {GAMES[bb]} par dikhaya")
     if r["pend2"]:
         hint.append(f"{len(r['pend2'])} link ke dono cell abhi aage ki tarikh me (jamuni '?' box); jab pehla aaye to uska number aur palat agle box ki location me single khelne layak")
     lines += hint
@@ -260,11 +270,12 @@ def view(rows, p):
     for n, k in enumerate(r["common"]):
         col = COLS[n % len(COLS)]
         i, aa, j, bb = k
-        for w in range(3):
-            s = starts[w]
-            if w < 2 or k in r["present"]:
-                colour[w][(s + i, aa)] = col
-                colour[w][(s + j, bb)] = col
+        for w in range(2):
+            colour[w][(starts[w] + i, aa)] = col
+            colour[w][(starts[w] + j, bb)] = col
+        if k in r["present"]:
+            colour[2][(r["c"] + i, aa)] = col
+            colour[2][r["found"][k]] = col
     pend = {}
     for n, (k, cl) in enumerate(r["pend"]):
         col = COLS[r["common"].index(k) % len(COLS)]

@@ -21,7 +21,7 @@ Ye pattern user ne **kai baatein** alag-alag samjhayi (006 README me poori sikha
 
 ## Step 3 ka adhura design aur '?' (jamuni/halka rang)
 - Step 3 me jo link **pura ban chuka** (dono cell aa gaye), uske cell us link ke rang me.
-- Jis link ka **pehla cell aa chuka, doosra cell abhi aage** hai: pehle cell ka rang, aur doosra box **halke rang me '?'** (aur likha hota hai kya aana chahiye: us number ka number/palat). **Boundary ke andar** wo number aaya to **PASS**; boundary ke **bahar** (ya boundary ke baad) aaya to **FAIL**. (Meri maan-ni: boundary ke andar usi location me aana. User se pakka karna baaki.)
+- Jis link ka **pehla cell aa chuka, doosra cell abhi aage** hai: pehle cell ka rang, aur doosra box **halke rang me '?'** (aur likha hota hai kya aana chahiye: us number ka number/palat). **Boundary ke andar** wo number aaya to **PASS**; boundary ke **bahar** (ya boundary ke baad) aaya to **FAIL**. **User ne confirm kiya (23 Nov 2026): location ka koi chakkar nahi** - andaza wala number boundary ke andar **kisi bhi location me** aa jaye to PASS (jaise GB bataya aur DS me aa gaya to bhi theek). Step 3 me link ka doosra cell bhi isi tarah: pehle cell ke baad boundary ke andar wahi number/palat **kisi bhi game me** aaye to link bana; us cell ko link ke rang me rangte hai.
 - Jis link ke **dono cell** abhi aage hai: **dono box '?'** (halke rang me), bina number ke. Jab pehla aa jaye to uska number (aur palat) agle box ki location me **single khelne layak** hai (software sirf dikhata hai).
 
 ## Indicator (laal)
@@ -41,6 +41,7 @@ Ye pattern user ne **kai baatein** alag-alag samjhayi (006 README me poori sikha
 - **Result abhi site se fetch hota hai** (rakha hai). Aage user hath se Excel me result dekar bhi data de sakte hai.
 
 ## Imandari se (jaanch, 23 Nov 2026)
+(Location ki chhoot dene se milan aur aasan ho gaya, isliye random me bhi ab zyada milega.)
 Asli data me aise 2-3 link wale design mil jate hai, par number ko idhar-udhar (shuffle) karke wahi khoj chalayi to **random me bhi utne hi** mile (3 se 4 link). Yani **abhi koi saboot nahi ki ye aage chalta hai.** Paper trading se pass/fail naap ke dekhenge.
 
 ## Abhi NAHI banaya
