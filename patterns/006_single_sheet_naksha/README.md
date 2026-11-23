@@ -65,3 +65,11 @@ User ne kaha: jitna banaya sahi banaya, par **do galti** hai. Pehli:
 
 ### Agar pichle mahine wahi design pehle chal chuka mile (user ka jawab, 23 Nov 2026)
 Pichle 1-2 mahine me wahi design/dhun mile to usko **chhodna nahi**; software me **step ginke likho**: "isme 4, isme 5, isme 6 step hai, ye 3rd step hai". Yani pattern ke saamne **kaun sa step chal raha hai** (3, 4, 5, 6...) saaf likha ho. Phir **insaan dekhega aur apna faisla lega** ki is step par khelna hai ya nahi ("murkh banana hai ya nahi" - yaani kya dhokhe me aana hai ya nahi). Software sirf dikhata hai, faisla insaan ka. (Zyada step = purana chalta hua design = pass ke chance kam ho sakte hai, jaisa step 4 me bataya tha.)
+
+## DURI (user ne pakka kiya, 23 Nov 2026) aur SHAPE
+- **Duri samay hai** (din aage badhta hai, umar bhi roz ek din kam hoti hai); samay ke bina duri kuch nahi.
+- Duri ke prakar jo user ne **sahi** maane: (1) date se date (din ka fark), (2) month se month (same date, agle mahine, ek row me column se column), (3) dono mila ke (row+column, tirchhi), (4) baar (7 din ka chakkar), (5) game ki jagah (cell ki jagah; location "koi bhi" wale pattern me role nahi). 
+- **(6) Chhuti ka farak koi problem nahi:** July 31 ka aur August 30 ka ho to hum **Excel ke box se ginti** karte hai. **Sab jagah Excel ke box (cell) se gap ginna**; ek sankhya se doosri sankhya ke beech ka gap Excel bata deta hai, **wahi gap step 2 aur step 3 me**. Simple, confuse hone ki zarurat nahi ("sabse pakka ilaj").
+- **SHAPE:** jab hum **mahine se mahine** me chalte hai to **shape 1 aur shape 2 same** hote hai. Jaise naksha me **2013 ka koi mahina (shape 1)** liya aur **Nov 2026 (ya aage Dec ya kahin bhi)** me shape 2 banaya: dono me **dino ki duri ek jaisi** (jaise koi green cell kitne din ke baad). 
+- **Step 1/2/3 banne ki jagah:** **current mahina**, ya **2 mahine jod ke** (Oct+Nov), ya **3 mahine jod ke** (Sep+Oct+Nov). Sep me koi design bana, Oct me **waisa hi** bana, to **pata chalta hai ki Nov me aisa ban sakta hai.**
+- **2 mahine me:** maan lo Oct me ek design ke do step bane (unme **din ki duri ek jaisi** hai, ya **koi common number/rashi** ek jaisa) aur Nov me **waisa aadha design** ban gaya -> ab pata chal gaya ki **wahi kaam yahan karega** (aage ka hissa).
