@@ -8,3 +8,4 @@ shufL_row17 done 234s
 shufL_col18 done 240s
 shufL_row19 done 191s
 shufL_col20 done 191s
+shufL_row21 done 190s

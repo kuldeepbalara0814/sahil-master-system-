@@ -1,2 +1,7 @@
 13:37:28 resumed; runner run_all2.sh started (bg), log out/PROGRESS_run.txt
 13:38:01 waiting: runner order p1 DS month -> FB/GB/GL -> p2,p3,p5 -> p4; analyse_all.py after ALLDONE
+13:55:27 PAUSED by lead (low battery). Runner and python killed.
+DONE (complete npz): p1_DS_month(100 shuf), p1_FB_month(150), p1_FB_block30(100), p1_GB_month(100). p1_GL_month was interrupted (restart).
+RESUME: cd research/singlesheet/scripts; REMOVE the line 'rm -f ../out/p1_DS_month.npz' from run_all2.sh first; then: nohup ./run_all2.sh >/dev/null 2>&1 &  (skips steps whose npz exists)
+REMAINING order: p1 GL month, DS block30, GB block30, GL block30; p2,p3,p5 for DS,FB,GB,GL; p4 DS,FB,GB,GL; then python3 analyse1.py GAME SCHEME / analyse_all.py, write report.
+Interim (analyse1.py): DS month maxz 4.34 FWER p 0.030 (rashi L12-15, K=2, lift 1.02-1.04, 'rashi' links, 26% cfgs z>2 vs 3% in shuffles); FB month FWER 0.83; FB block30 0.26; GB month 0.53.
