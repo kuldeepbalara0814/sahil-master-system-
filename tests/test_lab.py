@@ -898,3 +898,26 @@ class DsRuleTests(unittest.TestCase):
         self.assertEqual((j["horizon"], j["breakeven"]), (90, 1.05))
         self.assertTrue(1 <= len(j["today"]["numbers"]) <= 4)
         self.assertIn("warning", j)
+
+
+class DsLedgerTests(unittest.TestCase):
+    def test_ledger_math(self):
+        from lab import ds_rule
+        base = dt.date(2026, 11, 20)
+        ds = [10, 20, 30, 40, 30, 50, 60]                       # i=4: lag2 = rows[2]=30 -> DS 30 hit
+        rows = [(base + dt.timedelta(days=i), [0, 0, 0, v], "t") for i, v in enumerate(ds)]
+        led = ds_rule._ledger(rows, (2,), 2)
+        self.assertEqual([x["numbers"] for x in led][:3], [[10], [20], [30]])
+        hit = [x for x in led if x["hit"]]
+        self.assertEqual(len(hit), 1)
+        self.assertEqual((hit[0]["win"], hit[0]["net"]), (ds_rule.STAKE * 95, ds_rule.STAKE * 94))
+        self.assertEqual(led[-1]["balance"], ds_rule.CAPITAL + ds_rule.STAKE * 95 - ds_rule.STAKE * len(led))
+        s = ds_rule._summary(led)
+        self.assertEqual((s["hits"], s["days"], s["net"]), (1, 5, ds_rule.STAKE * 95 - ds_rule.STAKE * 5))
+
+    def test_api_modes(self):
+        j = lab_server.app.test_client().get("/api/dsrule").get_json()
+        self.assertEqual(set(j["modes"]), {"one", "four"})
+        self.assertEqual(len(j["modes"]["one"]["today"]["numbers"]), 1)
+        self.assertEqual((j["stake"], j["capital"]), (30, 10000))
+        self.assertTrue(j["rules"])

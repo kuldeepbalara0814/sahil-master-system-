@@ -21,6 +21,9 @@ Ye **puzzle-logic R&D** ka hissa hai. **Sirf paper trading.** Asli paisa lagane 
 **Active tab -> "DS rule (paper, forward test)"**: roz ke 4 number, hit/miss apne aap, hit-dar vs 1% (random), kagaz ka ROI (95x), abhi ki bina-hit streak. Rule **frozen** hai (badla nahi jayega). Shuru: 24 Nov 2026. Code: lab/ds_rule.py, route /api/dsrule.
 **Zaroori (R&D se):** 90 din (~360 stake, ~5 hit) me **faisla nahi ho sakta** (power sirf ~10%); asli rate (1.37%) aur break-even (1.05%) me farak dikhne me **~5-6 saal** lagte hai. Isliye scoreboard ko lambe samay ka hisaab maano; rule frozen rakho; chhoti jeet-haar se faisla mat karo.
 
+## Kagaz ka khata (apne aap, 23 Nov 2026, user ka kehna: "roz 30 Rs", auto bet/munafa/loss)
+Active tab ke "DS rule" card me: **Roz 1 number** (DS ka 2 result pehle wala) ya **Roz 4 number** (2,3,4,5 result pehle), **Rs 30 har number par roz**, jeet par Rs 2,850 (95 guna), shuruaati kagaz ki raqam Rs 10,000. Har din ka bet, HIT/miss, net aur chalti raqam apne aap judti hai (shuru 24 Nov 2026); aaj ka bet, "agar pichla ~350 din ye rule chalta" ka hisaab, aur hindi me niyam card me likhe hai. Code: lab/ds_rule.py (rows se hi nikalta hai, kuch save nahi). Dhyan: 1-number rule me pichle saal sabse neeche raqam Rs 3,430 tak gayi (219 din bina hit); 4-number rule me Rs 120/din kharch.
+
 ## Aage ka R&D (sirf DS, 1966-2026)
 Rule ka sudhar (lag subset, set size, recycling-pool probability), 41/05/doubles ke jhukav ka asar, edge gayab hone par jaldi pakadna (CUSUM/SPRT), bankroll aur gaddha (drawdown), dusre website par dohrana. Nateeje research/recency/.
 

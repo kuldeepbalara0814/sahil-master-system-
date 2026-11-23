@@ -18,25 +18,33 @@ function htMsg(r){
  return r.n_new>0?r.n_new+" map hit hue":"Koi map hit nahi hua"}
 function htHitLine(h){return el("p",{class:"ht-line"},el("b",{},"HIT: "),`${p2(h.n)} ${fb(h.game||"")} ${dm(h.date)}`,h.src==="manual"?el("span",{class:"mut small"}," (hath se)"):null)}
 function dsRuleCard(box){
- box.replaceChildren(el("p",{class:"mut"},el("span",{class:"spin"}),"Load..."));
- api("GET","/dsrule").then(r=>{
-  const t=r.today||{};
+ let r=null,mode="one";
+ try{mode=localStorage.getItem("ds_mode")||"one"}catch(e){}
+ const rs=n=>"Rs "+Math.round(n).toLocaleString("en-IN"),sg=n=>(n>0?"+":n<0?"-":"")+rs(Math.abs(n));
+ function draw(){
+  const m=r.modes[mode],t=m.today,pos=m.net>=0;
+  const seg=el("div",{class:"act-seg"},[["one","Roz 1 number"],["four","Roz 4 number"]].map(([k,l])=>el("button",{class:k===mode?"on":"",on:{click:()=>{mode=k;try{localStorage.setItem("ds_mode",k)}catch(e){}draw()}}},l)));
   box.replaceChildren(
-   el("h2",{style:"margin:0 0 4px"},"DS rule ",el("span",{class:"sub"},"(paper, 90 din forward test)")),
-   el("p",{class:"mut small",style:"margin:0 0 8px"},r.rule+". Shuru: "+dm(r.start)+". Rule frozen hai (badlega nahi)."),
-   el("p",{style:"margin:0 0 6px"},el("b",{},"Aaj ("+dm(t.date)+") ke DS ke 4 number: ")),
-   el("div",{class:"act-nums"},(t.numbers||[]).map(n=>el("span",{class:"chip green"},p2(n)))),
+   el("h2",{style:"margin:0 0 4px"},"DS rule ",el("span",{class:"sub"},"(kagaz ka khata, apne aap)")),
+   el("p",{class:"mut small",style:"margin:0 0 8px"},`Shuru: ${dm(r.start)}. Har din bet apne aap lagta hai, jeet/haar apne aap judti hai. Rule frozen hai.`),seg,
+   el("p",{style:"margin:10px 0 6px"},el("b",{},`Aaj (${dm(t.date)}) ka bet: `),`${t.numbers.map(p2).join(", ")} par Rs ${r.stake} har number (kul ${rs(t.bet)}). Jeet gaya to ${rs(t.win_if_hit)} milenge.`),
+   el("div",{class:"act-nums"},t.numbers.map(n=>el("span",{class:"chip green"},p2(n)))),
    el("div",{class:"tiles",style:"margin-top:10px"},
-    el("div",{class:"tile"},el("div",{class:"k"},"Din"),el("div",{class:"v"},r.days+"/"+r.horizon)),
-    el("div",{class:"tile"},el("div",{class:"k"},"Hit"),el("div",{class:"v"},r.hits+" / "+r.stakes+" stake")),
-    el("div",{class:"tile"},el("div",{class:"k"},"Hit-dar"),el("div",{class:"v"},r.rate==null?"-":r.rate+"%"),el("div",{class:"s"},"random "+r.random+"% | break-even "+r.breakeven+"%")),
-    el("div",{class:"tile"},el("div",{class:"k"},"Kagaz ROI (95x)"),el("div",{class:"v"},r.roi==null?"-":r.roi+"%")),
-    el("div",{class:"tile"},el("div",{class:"k"},"Bina-hit streak"),el("div",{class:"v"},r.streak+" din"),el("div",{class:"s"},"sabse lambi "+r.longest))),
+    el("div",{class:"tile"},el("div",{class:"k"},"Abhi ki raqam"),el("div",{class:"v"},rs(m.balance)),el("div",{class:"s"},`shuru ${rs(r.capital)}`)),
+    el("div",{class:"tile"},el("div",{class:"k"},"Kul munafa/ghata"),el("div",{class:"v "+(pos?"ok":"bad")},sg(m.net)),el("div",{class:"s"},`lagaya ${rs(m.bet)}, mila ${rs(m.win)}`)),
+    el("div",{class:"tile"},el("div",{class:"k"},"Hit"),el("div",{class:"v"},`${m.hits} / ${m.stakes}`),el("div",{class:"s"},m.rate==null?"abhi koi din nahi":`${m.rate}% (random 1%, break-even ${r.breakeven}%)`)),
+    el("div",{class:"tile"},el("div",{class:"k"},"Bina-hit streak"),el("div",{class:"v"},m.streak+" din"),el("div",{class:"s"},"sabse lambi "+m.longest)),
+    el("div",{class:"tile"},el("div",{class:"k"},"Din"),el("div",{class:"v"},String(m.days)))),
+   m.past_year?el("p",{class:"mut small",style:"margin:8px 0 0"},`Agar ye rule pichle ${m.past_year.days} din chalta (Rs ${r.stake}/number): ${m.past_year.hits} hit, ${sg(m.past_year.net)}; sabse neeche raqam ${rs(m.past_year.lowest)}, sabse lambi bina-hit streak ${m.past_year.longest} din.`):null,
    el("p",{class:"small",style:"margin:8px 0 0"},r.verdict),
-   r.ref&&r.ref.rate!=null?el("p",{class:"mut small",style:"margin:4px 0 0"},"Itihaas ("+dm(r.ref.since)+" se, wahi rule): "+r.ref.hits+"/"+r.ref.stakes+" = "+r.ref.rate+"%"):null,
-   (r.history||[]).length?el("details",{style:"margin-top:8px"},el("summary",{class:"mut small"},"Pichle din"),
-    (r.history||[]).map(h=>el("p",{class:"small",style:"margin:3px 0"},dm(h.date)+": "+h.numbers.map(p2).join(" ")+" | DS "+p2(h.ds)+" | "+(h.hit?"HIT":"miss")))):null,
-   el("div",{class:"warn",style:"margin-top:8px"},r.warning))}).catch(e=>box.replaceChildren(el("div",{class:"warn"},e.message)))}
+   m.ledger.length?el("details",{style:"margin-top:8px",open:m.ledger.length<=10?"":null},el("summary",{class:"mut small"},"Roz ka khata"),
+    el("table",{class:"sheet",style:"width:100%;font-size:12px"},el("thead",{},el("tr",{},["Din","Number","DS","Natija","Net","Raqam"].map(h=>el("th",{},h)))),
+     el("tbody",{},m.ledger.map(x=>el("tr",{},el("td",{},dm(x.date)),el("td",{},x.numbers.map(p2).join(" ")),el("td",{},p2(x.ds)),el("td",{class:x.hit?"ok":"mut"},x.hit?"HIT":"miss"),el("td",{class:x.net>=0?"ok":"bad"},sg(x.net)),el("td",{},rs(x.balance))))))):el("p",{class:"mut small",style:"margin:8px 0 0"},"Khata "+dm(r.start)+" ke baad ke pehle result se shuru hoga."),
+   el("h3",{style:"margin:12px 0 4px"},"Niyam"),
+   el("ol",{class:"small",style:"margin:0;padding-left:18px"},r.rules.map(x=>el("li",{style:"margin:3px 0"},x))),
+   el("div",{class:"warn",style:"margin-top:8px"},r.warning))}
+ box.replaceChildren(el("p",{class:"mut"},el("span",{class:"spin"}),"Load..."));
+ api("GET","/dsrule").then(x=>{r=x;draw()}).catch(e=>box.replaceChildren(el("div",{class:"warn"},e.message)))}
 function htOpen(it){
  const box=el("div",{class:"ht-view"}),b=el("button",{type:"button",class:"b g sm"},"Kholo (rang me dekho)");let on=false;
  b.addEventListener("click",async()=>{on=!on;
