@@ -50,3 +50,8 @@ User ne (23 Nov 2026) Chrome se save ki hui ek pic di: `ref_screenshot.jpg` (Exc
 
 ## REVERSE (ULTA) pattern - abhi SIKHA NAHI (user baad me kisi bana hua udaharan dikhayenge)
 User ne kaha: ye jo upar bataya wo **seedha** hai (sheet me upar se niche, yani tarikh 01 se 30 ki taraf). Jo pattern **niche se upar, yani 30 se 01 tarikh ki taraf** bane use **ulta / reverse** kehte hai. Ye abhi sikhaya nahi gaya; user baad me bana hua dikhayenge. **Tab tak reverse ke liye kuch nahi banana, andaza nahi lagana.**
+
+## Meri banai current sheet (Current_sheet_Nov2026_mera_banaya_pattern.xlsx) par user ki galtiyan (23 Nov 2026)
+User ne kaha: jitna banaya sahi banaya, par **do galti** hai. Pehli:
+1. **Rang ki galti:** maine 15 ko **neela** aur uske baad wale 26 ko **hara** kiya. **Galat.** Rule pehle hi likha hai: **rang hi aapas ki pehchan batata hai** - jo cell aapas me jude hai (ek jod/link) un sab ka **ek hi rang** hona chahiye. Jod ka ek rang; alag jod ka alag rang. (Mera P=neela, Q=hara dena galat tha.)
+2. (Doosri galti user abhi bataenge.)
