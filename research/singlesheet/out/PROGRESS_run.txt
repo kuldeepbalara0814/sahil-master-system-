@@ -5,3 +5,15 @@ end p1_FB_block30 13:51:53
 start p1_GB_month 13:51:54
 end p1_GB_month 13:53:55
 start p1_GL_month 13:53:55
+skip p1_DS_month
+skip p1_FB_block30
+skip p1_GB_month
+start p1_GL_month 18:40:10
+end p1_GL_month 18:43:22
+start p1_DS_block30 18:43:22
+end p1_DS_block30 18:55:45
+start p1_GB_block30 18:55:45
+end p1_GB_block30 18:57:42
+start p1_GL_block30 18:57:42
+end p1_GL_block30 18:59:41
+start p2_DS 18:59:41

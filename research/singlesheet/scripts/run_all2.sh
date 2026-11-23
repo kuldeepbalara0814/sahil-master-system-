@@ -12,7 +12,6 @@ step() { # name outfile cmd...
   nice -n 10 "$@" > ../out/log_$n.txt 2>&1
   echo "end $n $(date +%T)" >> $P
 }
-rm -f ../out/p1_DS_month.npz
 step p1_DS_month p1_DS_month.npz $PY part1.py DS month 100
 step p1_FB_block30 p1_FB_block30.npz $PY part1.py FB block30 100
 step p1_GB_month p1_GB_month.npz $PY part1.py GB month 100

@@ -1,0 +1,24 @@
+DS 0 1.8
+DS 10 22.2
+DS 20 47.0
+DS 30 73.5
+DS 40 100.2
+DS 50 127.5
+DS 60 157.2
+DS 70 188.8
+DS 80 219.4
+DS 90 252.8
+DS 100 278.2
+Traceback (most recent call last):
+  File "/tmp/claude-0/-root-myproject/d4afdbac-f07c-47bf-ad35-3dfa8ff63430/scratchpad/sms/research/singlesheet/scripts/part2.py", line 62, in <module>
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/numpy/lib/_npyio_impl.py", line 753, in savez_compressed
+  File "/data/data/com.termux/files/usr/lib/python3.14/site-packages/numpy/lib/_npyio_impl.py", line 759, in _savez
+  File "<frozen importlib._bootstrap>", line 1371, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1333, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 1267, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1296, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1270, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1373, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1416, in _fill_cache
+OSError: [Errno 38] Function not implemented: '/tmp/claude-0/-root-myproject/d4afdbac-f07c-47bf-ad35-3dfa8ff63430/scratchpad/sms/research/singlesheet/scripts'
+./run_all2.sh: 13: Pipe call failed

@@ -1,0 +1,42 @@
+year-shuffle runs: 4
+      pat  K_variants                   best_variant  best_z  best_lift  bonferroni_p  null_runs  null_max_z_median  null_max_z_max  perm_p
+0    copy          15              shape=all game=GB    2.43      1.280  1.132412e-01          4               1.52            2.53     0.4
+1  family           9         shape=all size=all all    3.27      1.064  4.839637e-03          4              -0.22            1.59     0.2
+2    dana          48  kind=farak all core window=sd    6.29      1.139  7.619183e-09          4               2.02            2.93     0.2
+3   tokri          35              window=1095d top1    0.68      1.037  1.000000e+00          4               1.35            2.35     1.0
+4     ALL         107  kind=farak all core window=sd    6.29      1.139  1.698443e-08          4               2.21            2.93     0.2
+copy shape=all game=all yearshuf lift mean 1.037 z mean 0.75 max 1.72
+family shape=all size=all all yearshuf lift mean 0.967 z mean -1.75 max -1.39
+dana kind=all all core window=sd yearshuf lift mean 1.012 z mean 0.92 max 2.21
+tokri window=365d top6 yearshuf lift mean 0.980 z mean -1.02 max -0.16
+farak variant under yearshuf: lift [1.024, 1.013, 1.005, 1.022] z [1.42, 0.73, 0.31, 1.22]
+
+TOP lift (eligible, n>=100):
+       pat                              variant      n  avg_set   lift  lift_lo  lift_hi     z  roi_%
+1     copy                 shape=seedha game=GB    288     3.91  1.319    1.005    1.633  1.99   22.3
+11    copy                    shape=all game=GB    587     3.88  1.280    1.054    1.506  2.43   19.8
+6     copy                   shape=ulta game=GB    299     3.86  1.241    0.942    1.541  1.58   17.4
+5     copy                   shape=ulta game=FB    282     3.93  1.174    0.855    1.493  1.07    9.4
+36    dana       kind=farak saaf core window=sd   4159     3.90  1.169    1.116    1.221  6.28   15.3
+3     copy                 shape=seedha game=DS    279     3.94  1.158    0.869    1.447  1.07   14.4
+37    dana   kind=farak saaf core window=strict   4128     3.90  1.157    1.100    1.214  5.37   15.2
+4     copy                shape=seedha game=all   1077     3.94  1.152    0.995    1.308  1.90   12.6
+44    dana        kind=farak all core window=sd  15045     3.92  1.139    1.095    1.182  6.29   11.1
+16  family      shape=seedha size=all confusion    979     7.84  1.123    1.017    1.228  2.28   12.9
+2     copy                 shape=seedha game=GL    252     3.94  1.123    0.839    1.408  0.85   14.9
+45    dana    kind=farak all core window=strict  11253     3.92  1.120    1.073    1.167  5.04    9.8
+40    dana  kind=farak confusion core window=sd  10886     3.92  1.117    1.068    1.167  4.64    7.8
+14    copy                   shape=all game=all   2225     3.92  1.116    1.000    1.232  1.95    7.0
+22  family         shape=all size=all confusion   2066     7.79  1.099    1.018    1.180  2.40    8.0
+
+best z per set-size bucket:
+       pat                                variant      n  avg_set   lift  lift_lo  lift_hi     z  roi_%        bucket
+44    dana          kind=farak all core window=sd  15045     3.92  1.139    1.095    1.182  6.29   11.1    (2.5, 4.5]
+46    dana   kind=farak all core+series window=sd  15045     7.72  1.041    1.021    1.062  3.96    1.3    (4.5, 8.0]
+23  family                 shape=all size=all all   8291     7.52  1.064    1.026    1.103  3.27    4.7    (4.5, 8.0]
+11    copy                      shape=all game=GB    587     3.88  1.280    1.054    1.506  2.43   19.8    (2.5, 4.5]
+86   tokri                      window=1095d top1   4368     1.94  1.037    0.932    1.142  0.68   -0.8    (0.0, 2.5]
+87   tokri                      window=1095d top2   4368     3.84  0.991    0.919    1.064 -0.23   -5.1    (2.5, 4.5]
+88   tokri                      window=1095d top3   4368     5.73  0.987    0.928    1.046 -0.43   -5.9    (4.5, 8.0]
+84   tokri                       window=730d top8   4368    14.96  0.978    0.947    1.009 -1.37   -7.7  (8.0, 100.0]
+53    dana  kind=gap confusion core window=strict   7164     1.92  0.907    0.834    0.980 -2.50  -12.9    (0.0, 2.5]

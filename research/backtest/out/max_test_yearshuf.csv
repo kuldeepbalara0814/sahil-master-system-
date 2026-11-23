@@ -1,0 +1,6 @@
+pat,K_variants,best_variant,best_z,best_lift,bonferroni_p,null_runs,null_max_z_median,null_max_z_max,perm_p
+copy,15,shape=all game=GB,2.43,1.28,0.11324117124463809,4,1.52,2.53,0.4
+family,9,shape=all size=all all,3.27,1.064,0.004839636796467256,4,-0.22,1.59,0.2
+dana,48,kind=farak all core window=sd,6.29,1.139,7.619183307695424e-09,4,2.02,2.93,0.2
+tokri,35,window=1095d top1,0.68,1.037,1.0,4,1.35,2.35,1.0
+ALL,107,kind=farak all core window=sd,6.29,1.139,1.6984429456737714e-08,4,2.21,2.93,0.2

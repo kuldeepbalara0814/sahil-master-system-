@@ -9,3 +9,8 @@ shufL_col18 done 240s
 shufL_row19 done 191s
 shufL_col20 done 191s
 shufL_row21 done 190s
+shufL_col22 done 179s
+shufY_31 done 321s
+shufY_32 done 254s
+shufY_33 done 239s
+shufY_34 done 189s

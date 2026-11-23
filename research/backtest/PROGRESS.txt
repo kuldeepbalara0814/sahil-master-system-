@@ -2,3 +2,19 @@
 13:14 started run_light_shuffles.py (1 process, 12 shuffles, ~3 min each)
 13:18 shuffles running, 1 done (4.5min each)
 13:46 control_recent.py: farak lift mostly = recent-number repeat (ctrl .2446 vs farak .2533 vs unif .2225)
+13:59 12 light shuffles done
+18:40 resumed: step1 paired recency control from control_recent.csv
+18:41 step1: paired control stats done (control_stats.py); started run_yearshuffles.py 4 (bg)
+18:42 DS-bias baseline: bias adds only +0.0008 (ds_bias_base.py)
+18:46 queued chain_heavy.sh (waits for yearshuffles, then heavy60 real + 3 shuf, 2 workers)
+18:58 4 yearshuffles done; analysis4_year.py
+18:59 analysis4 done: farak under yearshuf lift 1.005-1.024 (z<=1.4) vs real 1.139; year-shuf null max z 2.9
+19:01 heavy60 chain restarted (fixed main guard)
+19:40 resumed (agent 4b): heavy60 real still running 180/237; running control stats + decomposition
+19:47 analysis5_decomp done (farak lift in GL/DS cells, declines 1.36 2015 -> 1.07 2026, series-only 0.96)
+19:50 persistence danaD: no hit-map group possible (map retires on hit); live continuing 1.045 vs new 1.043; farak-vs-ctrl z 2.5 block-boot, only 2014-17 (1.089), 2018-26 1.012. heavy60 stuck at 180/237 since ~19:02 (chunk 2024-08-20); msg sent to lead
+19:47 inc_h60 real heavy done 237 days
+19:50 analysis7 heavy done (naksha 1.158 z1.24; naksha2 1.017; steps 0.949); started chain_inc.sh (3 heavy shuffles, 1 proc, ~5 min each)
+19:55 analysis8 votes x recency done: recency monotone 0.95/1.07/1.19, votes within recency=0 not monotone
+20:05 waiting for incrow51(done) inccol52 incrow53 then analysis9_null.py
+20:20 ALL DONE: heavy sample real + 3 shuffles (row51 col52 row53), analysis9_null done; naksha 1.158 z1.24 (null 0.86-0.95), naksha2 1.017, steps 0.949; final report sent
