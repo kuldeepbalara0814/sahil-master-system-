@@ -41,3 +41,6 @@ User ne (23 Nov 2026) Chrome se save ki hui ek pic di: `ref_screenshot.jpg` (Exc
 - Phir aage: **82** (28 ka palat) **23 ko DS me** aaya. Isse **28/82 ek indicator** ban gaya: ab aage **25 ya 52** kisi location me aa sakta hai. Aur aage ki duri bhi wahi: 52 aur 25 me **4 din** ki thi to aage bhi 4 din.
 - Ye udaharan kalpnik hai (4 number, 4 din ki duri). Aise hi pattern ko majboot karne ke liye aur jod dhundh sakte hai.
 - **Rok:** majboot karne ke chakkar me **bina logic kuch bhi mark na karo.** Har mark ka aapas me koi na koi **logic/connection** ho: ya to **number/rashi** ka link, ya **same duri**.
+
+### Sudhar (user ne turant bataya): "upar" ka koi matlab nahi
+"Upar" sheet me upar-neeche ka matlab nahi hai. Matlab **duri** hai: 28 se 52 (04 ko FB) ki jitni duri hai, **wahi duri 28 se 25 (08 ko GB)** ki hai. Yani udaharan me 28 -> 52 aur 28 -> 25 **ek hi duri** par hai (jaise 1 din; 03 ko 28, 04 ko 52; 07 ko 28, 08 ko 25), **location koi bhi**. Aur 52 -> 25 ki duri alag, 4 din. Jab 28/82 phir aaye (23 ko DS me 82) to usi duri par 25/52 kisi bhi location me aa sakta hai.
