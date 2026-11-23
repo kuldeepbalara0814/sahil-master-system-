@@ -60,3 +60,6 @@ Aap ne kaha: naksha ka poora formula wahi rahe, par link **sirf same number nahi
 
 ## APPROVED version (23 Nov 2026)
 User ne Naksha (part 1) aur Naksha-Rashi (part 2) ka ye roop approve kiya: har lambai ke top 12 milan, rang wala purana/naya naksha, aaj ka andaza. Is version ko khona nahi hai: git tag `naksha-approved-2026-11-23` (commit 50452a6). Bina user ke kehne na badlo.
+
+## PENDING: Naksha ka pass/fail (user baad me batayega)
+User ne kaha (23 Nov 2026): Naksha me bhi pass/fail hota hai, par kaise, ye wo baad me bataenge jab alag-alag tarah ke pattern sikha denge. Tab tak ye Active window aur scoreboard me nahi hai. Bina user ke bataye niyam nahi banana.
