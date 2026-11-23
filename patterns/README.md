@@ -8,6 +8,7 @@ Niyam: pattern sirf 3-6 mahine me parkho. Aap ki pushti ke baad hi pakka maano. 
 | 002b | naksha part 2 (rashi movement) | dikhane ka version APPROVED (23 Nov 2026); kamai ki pushti baaki |
 | 003 | family pattern (rashi chain) | sikhana jari, pichle 1 saal ki jaanch likhi, aap ki pushti baaki |
 | 004 | baar tokri (weekday ke zyada aaye 6 number) | likha, hint (highlight) ki tarah software me, aap ki pushti baaki |
+| 006 | single sheet naksha (ek game ki apni sheet par design) | sikhana jari, kuch banaya nahi (pic mili: 006_single_sheet_naksha/) |
 | 005 | dana-farak (4 din box) | likha, aap ki pushti baaki, 6 mahine ki jaanch likhi, software (Pattern Scan) me hai |
 
 HANDOFF.md = niyam aur facts. GLOSSARY.md = shabd (rashi, cross, jodi, half jodi, gap).
