@@ -15,3 +15,22 @@ HANDOFF.md = niyam aur facts. GLOSSARY.md = shabd (rashi, cross, jodi, half jodi
 App me roz ka batch (dekh liya), sab pattern ka PDF/JPG/Excel aur Edit karo (HANDOFF item 21). App me **Active** tab: jo pattern abhi chal rahe ya pichle 1-3 din me pass hue, sab ek jagah (HANDOFF item 19). Naksha ka pass/fail abhi baaki (item 20, user baad me batayega).
 
 App me pattern ki index (Pattern Scan tab): naam par click karo to wo pattern jitne chal rahe hain sab dikhte hain, har pattern ka README bhi. Details: HANDOFF.md.
+
+## App ka naksha (har hissa kahan hai) - sirf APPROVED/live cheezein (23 Nov 2026)
+Niyam: jo push hota hai wo user ne approve kiya hai. Naya sikhna baaki ho to wo push nahi hota.
+Neeche ki bar: **Active | Aaj ki List | Pattern Scan | Paper Trading | Aur**. "Aur" me: Dost Khojo, Lab, Monitor, Record, Pattern, Din (Baar), Data, Guide, Number Rank.
+
+| Tab | Kya karta hai | Code |
+|---|---|---|
+| Active | abhi chal rahe pattern, pichle 1/2/3 din ke PASS, 30 din ka scoreboard, "Abhi scan karo" | tabs_active.js, lab/active.py, /api/active |
+| Aaj ki List | dost jodi, Band Rashi/Number, Baar Filter | tabs_core.js, lab/band.py, lab/baar.py |
+| Pattern Scan | har pattern (001 Copy, 002 Naksha, 002b Naksha-Rashi, 003 Family, 005 Dana-Farak) ke card, rang wala chart, mahine ki copy, PNG/Excel, README, "dekh liya", sab download PDF/JPG/Excel, Edit karo | tabs_scan.js, lab/scanner.py, lab/scan_view.py, lab/export_all.py |
+| Number Rank | aaj ke saare map ke vote: ek map = ek vote, score = kitne map, +1 din ka point; har type me FB/GB/GL/DS aur All location + ALL IN ONE; copy button | tabs_rank.js, lab/rank.py, /api/rank |
+| Din (Baar) | har weekday ki tokri (6 number + palat) | tabs_baar.js, lab/baar.py |
+| Pattern | rang bharo, save, Excel download; Pattern Scan se "Edit karo" yahin khulta hai | tabs_pattern.js, /api/pattern/* |
+| Record | Gap Filter (same gap se bane step, rang), Excel | tabs_guide.js, lab/gapchain.py |
+| Paper Trading, Monitor, Lab, Dost, Data, Guide | pehle ke approved hisse | tabs_lab.js, tabs_core.js, tabs_guide.js |
+
+**Scan:** din me 3 baar auto (subah 7:00, shaam 19:00, raat 00:30 IST) + manual button. Roz naya "batch" (dekh liya nishan roz 0 se). Pattern kabhi gayab nahi hote (data/active_log.json).
+**Approved naksha version:** git tag `naksha-approved-2026-11-23`. **Abhi live nahi (user sikha raha hai):** current 3 mahine ka Naksha mapping, Naksha ka pass/fail niyam.
+Poori detail: HANDOFF.md (items 1-24).

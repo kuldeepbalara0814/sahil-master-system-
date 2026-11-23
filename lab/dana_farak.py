@@ -154,4 +154,5 @@ def item(e, today):
     return {"id": key, "kind": "dana", "end": end, "name": f"Dana-{e['kind']}-{e['c1'][0]:%d%b}", "status": st, "strength": "info", "ambiguous": e["amb"], "loc": [],
             "title": f"{e['core'][0]:02d} dana-farak | {e['c1'][0]:%d %b} se" + (" | confusion" if e["amb"] else ""),
             "lines": lines,
-            "target": {"date": today.isoformat(), "games": f"baaki game, {e['end']:%d %b} DS tak", "numbers": e["core"]} if st == "aaj" else None}
+            "target": {"date": today.isoformat(), "games": f"baaki game, {e['end']:%d %b} DS tak", "numbers": e["core"]} if st == "aaj" else None,
+            "targets": [{"game": "ALL", "numbers": e["core"]}] if st == "aaj" else []}

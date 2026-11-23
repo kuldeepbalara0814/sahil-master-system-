@@ -24,3 +24,15 @@
 .edwrap{display:inline-flex;gap:6px;flex-wrap:wrap}
 .dlx{text-decoration:none}
 .pednote{background:var(--bg2);border:1px solid var(--ac);border-radius:10px;padding:8px 10px;margin:8px 0}
+.rk-seg{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 10px}
+.rk-seg button{background:var(--bg2);border:1px solid var(--line);color:var(--tx);padding:7px 12px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer}
+.rk-seg button.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.rk-seg small{opacity:.75;font-weight:600}
+.rk-lbl{margin:8px 0 0}
+.rk-btns{margin:8px 0;gap:8px}
+.rk-row{display:flex;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}
+.rk-no{min-width:30px;color:var(--mut);font-weight:700;font-size:13px}
+.rk-mid{flex:1;min-width:0}
+.rk-top{display:flex;gap:8px;align-items:center;margin-bottom:4px}
+.rk-maps{margin-top:4px;word-break:break-word}
+.rk-link{display:block;width:100%;text-align:left;margin-bottom:12px;border-left:4px solid var(--ac);cursor:pointer;font-weight:800;color:var(--tx)}

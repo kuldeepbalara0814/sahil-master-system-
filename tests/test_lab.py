@@ -671,3 +671,45 @@ class BoardXlsxTests(unittest.TestCase):
         self.assertEqual(miss.status_code, 404)
         self.assertIn("error", miss.get_json())
         c.post("/api/pattern/delete", json={"id": bid}, headers=H)          # baaki tests ke liye saaf
+
+
+class RankTests(unittest.TestCase):
+    def test_rank_votes(self):
+        from lab import rank
+        rep = {"patterns": [
+            {"key": "naksha", "naam": "Naksha", "items": [
+                {"targets": [{"game": "FB", "numbers": [58, 85]}, {"game": "GL", "numbers": [58, 85]}]},     # ek map do jagah: ek hi vote
+                {"targets": [{"game": "GB", "numbers": [58, 85, 11]}]}]},
+            {"key": "copy", "naam": "Jodi-Copy", "items": [{"targets": [{"game": "ALL", "numbers": [11]}]}]}]}
+        out = rank.build(rep, ROWS)
+        g = {x["key"]: x for x in out["groups"]}
+        top = g["naksha"]["lists"]["ALL"][0]
+        self.assertEqual((top["votes"], len(top["maps"])), (2, 2))          # 58/85: do alag map
+        self.assertEqual([r["n"] for r in g["naksha"]["lists"]["FB"]], [58, 85])
+        self.assertEqual(g["naksha"]["lists"]["FB"][0]["votes"], 1)
+        self.assertEqual(g["copy"]["lists"]["FB"], [])                      # location tay nahi: sirf ALL
+        self.assertEqual([r["n"] for r in g["copy"]["lists"]["ALL"]], [11])
+        self.assertEqual(g["all"]["maps"], 3)
+        eleven = [r for r in g["all"]["lists"]["ALL"] if r["n"] == 11][0]
+        self.assertEqual(eleven["votes"], 2)
+
+    def test_rank_api(self):
+        r = lab_server.app.test_client().get("/api/rank")
+        self.assertEqual(r.status_code, 200)
+        j = r.get_json()
+        self.assertEqual([g["key"] for g in j["groups"]], ["all", "naksha", "naksha2", "family", "copy", "dana"])
+        self.assertTrue(j["groups"][0]["maps"] >= 0 and set(j["groups"][0]["lists"]) == {"FB", "GB", "GL", "DS", "ALL"})
+        s = j["groups"][1]["lists"]["ALL"]
+        self.assertTrue(all(s[i]["score"] >= s[i + 1]["score"] for i in range(len(s) - 1)))
+
+
+class StaleScanTests(unittest.TestCase):
+    def test_old_schema_scan_is_rerun(self):
+        old = scanner.run(ROWS)
+        old["schema"] = 1
+        for p in old["patterns"]:
+            for it in p["items"]:
+                it.pop("targets", None)
+        lab_server.jsave("patterns_today.json", old)
+        new = lab_server.scan_today(ROWS)
+        self.assertEqual(new["schema"], scanner.SCHEMA)

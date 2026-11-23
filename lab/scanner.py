@@ -29,6 +29,7 @@ WORDS = ["Mor", "Sher", "Chita", "Hans", "Baaz", "Hathi", "Ghoda", "Tota", "Mach
 # random jagah par bhi best z kitna aata hai (120 random mahine, 13 saal): L -> (median, max). Isse 'mazboot/theek/kamzor' tay hota hai.
 BASE = {10: (6.5, 9.4), 12: (6.0, 9.7), 15: (5.8, 10.8), 18: (5.5, 7.8)}
 BASE_R = {10: (5.0, 8.9), 12: (5.0, 7.3), 15: (4.9, 6.2), 18: (4.5, 6.5)}   # rashi wala: 60 random jagah (13 saal)
+SCHEMA = 2                                               # scan ke item ka dhancha badle to badhao: purani saved scan dobara chalegi
 LENS = (10, 12, 15, 18)
 TOP = 12                                                 # har lambai ke itne milan dikhao
 PAL = ["FF9800", "AB47BC", "66BB6A", "EF5350", "26C6DA", "F06292", "8D6E63", "9CCC65"]
@@ -116,7 +117,8 @@ def scan_copy(rows, asof):
                       "lines": [f"Set (4 jodi): {sets} (dono number + palat)",
                                 (f"Aaj {today:%d %b} (din 4): is set ka koi number kisi bhi game me aaye to PASS." if e["status"] == "aaj" else
                                  f"Din 4 ({e['t']:%d %b}): " + (", ".join(f"{GAMES[k]} {v:02d}" for k, v in e["hit"]) if e["hit"] else "set ka number nahi aaya") + (" - PASS" if e["hit"] else " - FAIL"))],
-                      "target": {"date": today.isoformat(), "games": "FB GB GL DS (chaaron)", "numbers": e["S"]} if e["status"] == "aaj" else None})
+                      "target": {"date": today.isoformat(), "games": "FB GB GL DS (chaaron)", "numbers": e["S"]} if e["status"] == "aaj" else None,
+                      "targets": [{"game": "ALL", "numbers": sorted(e["S"])}] if e["status"] == "aaj" else []})
     return {"summary": f"Pichle 3 mahine: {len(done)} jodi poori huin, {ps} PASS (random me bhi ~15% pass hota hai).", "items": items}
 
 
@@ -215,7 +217,8 @@ def _naksha_item(rows, D, C, so, sc, L, zb, rank, nlinks, mode="n"):
         return ({"id": f"{pid}:{L}:{D[so].isoformat()}", "kind": pid, "name": name_for(nm, key),
                       "status": "aaj" if tg else "dekho", "strength": strength, "steps": len(info["comps"]), "z": round(zb, 1), "rank": rank,
                       "title": f"#{rank} {D[so]:%b %Y} jaisa ({L} line)", "lines": lines,
-                      "target": {"date": today.isoformat(), "games": ", ".join(sorted({t['game'] for t in tg})), "numbers": sorted({x for t in tg for x in t["numbers"]})} if tg else None})
+                      "target": {"date": today.isoformat(), "games": ", ".join(sorted({t['game'] for t in tg})), "numbers": sorted({x for t in tg for x in t["numbers"]})} if tg else None,
+                      "targets": [{"game": t["game"], "numbers": t["numbers"]} for t in tg]})
 
 
 # ---------------------------------------------------------------- 003 family
@@ -284,7 +287,8 @@ def scan_family(rows, asof):
                       "ambiguous": e["amb"], "loc": [GAMES[g] for g in e["loc"]],
                       "title": f"{e['rashi']:02d} rashi | {e['shape']} | {e['d']:%d %b} se" + (" | jodi rashi" if len(e["numbers"]) == 4 else ""),
                       "lines": lines,
-                      "target": {"date": today.isoformat(), "games": ("chaaron (aap tay karo)" if e["amb"] else ", ".join(GAMES[g] for g in e["loc"]) + " zyada"), "numbers": e["numbers"]} if e["status"] == "aaj" else None})
+                      "target": {"date": today.isoformat(), "games": ("chaaron (aap tay karo)" if e["amb"] else ", ".join(GAMES[g] for g in e["loc"]) + " zyada"), "numbers": e["numbers"]} if e["status"] == "aaj" else None,
+                      "targets": ([{"game": "ALL", "numbers": e["numbers"]}] if e["amb"] or not e["loc"] else [{"game": GAMES[g], "numbers": e["numbers"]} for g in e["loc"]]) if e["status"] == "aaj" else []})
     summary = (f"Pichle 3 mahine: 8-number rashi {pas(s8)}/{len(s8)} pass ({100 * pas(s8) / max(1, len(s8)):.0f}%, random ~28%), "
                f"jodi rashi {pas(s4)}/{len(s4)} ({100 * pas(s4) / max(1, len(s4)):.0f}%, random ~15%). Aaj {sum(1 for i in items if i['status'] == 'aaj')} design 3rd step ki taraf, "
                f"{sum(1 for i in items if i['status'] != 'aaj')} pichle 3 din me poore huye.")
@@ -344,7 +348,7 @@ def run(rows, only=None) -> dict[str, Any]:
     """Sab pattern chalao. Ek me galti ho to baaki chalte hain. -> report"""
     t0 = time.time()
     asof = rows[-1][0].isoformat()
-    rep: dict[str, Any] = {"asof": asof, "play_date": data.play_date(rows).isoformat(), "time": dt.datetime.now().isoformat(timespec="seconds"),
+    rep: dict[str, Any] = {"schema": SCHEMA, "asof": asof, "play_date": data.play_date(rows).isoformat(), "time": dt.datetime.now().isoformat(timespec="seconds"),
                            "patterns": [], "errors": []}
     for p in PATTERNS:
         if only and p["key"] != only:

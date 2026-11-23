@@ -26,7 +26,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import active, backtest, baar, band, data, export_all, export_xlsx, friends, gapchain, gh, idea, monitor, paper, picks, scan_view, scanner, update            # noqa: E402
+from lab import active, backtest, baar, band, data, export_all, export_xlsx, friends, gapchain, gh, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -414,7 +414,7 @@ def save_scan(rep, source="auto", push=False):
 def scan_today(rows):
     """Aaj ka scan (saved agar taaza ho, warna abhi chalao; ye 'auto' gina jaata hai)."""
     rep = jload("patterns_today.json", None)
-    if not rep or rep.get("asof") != rows[-1][0].isoformat():
+    if not rep or rep.get("asof") != rows[-1][0].isoformat() or rep.get("schema") != scanner.SCHEMA:
         rep = scanner.run(rows)
         save_scan(rep, "auto")
     return rep
@@ -536,6 +536,13 @@ def api_scanner_months():
         copies.append({"id": pid, "name": v["title"].split(":")[0], "title": v["title"], "remark": "\n".join(it["lines"]) if it else v["note"],
                        "status": it["status"] if it else "", "color": scanner.COPY_COLORS[n % len(scanner.COPY_COLORS)], "ym": yms, "cells": cells})
     return jsonify({"key": key, "scope": scope, "total": total, "shown": len(copies), "capped": total > len(copies), "months": months, "copies": copies})
+
+
+@app.get("/api/rank")
+def api_rank():
+    """Number Rank: aaj ke saare map ke vote, score ke hisab se (HANDOFF item 22)."""
+    rows, _ = state()
+    return jsonify(rank.build(scan_today(rows), rows))
 
 
 @app.get("/api/review")
