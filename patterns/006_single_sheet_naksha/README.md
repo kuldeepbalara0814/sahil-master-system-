@@ -73,3 +73,10 @@ Pichle 1-2 mahine me wahi design/dhun mile to usko **chhodna nahi**; software me
 - **SHAPE:** jab hum **mahine se mahine** me chalte hai to **shape 1 aur shape 2 same** hote hai. Jaise naksha me **2013 ka koi mahina (shape 1)** liya aur **Nov 2026 (ya aage Dec ya kahin bhi)** me shape 2 banaya: dono me **dino ki duri ek jaisi** (jaise koi green cell kitne din ke baad). 
 - **Step 1/2/3 banne ki jagah:** **current mahina**, ya **2 mahine jod ke** (Oct+Nov), ya **3 mahine jod ke** (Sep+Oct+Nov). Sep me koi design bana, Oct me **waisa hi** bana, to **pata chalta hai ki Nov me aisa ban sakta hai.**
 - **2 mahine me:** maan lo Oct me ek design ke do step bane (unme **din ki duri ek jaisi** hai, ya **koi common number/rashi** ek jaisa) aur Nov me **waisa aadha design** ban gaya -> ab pata chal gaya ki **wahi kaam yahan karega** (aage ka hissa).
+
+## NAKSHA bhi step ki ginti me + BOUNDARY (seema) - user ne samjhaya, 23 Nov 2026
+- **Naksha bhi step ki ginti me hi aata hai** (sirf "purana reference" nahi). 2013 ka koi bhi mahina lo to uski rows (1 se 30) wahi hoti hai, to duri bani bani hai; Nov me bhi wahi. Shape **ek mahine ke andar** jo design bana wahi Nov me banta hai.
+- **Step kahan:** Sep me design bana (step 1), Oct me waisa design (step 2), Nov me waisa design bana raha hai (step 3). Teeno mahine **ek hi lambi (stacked) sheet** jaise maan lo (jaise Sep+Oct = 61 row, Nov abhi ~13-15 tarikh tak chal raha hai => kul ~75 row).
+- **Design ek jagah se shuru hoke kahin khatam hota hai.** Uske **upar se niche tak box (row) ginti** karo. Jitne box Sep ke design me hai **utne hi box ka** design Nov me hoga.
+- **BOUNDARY (seema) = ek step ke design ke box ki ginti.** Wahi boundary baaki sab step ke liye.
+- **Fail/pass kaise tay karte hai:** Nov me us **box ginti ke andar** pattern ne kaam kiya (andaza wala number aaya) to **PASS**; **boundary ke bahar** nikla to **FAIL**. ("us box count ke andar us pattern ne kaam kiya to sahi, bahar nikla to fail hai.")
