@@ -54,4 +54,14 @@ User ne kaha: ye jo upar bataya wo **seedha** hai (sheet me upar se niche, yani 
 ## Meri banai current sheet (Current_sheet_Nov2026_mera_banaya_pattern.xlsx) par user ki galtiyan (23 Nov 2026)
 User ne kaha: jitna banaya sahi banaya, par **do galti** hai. Pehli:
 1. **Rang ki galti:** maine 15 ko **neela** aur uske baad wale 26 ko **hara** kiya. **Galat.** Rule pehle hi likha hai: **rang hi aapas ki pehchan batata hai** - jo cell aapas me jude hai (ek jod/link) un sab ka **ek hi rang** hona chahiye. Jod ka ek rang; alag jod ka alag rang. (Mera P=neela, Q=hara dena galat tha.)
-2. (Doosri galti user abhi bataenge.)
+2. **Ek jagah do cell ek saath mark:** sabse upar maine **15 aur 51 (03 Nov, GB aur FB) dono ko neela** kiya. **Dono ko mark karne se logic nahi banta; unme se koi EK lo.** (Phir 62 -> 51 ki duri 4 din li ja rahi thi - samajhne wala confuse ho jata hai, isliye ise **saaf pattern nahi** kehte.)
+
+
+### User ne do naye shabd samjhaye
+- **FLAT** = **ek hi din (ek hi row) me do alag location** me number aana (jaise GB aur GL, ya FB aur DS, same tarikh).
+- **STANDING** = **upar-neeche, ek hi location (ek hi column)** me, alag-alag tarikh par aana. Jaise GB me 04 ko 15 aaya aur 03 ya 06 ko GB me hi 15/51 aaya = standing. (Standing me location bilkul same hoti hai.)
+
+### Saaf pattern kaisa hota (user ke hisaab se)
+- Ya to **do standing** (dono jagah ek hi location par upar-neeche), ya **flat**: upar flat me jo do number aaye (jaise 62 aur 17, chahe GB-GL ya FB-DS same din), neeche bhi **flat** me wahi (15 aur 51 ya 15 aur 15) aaye.
+- **Same duri par neeche flat me 17 ki koi rashi aayi ho; agar 17 ki nahi to neeche koi bhi number ki rashi flat me aayi ho (upar ke number ki)** -> tab **logic ban jata hai**. Tab unko **alag colour** dete hai (ek jod = ek colour) ki "yaha ye cheez **same duri par** ho rahi hai".
+- Yani cell ek-ek karke bina soche nahi, **flat ke saath flat, standing ke saath standing**, same duri, aur number/rashi ka link.
