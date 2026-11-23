@@ -11,7 +11,7 @@ import os
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 
-from . import data
+from . import data, ds_rule
 
 GAMES = {"FB": 0, "GB": 1, "GL": 2, "DS": 3}
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -91,12 +91,20 @@ def xlsx_bytes(rows, game, basis="line"):
             h = ws.cell(2, 2 + m, MONTHS[m])
             h.font, h.fill, h.alignment, h.border = Font(bold=True, color="FFFFFF"), PatternFill("solid", fgColor="44546A"), CEN, BOX
         gr = grid(ser, y)
+        fl = ds_rule.mark_flags(ser) if game == "DS" else {}
         for dday in range(31):
             dc = ws.cell(3 + dday, 1, dday + 1)
             dc.font, dc.alignment, dc.border = Font(bold=True, color="0B5394"), CEN, BOX
             for m in range(12):
                 c = ws.cell(3 + dday, 2 + m, gr[dday][m])
                 c.number_format, c.alignment, c.border, c.font = "00", CEN, BOX, Font(bold=True)
+                if fl and gr[dday][m] is not None:
+                    try:
+                        f = fl.get(dt.date(y, m + 1, dday + 1))
+                    except ValueError:
+                        f = None
+                    if f:
+                        c.fill = PatternFill("solid", fgColor="66BB6A" if f == 2 else "FFB74D")
         ws.column_dimensions["A"].width = 6
         for m in range(12):
             ws.column_dimensions[chr(66 + m)].width = 7

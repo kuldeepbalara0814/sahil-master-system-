@@ -121,8 +121,8 @@ function grCard(){
    const i=years.indexOf(year);pv.disabled=i>=years.length-1;nx.disabled=i<=0;
    const t=el("table",{class:"gr-t"}),hr=el("tr",{},el("th",{class:"d"},"Din"),d.months.map(x=>el("th",{},x)));
    t.append(el("thead",{},hr));
-   t.append(el("tbody",{},d.grid.map((r,k)=>el("tr",{},el("td",{class:"d"},String(k+1)),r.map(v=>v===null||v===undefined?el("td",{class:"e"},"-"):el("td",{},p2(v)))))));
-   body.replaceChildren(el("div",{class:"gr-wrap"},t));
+   t.append(el("tbody",{},d.grid.map((r,k)=>el("tr",{},el("td",{class:"d"},String(k+1)),r.map((v,c)=>{const f=d.marks&&d.marks[k]?d.marks[k][c]:0;return v===null||v===undefined?el("td",{class:"e"},"-"):el("td",{class:f?"mk"+f:""},p2(v))})))));
+   body.replaceChildren(...[d.marks?el("p",{class:"small",style:"margin:0 0 6px"},el("span",{class:"gr-lg mk2"},"hara"),` = roz-1 rule se pass (DS ka 2 result pehle wala number aaya), `,el("span",{class:"gr-lg mk1"},"narangi"),` = sirf roz-4 rule (2,3,4,5 result pehle) se pass. Naya result aate hi aage apne aap rang aata hai.`):null,el("div",{class:"gr-wrap"},t)].filter(Boolean));
    info.textContent=`Record: ${d.first} se ${d.last} | ${d.count} din`+(d.note?" | "+d.note:"");
   }catch(e){if(my!==seq)return;body.replaceChildren(el("div",{class:"warn"},e.message));info.textContent=""}}
  drawSeg();drawBasis();links();

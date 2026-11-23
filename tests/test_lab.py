@@ -921,3 +921,19 @@ class DsLedgerTests(unittest.TestCase):
         self.assertEqual(len(j["modes"]["one"]["today"]["numbers"]), 1)
         self.assertEqual((j["stake"], j["capital"]), (30, 10000))
         self.assertTrue(j["rules"])
+
+
+class DsMarksTests(unittest.TestCase):
+    def test_flags_and_api(self):
+        from lab import ds_rule
+        base = dt.date(2026, 1, 1)
+        ser = [(base + dt.timedelta(days=i), v) for i, v in enumerate([1, 2, 3, 4, 5, 3, 5])]
+        fl = ds_rule.mark_flags(ser)
+        self.assertEqual(fl.get(base + dt.timedelta(days=5)), 1)      # 3 aaya: lag3 (3) -> sirf roz-4 rule (lag2 4 hai)
+        self.assertEqual(fl.get(base + dt.timedelta(days=6)), 2)      # 5 aaya: lag2 (5) -> hara
+        c = lab_server.app.test_client()
+        j = c.get("/api/record/game?g=DS").get_json()
+        self.assertIsNotNone(j["marks"])
+        self.assertEqual((len(j["marks"]), len(j["marks"][0])), (31, 12))
+        self.assertIsNone(c.get("/api/record/game?g=FB").get_json()["marks"])
+        self.assertEqual(c.get("/api/record/game.xlsx?g=DS").status_code, 200)

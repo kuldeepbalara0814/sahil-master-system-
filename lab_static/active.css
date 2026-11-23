@@ -90,3 +90,7 @@
 .ht-card.seen{opacity:.6}
 .ht-line{margin:3px 0;font-size:13px}
 .ht-n2{margin:10px 0}
+
+/* DS chart par rule ke pass wale cell */
+.gr-t td.mk1{background:#FFB74D;color:#000;font-weight:800}.gr-t td.mk2{background:#66BB6A;color:#000;font-weight:800}
+.gr-lg{padding:1px 7px;border-radius:6px;color:#000;font-weight:700}.gr-lg.mk1{background:#FFB74D}.gr-lg.mk2{background:#66BB6A}

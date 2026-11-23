@@ -110,3 +110,14 @@ def view(rows):
             "ref": {"since": "2022-01-01", "stakes": rs, "hits": rh, "rate": round(100 * rh / rs, 2) if rs else None},
             "verdict": verdict, "modes": modes, "rules": RULES, "stake": STAKE, "payout": PAYOUT, "capital": CAPITAL,
             "warning": "Ye sirf paper hai. Hit ~17 din me ek aata hai, 100+ din tak bina hit bhi ho sakta hai, aur ek saal -39% se +57% gaya hai. 90 din (~360 stake, ~5 hit) me faisla nahi hota; asli aur random ka farak dikhne me ~5 saal lagte hai. Asli paisa lagane ki salah nahi."}
+
+
+def mark_flags(ser):
+    """DS chart par rang: ser = [(tarikh, number)] row-wise. -> {tarikh: 2 (roz-1 rule se hit, wo 4 me bhi), 1 (sirf roz-4 rule se hit)}. Naya result aate hi aage apne aap."""
+    flags = {}
+    k = max(LAGS)
+    for i in range(k, len(ser)):
+        v = ser[i][1]
+        if v in {ser[i - l][1] for l in LAGS}:
+            flags[ser[i][0]] = 2 if v == ser[i - 2][1] else 1
+    return flags
