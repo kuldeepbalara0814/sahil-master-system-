@@ -88,8 +88,50 @@ tabs.record=async function(m){
   el("div",{class:"row"},el("span",{},"Se:"),from,el("span",{},"Tak:"),to,dl),info),
   el("div",{class:"card flat",style:"padding:10px"},prev),
   el("p",{class:"mut small"},"DS us line me likha agli subah ka Desawar hai. Mahine ka aakhri din chhuti hai, isliye khaali dikhega."));
+ m.append(grCard());
  preset(presets[1][1]);gload();
 };
+
+// ---- Har game ka alag record (FB/GB/GL/DS) ----
+function grCard(){
+ const GAMES=[["FB","FB","2013 se"],["GB","GB","2013 se"],["GL","GL","2013 se"],["DS","DS","1966 se"]];
+ let g="FB",basis="line",year=null,years=[],seq=0;
+ try{const x=localStorage.getItem("gr_game");if(GAMES.some(a=>a[0]===x))g=x}catch(e){}
+ const seg=el("div",{class:"gr-seg"}),ysel=el("select",{class:"gr-year"}),body=el("div"),info=el("p",{class:"mut small gr-info"}),
+  bbox=el("div",{class:"gr-basis"}),xl=el("a",{class:"gr-dl",href:"#"},el("button",{class:"b"},"Excel download")),cs=el("a",{class:"gr-dl",href:"#"},el("button",{class:"b g"},"CSV download"));
+ const pv=el("button",{class:"b g sm",on:{click:()=>step(1)}},"< Pichla"),nx=el("button",{class:"b g sm",on:{click:()=>step(-1)}},"Agla >");
+ function step(d){const i=years.indexOf(year);const j=i+d;if(i<0||j<0||j>=years.length)return;year=years[j];load()}
+ function links(){const q=`g=${g}&basis=${basis}`;xl.href="/api/record/game.xlsx?"+q;cs.href="/api/record/game.csv?"+q}
+ function drawSeg(){seg.replaceChildren(...GAMES.map(([k,n,s])=>el("button",{class:g===k?"on":"",on:{click:()=>{if(g===k)return;g=k;year=null;try{localStorage.setItem("gr_game",g)}catch(e){}drawSeg();drawBasis();load()}}},n," ",el("small",{},s))))}
+ function drawBasis(){
+  bbox.replaceChildren();if(g!=="DS")return;
+  bbox.append(el("div",{class:"mut small"},"Tarikh:"),el("div",{class:"gr-seg"},
+   el("button",{class:basis==="line"?"on":"",on:{click:()=>{basis="line";year=null;drawBasis();load()}}},"hamare record jaisi (line)"),
+   el("button",{class:basis==="khula"?"on":"",on:{click:()=>{basis="khula";year=null;drawBasis();load()}}},"khulne ki tarikh (site jaisi)")),
+   el("p",{class:"mut small"},"Line: DS ka number us tarikh ki line me jo agli subah khulta hai. Khulne ki tarikh: number usi din par jis din site par khula."))}
+ ysel.onchange=()=>{year=+ysel.value;load()};
+ async function load(){
+  const my=++seq;links();
+  body.replaceChildren(el("p",{class:"mut"},el("span",{class:"spin"}),"Load ho raha hai..."));
+  try{
+   const d=await api("GET",`/record/game?g=${g}&basis=${basis}`+(year?`&year=${year}`:""));
+   if(my!==seq)return;
+   years=d.years.slice().reverse();year=d.year;
+   ysel.replaceChildren(...years.map(y=>el("option",{value:y,selected:y===year},String(y))));ysel.value=String(year);
+   const i=years.indexOf(year);pv.disabled=i>=years.length-1;nx.disabled=i<=0;
+   const t=el("table",{class:"gr-t"}),hr=el("tr",{},el("th",{class:"d"},"Din"),d.months.map(x=>el("th",{},x)));
+   t.append(el("thead",{},hr));
+   t.append(el("tbody",{},d.grid.map((r,k)=>el("tr",{},el("td",{class:"d"},String(k+1)),r.map(v=>v===null||v===undefined?el("td",{class:"e"},"-"):el("td",{},p2(v)))))));
+   body.replaceChildren(el("div",{class:"gr-wrap"},t));
+   info.textContent=`Record: ${d.first} se ${d.last} | ${d.count} din`+(d.note?" | "+d.note:"");
+  }catch(e){if(my!==seq)return;body.replaceChildren(el("div",{class:"warn"},e.message));info.textContent=""}}
+ drawSeg();drawBasis();links();
+ const c=el("div",{class:"card gr-card"},el("h2",{},"Har game ka alag record ",el("span",{class:"sub"},"(FB, GB, GL, DS)")),
+  el("p",{class:"mut"},"Chuno kaun sa game aur kaun sa saal. Chart satta site jaisa hai: upar mahine, side me din 1-31."),
+  seg,bbox,el("div",{class:"row gr-yr"},pv,ysel,nx),body,info,
+  el("div",{class:"row gr-btns"},xl,cs),
+  el("p",{class:"mut small"},"Ye sheet sab-ek-me record se bante hain, isliye naya result aate hi apne aap update ho jaati hain."));
+ load();return c}
 
 tabs.guide=async function(m){
  const sec=(t,items)=>el("div",{class:"card"},el("h2",{},t),el("ul",{class:"g"},items.map(x=>el("li",{},x))));

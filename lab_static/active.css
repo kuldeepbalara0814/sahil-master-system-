@@ -36,3 +36,20 @@
 .rk-top{display:flex;gap:8px;align-items:center;margin-bottom:4px}
 .rk-maps{margin-top:4px;word-break:break-word}
 .rk-link{display:block;width:100%;text-align:left;margin-bottom:12px;border-left:4px solid var(--ac);cursor:pointer;font-weight:800;color:var(--tx)}
+
+.gr-seg{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 8px}
+.gr-seg button{background:var(--bg2);border:1px solid var(--line);color:var(--tx);padding:7px 12px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer}
+.gr-seg button.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.gr-seg small{opacity:.75;font-weight:600}
+.gr-yr{align-items:center;gap:8px;margin:6px 0}
+.gr-yr select{flex:1;min-width:0}
+.gr-wrap{border:1px solid var(--line);border-radius:10px;max-height:70vh;overflow-y:auto;overflow-x:hidden;background:var(--card)}
+.gr-t{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0;font-variant-numeric:tabular-nums}
+.gr-t th,.gr-t td{border:1px solid var(--line);padding:3px 0;text-align:center;font-size:11.5px;line-height:1.2;font-weight:800;color:var(--tx);overflow:hidden}
+.gr-t thead th{position:sticky;top:0;z-index:2;background:var(--acb);color:#fff;font-size:11px}
+.gr-t .d{width:9%;position:sticky;left:0;z-index:1;background:var(--bg2);color:var(--ac);font-size:10.5px}
+.gr-t thead th.d{z-index:3;background:var(--acb);color:#fff}
+.gr-t td.e{color:var(--mut);font-weight:400}
+.gr-info{margin:8px 0}
+.gr-btns{gap:8px;margin:8px 0}
+.gr-dl{text-decoration:none;display:inline-block}

@@ -26,7 +26,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import active, backtest, baar, band, data, export_all, export_xlsx, friends, gapchain, gh, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
+from lab import active, backtest, baar, band, data, export_all, export_xlsx, friends, gamefiles, gapchain, gh, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -536,6 +536,56 @@ def api_scanner_months():
         copies.append({"id": pid, "name": v["title"].split(":")[0], "title": v["title"], "remark": "\n".join(it["lines"]) if it else v["note"],
                        "status": it["status"] if it else "", "color": scanner.COPY_COLORS[n % len(scanner.COPY_COLORS)], "ym": yms, "cells": cells})
     return jsonify({"key": key, "scope": scope, "total": total, "shown": len(copies), "capped": total > len(copies), "months": months, "copies": copies})
+
+
+def _game_args():
+    g = (request.args.get("g") or "DS").upper()
+    if g not in gamefiles.GAMES:
+        raise ValueError("g FB, GB, GL ya DS hona chahiye")
+    basis = "khula" if request.args.get("basis") == "khula" else "line"
+    return g, basis
+
+
+@app.get("/api/record/game")
+def api_record_game():
+    """Ek game ka chart (31 din x 12 mahine) ek saal ka. ?g=DS&year=2026&basis=line|khula"""
+    try:
+        g, basis = _game_args()
+    except ValueError as e:
+        return err(str(e), 400)
+    rows, _ = state()
+    ser = gamefiles.series(rows, g, basis)
+    ys = gamefiles.years(ser)
+    try:
+        year = int(request.args.get("year") or ys[-1])
+    except ValueError:
+        return err("year number hona chahiye", 400)
+    if year not in ys:
+        return err(f"{g} ka {year} ka record nahi hai ({ys[0]}-{ys[-1]})", 404)
+    note = "DS us tarikh ki line me (agli subah ka Desawar), baaki sab game jaise hain." if g == "DS" and basis == "line" else ("DS khulne ki tarikh par (site jaisa)." if g == "DS" else "")
+    return jsonify({"g": g, "basis": basis, "years": ys, "year": year, "grid": gamefiles.grid(ser, year), "first": ser[0][0].isoformat(), "last": ser[-1][0].isoformat(),
+                    "count": len(ser), "note": note, "months": gamefiles.MONTHS})
+
+
+@app.get("/api/record/game.xlsx")
+def api_record_game_xlsx():
+    try:
+        g, basis = _game_args()
+    except ValueError as e:
+        return err(str(e), 400)
+    rows, _ = state()
+    return Response(gamefiles.xlsx_bytes(rows, g, basis), mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    headers={"Content-Disposition": f'attachment; filename="{g}_record.xlsx"'})
+
+
+@app.get("/api/record/game.csv")
+def api_record_game_csv():
+    try:
+        g, basis = _game_args()
+    except ValueError as e:
+        return err(str(e), 400)
+    rows, _ = state()
+    return Response(gamefiles.csv_bytes(rows, g, basis), mimetype="text/csv", headers={"Content-Disposition": f'attachment; filename="{g}_record.csv"'})
 
 
 @app.get("/api/rank")

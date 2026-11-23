@@ -72,6 +72,12 @@ def run(fetch=True, today=None, stake=5, auto_bets=True, data_dir=None, fetch_fn
     rep["drift_changes"] = len(changes)
     # 4) monitor
     _save_json(_path(data_dir, "monitor.json"), monitor.health(rows))
+    # 4b) har game ka alag record file (git me: game_fb.csv, game_gb.csv, game_gl.csv, game_ds.csv)
+    try:
+        from . import gamefiles
+        gamefiles.write_files(rows, data_dir)
+    except Exception as e:
+        rep.setdefault("scan_errors", []).append(f"game files nahi bani: {type(e).__name__}: {e}")
     # 5) pattern scan (sikhaye hue pattern: aaj kya ban raha hai). Galti ho to baaki kaam na ruke.
     try:
         from . import scanner

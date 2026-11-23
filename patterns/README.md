@@ -28,7 +28,7 @@ Neeche ki bar: **Active | Aaj ki List | Pattern Scan | Paper Trading | Aur**. "A
 | Number Rank | aaj ke saare map ke vote: ek map = ek vote, score = kitne map, +1 din ka point; har type me FB/GB/GL/DS aur All location + ALL IN ONE; copy button | tabs_rank.js, lab/rank.py, /api/rank |
 | Din (Baar) | har weekday ki tokri (6 number + palat) | tabs_baar.js, lab/baar.py |
 | Pattern | rang bharo, save, Excel download; Pattern Scan se "Edit karo" yahin khulta hai | tabs_pattern.js, /api/pattern/* |
-| Record | Gap Filter (same gap se bane step, rang), Excel | tabs_guide.js, lab/gapchain.py |
+| Record | Gap Filter (same gap se bane step, rang), Excel; **Har game ka alag record** (FB/GB/GL 2013 se, DS 1966 se; Excel/CSV) | tabs_guide.js, lab/gapchain.py |
 | Paper Trading, Monitor, Lab, Dost, Data, Guide | pehle ke approved hisse | tabs_lab.js, tabs_core.js, tabs_guide.js |
 
 **Scan:** din me 3 baar auto (subah 7:00, shaam 19:00, raat 00:30 IST) + manual button. Roz naya "batch" (dekh liya nishan roz 0 se). Pattern kabhi gayab nahi hote (data/active_log.json).

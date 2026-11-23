@@ -713,3 +713,32 @@ class StaleScanTests(unittest.TestCase):
         lab_server.jsave("patterns_today.json", old)
         new = lab_server.scan_today(ROWS)
         self.assertEqual(new["schema"], scanner.SCHEMA)
+
+
+class GameRecordTests(unittest.TestCase):
+    def test_series_grid_and_files(self):
+        from lab import gamefiles as G
+        fb = G.series(ROWS, "FB")
+        self.assertEqual((fb[0][0], len(fb)), (ROWS[0][0], len(ROWS)))
+        ds = G.series(ROWS, "DS")
+        self.assertTrue(len(ds) >= len(ROWS))                                  # purana hissa jud sakta hai
+        kh = G.series(ROWS, "DS", "khula")
+        self.assertEqual(kh[-1][0], ds[-1][0] + dt.timedelta(days=1))          # khula tarikh = line + 1
+        d0 = ROWS[0][0]
+        gr = G.grid(fb, d0.year)
+        self.assertEqual(gr[d0.day - 1][d0.month - 1], ROWS[0][1][0])
+        self.assertEqual(len(gr), 31)
+        self.assertEqual(len(gr[0]), 12)
+        self.assertTrue(G.xlsx_bytes(ROWS, "GL")[:2] == b"PK")
+        self.assertTrue(G.csv_bytes(ROWS, "GB").startswith(b"date,gb"))
+
+    def test_api(self):
+        c = lab_server.app.test_client()
+        j = c.get("/api/record/game?g=GL").get_json()
+        self.assertEqual((j["g"], len(j["grid"]), len(j["grid"][0])), ("GL", 31, 12))
+        self.assertEqual(c.get("/api/record/game?g=XX").status_code, 400)
+        self.assertEqual(c.get("/api/record/game?g=FB&year=1900").status_code, 404)
+        self.assertEqual(c.get("/api/record/game.xlsx?g=DS").status_code, 200)
+        r = c.get("/api/record/game.csv?g=FB")
+        self.assertEqual(r.status_code, 200)
+        self.assertTrue(r.data.startswith(b"date,fb"))
