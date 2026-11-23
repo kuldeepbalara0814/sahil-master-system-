@@ -44,3 +44,9 @@ User ne (23 Nov 2026) Chrome se save ki hui ek pic di: `ref_screenshot.jpg` (Exc
 
 ### Sudhar (user ne turant bataya): "upar" ka koi matlab nahi
 "Upar" sheet me upar-neeche ka matlab nahi hai. Matlab **duri** hai: 28 se 52 (04 ko FB) ki jitni duri hai, **wahi duri 28 se 25 (08 ko GB)** ki hai. Yani udaharan me 28 -> 52 aur 28 -> 25 **ek hi duri** par hai (jaise 1 din; 03 ko 28, 04 ko 52; 07 ko 28, 08 ko 25), **location koi bhi**. Aur 52 -> 25 ki duri alag, 4 din. Jab 28/82 phir aaye (23 ko DS me 82) to usi duri par 25/52 kisi bhi location me aa sakta hai.
+
+### Confirm (user ne kaha "ha yahi hai"): 82 ke baad
+23 ko DS me 82 aaya to **24 ko (1 din baad) kisi location me 25 ya 52** aa sakta hai, aur wo aaye to doosra (52 ya 25) **4 din baad (28 ko)** aa sakta hai. (Ye seedha pattern hai: **upar se niche, 01 se 30 tarikh ki taraf**.)
+
+## REVERSE (ULTA) pattern - abhi SIKHA NAHI (user baad me kisi bana hua udaharan dikhayenge)
+User ne kaha: ye jo upar bataya wo **seedha** hai (sheet me upar se niche, yani tarikh 01 se 30 ki taraf). Jo pattern **niche se upar, yani 30 se 01 tarikh ki taraf** bane use **ulta / reverse** kehte hai. Ye abhi sikhaya nahi gaya; user baad me bana hua dikhayenge. **Tab tak reverse ke liye kuch nahi banana, andaza nahi lagana.**
