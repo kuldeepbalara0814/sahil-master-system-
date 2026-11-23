@@ -91,3 +91,4 @@ Us boundary ke andar **cross, repeat, rashi** (jo bhi link ho) dekhte hai. **Wai
 - Isko hum **laal (red) rang** me dalte hai; ye **pakka karta hai ki ye pattern ban sakta hai.** 
 - Yani: us design ke har step ki boundary me ek-do number jo har baar wahi rehte hai = indicator.
 - **Indicator ki jagah (user ne confirm kiya):** boundary ke andar **kahin bhi** aa sakta hai (same duri par hona zaroori nahi); bas **har step ki boundary ke andar** aana chahiye.
+- **Indicator zaroori nahi (user ne kaha):** indicator **mile to sahi** (pattern ko pakka karta hai); **na mile to bhi pattern ban sakta hai.** Par **koshish ye ki kam se kam koi ek number ka indicator mil jaye.**
