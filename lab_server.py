@@ -9,6 +9,7 @@ import datetime as dt
 import hmac
 import json
 import os
+import re
 import shutil
 import threading
 import time
@@ -26,14 +27,16 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import active, backtest, baar, band, data, export_all, export_xlsx, friends, gamefiles, gapchain, gh, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
+from lab import active, backtest, baar, band, data, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
 SYNC = gh.Sync(DATA_DIR, os.environ.get("GITHUB_REPO", "kuldeepbalara0814/sahil-master-system-"),
                os.environ.get("GITHUB_BRANCH", "main"), os.environ.get("GITHUB_TOKEN", "")) if SYNC_ON else None
 IST = dt.timezone(dt.timedelta(hours=5, minutes=30))
-_lock = threading.RLock()
+_lock = threading.RLock()                                       # sirf rows ka cache
+_run_lock = threading.RLock()                                   # lambi cheez (fetch/update): cache wali lock nahi rokti
+_wlock = threading.RLock()                                      # JSON files ka padho-badlo-likho ek saath ek hi thread
 _cache = {"key": None, "rows": None, "friends": None}
 _fail, MAX_FAILS, WINDOW = {}, 8, 600
 
@@ -56,6 +59,15 @@ def jload(name, default):
 
 def jsave(name, obj):
     update._save_json(jpath(name), obj)
+
+
+def locked(fn):
+    """Write route: padhna-badalna-likhna ek ke baad ek (do click ek saath aayen to ek ka badlav na khoye)."""
+    def wrap(*a, **k):
+        with _wlock:
+            return fn(*a, **k)
+    wrap.__name__ = fn.__name__
+    return wrap
 
 
 def refresh():
@@ -90,8 +102,11 @@ def check_write():
         if SYNC_ON:
             return {"error": "Server par ADMIN_PIN set nahi hai, isliye likhna band hai."}, 503
         return None
-    ip = request.headers.get("X-Forwarded-For", request.remote_addr or "?").split(",")[0].strip()
+    ip = request.headers.get("X-Forwarded-For", request.remote_addr or "?").split(",")[-1].strip()     # aakhri entry proxy ki hai (pehli client nakli bhej sakta hai)
     now = time.time()
+    if len(_fail) > 500:
+        for k in [k for k, v in _fail.items() if not v or now - v[-1] >= WINDOW]:
+            del _fail[k]
     _fail[ip] = [t for t in _fail.get(ip, []) if now - t < WINDOW]
     if len(_fail[ip]) >= MAX_FAILS:
         return {"error": "Bahut galat PIN. 10 minute baad try karo."}, 429
@@ -130,6 +145,34 @@ def healthz():
     return jsonify({"status": "ok"})
 
 
+STATE_FILES = ["results.csv", "paper_ledger.json", "active_log.json", "hit_log.json", "review_log.json", "play_log.json", "manual_results.json",
+               "boards.json", "ideas.json", "fetch_log.json", "drift_log.json", "patterns_today.json"]
+
+
+@app.get("/api/health")
+def api_health():
+    """Sehat ek nazar me: aakhri data tarikh, aakhri scan (kab/kaise), galtiyan, state files ka size (badhte to nahi?). Kuch likhta nahi."""
+    rows, _ = state()
+    now = dt.datetime.now(IST)
+    exp = expected_last(now)
+    flog = jload("fetch_log.json", [])
+    alog = jload("active_log.json", None) or {}
+    scans = alog.get("scans") or []
+    rep = jload("patterns_today.json", None) or {}
+    sizes = {}
+    for n in STATE_FILES:
+        try:
+            sizes[n] = os.path.getsize(jpath(n))
+        except OSError:
+            sizes[n] = None
+    return jsonify({"ok": rows[-1][0] >= exp and not rep.get("errors"), "now_ist": now.strftime("%Y-%m-%dT%H:%M:%S"),
+                    "last_date": rows[-1][0].isoformat(), "expected_last": exp.isoformat(), "behind_days": max(0, (exp - rows[-1][0]).days),
+                    "days": len(rows), "play_date": data.play_date(rows).isoformat(),
+                    "last_scan": scans[-1] if scans else None, "scan_asof": rep.get("asof"), "scan_errors": rep.get("errors") or [],
+                    "last_fetch": flog[-1] if flog else None, "github": bool(SYNC), "can_write": bool(SYNC and SYNC.can_write) or not SYNC_ON,
+                    "data_problems": data.validate(rows)[:10], "file_bytes": sizes})
+
+
 _auto = {"t": 0.0, "running": False}
 
 
@@ -143,7 +186,7 @@ def expected_last(now):
 
 def _auto_run():
     try:
-        with _lock:
+        with _run_lock:
             SYNC.pull(force=True)
             rep = update.run(fetch=True, stake=5, data_dir=DATA_DIR, pause=1.0)
             if rep["added"] or rep["settled"] or rep["new_bets"]:
@@ -315,6 +358,8 @@ def api_pattern_sheet():
         ly, lm = rows[-1][0].year, rows[-1][0].month
         k = ly * 12 + lm - 1 - (n - 1)
         start = dt.date(k // 12, k % 12 + 1, 1)
+    if not 1990 <= start.year <= 2100:
+        return err("from saal 1990 se 2100 ke beech ho")
     by = {d: v for d, v, _ in rows}
     out = []
     for y, m in _months(start, n):
@@ -335,6 +380,7 @@ def api_boards():
 
 @app.post("/api/pattern/save")
 @guarded
+@locked
 def api_board_save():
     b = request.get_json(silent=True) or {}
     cells = b.get("cells") or {}
@@ -345,14 +391,18 @@ def api_board_save():
         try:
             d, g = str(k).split("|")
             dt.date.fromisoformat(d)
-            assert int(g) in range(4) and len(str(c)) == 6 and int(str(c), 16) >= 0
+            assert int(g) in range(4) and re.fullmatch(r"[0-9A-Fa-f]{6}", str(c))
         except (ValueError, AssertionError):
             return err("Cell ya rang galat: " + str(k)[:20])
         clean[f"{d}|{int(g)}"] = str(c).upper()
     boards = jload("boards.json", [])
     name = str(b.get("name") or "Mera pattern")[:60]
     bid = b.get("id")
-    item = {"id": bid or int(time.time() * 1000), "name": name, "from": str(b.get("from", ""))[:7], "months": int(b.get("months", 3)),
+    try:
+        months = max(1, min(int(b.get("months", 3)), 12))
+    except (TypeError, ValueError):
+        return err("months sankhya hona chahiye")
+    item = {"id": bid or int(time.time() * 1000), "name": name, "from": str(b.get("from", ""))[:7], "months": months,
             "cells": clean, "saved": dt.datetime.now(IST).isoformat(timespec="minutes")}
     if bid and any(x.get("id") == bid for x in boards):
         boards = [item if x.get("id") == bid else x for x in boards]
@@ -383,6 +433,7 @@ def api_board_xlsx():
 
 @app.post("/api/pattern/delete")
 @guarded
+@locked
 def api_board_delete():
     bid = (request.get_json(silent=True) or {}).get("id")
     boards = [x for x in jload("boards.json", []) if x.get("id") != bid]
@@ -397,12 +448,26 @@ def api_board_delete():
 # ---------------- pattern scan (sikhaye hue pattern roz apne aap) ----------------
 def save_scan(rep, source="auto", push=False):
     """Scan save karo + active_log me milao. push=True (manual) to GitHub par bhi (galti response na roke)."""
+    with _wlock:
+        _save_scan(rep, source, push)
+
+
+def _save_scan(rep, source, push):
     names = ["patterns_today.json"]
     try:                                                       # merge pehle: wo items par "new" nishan lagata hai
         jsave("active_log.json", active.merge(jload("active_log.json", None) or active.new_log(), rep, source=source))
         names.append("active_log.json")
     except Exception:
         app.logger.exception("active log merge fail")
+    try:                                                       # hit hue map: pehle purane andaze ka hisaab, phir naye andaze rakho
+        rws, _ = state()
+        hs = jload("hit_log.json", None) or hits.new_state()
+        hits.settle(hs, rws, jload("manual_results.json", {}), active.now_ist().date())
+        hits.archive(hs, rep)
+        jsave("hit_log.json", hs)
+        names.append("hit_log.json")
+    except Exception:
+        app.logger.exception("hit log fail")
     jsave("patterns_today.json", rep)
     if push:
         try:
@@ -588,6 +653,57 @@ def api_record_game_csv():
     return Response(gamefiles.csv_bytes(rows, g, basis), mimetype="text/csv", headers={"Content-Disposition": f'attachment; filename="{g}_record.csv"'})
 
 
+@app.get("/api/hits")
+def api_hits():
+    """Hit hue map (pichle 1-3 din): jin map ka andaza wala number aaya."""
+    hs = jload("hit_log.json", None) or hits.new_state()
+    out = hits.view(hs, request.args.get("days", 3), active.now_ist().date())
+    out["mismatch"] = hs.get("mismatch", [])[-5:]
+    return jsonify(out)
+
+
+@app.get("/api/result/manual")
+def api_result_manual_get():
+    rows, _ = state()
+    pd = data.play_date(rows).isoformat()
+    man = jload("manual_results.json", {}) or {}
+    done = (jload("hit_log.json", None) or hits.new_state()).get("done", {})
+    games = {g: ({"n": done[f"{pd}:{g}"]["n"], "src": done[f"{pd}:{g}"]["src"]} if f"{pd}:{g}" in done else None) for g in hits.GAMES}
+    return jsonify({"date": pd, "games": games, "manual": {d: man[d] for d in sorted(man)[-5:]}})
+
+
+@app.post("/api/result/manual")
+@guarded
+@locked
+def api_result_manual_set():
+    """Hath se result: jaise FB aate hi dalo. Us din ke andaze se turant milaya jata hai (kaun se map hit hue)."""
+    b = request.get_json(silent=True) or {}
+    g = str(b.get("game", "")).upper().replace("FD", "FB")
+    n = num(b.get("number"))
+    if g not in hits.GAMES or n is None or not 0 <= n <= 99:
+        return err("game (FB/GB/GL/DS) aur number (0 se 99) sahi dalo", 400)
+    rows, _ = state()
+    try:
+        date = dt.date.fromisoformat(b["date"]) if b.get("date") else data.play_date(rows)
+    except ValueError:
+        return err("tarikh YYYY-MM-DD likho", 400)
+    man = jload("manual_results.json", {}) or {}
+    man.setdefault(date.isoformat(), {})[g] = n
+    for old in sorted(man)[:-14]:
+        del man[old]
+    jsave("manual_results.json", man)
+    hs = jload("hit_log.json", None) or hits.new_state()
+    already = f"{date.isoformat()}:{g}" in hs.get("done", {})
+    new = [] if already else hits.evaluate(hs, date.isoformat(), g, n, "manual", active.now_ist().date())
+    jsave("hit_log.json", hs)
+    try:
+        persist(["manual_results.json", "hit_log.json"], "result (hath se)")
+    except Exception as e:
+        app.logger.warning("manual persist: %s", e)
+    return jsonify({"date": date.isoformat(), "game": g, "number": n, "already": already, "has_archive": date.isoformat() in hs.get("archive", {}),
+                    "new_hits": [{"id": x["id"], "name": x["name"], "title": x["title"], "pattern": x["pattern"]} for x in new], "n_new": len(new)})
+
+
 @app.get("/api/rank")
 def api_rank():
     """Number Rank: aaj ke saare map ke vote, score ke hisab se (HANDOFF item 22)."""
@@ -604,9 +720,13 @@ def api_review_get():
 
 
 @app.post("/api/review")
+@locked
 def api_review_set():
     b = request.get_json(silent=True) or {}
-    ids = [str(i)[:120] for i in (b.get("ids") or [])][:2000]
+    raw = b.get("ids") or []
+    if not isinstance(raw, list):
+        return err("ids ek list honi chahiye")
+    ids = [str(i)[:120] for i in raw][:2000]
     day = active.now_ist().date().isoformat()
     log = jload("review_log.json", {}) or {}
     days = log.setdefault("days", {})
@@ -630,6 +750,7 @@ def api_scanner_plays():
 
 @app.post("/api/scanner/play")
 @guarded
+@locked
 def api_scanner_play():
     """Aap ne kis pattern par kis game me kaun se number khele (manual note). plays={'FB':{'numbers':[..],'stake':10}}; khaali plays = hata do."""
     b = request.get_json(silent=True) or {}
@@ -794,6 +915,7 @@ def lab_ideas():
 
 @app.post("/api/lab/save")
 @guarded
+@locked
 def lab_save():
     b = request.get_json(silent=True) or {}
     try:
@@ -816,6 +938,7 @@ def lab_save():
 
 @app.post("/api/lab/delete")
 @guarded
+@locked
 def lab_delete():
     iid = (request.get_json(silent=True) or {}).get("id")
     ideas = [x for x in jload("ideas.json", []) if x.get("id") != iid]
@@ -866,6 +989,7 @@ def _save_ledger(L, msg):
 
 @app.post("/api/paper/place")
 @guarded
+@locked
 def paper_place():
     b = request.get_json(silent=True) or {}
     rows, _ = state()
@@ -917,7 +1041,7 @@ def api_fetch():
     stake = int((request.get_json(silent=True) or {}).get("stake", 5))
     try:
         paper.check_stake(stake)
-        with _lock:
+        with _run_lock:
             if SYNC:
                 SYNC.pull(force=True)
             rep = update.run(fetch=True, stake=stake, data_dir=DATA_DIR, pause=1.0)
