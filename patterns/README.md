@@ -12,6 +12,7 @@ Niyam: pattern sirf 3-6 mahine me parkho. Aap ki pushti ke baad hi pakka maano. 
 | 002b | naksha part 2 (rashi movement) | dikhane ka version APPROVED (23 Nov 2026); kamai ki pushti baaki |
 | 003 | family pattern (rashi chain) | sikhana jari, pichle 1 saal ki jaanch likhi, aap ki pushti baaki |
 | 004 | baar tokri (weekday ke zyada aaye 6 number) | likha, hint (highlight) ki tarah software me, aap ki pushti baaki |
+| 008 | **DS Recency** (DS ke 2-5 result pehle wale 4 number, paper forward test 90 din) | R&D me asar mila (1.4% vs 1.05% breakeven), pakka nahi; scoreboard live |
 | 007 | **Puzzle-Steps** (3 mahine ek sheet, step 1/2/3, boundary, link-rang, indicator) | APPROVED, live (23 Nov 2026), jaanch: random jaisa |
 | 006 | single sheet pattern ke niyam (same duri, rang, flat/standing) | sikhana jari, kuch banaya nahi |
 | 005 | dana-farak (4 din box) | likha, aap ki pushti baaki, 6 mahine ki jaanch likhi, software (Pattern Scan) me hai |

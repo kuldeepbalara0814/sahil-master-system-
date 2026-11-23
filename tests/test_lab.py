@@ -879,3 +879,22 @@ class ManualFixTests(unittest.TestCase):
         d = c.post("/api/result/manual/delete", json={"game": "GL", "date": r["date"]}, headers=H).get_json()
         self.assertTrue(d["removed"])
         self.assertIsNone(c.get("/api/result/manual").get_json()["games"]["GL"])
+
+
+class DsRuleTests(unittest.TestCase):
+    def test_numbers_and_view(self):
+        from lab import ds_rule
+        base = dt.date(2026, 11, 1)
+        rows = [(base + dt.timedelta(days=i), [0, 0, 0, v], "t") for i, v in enumerate([10, 20, 30, 40, 50, 60, 70])]
+        # i=6: lags 2,3,4,5 -> rows[4],rows[3],rows[2],rows[1] = 50,40,30,20 ; lag1 (60) chhoda
+        self.assertEqual(ds_rule.numbers_for(rows, 6), [50, 40, 30, 20])
+        self.assertEqual(ds_rule.numbers_for(rows, 3), [])
+        dup = [(base + dt.timedelta(days=i), [0, 0, 0, v], "t") for i, v in enumerate([7, 7, 9, 9, 1, 2])]
+        self.assertEqual(ds_rule.numbers_for(dup, 6), [1, 9, 7])                 # alag-alag gine (duplicate hata ke)
+
+    def test_api(self):
+        c = lab_server.app.test_client()
+        j = c.get("/api/dsrule").get_json()
+        self.assertEqual((j["horizon"], j["breakeven"]), (90, 1.05))
+        self.assertTrue(1 <= len(j["today"]["numbers"]) <= 4)
+        self.assertIn("warning", j)

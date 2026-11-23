@@ -27,7 +27,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import active, backtest, baar, band, data, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
+from lab import active, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -727,6 +727,13 @@ def api_result_manual_delete():
     except Exception as e:
         app.logger.warning("manual persist: %s", e)
     return jsonify({"ok": True, "removed": gone})
+
+
+@app.get("/api/dsrule")
+def api_dsrule():
+    """DS Recency paper forward test (patterns/008_ds_recency/README.md)."""
+    rows, _ = state()
+    return jsonify(ds_rule.view(rows))
 
 
 @app.get("/api/rank")

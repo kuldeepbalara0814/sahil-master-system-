@@ -1,0 +1,92 @@
+### A1 contiguous lag ranges (all pre-declared), exact numbers
+lags 2-2                   size 1.0 | train 1.58% roi95 +0.50 z7.4 | TEST 13-26 1.47% roi95 +0.39 roi90 +0.32 z3.3
+lags 2-3                   size 2.0 | train 1.53% roi95 +0.45 z9.6 | TEST 13-26 1.40% roi95 +0.33 roi90 +0.26 z4.0
+lags 2-4                   size 3.0 | train 1.51% roi95 +0.44 z11.3 | TEST 13-26 1.40% roi95 +0.33 roi90 +0.26 z4.8
+lags 2-5                   size 3.9 | train 1.52% roi95 +0.44 z13.1 | TEST 13-26 1.37% roi95 +0.30 roi90 +0.23 z5.1
+lags 2-6                   size 4.9 | train 1.47% roi95 +0.40 z13.4 | TEST 13-26 1.26% roi95 +0.20 roi90 +0.13 z4.0
+lags 2-7                   size 5.8 | train 1.39% roi95 +0.32 z12.1 | TEST 13-26 1.23% roi95 +0.17 roi90 +0.11 z3.9
+lags 3-3                   size 1.0 | train 1.47% roi95 +0.39 z6.0 | TEST 13-26 1.32% roi95 +0.26 roi90 +0.19 z2.3
+lags 3-4                   size 2.0 | train 1.47% roi95 +0.40 z8.6 | TEST 13-26 1.36% roi95 +0.29 roi90 +0.22 z3.6
+lags 3-5                   size 3.0 | train 1.49% roi95 +0.41 z10.8 | TEST 13-26 1.33% roi95 +0.26 roi90 +0.19 z3.9
+lags 3-6                   size 3.9 | train 1.45% roi95 +0.38 z11.4 | TEST 13-26 1.20% roi95 +0.14 roi90 +0.08 z2.8
+lags 3-7                   size 4.9 | train 1.35% roi95 +0.29 z10.1 | TEST 13-26 1.17% roi95 +0.11 roi90 +0.06 z2.7
+lags 3-8                   size 5.8 | train 1.34% roi95 +0.27 z10.5 | TEST 13-26 1.18% roi95 +0.12 roi90 +0.06 z3.0
+lags 4-4                   size 1.0 | train 1.47% roi95 +0.39 z6.0 | TEST 13-26 1.39% roi95 +0.32 roi90 +0.25 z2.7
+lags 4-5                   size 2.0 | train 1.49% roi95 +0.42 z8.9 | TEST 13-26 1.32% roi95 +0.25 roi90 +0.19 z3.2
+lags 4-6                   size 3.0 | train 1.44% roi95 +0.36 z9.6 | TEST 13-26 1.16% roi95 +0.10 roi90 +0.04 z1.9
+lags 4-7                   size 3.9 | train 1.32% roi95 +0.26 z8.2 | TEST 13-26 1.13% roi95 +0.07 roi90 +0.02 z1.8
+lags 4-8                   size 4.9 | train 1.31% roi95 +0.25 z8.9 | TEST 13-26 1.14% roi95 +0.08 roi90 +0.03 z2.2
+lags 4-9                   size 5.8 | train 1.30% roi95 +0.24 z9.4 | TEST 13-26 1.19% roi95 +0.13 roi90 +0.07 z3.2
+### A2 palat variants
+lags 2-3 +palat            size 3.8 | train 1.34% roi95 +0.27 z8.5 | TEST 13-26 1.33% roi95 +0.27 roi90 +0.20 z4.5
+lags 2-5 +palat            size 7.4 | train 1.30% roi95 +0.23 z10.5 | TEST 13-26 1.28% roi95 +0.22 roi90 +0.15 z5.4
+lags 2-6 +palat            size 9.1 | train 1.27% roi95 +0.21 z10.5 | TEST 13-26 1.22% roi95 +0.16 roi90 +0.10 z4.6
+### A3 top-k lags chosen on 1966-2012 train hits (lags 1-20)
+ train lag rates%%: 1:1.07 2:1.58 3:1.47 4:1.47 5:1.51 6:1.35 7:0.96 8:1.25 9:1.24 10:1.02 11:1.22 12:1.19 13:1.07 14:0.96 15:1.16 16:1.05 17:1.12 18:1.11 19:1.01 20:0.98
+top-1 lags [np.int64(2)]   size 1.0 | train 1.58% roi95 +0.50 z7.4 | TEST 13-26 1.47% roi95 +0.39 roi90 +0.32 z3.3
+top-2 lags [np.int64(2), np.int64(5)] size 2.0 | train 1.55% roi95 +0.48 z10.0 | TEST 13-26 1.37% roi95 +0.31 roi90 +0.24 z3.7
+top-3 lags [np.int64(2), np.int64(3), np.int64(5)] size 3.0 | train 1.53% roi95 +0.45 z11.7 | TEST 13-26 1.36% roi95 +0.29 roi90 +0.23 z4.4
+top-4 lags [np.int64(2), np.int64(3), np.int64(4), np.int64(5)] size 3.9 | train 1.52% roi95 +0.44 z13.1 | TEST 13-26 1.37% roi95 +0.30 roi90 +0.23 z5.1
+top-5 lags [np.int64(2), np.int64(3), np.int64(4), np.int64(5), np.int64(6)] size 4.9 | train 1.47% roi95 +0.40 z13.4 | TEST 13-26 1.26% roi95 +0.20 roi90 +0.13 z4.0
+top-6 lags [np.int64(2), np.int64(3), np.int64(4), np.int64(5), np.int64(6), np.int64(8)] size 5.8 | train 1.44% roi95 +0.37 z13.7 | TEST 13-26 1.25% roi95 +0.19 roi90 +0.13 z4.3
+top-7 lags [np.int64(2), np.int64(3), np.int64(4), np.int64(5), np.int64(6), np.int64(8), np.int64(9)] size 6.7 | train 1.41% roi95 +0.34 z13.7 | TEST 13-26 1.28% roi95 +0.21 roi90 +0.15 z5.0
+top-8 lags [np.int64(2), np.int64(3), np.int64(4), np.int64(5), np.int64(6), np.int64(8), np.int64(9), np.int64(11)] size 7.6 | train 1.38% roi95 +0.32 z13.6 | TEST 13-26 1.27% roi95 +0.21 roi90 +0.14 z5.2
+### A4 rolling-origin yearly walk-forward 2013-26 (past = 1966..Y-1)
+rolling top-2 lags                 test stake 9752 hits 130 rate 1.333% roi95 +0.27 roi90 +0.20 z 3.3
+rolling top-3 lags                 test stake 14543 hits 196 rate 1.348% roi95 +0.28 roi90 +0.21 z 4.2
+rolling top-4 lags                 test stake 19293 hits 264 rate 1.368% roi95 +0.30 roi90 +0.23 z 5.1
+rolling top-5 lags                 test stake 23961 hits 306 rate 1.277% roi95 +0.21 roi90 +0.15 z 4.3
+rolling top-6 lags                 test stake 28562 hits 360 rate 1.260% roi95 +0.20 roi90 +0.13 z 4.4
+### A5 recycling-pool model (weights from past lag profile, lags 1-12, top-k by score)
+pool top-2 (train w)       size 2.0 | train 1.51% roi95 +0.44 z9.4 | TEST 13-26 1.35% roi95 +0.29 roi90 +0.22 z3.5
+pool top-3 (train w)       size 3.0 | train 1.49% roi95 +0.42 z11.0 | TEST 13-26 1.34% roi95 +0.28 roi90 +0.21 z4.2
+pool top-4 (train w)       size 4.0 | train 1.49% roi95 +0.42 z12.6 | TEST 13-26 1.35% roi95 +0.28 roi90 +0.21 z4.9
+pool top-5 (train w)       size 5.0 | train 1.46% roi95 +0.39 z13.3 | TEST 13-26 1.26% roi95 +0.20 roi90 +0.13 z4.1
+pool top-6 (train w)       size 6.0 | train 1.43% roi95 +0.35 z13.4 | TEST 13-26 1.27% roi95 +0.21 roi90 +0.14 z4.6
+  weights (train): [ 0.07  0.58  0.47  0.47  0.51  0.35 -0.04  0.25  0.24  0.02  0.22  0.19]
+rolling pool top-3                 test stake 14724 hits 195 rate 1.324% roi95 +0.26 roi90 +0.19 z 3.9
+rolling pool top-4                 test stake 19632 hits 264 rate 1.345% roi95 +0.28 roi90 +0.21 z 4.8
+rolling pool top-5                 test stake 24540 hits 310 rate 1.263% roi95 +0.20 roi90 +0.14 z 4.1
+### B bias interaction & avoid rules on base lags 2-5 (train/test + removed/added bets rate)
+ train freq top5 [(41, np.float64(1.26)), (91, np.float64(1.26)), (62, np.float64(1.23)), (71, np.float64(1.22)), (6, np.float64(1.2))] bottom5 [(5, np.float64(0.62)), (25, np.float64(0.65)), (12, np.float64(0.66)), (11, np.float64(0.68)), (35, np.float64(0.7))]
+ doubles freq train 0.884% test 0.872% (1% expected)
+base lags 2-5              size 3.9 | train 1.52% roi95 +0.44 z13.1 | TEST 13-26 1.37% roi95 +0.30 roi90 +0.23 z5.1
+drop if == lag1            size 3.9 | train 1.53% roi95 +0.45 z13.3 | TEST 13-26 1.38% roi95 +0.31 roi90 +0.24 z5.2
+      removed bets train: stake 911 rate 0.66%
+      removed bets test: stake 246 rate 0.81%
+drop if seen>=2 in last 8  size 3.6 | train 1.55% roi95 +0.47 z13.4 | TEST 13-26 1.40% roi95 +0.33 roi90 +0.26 z5.3
+      removed bets train: stake 4915 rate 1.14%
+      removed bets test: stake 1303 rate 1.00%
+drop if seen>=2 in last 12 size 3.4 | train 1.53% roi95 +0.45 z12.6 | TEST 13-26 1.40% roi95 +0.33 roi90 +0.26 z5.3
+      removed bets train: stake 7807 rate 1.42%
+      removed bets test: stake 2139 rate 1.08%
+drop doubles               size 3.6 | train 1.49% roi95 +0.42 z12.0 | TEST 13-26 1.38% roi95 +0.31 roi90 +0.24 z5.0
+      removed bets train: stake 5723 rate 1.75%
+      removed bets test: stake 1696 rate 1.30%
+drop 10 least freq (train) size 3.6 | train 1.55% roi95 +0.47 z13.4 | TEST 13-26 1.39% roi95 +0.32 roi90 +0.25 z5.2
+      removed bets train: stake 4557 rate 1.10%
+      removed bets test: stake 1488 rate 1.08%
+drop 05                    size 3.9 | train 1.52% roi95 +0.44 z13.2 | TEST 13-26 1.37% roi95 +0.30 roi90 +0.23 z5.1
+      removed bets train: stake 395 rate 0.76%
+      removed bets test: stake 150 rate 1.33%
+add top-1 freq ([np.int64(41)]) size 4.9 | train 1.47% roi95 +0.39 z13.2 | TEST 13-26 1.35% roi95 +0.28 roi90 +0.22 z5.5
+      added bets train: stake 15681 rate 1.26%
+      added bets test: stake 4666 rate 1.29%
+add top-3 freq ([np.int64(41), np.int64(91), np.int64(62)]) size 6.8 | train 1.39% roi95 +0.32 z13.2 | TEST 13-26 1.30% roi95 +0.24 roi90 +0.17 z5.5
+      added bets train: stake 47076 rate 1.23%
+      added bets test: stake 14029 rate 1.21%
+ standalone rate of top-1 number (41) train 1.27% test 1.26%
+   candidates in cat double train: bets 5723 rate 1.75%
+   candidates in cat double test: bets 1696 rate 1.30%
+   candidates in cat low10  train: bets 4557 rate 1.10%
+   candidates in cat low10  test: bets 1488 rate 1.08%
+   candidates in cat top10  train: bets 7816 rate 1.68%
+   candidates in cat top10  test: bets 2236 rate 1.30%
+### F weekday/dom/month (base lags 2-5): choose on train 1966-2012 with permutation max, test 2013-26
+ tests 24, null p95 max|z| 3.03
+  dom8-14        train z +1.69 p_adj 0.89 | test z +0.92
+  mon=7          train z -1.59 p_adj 0.94 | test z -0.15
+  dom22-31       train z -1.48 p_adj 0.97 | test z -0.75
+  dom1-7         train z -1.43 p_adj 0.98 | test z -0.42
+  dom15-21       train z +1.31 p_adj 0.99 | test z +0.29
+ test max|z| over all conds: 1.30

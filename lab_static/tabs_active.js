@@ -17,6 +17,26 @@ function htMsg(r){
  if(r.has_archive===false)return"Is din ke andaze saved nahi the";
  return r.n_new>0?r.n_new+" map hit hue":"Koi map hit nahi hua"}
 function htHitLine(h){return el("p",{class:"ht-line"},el("b",{},"HIT: "),`${p2(h.n)} ${fb(h.game||"")} ${dm(h.date)}`,h.src==="manual"?el("span",{class:"mut small"}," (hath se)"):null)}
+function dsRuleCard(box){
+ box.replaceChildren(el("p",{class:"mut"},el("span",{class:"spin"}),"Load..."));
+ api("GET","/dsrule").then(r=>{
+  const t=r.today||{};
+  box.replaceChildren(
+   el("h2",{style:"margin:0 0 4px"},"DS rule ",el("span",{class:"sub"},"(paper, 90 din forward test)")),
+   el("p",{class:"mut small",style:"margin:0 0 8px"},r.rule+". Shuru: "+dm(r.start)+". Rule frozen hai (badlega nahi)."),
+   el("p",{style:"margin:0 0 6px"},el("b",{},"Aaj ("+dm(t.date)+") ke DS ke 4 number: ")),
+   el("div",{class:"act-nums"},(t.numbers||[]).map(n=>el("span",{class:"chip green"},p2(n)))),
+   el("div",{class:"tiles",style:"margin-top:10px"},
+    el("div",{class:"tile"},el("div",{class:"k"},"Din"),el("div",{class:"v"},r.days+"/"+r.horizon)),
+    el("div",{class:"tile"},el("div",{class:"k"},"Hit"),el("div",{class:"v"},r.hits+" / "+r.stakes+" stake")),
+    el("div",{class:"tile"},el("div",{class:"k"},"Hit-dar"),el("div",{class:"v"},r.rate==null?"-":r.rate+"%"),el("div",{class:"s"},"random "+r.random+"% | break-even "+r.breakeven+"%")),
+    el("div",{class:"tile"},el("div",{class:"k"},"Kagaz ROI (95x)"),el("div",{class:"v"},r.roi==null?"-":r.roi+"%")),
+    el("div",{class:"tile"},el("div",{class:"k"},"Bina-hit streak"),el("div",{class:"v"},r.streak+" din"),el("div",{class:"s"},"sabse lambi "+r.longest))),
+   el("p",{class:"small",style:"margin:8px 0 0"},r.verdict),
+   r.ref&&r.ref.rate!=null?el("p",{class:"mut small",style:"margin:4px 0 0"},"Itihaas ("+dm(r.ref.since)+" se, wahi rule): "+r.ref.hits+"/"+r.ref.stakes+" = "+r.ref.rate+"%"):null,
+   (r.history||[]).length?el("details",{style:"margin-top:8px"},el("summary",{class:"mut small"},"Pichle din"),
+    (r.history||[]).map(h=>el("p",{class:"small",style:"margin:3px 0"},dm(h.date)+": "+h.numbers.map(p2).join(" ")+" | DS "+p2(h.ds)+" | "+(h.hit?"HIT":"miss")))):null,
+   el("div",{class:"warn",style:"margin-top:8px"},r.warning))}).catch(e=>box.replaceChildren(el("div",{class:"warn"},e.message)))}
 function htOpen(it){
  const box=el("div",{class:"ht-view"}),b=el("button",{type:"button",class:"b g sm"},"Kholo (rang me dekho)");let on=false;
  b.addEventListener("click",async()=>{on=!on;
@@ -138,7 +158,8 @@ tabs.active=async function(root){
    pass.length?grouped(pass,true):el("p",{class:"mut"},`Pichle ${n} din me koi pass nahi hua.`),
    rep.recent_fail?el("p",{class:"mut small"},`Pichle ${n} din me ${rep.recent_fail} FAIL bhi hue.`):null,
    el("h2",{class:"act-h"},"Scoreboard (pichle 30 din)"),el("div",{class:"card flat"},board())].flat().filter(Boolean))}
- root.append(el("button",{type:"button",class:"card rk-link",on:{click:()=>go("rank")}},"Aaj ke number ranking dekho"),manBox,el("div",{class:"card"},el("h2",{style:"margin:0 0 4px"},"Active ",el("span",{class:"sub"},"(jo pattern abhi chal rahe hain)")),
+ const dsBox=el("div",{class:"card"});dsRuleCard(dsBox);
+ root.append(el("button",{type:"button",class:"card rk-link",on:{click:()=>go("rank")}},"Aaj ke number ranking dekho"),manBox,dsBox,el("div",{class:"card"},el("h2",{style:"margin:0 0 4px"},"Active ",el("span",{class:"sub"},"(jo pattern abhi chal rahe hain)")),
   el("p",{class:"mut small",style:"margin:0"},"Ek baar bana pattern kabhi gayab nahi hota. Scan din me do baar apne aap hota hai.")),strip,hitBox,body);
  drawStrip();manInit();await load(false);
 };
