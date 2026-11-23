@@ -61,12 +61,9 @@ def view(rows):
     today_nums = numbers_for(rows, N)
     rate = 100 * hits / stakes if stakes else None
     days = len(hist)
-    if stakes < 300:
-        verdict = "Abhi bahut kam data hai. Hit kam aata hai (lagbhag 17 din me ek), isliye jaldi kuch kehna theek nahi."
-    elif rate is not None and rate >= BREAKEVEN * 1.1:
-        verdict = "Abhi tak break-even ke upar, par ye lambi haar-jeet wala khel hai; 90 din tak rule mat badlo."
-    else:
-        verdict = "Abhi tak break-even ke aas-paas ya neeche. 90 din pure hone tak rule mat badlo, phir faisla."
+    exp = round(stakes * 0.0137, 1)
+    verdict = (f"{stakes} stake par asli rate ke hisaab se lagbhag {exp} hit aane chahiye, random me ~{round(stakes * 0.0105, 1)}. "
+               "Itne kam hit se asli aur random me farak pakadna mushkil hai (R&D: 90 din me faisla nahi ho sakta, kam se kam kai saal chahiye). Isliye ise sirf lambe samay ka hisaab maano; rule mat badlo.")
     return {"start": START.isoformat(), "play_date": play.isoformat(), "today": {"date": play.isoformat(), "numbers": today_nums, "stakes": len(today_nums)},
             "rule": "DS ke 2, 3, 4, 5 result pehle wale 4 number (exact, palat nahi), roz",
             "days": days, "horizon": HORIZON, "left": max(0, HORIZON - days), "stakes": stakes, "hits": hits,
@@ -74,4 +71,4 @@ def view(rows):
             "roi": None if not stakes else round(100 * (hits * PAYOUT - stakes) / stakes, 1), "streak": streak, "longest": longest,
             "history": hist[-30:][::-1], "ref": {"since": "2022-01-01", "stakes": rs, "hits": rh, "rate": round(100 * rh / rs, 2) if rs else None},
             "verdict": verdict,
-            "warning": "Ye sirf paper hai. Hit ~17 din me ek aata hai, 100+ din tak bina hit bhi ho sakta hai, aur ek saal -39% se +57% gaya hai. Asli paisa lagane ki salah nahi."}
+            "warning": "Ye sirf paper hai. Hit ~17 din me ek aata hai, 100+ din tak bina hit bhi ho sakta hai, aur ek saal -39% se +57% gaya hai. 90 din (~360 stake, ~5 hit) me faisla nahi hota; asli aur random ka farak dikhne me ~5 saal lagte hai. Asli paisa lagane ki salah nahi."}

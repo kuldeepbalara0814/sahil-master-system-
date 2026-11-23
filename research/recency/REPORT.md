@@ -53,3 +53,17 @@ DS apna lag, 1980-2026: lag1 0.94%, lag 2-5 1.43/1.35/1.45/1.45%, lag6 1.15%, la
 
 ## Kya iska matlab (aasaan Hinglish)
 DS me pichle 2 se 5 result ke number thode zyada wapas aate hai (100 me 1 ki jagah lagbhag 1.4). Ye 60 saal me har dashak me dikha aur dusre website ke data me bhi. Agar rate 95 guna ho to har ₹1 par kagaz ka munafa lagbhag 30 se 40%. Par hit kam aata hai (~har 17 din me ek), lambi haar aati hai (110 din tak bina hit), aur ek saal -39% se +57% ja sakta hai. Hint-din ka koi filter kaam nahi karta, isliye roz chalana padega. FB/GB/GL ke apne number me ye nahi. Abhi ise "pakka pattern" nahi, "mazboot dikhta hua asar" maano aur **90 din paper me bina niyam badle forward-test** karo. Asli paisa lagane ki salah nahi; commission, bhugtan ki der aur limit asli faayda kam kar sakte hai.
+
+## DS-only deep R&D (final, 23 Nov 2026, scripts run13.py run14.py; out/)
+Saar: (1) lag 2-5 sabse achha (train 1966-2012 1.52%, test 2013-26 1.37%, ROI +30% @95x / +23% @90x, z 5.1); koi sudhar nahi mila. (2) Rolling yearly walk-forward 1.368% (264/19,293). (3) Bada set patla (2-6: 1.26%, 2-7: 1.23%); chhota set 1.40% (2-3), 1.47% (2). (4) Pool model top-4: 1.35%, plain lag set se behtar nahi. (5) 41/05/doubles se extra fayda nahi. (6) Weekday/din/mahina filter kuch nahi (24 shart, best p_adj 0.89). (7) Dusre site 2013-26: 1.36% (261/19,199). (8) **90 din me faisla nahi ho sakta (power ~10%); ~5.6 saal chahiye.** (9) 1000-din gaddha ~400-760 unit. (10) Kelly ka 1/4-1/2 (~0.2-0.4% bank roz); flat 1% roz par 19% chance bank 25% se neeche.
+| Lags | Size | Train % | Test % | ROI 95x | ROI 90x | z |
+|---|---|---|---|---|---|---|
+| 2 | 1 | 1.58 | 1.47 | +39% | +32% | 3.3 |
+| 2-3 | 2 | 1.53 | 1.40 | +33% | +26% | 4.0 |
+| 2-4 | 3 | 1.51 | 1.40 | +33% | +26% | 4.8 |
+| **2-5** | **3.9** | **1.52** | **1.37** | **+30%** | **+23%** | **5.1** |
+| 2-6 | 4.9 | 1.47 | 1.26 | +20% | +13% | 4.0 |
+| 2-7 | 5.8 | 1.39 | 1.23 | +17% | +11% | 3.9 |
+| 4-6 | 3 | 1.44 | 1.16 | +10% | +4% | 1.9 |
+| 2-5 + palat | 7.4 | 1.30 | 1.28 | +22% | +15% | 5.4 |
+Per-lag train: lag1 1.07%, lag 2-5 1.58/1.47/1.47/1.51%, lag6 1.35%, lag7 0.96%, lag 8-9 ~1.25%. 41 akela 1.26% (asli jhukav) par set me jodne se hit nahi badhta.

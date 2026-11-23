@@ -18,8 +18,15 @@ Ye **puzzle-logic R&D** ka hissa hai. **Sirf paper trading.** Asli paisa lagane 
 - Lag 1 (abhi nikla number) 0.94% (dabta hai); 2 se 6 result me wapas (1.4%); baar-baar dikhne par asar nahi badhta (chhota recycling pool).
 
 ## App me (forward test, 90 din)
-**Active tab -> "DS rule (paper, 90 din)"**: roz ke 4 number, hit/miss apne aap, hit-dar vs 1% (random), kagaz ka ROI (95x), abhi ki bina-hit streak. Rule **frozen** hai (badla nahi jayega). Shuru: 24 Nov 2026. Code: lab/ds_rule.py, route /api/dsrule.
-90 din baad (ya jaldi, agar asar gayab ho): hit-dar 1.05% (break-even) se neeche ya random ke paas aaye to rule band.
+**Active tab -> "DS rule (paper, forward test)"**: roz ke 4 number, hit/miss apne aap, hit-dar vs 1% (random), kagaz ka ROI (95x), abhi ki bina-hit streak. Rule **frozen** hai (badla nahi jayega). Shuru: 24 Nov 2026. Code: lab/ds_rule.py, route /api/dsrule.
+**Zaroori (R&D se):** 90 din (~360 stake, ~5 hit) me **faisla nahi ho sakta** (power sirf ~10%); asli rate (1.37%) aur break-even (1.05%) me farak dikhne me **~5-6 saal** lagte hai. Isliye scoreboard ko lambe samay ka hisaab maano; rule frozen rakho; chhoti jeet-haar se faisla mat karo.
 
 ## Aage ka R&D (sirf DS, 1966-2026)
 Rule ka sudhar (lag subset, set size, recycling-pool probability), 41/05/doubles ke jhukav ka asar, edge gayab hone par jaldi pakadna (CUSUM/SPRT), bankroll aur gaddha (drawdown), dusre website par dohrana. Nateeje research/recency/.
+
+## DS-only deep R&D (23 Nov 2026, research/recency/out/)
+- Rule ka sudhar nahi mila: **lag 2-5 sabse achha** (chunav 1966-2012, test 2013-26): train 1.52%, test 1.37% (ROI +30% @95x, +23% @90x, z 5.1). Lag 2-6 1.26%, 2-7 1.23%: bada set patla; chhota set (lag 2-3: 1.40%, lag 2: 1.47%) ka rate similar par 1-2 number.
+- Rolling yearly walk-forward: 1.368% (264 hit / 19,293 stake). Pool model (lag-profile se top-4) 1.35%: simple lag set se behtar nahi.
+- 41/05/doubles ka jhukav **extra fayda nahi** deta (+-0.01 ROI, shor). Weekday/din/mahina filter kuch nahi (24 shart, best p_adj 0.89).
+- **Dusre website** (2013-26): wahi rule 1.36% (261/19,199): data pakka.
+- **Gaddha:** 1000 din me ~400 se 760 stake-unit (agar asli rate 1.37% ho; kam ho to zyada). Bankroll: Kelly ka 1/4-1/2 (~bank ka 0.2-0.4% roz); flat 1% roz par 19% chance bank 25% se neeche.
