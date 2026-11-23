@@ -1,0 +1,5 @@
+s1,s1b,s2,s3 done (earlier). s4 rerun 200 shuffles started
+s4 done 200 shuffles
+s6 done
+s7 underdispersion done
+s5 done

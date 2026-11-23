@@ -1,0 +1,79 @@
+== all-data tests
+FB  number(100)          n=4908   stat=   80.02 df=99  p=0.919
+FB  class(55)            n=4908   stat=   37.71 df=54  p=0.955
+FB  rashi(15)            n=4908   stat=    7.76 df=14  p=0.901
+FB  tens(10)             n=4908   stat=    4.03 df=9   p=0.909
+FB  unit(10)             n=4908   stat=    5.33 df=9   p=0.805
+FB  tens x unit indep    n=4908   stat=   70.74 df=81  p=0.785
+FB  doubles(10%)         n=4908   stat=   -0.47 df=1   p=0.641
+FB  half-jodi(10%)       n=4908   stat=   -0.70 df=1   p=0.481
+GB  number(100)          n=4908   stat=   98.40 df=99  p=0.498
+GB  class(55)            n=4908   stat=   47.59 df=54  p=0.718
+GB  rashi(15)            n=4908   stat=    8.74 df=14  p=0.847
+GB  tens(10)             n=4908   stat=   22.48 df=9   p=0.007
+GB  unit(10)             n=4908   stat=   15.01 df=9   p=0.091
+GB  tens x unit indep    n=4908   stat=   61.82 df=81  p=0.944
+GB  doubles(10%)         n=4908   stat=    0.39 df=1   p=0.696
+GB  half-jodi(10%)       n=4908   stat=    0.39 df=1   p=0.696
+GL  number(100)          n=4908   stat=   72.68 df=99  p=0.978
+GL  class(55)            n=4908   stat=   33.51 df=54  p=0.987
+GL  rashi(15)            n=4908   stat=    7.48 df=14  p=0.914
+GL  tens(10)             n=4908   stat=    7.93 df=9   p=0.542
+GL  unit(10)             n=4908   stat=    5.15 df=9   p=0.821
+GL  tens x unit indep    n=4908   stat=   60.36 df=81  p=0.958
+GL  doubles(10%)         n=4908   stat=   -1.32 df=1   p=0.186
+GL  half-jodi(10%)       n=4908   stat=   -0.85 df=1   p=0.397
+DS  number(100)          n=21430  stat=  400.55 df=99  p=6.8e-38
+DS  class(55)            n=21430  stat=  280.64 df=54  p=2.3e-32
+DS  rashi(15)            n=21430  stat=  146.52 df=14  p=3.6e-24
+DS  tens(10)             n=21430  stat=  120.21 df=9   p=1.2e-21
+DS  unit(10)             n=21430  stat=   80.93 df=9   p=1.1e-13
+DS  tens x unit indep    n=21430  stat=  210.82 df=81  p=1.6e-13
+DS  doubles(10%)         n=21430  stat=   -5.81 df=1   p=6.4e-09
+DS  half-jodi(10%)       n=21430  stat=   -2.12 df=1   p=0.034
+== max/min
+FB {'n': 4908, 'max': (65, 70, 67.495, 0.824087956021989), 'min': (33, 76, 32.373, 0.6491754122938531), 'exp': 49.08}
+GB {'n': 4908, 'max': (66, 91, 67.5795, 0.7201399300349826), 'min': (34, 78, 32.436, 0.783608195902049), 'exp': 49.08}
+GL {'n': 4908, 'max': (62, 81, 67.5725, 0.9920039980009995), 'min': (28, 10, 32.394, 0.07946026986506746), 'exp': 49.08}
+DS {'n': 21430, 'max': (271, 41, 251.879, 0.01199400299850075), 'min': (140, 5, 178.668, 0.0004997501249375312), 'exp': 214.3}
+== per-period p summary
+FB year class(55)            14 p<.05: 0 (exp 0.7) minp 0.5095 KS_p 0.000
+FB year doubles(10%)         14 p<.05: 1 (exp 0.7) minp 0.0242 KS_p 0.028
+FB year half-jodi(10%)       14 p<.05: 0 (exp 0.7) minp 0.1276 KS_p 0.211
+FB year number(100)          14 p<.05: 0 (exp 0.7) minp 0.0867 KS_p 0.001
+FB year rashi(15)            14 p<.05: 0 (exp 0.7) minp 0.7200 KS_p 0.000
+FB year tens x unit indep    14 p<.05: 0 (exp 0.7) minp 0.0951 KS_p 0.004
+FB year tens(10)             14 p<.05: 0 (exp 0.7) minp 0.1624 KS_p 0.071
+FB year unit(10)             14 p<.05: 0 (exp 0.7) minp 0.1195 KS_p 0.180
+GB year class(55)            14 p<.05: 0 (exp 0.7) minp 0.5435 KS_p 0.000
+GB year doubles(10%)         14 p<.05: 0 (exp 0.7) minp 0.0990 KS_p 0.815
+GB year half-jodi(10%)       14 p<.05: 0 (exp 0.7) minp 0.1227 KS_p 0.666
+GB year number(100)          14 p<.05: 0 (exp 0.7) minp 0.4307 KS_p 0.000
+GB year rashi(15)            14 p<.05: 0 (exp 0.7) minp 0.2829 KS_p 0.000
+GB year tens x unit indep    14 p<.05: 0 (exp 0.7) minp 0.3572 KS_p 0.001
+GB year tens(10)             14 p<.05: 0 (exp 0.7) minp 0.1074 KS_p 0.742
+GB year unit(10)             14 p<.05: 1 (exp 0.7) minp 0.0419 KS_p 0.483
+GL year class(55)            14 p<.05: 0 (exp 0.7) minp 0.1151 KS_p 0.004
+GL year doubles(10%)         14 p<.05: 0 (exp 0.7) minp 0.0676 KS_p 0.423
+GL year half-jodi(10%)       14 p<.05: 0 (exp 0.7) minp 0.1899 KS_p 0.630
+GL year number(100)          14 p<.05: 0 (exp 0.7) minp 0.1554 KS_p 0.245
+GL year rashi(15)            14 p<.05: 0 (exp 0.7) minp 0.1989 KS_p 0.010
+GL year tens x unit indep    14 p<.05: 0 (exp 0.7) minp 0.0939 KS_p 0.637
+GL year tens(10)             14 p<.05: 0 (exp 0.7) minp 0.3922 KS_p 0.004
+GL year unit(10)             14 p<.05: 0 (exp 0.7) minp 0.0788 KS_p 0.407
+DS year class(55)            61 p<.05: 0 (exp 3.1) minp 0.0524 KS_p 0.000
+DS decade class(55)            7 p<.05: 1 (exp 0.4) minp 0.0078 KS_p 0.793
+DS year doubles(10%)         61 p<.05: 4 (exp 3.1) minp 0.0279 KS_p 0.057
+DS decade doubles(10%)         7 p<.05: 5 (exp 0.4) minp 0.0092 KS_p 0.000
+DS year half-jodi(10%)       61 p<.05: 3 (exp 3.1) minp 0.0001 KS_p 0.446
+DS decade half-jodi(10%)       7 p<.05: 0 (exp 0.4) minp 0.0689 KS_p 0.375
+DS year number(100)          61 p<.05: 2 (exp 3.1) minp 0.0161 KS_p 0.306
+DS decade number(100)          7 p<.05: 0 (exp 0.4) minp 0.0712 KS_p 0.510
+DS year rashi(15)            61 p<.05: 1 (exp 3.1) minp 0.0125 KS_p 0.090
+DS decade rashi(15)            7 p<.05: 4 (exp 0.4) minp 0.0002 KS_p 0.002
+DS year tens x unit indep    61 p<.05: 3 (exp 3.1) minp 0.0309 KS_p 0.031
+DS decade tens x unit indep    7 p<.05: 0 (exp 0.4) minp 0.7128 KS_p 0.001
+DS year tens(10)             61 p<.05: 0 (exp 3.1) minp 0.0774 KS_p 0.008
+DS decade tens(10)             7 p<.05: 5 (exp 0.4) minp 0.0016 KS_p 0.000
+DS year unit(10)             61 p<.05: 1 (exp 3.1) minp 0.0053 KS_p 0.001
+DS decade unit(10)             7 p<.05: 2 (exp 0.4) minp 0.0004 KS_p 0.014

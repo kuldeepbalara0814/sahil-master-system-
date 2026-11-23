@@ -1,0 +1,4 @@
+13:07 resume: old harness run alive (3 workers), heavy 100/753 at last write 12:55; waiting. light cache exists.
+13:14 started run_light_shuffles.py (1 process, 12 shuffles, ~3 min each)
+13:18 shuffles running, 1 done (4.5min each)
+13:46 control_recent.py: farak lift mostly = recent-number repeat (ctrl .2446 vs farak .2533 vs unif .2225)

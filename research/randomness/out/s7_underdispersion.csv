@@ -1,0 +1,37 @@
+game,window,n_windows,stat,obs,iid_mean,iid_sd,z,p_two
+FB,year,14,mean chi2 per window (df=99 expected 99),85.5951,99.0986,3.82106,-3.53397,0.000333222
+FB,year,14,mean max count,8.14286,8.99302,0.30962,-2.74584,0.00433189
+FB,year,14,mean number of numbers never seen,3.28571,2.97495,0.431685,0.719881,0.52016
+FB,half-year,28,mean chi2 per window (df=99 expected 99),93.5592,98.9986,2.68045,-2.02928,0.0363212
+FB,half-year,28,mean max count,5.42857,5.82499,0.168155,-2.35745,0.0169943
+FB,half-year,28,mean number of numbers never seen,17.7143,17.2184,0.563326,0.880294,0.38887
+FB,quarter,56,mean chi2 per window (df=99 expected 99),100.12,98.9781,1.86873,0.611215,0.522985
+FB,quarter,56,mean max count,3.73214,3.93419,0.0959307,-2.10618,0.0313125
+FB,quarter,56,mean number of numbers never seen,42.6071,41.4909,0.404147,2.76208,0.00999334
+GB,year,14,mean chi2 per window (df=99 expected 99),83.5759,98.9851,3.68769,-4.17855,0.000333222
+GB,year,14,mean max count,8.07143,8.993,0.300881,-3.06291,0.000333222
+GB,year,14,mean number of numbers never seen,3.35714,2.9614,0.431465,0.917197,0.396868
+GB,half-year,28,mean chi2 per window (df=99 expected 99),89.435,99.0055,2.70064,-3.54379,0.000333222
+GB,half-year,28,mean max count,5.39286,5.82615,0.171248,-2.53023,0.0143286
+GB,half-year,28,mean number of numbers never seen,16.9643,17.2261,0.578855,-0.45233,0.664112
+GB,quarter,56,mean chi2 per window (df=99 expected 99),94.4546,99.0326,1.85892,-2.46274,0.0166556
+GB,quarter,56,mean max count,3.69643,3.9374,0.101277,-2.37938,0.0193205
+GB,quarter,56,mean number of numbers never seen,41.2321,41.4989,0.403937,-0.660464,0.518987
+GL,year,14,mean chi2 per window (df=99 expected 99),93.0248,99.0477,3.78647,-1.59063,0.107631
+GL,year,14,mean max count,8.14286,9.00143,0.308068,-2.78695,0.00499833
+GL,year,14,mean number of numbers never seen,4.07143,2.95683,0.41985,2.65474,0.0109963
+GL,half-year,28,mean chi2 per window (df=99 expected 99),93.0672,99.0167,2.65035,-2.24478,0.0183272
+GL,half-year,28,mean max count,5.10714,5.81961,0.168228,-4.23511,0.000333222
+GL,half-year,28,mean number of numbers never seen,17.8571,17.2289,0.54815,1.14611,0.272909
+GL,quarter,56,mean chi2 per window (df=99 expected 99),97.4165,99.0116,1.95168,-0.81727,0.412392
+GL,quarter,56,mean max count,3.64286,3.93318,0.100612,-2.88557,0.00199867
+GL,quarter,56,mean number of numbers never seen,41.9464,41.4979,0.418177,1.07265,0.285809
+DS13,year,14,mean chi2 per window (df=99 expected 99),97.0666,99.0511,3.76624,-0.526918,0.606131
+DS13,year,14,mean max count,8.21429,9.00267,0.300866,-2.62038,0.00833056
+DS13,year,14,mean number of numbers never seen,5.71429,2.96686,0.438814,6.26103,0.000333222
+DS13,half-year,28,mean chi2 per window (df=99 expected 99),102.146,98.9778,2.59917,1.21894,0.218261
+DS13,half-year,28,mean max count,5.42857,5.82561,0.16829,-2.35924,0.0189937
+DS13,half-year,28,mean number of numbers never seen,20.3214,17.2194,0.554342,5.5958,0.000333222
+DS13,quarter,56,mean chi2 per window (df=99 expected 99),104.969,98.9983,1.85028,3.22713,0.00333111
+DS13,quarter,56,mean max count,3.82143,3.93011,0.0975027,-1.11462,0.287142
+DS13,quarter,56,mean number of numbers never seen,43.5357,41.5036,0.401562,5.06057,0.000666223

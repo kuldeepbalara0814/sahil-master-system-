@@ -1,0 +1,217 @@
+gameA,gameB,test,lag,n,obs/stat,exp/df,z,p
+FB,GB,same-day equal number,0,4908,68,49.2351,2.6878,0.00719238
+FB,GB,same-day equal class,0,4908,112,93.4682,1.93535,0.0529468
+FB,GB,same-day equal rashi,0,4908,399,353.884,2.4897,0.012785
+FB,GB,same-day correlation of number,0,4908,0.0191622,0,1.34245,0.17945
+FB,GB,same-day indep chi2 tens-tens,0,4908,76.2407,81,-0.373926,0.628862
+FB,GB,same-day indep chi2 unit-unit,0,4908,107.303,81,2.06655,0.0268861
+FB,GB,same-day indep chi2 tens-unit,0,4908,64.9449,81,-1.26141,0.903648
+FB,GB,same-day indep chi2 unit-tens,0,4908,92.7698,81,0.924721,0.174846
+FB,GB,lagged equal number (b shifted by L rows),-7,4901,54,49.1636,0.693244,0.488157
+FB,GB,lagged equal class (b shifted by L rows),-7,4901,108,93.3391,1.53216,0.125483
+FB,GB,lagged equal number (b shifted by L rows),-6,4902,70,49.1732,2.98502,0.00283557
+FB,GB,lagged equal class (b shifted by L rows),-6,4902,121,93.359,2.88835,0.00387263
+FB,GB,lagged equal number (b shifted by L rows),-5,4903,49,49.1852,-0.0265397,0.978827
+FB,GB,lagged equal class (b shifted by L rows),-5,4903,85,93.362,-0.873778,0.382239
+FB,GB,lagged equal number (b shifted by L rows),-4,4904,58,49.1943,1.26181,0.207017
+FB,GB,lagged equal class (b shifted by L rows),-4,4904,105,93.383,1.21377,0.224835
+FB,GB,lagged equal number (b shifted by L rows),-3,4905,58,49.2039,1.26032,0.207554
+FB,GB,lagged equal class (b shifted by L rows),-3,4905,105,93.4022,1.21163,0.225654
+FB,GB,lagged equal number (b shifted by L rows),-2,4906,60,49.2136,1.54533,0.122265
+FB,GB,lagged equal class (b shifted by L rows),-2,4906,104,93.4236,1.10481,0.269244
+FB,GB,lagged equal number (b shifted by L rows),-1,4907,74,49.226,3.54885,0.000386911
+FB,GB,lagged equal class (b shifted by L rows),-1,4907,127,93.4461,3.50459,0.000457306
+FB,GB,lagged equal number (b shifted by L rows),1,4907,69,49.2258,2.83264,0.00461649
+FB,GB,lagged equal class (b shifted by L rows),1,4907,132,93.4469,4.02672,5.65594e-05
+FB,GB,lagged equal number (b shifted by L rows),2,4906,72,49.2138,3.2645,0.00109656
+FB,GB,lagged equal class (b shifted by L rows),2,4906,115,93.4234,2.25388,0.0242036
+FB,GB,lagged equal number (b shifted by L rows),3,4905,61,49.2024,1.69039,0.0909527
+FB,GB,lagged equal class (b shifted by L rows),3,4905,101,93.3982,0.794189,0.427085
+FB,GB,lagged equal number (b shifted by L rows),4,4904,70,49.1943,2.98135,0.00286977
+FB,GB,lagged equal class (b shifted by L rows),4,4904,123,93.3783,3.09501,0.00196805
+FB,GB,lagged equal number (b shifted by L rows),5,4903,58,49.1846,1.26333,0.20647
+FB,GB,lagged equal class (b shifted by L rows),5,4903,106,93.3673,1.32,0.186836
+FB,GB,lagged equal number (b shifted by L rows),6,4902,57,49.173,1.12182,0.261941
+FB,GB,lagged equal class (b shifted by L rows),6,4902,94,93.3523,0.0676835,0.946038
+FB,GB,lagged equal number (b shifted by L rows),7,4901,58,49.1675,1.266,0.205514
+FB,GB,lagged equal class (b shifted by L rows),7,4901,97,93.3469,0.381761,0.702639
+FB,GL,same-day equal number,0,4908,78,49.2463,4.11809,3.82021e-05
+FB,GL,same-day equal class,0,4908,142,93.9067,5.01108,5.41249e-07
+FB,GL,same-day equal rashi,0,4908,442,356.381,4.70959,2.48213e-06
+FB,GL,same-day correlation of number,0,4908,0.0316572,0,2.21781,0.0265675
+FB,GL,same-day indep chi2 tens-tens,0,4908,110.227,81,2.29627,0.0170989
+FB,GL,same-day indep chi2 unit-unit,0,4908,96.313,81,1.2031,0.117749
+FB,GL,same-day indep chi2 tens-unit,0,4908,78.1128,81,-0.226838,0.570256
+FB,GL,same-day indep chi2 unit-tens,0,4908,80.4675,81,-0.0418386,0.495808
+FB,GL,lagged equal number (b shifted by L rows),-7,4901,43,49.183,-0.886101,0.375563
+FB,GL,lagged equal class (b shifted by L rows),-7,4901,85,93.7841,-0.915861,0.35974
+FB,GL,lagged equal number (b shifted by L rows),-6,4902,56,49.1918,0.975616,0.329255
+FB,GL,lagged equal class (b shifted by L rows),-6,4902,110,93.804,1.68847,0.0913206
+FB,GL,lagged equal number (b shifted by L rows),-5,4903,45,49.1999,-0.60179,0.547314
+FB,GL,lagged equal class (b shifted by L rows),-5,4903,105,93.8115,1.16637,0.243464
+FB,GL,lagged equal number (b shifted by L rows),-4,4904,42,49.2094,-1.03292,0.301642
+FB,GL,lagged equal class (b shifted by L rows),-4,4904,101,93.8295,0.747434,0.454801
+FB,GL,lagged equal number (b shifted by L rows),-3,4905,42,49.2183,-1.0341,0.301087
+FB,GL,lagged equal class (b shifted by L rows),-3,4905,87,93.8512,-0.714069,0.475185
+FB,GL,lagged equal number (b shifted by L rows),-2,4906,44,49.2252,-0.748517,0.454148
+FB,GL,lagged equal class (b shifted by L rows),-2,4906,98,93.8693,0.430479,0.666847
+FB,GL,lagged equal number (b shifted by L rows),-1,4907,62,49.2354,1.82835,0.0674972
+FB,GL,lagged equal class (b shifted by L rows),-1,4907,115,93.8924,2.19947,0.0278442
+FB,GL,lagged equal number (b shifted by L rows),1,4907,72,49.2364,3.26053,0.00111206
+FB,GL,lagged equal class (b shifted by L rows),1,4907,142,93.8857,5.01383,5.33569e-07
+FB,GL,lagged equal number (b shifted by L rows),2,4906,41,49.2256,-1.17832,0.238668
+FB,GL,lagged equal class (b shifted by L rows),2,4906,97,93.8645,0.326782,0.743833
+FB,GL,lagged equal number (b shifted by L rows),3,4905,62,49.2169,1.83134,0.0670504
+FB,GL,lagged equal class (b shifted by L rows),3,4905,104,93.8416,1.05882,0.289681
+FB,GL,lagged equal number (b shifted by L rows),4,4904,51,49.207,0.256899,0.797256
+FB,GL,lagged equal class (b shifted by L rows),4,4904,111,93.8199,1.7909,0.0733092
+FB,GL,lagged equal number (b shifted by L rows),5,4903,55,49.1993,0.831177,0.405874
+FB,GL,lagged equal class (b shifted by L rows),5,4903,95,93.8099,0.124065,0.901264
+FB,GL,lagged equal number (b shifted by L rows),6,4902,57,49.1895,1.11926,0.263028
+FB,GL,lagged equal class (b shifted by L rows),6,4902,105,93.7897,1.16879,0.242489
+FB,GL,lagged equal number (b shifted by L rows),7,4901,57,49.181,1.12058,0.262466
+FB,GL,lagged equal class (b shifted by L rows),7,4901,102,93.7809,0.856968,0.391463
+GB,GL,same-day equal number,0,4908,71,49.1009,3.14099,0.0016838
+GB,GL,same-day equal class,0,4908,120,93.4319,2.77514,0.00551772
+GB,GL,same-day equal rashi,0,4908,395,354.61,2.22681,0.0259601
+GB,GL,same-day correlation of number,0,4908,0.0207348,0,1.45262,0.146328
+GB,GL,same-day indep chi2 tens-tens,0,4908,90.4874,81,0.7454,0.220634
+GB,GL,same-day indep chi2 unit-unit,0,4908,102.898,81,1.7205,0.0507725
+GB,GL,same-day indep chi2 tens-unit,0,4908,85.8695,81,0.382582,0.334571
+GB,GL,same-day indep chi2 unit-tens,0,4908,91.9329,81,0.858969,0.1908
+GB,GL,lagged equal number (b shifted by L rows),-7,4901,44,49.0302,-0.721999,0.470295
+GB,GL,lagged equal class (b shifted by L rows),-7,4901,88,93.3165,-0.555672,0.578435
+GB,GL,lagged equal number (b shifted by L rows),-6,4902,48,49.04,-0.149257,0.881351
+GB,GL,lagged equal class (b shifted by L rows),-6,4902,94,93.3295,0.0700795,0.94413
+GB,GL,lagged equal number (b shifted by L rows),-5,4903,43,49.0481,-0.867947,0.385423
+GB,GL,lagged equal class (b shifted by L rows),-5,4903,87,93.3373,-0.662298,0.50778
+GB,GL,lagged equal number (b shifted by L rows),-4,4904,56,49.0593,0.995917,0.31929
+GB,GL,lagged equal class (b shifted by L rows),-4,4904,117,93.3589,2.47038,0.013497
+GB,GL,lagged equal number (b shifted by L rows),-3,4905,46,49.072,-0.440741,0.659401
+GB,GL,lagged equal class (b shifted by L rows),-3,4905,87,93.3812,-0.666729,0.504945
+GB,GL,lagged equal number (b shifted by L rows),-2,4906,43,49.0795,-0.872169,0.383116
+GB,GL,lagged equal class (b shifted by L rows),-2,4906,104,93.3987,1.10755,0.268057
+GB,GL,lagged equal number (b shifted by L rows),-1,4907,59,49.0899,1.42156,0.155153
+GB,GL,lagged equal class (b shifted by L rows),-1,4907,111,93.4204,1.83638,0.0663021
+GB,GL,lagged equal number (b shifted by L rows),1,4907,72,49.0884,3.28661,0.00101401
+GB,GL,lagged equal class (b shifted by L rows),1,4907,126,93.406,3.40506,0.000661503
+GB,GL,lagged equal number (b shifted by L rows),2,4906,64,49.0764,2.14101,0.0322731
+GB,GL,lagged equal class (b shifted by L rows),2,4906,124,93.382,3.19903,0.0013789
+GB,GL,lagged equal number (b shifted by L rows),3,4905,57,49.0689,1.13792,0.255153
+GB,GL,lagged equal class (b shifted by L rows),3,4905,106,93.3631,1.32046,0.186681
+GB,GL,lagged equal number (b shifted by L rows),4,4904,54,49.0591,0.708967,0.478345
+GB,GL,lagged equal class (b shifted by L rows),4,4904,103,93.342,1.00931,0.312827
+GB,GL,lagged equal number (b shifted by L rows),5,4903,61,49.0461,1.7155,0.0862536
+GB,GL,lagged equal class (b shifted by L rows),5,4903,111,93.3155,1.84837,0.0645494
+GB,GL,lagged equal number (b shifted by L rows),6,4902,49,49.0355,-0.00509453,0.995935
+GB,GL,lagged equal class (b shifted by L rows),6,4902,92,93.3013,-0.136022,0.891804
+GB,GL,lagged equal number (b shifted by L rows),7,4901,68,49.0267,2.72338,0.00646169
+GB,GL,lagged equal class (b shifted by L rows),7,4901,102,93.2906,0.910427,0.362598
+FB,DS13,same-day equal number,0,4908,67,49.1282,2.56265,0.0103878
+FB,DS13,same-day equal class,0,4908,111,93.9774,1.77302,0.0762259
+FB,DS13,same-day equal rashi,0,4908,408,356.801,2.81476,0.0048813
+FB,DS13,same-day correlation of number,0,4908,0.00783771,0,0.549087,0.582946
+FB,DS13,same-day indep chi2 tens-tens,0,4908,68.2454,81,-1.00209,0.843031
+FB,DS13,same-day indep chi2 unit-unit,0,4908,76.9264,81,-0.320052,0.607554
+FB,DS13,same-day indep chi2 tens-unit,0,4908,78.2294,81,-0.217679,0.566571
+FB,DS13,same-day indep chi2 unit-tens,0,4908,61.3687,81,-1.54238,0.948943
+FB,DS13,lagged equal number (b shifted by L rows),-7,4901,38,49.0661,-1.58778,0.112337
+FB,DS13,lagged equal class (b shifted by L rows),-7,4901,100,93.8547,0.64049,0.521854
+FB,DS13,lagged equal number (b shifted by L rows),-6,4902,52,49.0745,0.419723,0.674688
+FB,DS13,lagged equal class (b shifted by L rows),-6,4902,96,93.8731,0.221652,0.824584
+FB,DS13,lagged equal number (b shifted by L rows),-5,4903,37,49.0816,-1.7332,0.0830597
+FB,DS13,lagged equal class (b shifted by L rows),-5,4903,82,93.8805,-1.23807,0.215691
+FB,DS13,lagged equal number (b shifted by L rows),-4,4904,35,49.0954,-2.02182,0.0431948
+FB,DS13,lagged equal class (b shifted by L rows),-4,4904,80,93.9062,-1.44897,0.147346
+FB,DS13,lagged equal number (b shifted by L rows),-3,4905,38,49.1062,-1.59288,0.111187
+FB,DS13,lagged equal class (b shifted by L rows),-3,4905,86,93.9282,-0.825994,0.408807
+FB,DS13,lagged equal number (b shifted by L rows),-2,4906,44,49.108,-0.732591,0.463808
+FB,DS13,lagged equal class (b shifted by L rows),-2,4906,89,93.9391,-0.51454,0.606875
+FB,DS13,lagged equal number (b shifted by L rows),-1,4907,32,49.1194,-2.45497,0.0140894
+FB,DS13,lagged equal class (b shifted by L rows),-1,4907,64,93.958,-3.12065,0.00180455
+FB,DS13,lagged equal number (b shifted by L rows),1,4907,66,49.1198,2.42066,0.0154925
+FB,DS13,lagged equal class (b shifted by L rows),1,4907,126,93.955,3.3381,0.000843542
+FB,DS13,lagged equal number (b shifted by L rows),2,4906,49,49.1091,-0.0156398,0.987522
+FB,DS13,lagged equal class (b shifted by L rows),2,4906,115,93.9358,2.19446,0.0282024
+FB,DS13,lagged equal number (b shifted by L rows),3,4905,48,49.0975,-0.157413,0.874919
+FB,DS13,lagged equal class (b shifted by L rows),3,4905,94,93.9101,0.00936788,0.992526
+FB,DS13,lagged equal number (b shifted by L rows),4,4904,48,49.0895,-0.156288,0.875806
+FB,DS13,lagged equal class (b shifted by L rows),4,4904,88,93.8919,-0.613961,0.539241
+FB,DS13,lagged equal number (b shifted by L rows),5,4903,66,49.0771,2.42784,0.0151891
+FB,DS13,lagged equal class (b shifted by L rows),5,4903,121,93.8788,2.82633,0.00470853
+FB,DS13,lagged equal number (b shifted by L rows),6,4902,52,49.0679,0.420688,0.673983
+FB,DS13,lagged equal class (b shifted by L rows),6,4902,98,93.8574,0.431754,0.66592
+FB,DS13,lagged equal number (b shifted by L rows),7,4901,53,49.0565,0.565869,0.571483
+FB,DS13,lagged equal class (b shifted by L rows),7,4901,102,93.8355,0.851023,0.394756
+GB,DS13,same-day equal number,0,4908,77,49.0901,4.00355,6.23996e-05
+GB,DS13,same-day equal class,0,4908,133,93.5996,4.11192,3.92387e-05
+GB,DS13,same-day equal rashi,0,4908,428,354.674,4.04235,5.29183e-05
+GB,DS13,same-day correlation of number,0,4908,0.0230361,0,1.61384,0.106562
+GB,DS13,same-day indep chi2 tens-tens,0,4908,94.1343,81,1.03193,0.150887
+GB,DS13,same-day indep chi2 unit-unit,0,4908,101.921,81,1.64373,0.058011
+GB,DS13,same-day indep chi2 tens-unit,0,4908,87.9176,81,0.543499,0.280687
+GB,DS13,same-day indep chi2 unit-tens,0,4908,76.8869,81,-0.323159,0.608789
+GB,DS13,lagged equal number (b shifted by L rows),-7,4901,32,49.0269,-2.44401,0.0145252
+GB,DS13,lagged equal class (b shifted by L rows),-7,4901,68,93.4832,-2.66115,0.00778753
+GB,DS13,lagged equal number (b shifted by L rows),-6,4902,35,49.0345,-2.01432,0.0439759
+GB,DS13,lagged equal class (b shifted by L rows),-6,4902,79,93.4912,-1.51322,0.130225
+GB,DS13,lagged equal number (b shifted by L rows),-5,4903,47,49.0451,-0.293491,0.769147
+GB,DS13,lagged equal class (b shifted by L rows),-5,4903,101,93.5038,0.782725,0.433789
+GB,DS13,lagged equal number (b shifted by L rows),-4,4904,45,49.054,-0.581746,0.560738
+GB,DS13,lagged equal class (b shifted by L rows),-4,4904,79,93.5212,-1.5161,0.129493
+GB,DS13,lagged equal number (b shifted by L rows),-3,4905,38,49.0618,-1.58722,0.112464
+GB,DS13,lagged equal class (b shifted by L rows),-3,4905,80,93.5386,-1.41338,0.157543
+GB,DS13,lagged equal number (b shifted by L rows),-2,4906,49,49.0697,-0.0100017,0.99202
+GB,DS13,lagged equal class (b shifted by L rows),-2,4906,91,93.5565,-0.26686,0.789577
+GB,DS13,lagged equal number (b shifted by L rows),-1,4907,44,49.0762,-0.728262,0.466454
+GB,DS13,lagged equal class (b shifted by L rows),-1,4907,87,93.5731,-0.686077,0.492664
+GB,DS13,lagged equal number (b shifted by L rows),1,4907,82,49.0797,4.72276,2.32664e-06
+GB,DS13,lagged equal class (b shifted by L rows),1,4907,150,93.5749,5.88944,3.87518e-09
+GB,DS13,lagged equal number (b shifted by L rows),2,4906,57,49.0683,1.13802,0.255113
+GB,DS13,lagged equal class (b shifted by L rows),2,4906,113,93.5524,2.03011,0.0423453
+GB,DS13,lagged equal number (b shifted by L rows),3,4905,62,49.0575,1.85716,0.0632889
+GB,DS13,lagged equal class (b shifted by L rows),3,4905,113,93.5293,2.03278,0.0420752
+GB,DS13,lagged equal number (b shifted by L rows),4,4904,66,49.0449,2.43325,0.0149639
+GB,DS13,lagged equal class (b shifted by L rows),4,4904,110,93.5053,1.72229,0.0850168
+GB,DS13,lagged equal number (b shifted by L rows),5,4903,69,49.0351,2.86548,0.00416383
+GB,DS13,lagged equal class (b shifted by L rows),5,4903,120,93.4844,2.76893,0.00562405
+GB,DS13,lagged equal number (b shifted by L rows),6,4902,56,49.0261,1.00102,0.316816
+GB,DS13,lagged equal class (b shifted by L rows),6,4902,108,93.4751,1.51686,0.129302
+GB,DS13,lagged equal number (b shifted by L rows),7,4901,53,49.0192,0.571442,0.5677
+GB,DS13,lagged equal class (b shifted by L rows),7,4901,105,93.4562,1.20566,0.227949
+GL,DS13,same-day equal number,0,4908,56,49.3458,0.952067,0.341063
+GL,DS13,same-day equal class,0,4908,97,94.5438,0.255076,0.798664
+GL,DS13,same-day equal rashi,0,4908,338,357.837,-1.08912,0.2761
+GL,DS13,same-day correlation of number,0,4908,-0.00471757,0,-0.330499,0.741023
+GL,DS13,same-day indep chi2 tens-tens,0,4908,109.12,81,2.20934,0.02035
+GL,DS13,same-day indep chi2 unit-unit,0,4908,66.9864,81,-1.10101,0.868344
+GL,DS13,same-day indep chi2 tens-unit,0,4908,80.3623,81,-0.0501013,0.499118
+GL,DS13,same-day indep chi2 unit-tens,0,4908,96.4254,81,1.21194,0.116202
+GL,DS13,lagged equal number (b shifted by L rows),-7,4901,45,49.275,-0.612099,0.540472
+GL,DS13,lagged equal class (b shifted by L rows),-7,4901,91,94.405,-0.353872,0.723435
+GL,DS13,lagged equal number (b shifted by L rows),-6,4902,52,49.2831,0.388965,0.697302
+GL,DS13,lagged equal class (b shifted by L rows),-6,4902,89,94.4141,-0.562642,0.573679
+GL,DS13,lagged equal number (b shifted by L rows),-5,4903,46,49.2935,-0.471472,0.637303
+GL,DS13,lagged equal class (b shifted by L rows),-5,4903,94,94.4367,-0.0453741,0.963809
+GL,DS13,lagged equal number (b shifted by L rows),-4,4904,57,49.3044,1.10152,0.270672
+GL,DS13,lagged equal class (b shifted by L rows),-4,4904,98,94.4588,0.367918,0.712934
+GL,DS13,lagged equal number (b shifted by L rows),-3,4905,45,49.3125,-0.617232,0.537082
+GL,DS13,lagged equal class (b shifted by L rows),-3,4905,98,94.4777,0.365922,0.714424
+GL,DS13,lagged equal number (b shifted by L rows),-2,4906,46,49.3249,-0.475818,0.634204
+GL,DS13,lagged equal class (b shifted by L rows),-2,4906,111,94.4994,1.71399,0.08653
+GL,DS13,lagged equal number (b shifted by L rows),-1,4907,60,49.3346,1.52614,0.126975
+GL,DS13,lagged equal class (b shifted by L rows),-1,4907,100,94.5201,0.569163,0.569246
+GL,DS13,lagged equal number (b shifted by L rows),1,4907,74,49.3383,3.52879,0.000417468
+GL,DS13,lagged equal class (b shifted by L rows),1,4907,135,94.5341,4.20261,2.63859e-05
+GL,DS13,lagged equal number (b shifted by L rows),2,4906,68,49.3257,2.6724,0.0075311
+GL,DS13,lagged equal class (b shifted by L rows),2,4906,134,94.512,4.10153,4.10436e-05
+GL,DS13,lagged equal number (b shifted by L rows),3,4905,54,49.3117,0.671015,0.502211
+GL,DS13,lagged equal class (b shifted by L rows),3,4905,103,94.485,0.884558,0.376395
+GL,DS13,lagged equal number (b shifted by L rows),4,4904,53,49.3053,0.528849,0.59691
+GL,DS13,lagged equal class (b shifted by L rows),4,4904,101,94.4668,0.678755,0.497293
+GL,DS13,lagged equal number (b shifted by L rows),5,4903,57,49.2972,1.10264,0.270183
+GL,DS13,lagged equal class (b shifted by L rows),5,4903,113,94.4544,1.92687,0.0539953
+GL,DS13,lagged equal number (b shifted by L rows),6,4902,58,49.2864,1.24746,0.212228
+GL,DS13,lagged equal class (b shifted by L rows),6,4902,109,94.4347,1.51348,0.130157
+GL,DS13,lagged equal number (b shifted by L rows),7,4901,41,49.2748,-1.18479,0.236101
+GL,DS13,lagged equal class (b shifted by L rows),7,4901,93,94.4118,-0.146713,0.883358

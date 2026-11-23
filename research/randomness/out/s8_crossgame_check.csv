@@ -1,0 +1,48 @@
+a,b,test,obs,iid_expect,shift_null_mean,shift_null_sd,z,p
+fd,gb,same-day equal number,68,49.2351,48.395,7.21207,2.71836,0.00498753
+fd,gb,per-year equal counts (2013..2026),5 3 6 8 6 5 2 5 7 4 2 8 2 5,,,,,
+fd,gb,"by source (equal,rows)","{np.str_('sheet'): (11, 911), np.str_('site'): (57, 3899), np.str_('site(naya)'): (0, 98)}",,,,,
+fd,gl,same-day equal number,78,49.2463,49.09,7.03931,4.10694,0.00249377
+fd,gl,per-year equal counts (2013..2026),5 5 9 5 7 5 6 6 5 8 4 5 4 4,,,,,
+fd,gl,"by source (equal,rows)","{np.str_('sheet'): (15, 911), np.str_('site'): (61, 3899), np.str_('site(naya)'): (2, 98)}",,,,,
+fd,ds,same-day equal number,67,49.1282,49.31,7.10766,2.48886,0.0174564
+fd,ds,per-year equal counts (2013..2026),2 7 5 6 5 7 4 6 5 3 7 2 2 6,,,,,
+fd,ds,"by source (equal,rows)","{np.str_('sheet'): (9, 911), np.str_('site'): (57, 3899), np.str_('site(naya)'): (1, 98)}",,,,,
+gb,gl,same-day equal number,71,49.1009,48.85,6.54389,3.38484,0.00249377
+gb,gl,per-year equal counts (2013..2026),5 7 6 4 6 5 5 7 4 1 5 5 7 4,,,,,
+gb,gl,"by source (equal,rows)","{np.str_('sheet'): (15, 911), np.str_('site'): (55, 3899), np.str_('site(naya)'): (1, 98)}",,,,,
+gb,ds,same-day equal number,77,49.0901,49.92,6.80431,3.97983,0.00249377
+gb,ds,per-year equal counts (2013..2026),6 4 7 7 6 9 7 3 5 8 4 5 1 5,,,,,
+gb,ds,"by source (equal,rows)","{np.str_('sheet'): (14, 911), np.str_('site'): (60, 3899), np.str_('site(naya)'): (3, 98)}",,,,,
+gl,ds,same-day equal number,56,49.3458,49.4425,6.65182,0.985821,0.184539
+gl,ds,per-year equal counts (2013..2026),7 1 6 5 5 0 5 4 6 2 3 1 8 3,,,,,
+gl,ds,"by source (equal,rows)","{np.str_('sheet'): (13, 911), np.str_('site'): (42, 3899), np.str_('site(naya)'): (1, 98)}",,,,,
+ALL,6 pairs,pooled same-day equal number,417,,295.007,17.1758,7.10259,
+fd+gb+gl,,3-way equal same day (iid expect ~0.49),1,,,,,
+fd+gb+ds,,3-way equal same day (iid expect ~0.49),1,,,,,
+fd+gl+ds,,3-way equal same day (iid expect ~0.49),1,,,,,
+gb+gl+ds,,3-way equal same day (iid expect ~0.49),0,,,,,
+fd,gb,same-day class equal,112,,94.1,9.59531,1.86549,0.0348259
+fd,gb,same-day rashi equal,399,,354.87,18.4936,2.38623,0.0199005
+fd,gb,same-day tens equal,529,,494.03,23.1166,1.51276,0.0696517
+fd,gb,same-day unit equal,541,,489.065,20.1003,2.5838,0.00995025
+fd,gl,same-day class equal,142,,93.38,8.80713,5.52052,0.00497512
+fd,gl,same-day rashi equal,442,,357.86,18.8656,4.45997,0.00497512
+fd,gl,same-day tens equal,575,,490.015,18.5719,4.576,0.00497512
+fd,gl,same-day unit equal,571,,491.935,19.7413,4.00505,0.00497512
+fd,ds,same-day class equal,111,,94.555,9.55076,1.72185,0.0447761
+fd,ds,same-day rashi equal,408,,356.985,18.2837,2.79019,0.00497512
+fd,ds,same-day tens equal,506,,490.87,22.8134,0.663206,0.273632
+fd,ds,same-day unit equal,524,,486.945,20.609,1.798,0.0497512
+gb,gl,same-day class equal,120,,94.7,10.4547,2.41997,0.0199005
+gb,gl,same-day rashi equal,395,,352.795,19.093,2.2105,0.0348259
+gb,gl,same-day tens equal,536,,492.61,21.0185,2.06437,0.0248756
+gb,gl,same-day unit equal,578,,491.41,21.9636,3.94242,0.00497512
+gb,ds,same-day class equal,133,,93.6,9.29624,4.23827,0.00497512
+gb,ds,same-day rashi equal,428,,353.81,18.2643,4.06203,0.00497512
+gb,ds,same-day tens equal,560,,489.63,20.94,3.36056,0.00497512
+gb,ds,same-day unit equal,545,,490.785,20.8945,2.59471,0.0149254
+gl,ds,same-day class equal,97,,94.185,9.50162,0.296265,0.373134
+gl,ds,same-day rashi equal,338,,358.585,18.6854,-1.10166,0.880597
+gl,ds,same-day tens equal,475,,491.235,21.6081,-0.751339,0.79602
+gl,ds,same-day unit equal,506,,490.405,19.85,0.785644,0.228856

@@ -1,0 +1,11 @@
+game,stat,obs,shuffle_mean,shuffle_sd,z,p_two,note
+FB,link pairs: T summed over g=1..15,723,707.73,36.9097,0.413712,0.631841,ratio obs/shuffle 1.022; independence-adjusted ratio 0.934
+FB,link pairs: W summed over g=1..15,722,703.955,36.4316,0.495311,0.572139,ratio obs/shuffle 1.026; independence-adjusted ratio 0.000
+GB,link pairs: T summed over g=1..15,665,704.525,35.9317,-1.1,0.283582,ratio obs/shuffle 0.944; independence-adjusted ratio 0.939
+GB,link pairs: W summed over g=1..15,661,701.205,35.3343,-1.13785,0.263682,ratio obs/shuffle 0.943; independence-adjusted ratio 0.000
+GL,link pairs: T summed over g=1..15,742,735.96,37.9735,0.159058,0.860697,ratio obs/shuffle 1.008; independence-adjusted ratio 0.943
+GL,link pairs: W summed over g=1..15,741,732.135,37.2108,0.238237,0.820896,ratio obs/shuffle 1.012; independence-adjusted ratio 0.000
+DS,link pairs: T summed over g=1..15,3431,3328.73,81.9221,1.24838,0.233831,ratio obs/shuffle 1.031; independence-adjusted ratio 0.922
+DS,link pairs: W summed over g=1..15,3408,3309.86,80.8377,1.21404,0.223881,ratio obs/shuffle 1.030; independence-adjusted ratio 0.000
+DS13,link pairs: T summed over g=1..15,739,743.825,34.3801,-0.140343,0.920398,ratio obs/shuffle 0.994; independence-adjusted ratio 0.879
+DS13,link pairs: W summed over g=1..15,733,740.06,33.774,-0.209036,0.890547,ratio obs/shuffle 0.990; independence-adjusted ratio 0.000

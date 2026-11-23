@@ -1,0 +1,26 @@
+       pat                                     variant      n  avg_set  hit_rate  random_rate   lift     z  roi_%
+44    dana               kind=farak all core window=sd  15045     3.92    0.2533       0.2225  1.139  6.29   11.1
+36    dana              kind=farak saaf core window=sd   4159     3.90    0.3912       0.3348  1.169  6.28   15.3
+37    dana          kind=farak saaf core window=strict   4128     3.90    0.3423       0.2959  1.157  5.37   15.2
+45    dana           kind=farak all core window=strict  11253     3.92    0.2596       0.2317  1.120  5.04    9.8
+40    dana         kind=farak confusion core window=sd  10886     3.92    0.2006       0.1796  1.117  4.64    7.8
+46    dana        kind=farak all core+series window=sd  15045     7.72    0.4001       0.3843  1.041  3.96    1.3
+38    dana       kind=farak saaf core+series window=sd   4159     7.69    0.5843       0.5547  1.053  3.89    3.7
+68    dana                 kind=all all core window=sd  34797     3.35    0.2013       0.1922  1.047  3.51    1.3
+60    dana                kind=all saaf core window=sd   9987     3.39    0.3035       0.2895  1.048  3.31    2.2
+23  family                      shape=all size=all all   8291     7.52    0.2850       0.2678  1.064  3.27    4.7
+39    dana   kind=farak saaf core+series window=strict   4128     7.69    0.5254       0.5002  1.050  3.19    3.9
+41    dana     kind=farak confusion core window=strict   7125     3.93    0.2116       0.1946  1.088  2.99    4.8
+20  family                     shape=ulta size=all all   4246     7.49    0.2847       0.2667  1.068  2.69    5.2
+64    dana           kind=all confusion core window=sd  24810     3.33    0.1601       0.1531  1.046  2.56    0.5
+61    dana            kind=all saaf core window=strict   9901     3.39    0.2673       0.2564  1.043  2.53    1.8
+11    copy                           shape=all game=GB    587     3.88    0.1874       0.1464  1.280  2.43   19.8
+21  family                     shape=all size=all saaf   6225     7.44    0.2787       0.2648  1.052  2.42    3.6
+22  family                shape=all size=all confusion   2066     7.79    0.3040       0.2766  1.099  2.40    8.0
+42    dana  kind=farak confusion core+series window=sd  10886     7.72    0.3298       0.3192  1.033  2.40   -0.5
+17  family                   shape=seedha size=all all   4045     7.56    0.2853       0.2688  1.061  2.33    4.2
+16  family             shape=seedha size=all confusion    979     7.84    0.3126       0.2784  1.123  2.28   12.9
+18  family                    shape=ulta size=all saaf   3159     7.41    0.2808       0.2639  1.064  2.23    5.8
+47    dana    kind=farak all core+series window=strict  11253     7.72    0.4144       0.4038  1.026  2.11    0.5
+69    dana             kind=all all core window=strict  26281     3.35    0.2060       0.1996  1.032  2.07   -0.1
+1     copy                        shape=seedha game=GB    288     3.91    0.1944       0.1474  1.319  1.99   22.3

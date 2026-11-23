@@ -1,0 +1,7 @@
+/data/data/com.termux/files/usr/lib/python3.14/multiprocessing/resource_tracker.py:475: UserWarning: resource_tracker: There appear to be 6 leaked semaphore objects to clean up at shutdown: {'/mp-m55yfxjb', '/mp-17a5azq1', '/mp-p0xzd9ro', '/mp-sdwkb5xr', '/mp-tcff3wfm', '/mp-f9o4hssf'}
+/data/data/com.termux/files/usr/lib/python3.14/multiprocessing/resource_tracker.py:491: UserWarning: resource_tracker: '/mp-m55yfxjb': [Errno 38] Function not implemented
+/data/data/com.termux/files/usr/lib/python3.14/multiprocessing/resource_tracker.py:491: UserWarning: resource_tracker: '/mp-17a5azq1': [Errno 38] Function not implemented
+/data/data/com.termux/files/usr/lib/python3.14/multiprocessing/resource_tracker.py:491: UserWarning: resource_tracker: '/mp-p0xzd9ro': [Errno 38] Function not implemented
+/data/data/com.termux/files/usr/lib/python3.14/multiprocessing/resource_tracker.py:491: UserWarning: resource_tracker: '/mp-sdwkb5xr': [Errno 38] Function not implemented
+/data/data/com.termux/files/usr/lib/python3.14/multiprocessing/resource_tracker.py:491: UserWarning: resource_tracker: '/mp-tcff3wfm': [Errno 38] Function not implemented
+/data/data/com.termux/files/usr/lib/python3.14/multiprocessing/resource_tracker.py:491: UserWarning: resource_tracker: '/mp-f9o4hssf': [Errno 38] Function not implemented

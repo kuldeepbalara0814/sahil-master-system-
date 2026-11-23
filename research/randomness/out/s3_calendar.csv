@@ -1,0 +1,131 @@
+game,factor,test,n,stat,perm_mean,p_perm
+FB,weekday,number (chi2 perm),4908,566.189,594.804,0.797342
+FB,weekday,tens (chi2 perm),4908,41.4696,54.0317,0.882236
+FB,weekday,unit (chi2 perm),4908,56.707,53.8636,0.359281
+FB,weekday,class (chi2 perm),4908,282.549,324.943,0.956811
+FB,weekday,mean number (between-group SS perm),4908,3851.14,4894.24,0.596806
+FB,weekday,lag1 repeat rate by group,4908,14.495,6.04671,0.0279441
+FB,weekday,doubles rate by group,4908,8.15775,6.08241,0.243513
+FB,day-of-month,tens (chi2 perm),4908,231.198,261.889,0.914172
+FB,day-of-month,unit (chi2 perm),4908,263.744,261.494,0.437126
+FB,day-of-month,mean number (between-group SS perm),4908,19622.5,24323.6,0.766467
+FB,day-of-month,lag1 repeat rate by group,4908,20.1033,28.7051,0.896208
+FB,day-of-month,doubles rate by group,4908,15.811,29.3193,0.988024
+FB,month-of-year,number (chi2 perm),4908,1197.36,1088.11,0.013289
+FB,month-of-year,tens (chi2 perm),4908,112.037,99.8086,0.185629
+FB,month-of-year,unit (chi2 perm),4908,126.395,98.44,0.0299401
+FB,month-of-year,class (chi2 perm),4908,620.833,594.961,0.196013
+FB,month-of-year,mean number (between-group SS perm),4908,13060.5,9240.29,0.167665
+FB,month-of-year,lag1 repeat rate by group,4908,17.7678,10.8396,0.0798403
+FB,month-of-year,doubles rate by group,4908,3.68968,10.9156,0.984032
+FB,day-after-holiday,number (chi2 perm),4908,105.504,99.2449,0.315615
+FB,day-after-holiday,tens (chi2 perm),4908,11.8934,9.03082,0.219561
+FB,day-after-holiday,unit (chi2 perm),4908,9.99705,9.25207,0.377246
+FB,day-after-holiday,class (chi2 perm),4908,67.7026,53.6147,0.0797342
+FB,day-after-holiday,mean number (between-group SS perm),4908,1289.73,847.713,0.209581
+FB,day-after-holiday,lag1 repeat rate by group,4908,0.416674,0.972887,0.732535
+FB,day-after-holiday,doubles rate by group,4908,0.526234,0.915425,0.45509
+GB,weekday,number (chi2 perm),4908,517.081,595.097,0.993355
+GB,weekday,tens (chi2 perm),4908,31.4996,53.9396,0.992016
+GB,weekday,unit (chi2 perm),4908,53.9621,54.1298,0.500998
+GB,weekday,class (chi2 perm),4908,300.132,323.261,0.830565
+GB,weekday,mean number (between-group SS perm),4908,2762.21,5105.02,0.780439
+GB,weekday,lag1 repeat rate by group,4908,7.3663,5.943,0.271457
+GB,weekday,doubles rate by group,4908,3.38118,6.00104,0.762475
+GB,day-of-month,tens (chi2 perm),4908,255.161,259.229,0.56487
+GB,day-of-month,unit (chi2 perm),4908,240.023,259.241,0.810379
+GB,day-of-month,mean number (between-group SS perm),4908,34531.8,25287.2,0.0918164
+GB,day-of-month,lag1 repeat rate by group,4908,22.914,29.3279,0.784431
+GB,day-of-month,doubles rate by group,4908,30.7279,29.1378,0.381238
+GB,month-of-year,number (chi2 perm),4908,1043.09,1085.87,0.820598
+GB,month-of-year,tens (chi2 perm),4908,92.4722,99.2131,0.646707
+GB,month-of-year,unit (chi2 perm),4908,146.889,99.1659,0.00199601
+GB,month-of-year,class (chi2 perm),4908,593.461,593.665,0.468439
+GB,month-of-year,mean number (between-group SS perm),4908,10397.3,9425.46,0.315369
+GB,month-of-year,lag1 repeat rate by group,4908,8.81533,11.1634,0.644711
+GB,month-of-year,doubles rate by group,4908,14.4398,10.9534,0.209581
+GB,day-after-holiday,number (chi2 perm),4908,91.5739,98.7395,0.687708
+GB,day-after-holiday,tens (chi2 perm),4908,10.7581,8.9394,0.281437
+GB,day-after-holiday,unit (chi2 perm),4908,5.19415,9.08015,0.826347
+GB,day-after-holiday,class (chi2 perm),4908,44.6813,54.1925,0.827243
+GB,day-after-holiday,mean number (between-group SS perm),4908,3200.44,877.4,0.0558882
+GB,day-after-holiday,lag1 repeat rate by group,4908,1.84021,0.931139,0.259481
+GB,day-after-holiday,doubles rate by group,4908,0.307583,0.955193,0.60479
+GL,weekday,number (chi2 perm),4908,570.517,593.986,0.76412
+GL,weekday,tens (chi2 perm),4908,46.5876,54.2008,0.742515
+GL,weekday,unit (chi2 perm),4908,49.8914,55.3342,0.672655
+GL,weekday,class (chi2 perm),4908,325.452,325.264,0.498339
+GL,weekday,mean number (between-group SS perm),4908,2911.74,4715.96,0.722555
+GL,weekday,lag1 repeat rate by group,4908,8.05086,6.04954,0.225549
+GL,weekday,doubles rate by group,4908,8.19105,6.34807,0.257485
+GL,day-of-month,tens (chi2 perm),4908,273.667,261.444,0.265469
+GL,day-of-month,unit (chi2 perm),4908,257.726,260.848,0.556886
+GL,day-of-month,mean number (between-group SS perm),4908,18357.9,24445.2,0.846307
+GL,day-of-month,lag1 repeat rate by group,4908,35.5416,28.6655,0.165669
+GL,day-of-month,doubles rate by group,4908,26.5699,29.0492,0.586826
+GL,month-of-year,number (chi2 perm),4908,1081.02,1090.29,0.55814
+GL,month-of-year,tens (chi2 perm),4908,129.524,98.4813,0.0159681
+GL,month-of-year,unit (chi2 perm),4908,91.2916,99.1502,0.678643
+GL,month-of-year,class (chi2 perm),4908,543.985,591.843,0.920266
+GL,month-of-year,mean number (between-group SS perm),4908,15127.4,9141.09,0.0758483
+GL,month-of-year,lag1 repeat rate by group,4908,11.9214,10.7909,0.359281
+GL,month-of-year,doubles rate by group,4908,7.27241,10.8172,0.772455
+GL,day-after-holiday,number (chi2 perm),4908,84.3797,99.0959,0.86711
+GL,day-after-holiday,tens (chi2 perm),4908,6.63102,9.23626,0.694611
+GL,day-after-holiday,unit (chi2 perm),4908,6.71811,9.13676,0.684631
+GL,day-after-holiday,class (chi2 perm),4908,58.3945,53.033,0.328904
+GL,day-after-holiday,mean number (between-group SS perm),4908,442.679,864.693,0.461078
+GL,day-after-holiday,lag1 repeat rate by group,4908,0.228771,0.892336,0.696607
+GL,day-after-holiday,doubles rate by group,4908,2.08121,0.990425,0.187625
+DS,weekday,number (chi2 perm),21430,488.062,591.883,0.996678
+DS,weekday,tens (chi2 perm),21430,47.6491,54.628,0.740519
+DS,weekday,unit (chi2 perm),21430,41.8229,53.5551,0.91018
+DS,weekday,class (chi2 perm),21430,280.405,326.688,0.966777
+DS,weekday,mean number (between-group SS perm),21430,2293.72,5074.29,0.860279
+DS,weekday,lag1 repeat rate by group,21430,3.62677,6.22185,0.718563
+DS,weekday,doubles rate by group,21430,3.28179,6.28586,0.806387
+DS,day-of-month,tens (chi2 perm),21430,345.791,269.909,0.00399202
+DS,day-of-month,unit (chi2 perm),21430,266.204,270.389,0.55489
+DS,day-of-month,mean number (between-group SS perm),21430,29633.1,24435.1,0.201597
+DS,day-of-month,lag1 repeat rate by group,21430,44.4035,29.7018,0.0259481
+DS,day-of-month,doubles rate by group,21430,37.1699,30.3409,0.191617
+DS,month-of-year,number (chi2 perm),21430,1089.34,1088.72,0.471761
+DS,month-of-year,tens (chi2 perm),21430,133.985,99.9605,0.011976
+DS,month-of-year,unit (chi2 perm),21430,125.387,98.219,0.0339321
+DS,month-of-year,class (chi2 perm),21430,660.32,593.162,0.0332226
+DS,month-of-year,mean number (between-group SS perm),21430,22509.2,8841.58,0.00598802
+DS,month-of-year,lag1 repeat rate by group,21430,15.2327,11.1195,0.175649
+DS,month-of-year,doubles rate by group,21430,16.7974,11.3002,0.129741
+DS,day-after-holiday,number (chi2 perm),21430,108.614,99.1705,0.255814
+DS,day-after-holiday,tens (chi2 perm),21430,31.477,8.82354,0.00199601
+DS,day-after-holiday,unit (chi2 perm),21430,16.7133,9.10882,0.0499002
+DS,day-after-holiday,class (chi2 perm),21430,66.6225,54.2978,0.129568
+DS,day-after-holiday,mean number (between-group SS perm),21430,9758.2,775.837,0.00199601
+DS,day-after-holiday,lag1 repeat rate by group,21430,3.35931,0.937318,0.0678643
+DS,day-after-holiday,doubles rate by group,21430,0.382158,1.05517,0.568862
+DS13,weekday,number (chi2 perm),4908,507.081,593.99,1
+DS13,weekday,tens (chi2 perm),4908,36.8797,54.7216,0.974052
+DS13,weekday,unit (chi2 perm),4908,42.9895,53.7416,0.834331
+DS13,weekday,class (chi2 perm),4908,276.488,326.324,0.986711
+DS13,weekday,mean number (between-group SS perm),4908,3947.39,4617.66,0.506986
+DS13,weekday,lag1 repeat rate by group,4908,7.88943,6.02224,0.241517
+DS13,weekday,doubles rate by group,4908,5.58176,5.98845,0.471058
+DS13,day-of-month,tens (chi2 perm),4908,247.011,259.26,0.706587
+DS13,day-of-month,unit (chi2 perm),4908,222.58,260.131,0.976048
+DS13,day-of-month,mean number (between-group SS perm),4908,14922.9,23429,0.924152
+DS13,day-of-month,lag1 repeat rate by group,4908,25.0465,29.3578,0.680639
+DS13,day-of-month,doubles rate by group,4908,32.1697,28.8372,0.329341
+DS13,month-of-year,number (chi2 perm),4908,1065.64,1087.58,0.677741
+DS13,month-of-year,tens (chi2 perm),4908,127.605,99.1291,0.0239521
+DS13,month-of-year,unit (chi2 perm),4908,87.8059,99.0753,0.790419
+DS13,month-of-year,class (chi2 perm),4908,581.778,593.641,0.634551
+DS13,month-of-year,mean number (between-group SS perm),4908,11754.6,9064.36,0.205589
+DS13,month-of-year,lag1 repeat rate by group,4908,11.6448,11.0336,0.423154
+DS13,month-of-year,doubles rate by group,4908,19.245,11.0697,0.0618762
+DS13,day-after-holiday,number (chi2 perm),4908,70.8283,98.4199,0.993355
+DS13,day-after-holiday,tens (chi2 perm),4908,8.62065,9.07287,0.489022
+DS13,day-after-holiday,unit (chi2 perm),4908,4.05923,8.86233,0.902196
+DS13,day-after-holiday,class (chi2 perm),4908,27.2534,53.3747,0.996678
+DS13,day-after-holiday,mean number (between-group SS perm),4908,458.334,718.483,0.407186
+DS13,day-after-holiday,lag1 repeat rate by group,4908,0.183581,0.980595,0.680639
+DS13,day-after-holiday,doubles rate by group,4908,0.972757,0.949863,0.323353

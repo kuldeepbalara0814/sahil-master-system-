@@ -1,0 +1,10 @@
+shufL_row11 done 260s
+shufL_col12 done 240s
+shufL_row13 done 254s
+shufL_col14 done 255s
+shufL_row15 done 255s
+shufL_col16 done 210s
+shufL_row17 done 234s
+shufL_col18 done 240s
+shufL_row19 done 191s
+shufL_col20 done 191s

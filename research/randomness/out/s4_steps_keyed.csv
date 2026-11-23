@@ -1,0 +1,76 @@
+game,L,stat,obs,shuffle_mean,shuffle_sd,z,p_upper
+FB,8,"common links (sum, 2 months)",32,42.31,13.5087,-0.763214,0.781095
+FB,8,month-pairs >=2 common,3,0.13,0.594222,4.82984,0.0348259
+FB,8,month-pairs >=3 common,0,0.015,0.211601,-0.0708881,1
+FB,8,3-month triples >=2 common (full step design),0,0,0,0,1
+FB,8,max common in triple,0,0.235,0.423999,-0.554247,1
+FB,10,"common links (sum, 2 months)",54,67.6,19.2341,-0.707078,0.771144
+FB,10,month-pairs >=2 common,5,0.36,1.10018,4.21748,0.0298507
+FB,10,month-pairs >=3 common,0,0.055,0.414699,-0.132626,1
+FB,10,3-month triples >=2 common (full step design),0,0,0,0,1
+FB,10,max common in triple,0,0.295,0.456043,-0.646869,1
+FB,12,"common links (sum, 2 months)",81,98.8,25.7494,-0.691279,0.756219
+FB,12,month-pairs >=2 common,7,0.865,1.76827,3.46949,0.0348259
+FB,12,month-pairs >=3 common,0,0.12,0.711056,-0.168763,1
+FB,12,3-month triples >=2 common (full step design),0,0,0,0,1
+FB,12,max common in triple,0,0.34,0.473709,-0.717741,1
+GB,8,"common links (sum, 2 months)",70,43.95,14.2789,1.82437,0.039801
+GB,8,month-pairs >=2 common,0,0.065,0.400968,-0.162108,1
+GB,8,month-pairs >=3 common,0,0.015,0.211601,-0.0708881,1
+GB,8,3-month triples >=2 common (full step design),0,0,0,0,1
+GB,8,max common in triple,0,0.16,0.366606,-0.436436,1
+GB,10,"common links (sum, 2 months)",111,69.765,19.961,2.06578,0.0298507
+GB,10,month-pairs >=2 common,0,0.26,0.97591,-0.266418,1
+GB,10,month-pairs >=3 common,0,0.03,0.359305,-0.0834946,1
+GB,10,3-month triples >=2 common (full step design),0,0,0,0,1
+GB,10,max common in triple,0,0.21,0.407308,-0.51558,1
+GB,12,"common links (sum, 2 months)",158,101.81,26.0681,2.15551,0.0199005
+GB,12,month-pairs >=2 common,0,0.66,1.6806,-0.392718,1
+GB,12,month-pairs >=3 common,0,0.07,0.570175,-0.122769,1
+GB,12,3-month triples >=2 common (full step design),0,0,0,0,1
+GB,12,max common in triple,0,0.3,0.458258,-0.654654,1
+GL,8,"common links (sum, 2 months)",45,44.69,14.9102,0.0207911,0.507463
+GL,8,month-pairs >=2 common,0,0.25,0.823104,-0.303728,1
+GL,8,month-pairs >=3 common,0,0.04,0.28,-0.142857,1
+GL,8,3-month triples >=2 common (full step design),0,0,0,0,1
+GL,8,max common in triple,0,0.235,0.423999,-0.554247,1
+GL,10,"common links (sum, 2 months)",69,71.545,22.0211,-0.115571,0.542289
+GL,10,month-pairs >=2 common,0,0.585,1.47064,-0.397787,1
+GL,10,month-pairs >=3 common,0,0.115,0.601477,-0.191196,1
+GL,10,3-month triples >=2 common (full step design),0,0,0,0,1
+GL,10,max common in triple,0,0.275,0.446514,-0.615882,1
+GL,12,"common links (sum, 2 months)",93,104.355,29.6574,-0.382873,0.616915
+GL,12,month-pairs >=2 common,0,1.225,2.29006,-0.53492,1
+GL,12,month-pairs >=3 common,0,0.22,0.995791,-0.22093,1
+GL,12,3-month triples >=2 common (full step design),0,0,0,0,1
+GL,12,max common in triple,0,0.31,0.462493,-0.67028,1
+DS,8,"common links (sum, 2 months)",268,201.16,31.3393,2.13278,0.0149254
+DS,8,month-pairs >=2 common,5,0.69,1.31297,3.28262,0.0348259
+DS,8,month-pairs >=3 common,4,0.12,0.64467,6.01858,0.0199005
+DS,8,3-month triples >=2 common (full step design),0,0,0,0,1
+DS,8,max common in triple,1,0.62,0.485386,0.782881,0.621891
+DS,10,"common links (sum, 2 months)",403,323.92,44.5845,1.77371,0.0497512
+DS,10,month-pairs >=2 common,8,1.915,2.51948,2.41518,0.0597015
+DS,10,month-pairs >=3 common,4,0.295,1.07609,3.44301,0.0248756
+DS,10,3-month triples >=2 common (full step design),0,0,0,0,1
+DS,10,max common in triple,1,0.74,0.438634,0.592749,0.741294
+DS,12,"common links (sum, 2 months)",570,474.86,57.8757,1.64387,0.0597015
+DS,12,month-pairs >=2 common,12,4.415,4.15365,1.82611,0.0746269
+DS,12,month-pairs >=3 common,4,0.565,1.67504,2.05069,0.0845771
+DS,12,3-month triples >=2 common (full step design),0,0,0,0,1
+DS,12,max common in triple,1,0.825,0.379967,0.460566,0.825871
+DS13,8,"common links (sum, 2 months)",45,45.05,15.9116,-0.00314237,0.462687
+DS13,8,month-pairs >=2 common,1,0.095,0.485773,1.86301,0.0547264
+DS13,8,month-pairs >=3 common,0,0.02,0.282135,-0.0708881,1
+DS13,8,3-month triples >=2 common (full step design),0,0,0,0,1
+DS13,8,max common in triple,0,0.17,0.375633,-0.45257,1
+DS13,10,"common links (sum, 2 months)",66,72.895,23.2165,-0.296988,0.61194
+DS13,10,month-pairs >=2 common,3,0.34,1.14647,2.32016,0.0497512
+DS13,10,month-pairs >=3 common,0,0.045,0.450527,-0.0998829,1
+DS13,10,3-month triples >=2 common (full step design),0,0,0,0,1
+DS13,10,max common in triple,0,0.235,0.423999,-0.554247,1
+DS13,12,"common links (sum, 2 months)",95,107.045,31.127,-0.386963,0.651741
+DS13,12,month-pairs >=2 common,5,0.855,2.05036,2.0216,0.0597015
+DS13,12,month-pairs >=3 common,0,0.1,0.69282,-0.144338,1
+DS13,12,3-month triples >=2 common (full step design),0,0,0,0,1
+DS13,12,max common in triple,0,0.305,0.460407,-0.662457,1

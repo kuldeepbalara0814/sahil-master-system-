@@ -1,0 +1,2 @@
+13:37:28 resumed; runner run_all2.sh started (bg), log out/PROGRESS_run.txt
+13:38:01 waiting: runner order p1 DS month -> FB/GB/GL -> p2,p3,p5 -> p4; analyse_all.py after ALLDONE

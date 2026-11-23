@@ -1,0 +1,5 @@
+pat,variant,real_lift,real_z,runs,shuf_lift_mean,shuf_z_mean,shuf_z_sd,shuf_z_max
+copy,shape=all game=all,1.116,1.95,6,0.995,-0.117,1.063,0.94
+family,shape=all size=all all,1.064,3.27,6,0.995,-0.267,1.177,1.47
+dana,kind=all all core window=sd,1.047,3.51,6,1.011,0.773,0.982,2.21
+tokri,window=365d top6,0.913,-4.37,6,0.989,-0.532,0.993,0.61

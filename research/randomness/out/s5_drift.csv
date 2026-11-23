@@ -1,0 +1,43 @@
+game,grouping,feature,groups,stat,df_or_max,p_chi2,p_perm
+FB,year,tens digit,14,90.6349,117,0.966283,0.940594
+FB,year,unit digit,14,96.1719,117,0.920387,0.930693
+FB,year,class(55),14,513.224,702,1,1
+FB,year,rashi(15),14,92.8382,182,1,1
+FB,year,number(100) 10-bin,14,90.6349,117,0.966283,0.940594
+FB,year,group mean spread (permuted labels),14,1313.16,0,0,0.199005
+FB,year,next-day repeat rate range min..max,14,0,0.0225989,0.01,0
+GB,year,tens digit,14,103.858,117,0.802219,0.80198
+GB,year,unit digit,14,94.3298,117,0.938935,0.910891
+GB,year,class(55),14,499.224,702,1,1
+GB,year,rashi(15),14,98.2161,182,1,1
+GB,year,number(100) 10-bin,14,103.858,117,0.802219,0.821782
+GB,year,group mean spread (permuted labels),14,1428.16,0,0,0.144279
+GB,year,next-day repeat rate range min..max,14,0,0.0198864,0.01,0
+GL,year,tens digit,14,73.2744,117,0.999472,1
+GL,year,unit digit,14,105.342,117,0.771864,0.742574
+GL,year,class(55),14,620.825,702,0.987392,0.980198
+GL,year,rashi(15),14,137.582,182,0.994039,1
+GL,year,number(100) 10-bin,14,73.2744,117,0.999472,1
+GL,year,group mean spread (permuted labels),14,512.875,0,0,0.885572
+GL,year,next-day repeat rate range min..max,14,0,0.01983,0.01,0
+DS,year,tens digit,61,331.268,540,1,1
+DS,year,unit digit,61,380.191,540,1,1
+DS,year,class(55),61,2687.74,3240,1,1
+DS,year,rashi(15),61,632.905,840,1,1
+DS,year,number(100) 10-bin,61,331.268,540,1,1
+DS,year,group mean spread (permuted labels),61,352.658,0,0,1
+DS,year,next-day repeat rate range min..max,61,0,0.0289855,0.01,0
+DS,decade,tens digit,7,14.5236,54,1,1
+DS,decade,unit digit,7,27.9737,54,0.998708,0.990099
+DS,decade,class(55),7,134.556,324,1,1
+DS,decade,rashi(15),7,38.4859,84,0.999995,1
+DS,decade,number(100) 10-bin,7,14.5236,54,1,1
+DS,decade,group mean spread (permuted labels),7,160377,0,0,0.661692
+DS,decade,next-day repeat rate range min..max,7,0.00821018,0.0137681,0.01,0
+DS13,year,tens digit,14,86.2287,117,0.985243,0.980198
+DS13,year,unit digit,14,107.022,117,0.734961,0.762376
+DS13,year,class(55),14,590.351,702,0.999144,1
+DS13,year,rashi(15),14,127.674,182,0.999204,1
+DS13,year,number(100) 10-bin,14,86.2287,117,0.985243,1
+DS13,year,group mean spread (permuted labels),14,636.266,0,0,0.865672
+DS13,year,next-day repeat rate range min..max,14,0,0.019774,0.01,0
