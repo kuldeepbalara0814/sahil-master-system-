@@ -17,7 +17,7 @@ function chart(v){
    const d=el("td",{class:"d"},r.date&&r.date!=="aage"?dm(r.date):(r.date==="aage"?"aage":""));
    return [d,...[0,1,2,3].map(g=>{const txt=r.txt[g]||(r.v?p2(r.v[g]):"");const td=el("td",{class:"c"+(r.kind[g]?" "+r.kind[g]:"")},txt);
     if(r.c[g]){td.style.background="#"+r.c[g];td.style.color="#000"}if(r.kind[g]==="pass")td.style.outline="3px solid #000";if(r.kind[g]==="light")td.style.fontStyle="italic";return td})]})))}
- t.append(th,tb);return el("div",{},el("p",{class:"mut small"},v.note),el("div",{class:"sheetwrap",style:"max-height:60vh"},t));
+ t.append(th,tb);return el("div",{},el("p",{class:"mut small"},v.note),el("div",{class:"sheetwrap fit",style:"max-height:none"},t));
 }
 
 /* family pattern: poora mahina, har rashi family alag rang; is pattern ke cell bold + moti border; neeche 'ye kaise bana' */
@@ -87,7 +87,7 @@ tabs.scan=async function(m){
    panel.replaceChildren(el("div",{class:"card flat",style:"margin-top:8px"},el("p",{class:"mut small"},"Har game me jo number khele wo likho (khaali = nahi khela). Paper rule: har number 10 Rs, location par 20 Rs."),...rows,noteIn,
     el("div",{class:"row"},el("button",{class:"b g sm",on:{click:prefill}},"Paper rule se bharo"),el("button",{class:"b sm",on:{click:()=>save(false)}},"Save"),el("button",{class:"b g sm",on:{click:()=>save(true)}},"Note hatao"))))};
   return el("div",{class:"card flat scard"},
-   el("div",{class:"row",style:"justify-content:space-between"},el("h3",{style:"margin:0"},it.name),el("span",{},el("span",{class:"pill "+st[0]},st[1])," ",el("span",{class:"pill "+sr[0]},sr[1]))),
+   el("div",{class:"row",style:"justify-content:space-between"},el("h3",{style:"margin:0"},it.name,it.new?el("span",{class:"pill g",style:"margin-left:8px"},"NAYA"):null),el("span",{},el("span",{class:"pill "+st[0]},st[1])," ",el("span",{class:"pill "+sr[0]},sr[1]))),
    el("div",{class:"b"},it.title),it.lines.map(l=>el("p",{class:"mut small",style:"margin:3px 0"},l)),
    it.target?el("p",{class:"tgt"},`Aaj ${dm(it.target.date)}: ${it.target.games} me `,el("b",{},it.target.numbers.map(p2).join(" ")),it.kind==="copy"?" (set ka koi bhi)":" (andaza)"):null,
    el("div",{class:"row"},open,pb,el("a",{href:"/api/scanner/xlsx?id="+encodeURIComponent(it.id)},el("button",{class:"b g sm"},"Excel download"))),saved,panel,view)}

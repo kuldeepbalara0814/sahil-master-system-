@@ -384,13 +384,13 @@ def api_board_delete():
 # ---------------- pattern scan (sikhaye hue pattern roz apne aap) ----------------
 def save_scan(rep, source="auto", push=False):
     """Scan save karo + active_log me milao. push=True (manual) to GitHub par bhi (galti response na roke)."""
-    jsave("patterns_today.json", rep)
     names = ["patterns_today.json"]
-    try:
+    try:                                                       # merge pehle: wo items par "new" nishan lagata hai
         jsave("active_log.json", active.merge(jload("active_log.json", None) or active.new_log(), rep, source=source))
         names.append("active_log.json")
     except Exception:
         app.logger.exception("active log merge fail")
+    jsave("patterns_today.json", rep)
     if push:
         try:
             persist(names, "pattern scan (manual)")

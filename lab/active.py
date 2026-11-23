@@ -34,6 +34,17 @@ def merge(log, report, now=None, source="auto"):
     log.setdefault("items", {})
     log.setdefault("scans", [])
     items = log["items"]
+    seen = log.setdefault("seen", {})                          # har item (naksha samet) pehli baar kab dikha -> "NAYA" nishan
+    first_run = not seen
+    for p in report.get("patterns", []):
+        for it in p.get("items", []):
+            if it.get("id"):
+                if it["id"] not in seen:
+                    seen[it["id"]] = "0000-00-00" if first_run else day   # pehle scan me sab purana maano
+                it["new"] = seen[it["id"]] == day
+    if len(seen) > 30000:
+        for k in sorted(seen, key=seen.get)[:len(seen) - 30000]:
+            del seen[k]
     for p in report.get("patterns", []):
         for it in p.get("items", []):
             kind = it.get("kind", p.get("key"))

@@ -33,5 +33,34 @@
     "new": 47
    }
   ]
+ },
+ {
+  "asof": "2026-11-22",
+  "changes": [
+   {
+    "number": 37,
+    "period": "last3m",
+    "old": 88,
+    "new": 67
+   },
+   {
+    "number": 67,
+    "period": "last3m",
+    "old": 76,
+    "new": 37
+   },
+   {
+    "number": 67,
+    "period": "month",
+    "old": 76,
+    "new": 13
+   },
+   {
+    "number": 90,
+    "period": "month",
+    "old": 76,
+    "new": 13
+   }
+  ]
  }
 ]

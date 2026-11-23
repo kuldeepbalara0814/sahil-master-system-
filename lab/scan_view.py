@@ -40,6 +40,11 @@ def view(rows, pid):
             for x in k["cells"]:
                 colour[x] = k["color"]
         olds, news = [], []
+        fut, dd = [], D[-1]                                  # naye mahine ke aane wale din (chhuti chhodkar)
+        while len(fut) < F:
+            dd += dt.timedelta(days=1)
+            if not data.is_last_day(dd):
+                fut.append(dd)
         for i in range(L + F):
             po = so + i
             if po < N:
@@ -68,7 +73,7 @@ def view(rows, pid):
                         for k in info["comps"]:
                             if info["C"][po, g] == k["old_class"]:
                                 c[g], kind[g], txt[g] = _lt(k["color"]), "light", "?"
-                news.append(_row("aage", None, c, kind, txt))
+                news.append(_row(fut[i - L].isoformat(), None, c, kind, txt))   # aage ki jagah asli tarikh
         tg = "; ".join(f"{t['game']} me {' / '.join(f'{x:02d}' for x in t['numbers'])}" for t in info["targets"]) or "koi andaza nahi"
         return {"id": pid, "title": f"{scanner.name_for('Naksha-Rashi' if mode == 'r' else 'Naksha', f'{L}:{D[so].isoformat()}')}: {D[so]:%b %Y} jaisa naksha" + (" (rashi)" if mode == "r" else ""),
                 "note": f"Same rang = mile hue jode (same/palat, same jagah). Halka rang = purane me wahi class wapas aayi, naye me wahi jagah '?'. Aaj ka andaza: {tg}.",

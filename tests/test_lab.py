@@ -548,3 +548,20 @@ class ActiveLogTests(unittest.TestCase):
             for k in ("now", "recent_pass", "board", "scans", "patterns", "errors"):
                 self.assertIn(k, j)
         self.assertEqual(p.get_json()["scans"]["manual_today"] >= 1, True)
+
+
+class NewMarkTests(unittest.TestCase):
+    def test_new_flag_and_dates_in_naksha_view(self):
+        from lab import active
+        rep = {"patterns": [{"id": "002", "key": "naksha", "naam": "Naksha", "items": [{"id": "naksha:10:2020-01-01", "kind": "naksha", "status": "dekho"}]}]}
+        log = active.new_log()
+        active.merge(log, rep)
+        self.assertFalse(rep["patterns"][0]["items"][0]["new"])                 # pehla scan: sab purana
+        rep2 = {"patterns": [{"id": "002", "key": "naksha", "naam": "Naksha", "items": [
+            {"id": "naksha:10:2020-01-01", "kind": "naksha", "status": "dekho"}, {"id": "naksha:10:2021-02-02", "kind": "naksha", "status": "dekho"}]}]}
+        active.merge(log, rep2)
+        self.assertEqual([i["new"] for i in rep2["patterns"][0]["items"]], [False, True])
+        it = scanner.scan_naksha(ROWS, "x")["items"][0]
+        v = scan_view.view(ROWS, it["id"])
+        last = [r["date"] for r in v["blocks"][1]["rows"]][-3:]
+        self.assertTrue(all(len(x) == 10 and x > ROWS[-1][0].isoformat() for x in last))   # "aage" ki jagah tarikh

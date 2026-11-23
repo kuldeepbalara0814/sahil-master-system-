@@ -169,3 +169,10 @@ table.mc td.c{min-width:40px}
 .palbox{border:2px solid var(--line);border-radius:10px;padding:8px 10px;margin:10px 0}
 .palh{font-weight:800;font-size:12px;letter-spacing:.5px;margin-bottom:6px;color:var(--mut)}
 .tgtcard{border-left:4px solid #ff9800}
+
+/* Naksha chart: poori chaudai me (side me sarakna nahi) */
+.sheetwrap.fit{overflow-x:hidden}
+.sheetwrap.fit table.sheet{width:100%;table-layout:fixed}
+.sheetwrap.fit table.sheet th,.sheetwrap.fit table.sheet td{min-width:0;padding:2px 0;font-size:11.5px;line-height:1.15;overflow:hidden}
+.sheetwrap.fit table.sheet td.d,.sheetwrap.fit table.sheet th.d{width:12%;font-size:10.5px;word-break:break-word}
+.sheetwrap.fit table.sheet .ttl2{font-size:11px;padding:4px 2px}
