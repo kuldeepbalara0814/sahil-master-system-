@@ -37,6 +37,36 @@ Saal-wise farak/control: 2014 1.13, 2015 1.11, 2016 1.05, 2017 1.08, 2018 0.96, 
 | tokri (365d top6) | 4368 | 11.2 | 0.346 | 0.378 | 0.913 (0.875-0.952) | -4.4 |
 Kam set par lift (bucket) aur saal-wise lift: `out/tables_light.md` ke section 3-4. Copy/GB chhote sample (n=587) me 1.28 dikhta hai (z 2.4) par multiple testing ke baad pakka nahi.
 
+
+## 3. Sweeps (multiple testing)
+Lift ke hisaab se top (n>=100): copy GB seedha 1.32 (n 288, z 2.0); copy GB all 1.28 (587, 2.4); farak saaf core 1.169 (4159, 6.3); farak all core 1.139 (15045, 6.3); family seedha confusion 1.12 (979, 2.3). Copy-GB ka CI chaura (n chhota).
+Set size ke hisaab se (kam jodi par lift), bucket ka sabse achha: <=2.5: tokri top1 1.037 (z 0.7); 2.5-4.5: farak core 1.139 (6.3); 4.5-8: family all 1.064 (3.3), farak core+series 1.041 (4.0); >8: tokri 1 se neeche. **Kam jodi (<=2.5) par koi asli lift nahi.**
+Family-wise (max-z) test:
+| Pattern | K | Best variant | z | Bonferroni p | Row/col null max z (12 run), perm p | Year-shuffle null max z (4 run), perm p |
+|---|---|---|---|---|---|---|
+| copy | 15 | GB all | 2.43 | 0.11 | 2.93, 0.15 | 2.53, 0.40 |
+| family | 9 | all | 3.27 | 0.005 | 1.88, 0.077 | 1.59, 0.20 |
+| dana | 48 | farak all core | 6.29 | 8e-9 | 3.64, 0.077 | 2.93, 0.20 |
+| tokri | 35 | 1095d top1 | 0.68 | 1.0 | 2.10, 0.77 | 2.35, 1.0 |
+| ALL light | 107 | farak all core | 6.29 | 2e-8 | 3.64, 0.077 | 2.93, 0.20 |
+| naksha | 25 | L=10 top12 | 2.29 | 0.28 | 1.08, 0.25 (3 run) | - |
+| naksha2 | 40 | L=15 top6 loc-exact | 2.75 | 0.12 | 2.04, 0.25 (3 run) | - |
+| steps | 35 | L=12 links=2 top24 | 0.78 | 1.0 | 0.88, 0.50 (3 run) | - |
+Farak ka z 6.3 har shuffle null ke max z se bada, par null run kam hone se perm p ka chhota sambhav ank 1/13, 1/5, 1/4 hi hai.
+
+## 4. Heavy sample (237 din ~5%; asli + 3 shuffle)
+| Pattern | n | Hit | Random | Lift (CI) | z | Shuffle lift |
+|---|---|---|---|---|---|---|
+| naksha L=all top12 | 2478 | 0.0956 | 0.0826 | 1.158 (0.91-1.41) | 1.24 | 0.86, 0.95, 0.90 |
+| naksha2 L=all top12 | 10352 | 0.5507 | 0.5416 | 1.017 (0.97-1.07) | 0.68 | 1.00-1.02 |
+| steps L=all top8 | 1113 | 0.1554 | 0.1638 | 0.949 (0.80-1.10) | -0.66 | 0.85-1.07 |
+100 eligible variants me 2 ke z>2, koi < -2. Sabse achha naksha2 L=15 top6 location-exact (lift 1.173, z 2.75) null range ke paas. 237 din se 15% se chhota lift pakadna mushkil: "asar nahi hai" nahi, "asar dikha nahi" likho.
+
+## 5. Persistence aur vote calibration
+- **Hit hue map (dana):** map hit hote hi live list se hat jata hai, isliye "kal hit hua" group bana nahi sakta. Jo live map kal hit nahi hua: n 13889, lift 1.045 (z 1.9); naye map: n 23542, lift 1.043 (z 2.2): barabar => persistence ka nishan nahi. Din-wise lag-1 autocorr: dana 0.018 (+-0.015), family -0.004, copy 0.07 (+-0.036), koi significant nahi.
+- **Number Rank vote (237 din, sirf listed number):** vote 0: 0.91; 1: 0.85; 2: 0.86; 3: 0.91; 4-5: 1.04; 6-8: 1.00; 9-14: 1.07; >=15: 1.06. Tokri number 0.83 (z -2.3). Top-3 per din 1.37 (n 711, z 1.56); top-1 0.86 (z -0.45). Koi significant nahi.
+- **Vote vs recency:** vote aur "pichle 12 din me aaya" ka correlation 0.30; pichle 12 din ki ginti 0/1/2+ par lift 0.95/1.07/1.19. Vote zyadatar recency hi napta hai, calibration ka saboot nahi.
+
 ## Kya iska matlab (user ke liye, aasaan Hinglish)
 13 saal ki jaanch me koi bhi pattern (copy, family, naksha, naksha-rashi, steps, tokri) random se **saaf aur tikau** behtar nahi nikla. Sabse bada asar Dana-Farak ka dikha (1.14 guna), par uska zyada tar hissa isliye hai ki **jo number haal me aaya wo jaldi dobara aa jata hai** (yaani chhote-din ka dohrana), kisi design ki wajah se nahi. Wo bachha hua chhota hissa bhi sirf shuru ke saalon (2014-17) me tha, ab (2018-26) lagbhag khatam. Tokri to random se bhi kharab nikli. "Hit hue map" dobara hit hone ka bhi saboot nahi, aur zyada vote wale number bhi koi khaas behtar nahi. Isliye abhi kisi pattern ko "kaam karta hai" kehna theek nahi, aur app me koi badlav zaroori nahi. Paper trading me pass/fail naapte rehna sahi hai.
 

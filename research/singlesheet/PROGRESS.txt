@@ -11,3 +11,4 @@ Interim (analyse1.py): DS month maxz 4.34 FWER p 0.030 (rashi L12-15, K=2, lift 
 18:4x NOTE: GL month finished 18:43 (SIGSTOP landed late / runner moved on); DS block30 started 18:43 while p1s job still ran ~2 min (brief 2-process overlap).
 SERIAL NULL RESULT (DS month): within-year shuffle maxz 4.34 FWER 0.030; repeat-preserving null (lag1-5 q fitted; lag rates matched 0.0157/0.0143/0.0146/0.0145) maxz 0.85 FWER 0.88, frac z>2 = 0.000, mean z -0.48. Held-out (select on 1966-99, test 2000-26): shuffle test z 1.47 -> serial null test z -0.28. => DS 'signal' = serial repeat effect, not a design. scripts: part1_serial.py, analyse_serial.py, out/p1s_DS_month.npz
 19:00:32 part1 ALL DONE (analyse1 run for all 8). DS block30 maxz 4.24 FWER .05; GL month 2.35/.23; GB b30 .71/.90; GL b30 1.67/.51. runner now on p2_DS. todo: p1s DS block30 after runner, analyse_all, final report
+20:00:34 resumed #3 (agent4 resume): p2_DS had died with OSError cwd; restarting runner

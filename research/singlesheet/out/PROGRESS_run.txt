@@ -17,3 +17,11 @@ end p1_GB_block30 18:57:42
 start p1_GL_block30 18:57:42
 end p1_GL_block30 18:59:41
 start p2_DS 18:59:41
+skip p1_DS_month
+skip p1_FB_block30
+skip p1_GB_month
+skip p1_GL_month
+skip p1_DS_block30
+skip p1_GB_block30
+skip p1_GL_block30
+start p2_DS 20:00:34
