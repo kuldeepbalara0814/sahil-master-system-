@@ -18,3 +18,9 @@
 .act-row:last-child{border-bottom:0}
 .act-skel{height:70px;border-radius:12px;margin-bottom:10px;background:linear-gradient(90deg,var(--card),var(--bg2),var(--card));background-size:200% 100%;animation:act-sk 1.2s linear infinite}
 @keyframes act-sk{to{background-position:-200% 0}}
+.batchbar{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:10px;margin:8px 0}
+.scard.seen,.act-card.seen{opacity:.55}
+.seenbtn.on{background:var(--g);color:#032b26;border-color:var(--g)}
+.edwrap{display:inline-flex;gap:6px;flex-wrap:wrap}
+.dlx{text-decoration:none}
+.pednote{background:var(--bg2);border:1px solid var(--ac);border-radius:10px;padding:8px 10px;margin:8px 0}

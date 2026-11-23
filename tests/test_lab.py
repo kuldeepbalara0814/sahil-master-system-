@@ -565,3 +565,109 @@ class NewMarkTests(unittest.TestCase):
         v = scan_view.view(ROWS, it["id"])
         last = [r["date"] for r in v["blocks"][1]["rows"]][-3:]
         self.assertTrue(all(len(x) == 10 and x > ROWS[-1][0].isoformat() for x in last))   # "aage" ki jagah tarikh
+
+
+class ReviewTests(unittest.TestCase):
+    def test_review_roundtrip(self):
+        c = lab_server.app.test_client()
+        r = c.post("/api/review", json={"ids": ["a", "b"], "done": True}).get_json()
+        self.assertEqual(r["ids"], ["a", "b"])
+        r = c.post("/api/review", json={"ids": ["a"], "done": False}).get_json()
+        self.assertEqual(r["ids"], ["b"])
+        self.assertEqual(c.get("/api/review").get_json()["ids"], ["b"])
+
+
+class BulkExportTests(unittest.TestCase):
+    def setUp(self):
+        self.c = lab_server.app.test_client()
+
+    def get(self, key, fmt, **kw):
+        q = "&".join(f"{k}={v}" for k, v in kw.items())
+        return self.c.get(f"/api/scanner/bulk?key={key}&fmt={fmt}" + ("&" + q if q else ""))
+
+    def test_pdf(self):
+        r = self.get("naksha", "pdf", limit=6)
+        self.assertEqual((r.status_code, r.mimetype), (200, "application/pdf"))
+        self.assertTrue(r.data.startswith(b"%PDF"))
+        self.assertIn("Naksha_pattern_", r.headers["Content-Disposition"])
+        self.assertTrue(r.headers["Content-Disposition"].endswith('.pdf"'))
+
+    def test_jpg_zip_and_status_filter(self):
+        import zipfile
+        from PIL import Image
+        r = self.get("naksha", "jpg", limit=6)
+        self.assertEqual(r.mimetype, "application/zip")
+        z = zipfile.ZipFile(io.BytesIO(r.data))
+        names = z.namelist()
+        self.assertEqual(names[0], "Index.jpg")
+        self.assertTrue(names[1].startswith("Pattern_01"))
+        self.assertEqual(Image.open(io.BytesIO(z.read(names[1]))).format, "JPEG")
+        r = self.get("copy", "jpg", status="aaj", limit=1)                    # aaj wala koi ho ya na ho, file valid
+        self.assertEqual(r.status_code, 200)
+        if r.mimetype == "image/jpeg":
+            self.assertEqual(Image.open(io.BytesIO(r.data)).format, "JPEG")
+
+    def test_xlsx_and_numbering(self):
+        r = self.get("naksha2", "xlsx", limit=3)
+        wb = load_workbook(io.BytesIO(r.data))
+        self.assertEqual(wb.sheetnames, ["Index", "P01", "P02", "P03"])
+        aaj = self.get("naksha2", "xlsx", status="aaj", limit=2)
+        wb2 = load_workbook(io.BytesIO(aaj.data))
+        rep = lab_server.scan_today(lab_server.state()[0])
+        items = [p for p in rep["patterns"] if p["key"] == "naksha2"][0]["items"]
+        first = next(i for i, it in enumerate(items, 1) if it["status"] == "aaj")
+        self.assertEqual(wb2.sheetnames[1], "P%02d" % first)                  # numbering poori list se
+
+    def test_all_keys_all_formats(self):
+        for key in ("naksha", "naksha2", "copy", "family", "dana"):
+            for fmt in ("pdf", "jpg", "xlsx"):
+                self.assertEqual(self.get(key, fmt, limit=4).status_code, 200, (key, fmt))
+
+    def test_bad_params(self):
+        for q in ("key=zzz&fmt=pdf", "key=naksha&fmt=doc", "key=naksha&fmt=pdf&status=x", "key=naksha&fmt=pdf&limit=abc"):
+            r = self.c.get("/api/scanner/bulk?" + q)
+            self.assertEqual(r.status_code, 400, q)
+            self.assertIn("error", r.get_json())
+
+    def test_to_board(self):
+        rep = lab_server.scan_today(lab_server.state()[0])
+        for key, nb in (("naksha", 2), ("naksha2", 2), ("copy", 1), ("family", 1), ("dana", 1)):
+            its = [p for p in rep["patterns"] if p["key"] == key][0]["items"]
+            if not its:
+                continue
+            r = self.c.post("/api/scanner/to_board", json={"id": its[0]["id"]})
+            self.assertEqual(r.status_code, 200, key)
+            bs = r.get_json()["boards"]
+            self.assertEqual(len(bs), nb, key)
+            for b in bs:
+                y, m = int(b["from"][:4]), int(b["from"][5:7])
+                self.assertEqual(b["from"][8:], "01")
+                self.assertEqual(b["name"], its[0]["name"][:60])
+                lo, k = dt.date(y, m, 1), y * 12 + m - 1 + b["months"]
+                hi = dt.date(k // 12, k % 12 + 1, 1)
+                self.assertTrue(1 <= b["months"] <= 12)
+                for ck, col in b["cells"].items():
+                    d, g = ck.split("|")
+                    self.assertTrue(lo <= dt.date.fromisoformat(d) < hi and int(g) in range(4) and len(col) == 6)
+        self.assertEqual(self.c.post("/api/scanner/to_board", json={"id": "nope:1"}).status_code, 400)
+        self.assertEqual(self.c.post("/api/scanner/to_board", json={}).status_code, 400)
+
+
+class BoardXlsxTests(unittest.TestCase):
+    def test_board_xlsx(self):
+        c = lab_server.app.test_client()
+        last = ROWS[-1][0]
+        d0 = last.replace(day=1).isoformat()
+        r = c.post("/api/pattern/save", json={"name": "Mera test", "from": d0[:7], "months": 2, "cells": {f"{last.isoformat()}|1": "FF9800"}}, headers=H)
+        bid = r.get_json()["id"]
+        x = c.get(f"/api/pattern/xlsx?id={bid}")
+        self.assertEqual(x.status_code, 200)
+        ws = load_workbook(io.BytesIO(x.data)).active
+        self.assertEqual(ws["A1"].value, "Mera test")
+        hit = [cl for row in ws.iter_rows() for cl in row if cl.fill.fgColor.rgb in ("00FF9800", "FFFF9800") and cl.fill.fill_type == "solid"]
+        self.assertEqual(len(hit), 1)
+        self.assertEqual(hit[0].value, ROWS[-1][1][1])
+        miss = c.get("/api/pattern/xlsx?id=nope")
+        self.assertEqual(miss.status_code, 404)
+        self.assertIn("error", miss.get_json())
+        c.post("/api/pattern/delete", json={"id": bid}, headers=H)          # baaki tests ke liye saaf

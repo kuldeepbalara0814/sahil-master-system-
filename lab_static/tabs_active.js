@@ -12,7 +12,7 @@ tabs.active=async function(root){
  const skel=()=>body.replaceChildren(el("div",{class:"act-skel"}),el("div",{class:"act-skel"}),el("div",{class:"act-skel"}));
  async function load(post){
   skel();busy=true;
-  try{rep=await api(post?"POST":"GET","/active"+(post?"/scan":"?days="+days),post?{days}:undefined);
+  try{if(SX())await SX().load();rep=await api(post?"POST":"GET","/active"+(post?"/scan":"?days="+days),post?{days}:undefined);
    if(post)toast(rep.errors&&rep.errors.length?"Scan hua, par kuch galti aayi (neeche dekho)":"Scan ho gaya");
    draw()}
   catch(e){body.replaceChildren(el("div",{class:"warn"},e.message));drawStrip()}
@@ -27,13 +27,15 @@ tabs.active=async function(root){
    s?el("div",{class:"row"},el("span",{class:"pill "+(s.auto_today>=2?"g":"o")},`Aaj auto scan: ${s.auto_today} (do hone chahiye)`),el("span",{class:"pill m"},`Manual: ${s.manual_today}`)):null,
    el("div",{class:"row"},btn,seg)].filter(Boolean));}
  function nums(t){return t&&t.numbers&&t.numbers.length?el("div",{class:"act-nums"},t.numbers.map(n=>el("span",{class:"chip green"},p2(n)))):null}
- function links(it){return el("div",{class:"row"},
+ const SX=()=>window.SCANX;
+ function links(it){const sx=SX();return el("div",{class:"row"},
+  sx?sx.seenUI(it.id,()=>draw()):null,sx?sx.editUI(it.id):null,
   el("button",{class:"b g sm",on:{click:()=>go("scan")}},"Pura dekho"),
   el("a",{href:"/api/scanner/view?id="+encodeURIComponent(it.id),target:"_blank"},el("button",{class:"b g sm"},"Rang chart")),
   el("a",{href:"/api/scanner/xlsx?id="+encodeURIComponent(it.id)},el("button",{class:"b g sm"},"Excel")))}
  function card(it,pass){
   const t=it.target;
-  return el("div",{class:"act-card "+(pass?"pass":"now")},
+  return el("div",{class:"act-card "+(pass?"pass":"now")+(SX()&&SX().reviewed(it.id)?" seen":"")},
    el("div",{class:"act-top"},el("b",{},it.title||it.name),
     pass?el("span",{class:"act-tag ok"},"PASS "+dm(it.resolved_on)):it.ambiguous?el("span",{class:"act-tag"},"confusion"):el("span",{class:"pill "+(it.strength==="mazboot"?"g":"m")},it.strength||"")),
    t?el("p",{class:"mut small",style:"margin:6px 0 0"},`${dm(t.date)}: ${t.games||""} me`):null,nums(t),
@@ -51,7 +53,9 @@ tabs.active=async function(root){
     r.summary?el("p",{class:"mut small",style:"margin:4px 0 0"},r.summary):null)}):[el("p",{class:"mut"},"Abhi koi pattern record me nahi.")]}
  function draw(){
   const now=rep.now||[],pass=rep.recent_pass||[],n=rep.days||days;
+  const sx=SX(),all=[...now,...pass],nd=sx?new Set(all.filter(i=>sx.reviewed(i.id)).map(i=>i.id)).size:0;
   body.replaceChildren(...[
+   sx?el("p",{class:"small",style:"margin:0 0 6px"},el("b",{},`Aaj ka batch: ${nd} dekhe`)," ",el("span",{class:"mut"},`(kul ${new Set(all.map(i=>i.id)).size}; kal ke dekhe hue ginti me nahi)`)):null,
    rep.errors&&rep.errors.length?el("div",{class:"warn",style:"margin-bottom:10px"},el("b",{},"Kuch galti aayi:"),rep.errors.map(e=>el("p",{class:"small",style:"margin:3px 0"},typeof e==="string"?e:JSON.stringify(e)))):null,
    el("h2",{class:"act-h"},"Abhi chal rahe (aaj khelne layak)"),
    now.length?grouped(now,false):el("p",{class:"mut"},"Abhi koi pattern chal nahi raha. Naya ban-ne par yahan apne aap aa jayega."),

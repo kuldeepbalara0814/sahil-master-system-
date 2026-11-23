@@ -166,11 +166,8 @@ def view(rows, pid):
     raise ValueError("Pattern id samajh nahi aayi")
 
 
-def xlsx(rows, pid):
-    v = view(rows, pid)
-    wb = Workbook()
-    ws = wb.active
-    ws.title = "Pattern"
+def fill_sheet(ws, v):
+    """view() ka chart ek worksheet me bharo (rang, border, 'pass' moti border)."""
     thin = Side(style="thin", color="888888")
     box = Border(left=thin, right=thin, top=thin, bottom=thin)
     cen = Alignment(horizontal="center", vertical="center")
@@ -189,7 +186,7 @@ def xlsx(rows, pid):
             c.fill = PatternFill("solid", fgColor="37474F")
         for i, r in enumerate(b["rows"]):
             rr = 5 + i
-            ws.cell(rr, col, r["date"] and (dt.date.fromisoformat(r["date"]).strftime("%d-%b-%y") if r["date"] != "aage" else "(aage)")).alignment = cen
+            ws.cell(rr, col, r["date"] and (dt.date.fromisoformat(r["date"][:10]).strftime("%d-%b-%y") + (" chhuti" if len(r["date"]) > 10 else ""))).alignment = cen
             for g in range(4):
                 val = r["txt"][g] if r["txt"][g] else (None if r["v"] is None else r["v"][g])
                 c = ws.cell(rr, col + 1 + g, val)
@@ -201,8 +198,16 @@ def xlsx(rows, pid):
                     s = Side(style="thick", color="000000")
                     c.border = Border(left=s, right=s, top=s, bottom=s)
         for j in range(5):
-            ws.column_dimensions[ws.cell(1, col + j).column_letter].width = 11 if j == 0 else 6
+            ws.column_dimensions[ws.cell(1, col + j).column_letter].width = 15 if j == 0 else 6
         col += 6
+
+
+def xlsx(rows, pid):
+    v = view(rows, pid)
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Pattern"
+    fill_sheet(ws, v)
     buf = io.BytesIO()
     wb.save(buf)
     return buf.getvalue(), v["title"]

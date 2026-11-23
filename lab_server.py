@@ -26,7 +26,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import active, backtest, baar, band, data, export_xlsx, friends, gapchain, gh, idea, monitor, paper, picks, scan_view, scanner, update            # noqa: E402
+from lab import active, backtest, baar, band, data, export_all, export_xlsx, friends, gapchain, gh, idea, monitor, paper, picks, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -368,6 +368,19 @@ def api_board_save():
     return jsonify({"ok": True, "id": item["id"], "count": len(boards)})
 
 
+@app.get("/api/pattern/xlsx")
+def api_board_xlsx():
+    """Save kiye hue board ka Excel: ?id=<board id>"""
+    rows, _ = state()
+    bid = request.args.get("id", "")
+    b = next((x for x in jload("boards.json", []) if str(x.get("id")) == bid), None)
+    if not b:
+        return err("Ye pattern save kiya hua nahi mila", 404)
+    name = "".join(ch if ch.isalnum() or ch in "-_" else "_" for ch in str(b.get("name", "Pattern")))[:60] or "Pattern"
+    return Response(export_all.board_xlsx(rows, b), mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    headers={"Content-Disposition": f'attachment; filename="{name}.xlsx"'})
+
+
 @app.post("/api/pattern/delete")
 @guarded
 def api_board_delete():
@@ -525,6 +538,34 @@ def api_scanner_months():
     return jsonify({"key": key, "scope": scope, "total": total, "shown": len(copies), "capped": total > len(copies), "months": months, "copies": copies})
 
 
+@app.get("/api/review")
+def api_review_get():
+    """Aaj ke batch me kaun se pattern 'dekh liye'. Roz naya din = naya batch (kal ke dekhe hue aaj ginti me nahi)."""
+    day = active.now_ist().date().isoformat()
+    log = jload("review_log.json", {}) or {}
+    return jsonify({"date": day, "ids": log.get("days", {}).get(day, [])})
+
+
+@app.post("/api/review")
+def api_review_set():
+    b = request.get_json(silent=True) or {}
+    ids = [str(i)[:120] for i in (b.get("ids") or [])][:2000]
+    day = active.now_ist().date().isoformat()
+    log = jload("review_log.json", {}) or {}
+    days = log.setdefault("days", {})
+    cur = set(days.get(day, []))
+    cur = (cur | set(ids)) if b.get("done", True) else (cur - set(ids))
+    days[day] = sorted(cur)
+    for old in sorted(days)[:-45]:                       # sirf pichle 45 din
+        del days[old]
+    jsave("review_log.json", log)
+    try:
+        persist(["review_log.json"], "pattern review")
+    except Exception as e:
+        app.logger.warning("review persist: %s", e)
+    return jsonify({"date": day, "ids": days[day]})
+
+
 @app.get("/api/scanner/plays")
 def api_scanner_plays():
     return jsonify(jload("play_log.json", {}))
@@ -597,6 +638,35 @@ def api_scanner_xlsx():
     name = "".join(ch if ch.isalnum() or ch in "-_" else "_" for ch in title)[:60] + ".xlsx"
     return Response(blob, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     headers={"Content-Disposition": f'attachment; filename="{name}"'})
+
+
+@app.get("/api/scanner/bulk")
+def api_scanner_bulk():
+    """Ek pattern ke aaj ke saare items ek file me: ?key=naksha&fmt=pdf|jpg|xlsx&status=all|aaj&limit=120"""
+    rows, _ = state()
+    try:
+        limit = int(request.args.get("limit", 120))
+        blob, mime, name = export_all.build(rows, scan_today(rows), request.args.get("key", ""), request.args.get("fmt", "pdf"),
+                                            request.args.get("status", "all"), limit)
+    except (ValueError, IndexError) as e:
+        return err(str(e) or "Bulk download nahi ban paya")
+    return Response(blob, mimetype=mime, headers={"Content-Disposition": f'attachment; filename="{name}"'})
+
+
+@app.post("/api/scanner/to_board")
+def api_scanner_to_board():
+    """Pattern ko Pattern paint window ke board me badlo (kuch save nahi hota)."""
+    rows, _ = state()
+    pid = str((request.get_json(silent=True) or {}).get("id", ""))
+    try:
+        name = ""
+        for p in scan_today(rows)["patterns"]:
+            for it in p["items"]:
+                if it["id"] == pid:
+                    name = it.get("name", "")
+        return jsonify({"boards": export_all.to_board(rows, pid, name)})
+    except (ValueError, IndexError, KeyError) as e:
+        return err(str(e) or "Pattern nahi mila")
 
 
 @app.get("/api/gaps")

@@ -77,6 +77,10 @@ tabs.pattern=async function(m){
  async function save(){
   if(!Object.keys(cells).length)return toast("Pehle kuch cell me rang bharo");
   try{const r=await api("POST","/pattern/save",{id:boardId,name:nameIn.value||"Mera pattern",from,months:n,cells});boardId=r.id;setDirty(false);lsSet(key(),null);toast("Pattern save ho gaya");await loadBoards();boardSel.value=String(boardId)}catch(e){toast(e.message)}}
+ async function xl(){
+  if(!Object.keys(cells).length)return toast("Pehle kuch cell me rang bharo");
+  if(dirty||!boardId||!boards.some(b=>b.id===boardId)){await save();if(dirty||!boardId)return}
+  const a=document.createElement("a");a.href="/api/pattern/xlsx?id="+encodeURIComponent(boardId);a.download="";document.body.append(a);a.click();a.remove()}
  async function del(){
   if(!boardId||!boards.some(b=>b.id===boardId))return toast("Ye pattern save nahi hai (sirf screen par hai). 'Sab saaf karo' dabao.");
   if(!confirm("Save kiya hua pattern hamesha ke liye hata dun?"))return;
@@ -111,8 +115,20 @@ tabs.pattern=async function(m){
    el("div",{class:"row"},el("span",{},"Pichle kitne din ke step:"),dIn,[12,15,20,30,60,90].map(k=>el("button",{class:"b g sm",on:{click:()=>{gdays=k;dIn.value=k;refresh()}}},String(k)))),legend),
   el("div",{class:"card"},el("h3",{},"Apna rang bharo"),
    el("div",{class:"row"},sw,eraser,el("button",{class:"b r sm",on:{click:clearAll}},"Sab saaf karo"),dirtyEl),
-   el("div",{class:"row"},nameIn,el("button",{class:"b",on:{click:save}},"Save"),boardSel,el("button",{class:"b g sm",on:{click:del}},"Save kiya hua hatao"))),
+   el("div",{class:"row"},nameIn,el("button",{class:"b",on:{click:save}},"Save"),el("button",{class:"b g",on:{click:xl}},"Excel download"),boardSel,el("button",{class:"b g sm",on:{click:del}},"Save kiya hua hatao"))),
   info,tbl);
- await loadBoards();await load(true);
+ await loadBoards();
+ let pe=null;
+ try{const raw=lsGet("pedit");if(raw){lsSet("pedit",null);pe=JSON.parse(raw)}}catch(e){pe=null}
+ if(pe&&pe.cells&&typeof pe.cells==="object"&&/^\d{4}-\d{2}/.test(pe.from||"")){
+  from=pe.from.length===7?pe.from+"-01":pe.from;
+  n=Math.max(1,Math.min(12,+pe.months||3));
+  if(![...nsel.options].some(o=>+o.value===n)){const o=el("option",{value:n},n+" mahine");nsel.append(o)}
+  nsel.value=String(n);
+  await load(false);
+  cells={...pe.cells};boardId=null;nameIn.value=pe.name||"";setDirty(true);draftSave();draw();
+  m.prepend(el("div",{class:"pednote"},"Pattern edit ke liye khula hai: rang badlo, Save ya Excel download karo"));
+  return}
+ await load(true);
 };
 })();
