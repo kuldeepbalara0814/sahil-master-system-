@@ -13,13 +13,14 @@ from typing import Any
 import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
 
-from . import band, dana_farak, data
+from . import band, dana_farak, data, steps
 
 GAMES = ("FB", "GB", "GL", "DS")
 PATTERNS = [
     {"id": "001", "key": "copy", "naam": "Jodi-Copy", "pushti": False, "about": "Ek game me do number jinme 1 ya 10 ka farak (palat samet). Din 1, din 2 (ya 3), din 4 par set ka number aaye to PASS."},
     {"id": "002", "key": "naksha", "naam": "Naksha", "pushti": False, "about": "Naye mahine ke jodon (same/palat) ka naksha purane 13 saal me kahin ban chuka hai? Jahan mila wahan aage kya hua wo aaj ka andaza hai."},
     {"id": "002b", "key": "naksha2", "naam": "Naksha-Rashi", "pushti": False, "about": "Naksha ka part 2: link same number nahi, same rashi (family). Naye mahine ki rashi ki movement purane 13 saal me kahin same duri/gap se bani? Jahan mili wahan aage kya hua wo aaj ka andaza."},
+    {"id": "007", "key": "steps", "naam": "Puzzle-Steps", "pushti": False, "about": "3 mahine ek sheet: step 1 (pichle se pichla mahina), step 2 (pichla), step 3 (current, adhura). Boundary = design ke pehle se aakhri cell tak box; link wahi number/palat wahi jagah; ek link = ek rang; laal indicator. Boundary ke andar andaza aaya = PASS."},
     {"id": "003", "key": "family", "naam": "Family", "pushti": False, "about": "Ek rashi (family) 3 baar: din d, d+1 (ya d+2), phir d+3. Do step ban gaye to 3rd step ke din poori family (8 jodi) khelte hain. Jitne bane ya shuru huye sab yahan dikhte hain."},
     {"id": "005", "key": "dana", "naam": "Dana-Farak", "pushti": False, "about": "4 din ke box me do number jinme dana 10/01 ka farak (palat samet). Pair banne ke baad box ke aakhri DS tak pair ke number khelte hain; series ke agle/pichle number spot. Ek se zyada pair ho to confusion note."},
 ]
@@ -29,7 +30,7 @@ WORDS = ["Mor", "Sher", "Chita", "Hans", "Baaz", "Hathi", "Ghoda", "Tota", "Mach
 # random jagah par bhi best z kitna aata hai (120 random mahine, 13 saal): L -> (median, max). Isse 'mazboot/theek/kamzor' tay hota hai.
 BASE = {10: (6.5, 9.4), 12: (6.0, 9.7), 15: (5.8, 10.8), 18: (5.5, 7.8)}
 BASE_R = {10: (5.0, 8.9), 12: (5.0, 7.3), 15: (4.9, 6.2), 18: (4.5, 6.5)}   # rashi wala: 60 random jagah (13 saal)
-SCHEMA = 2                                               # scan ke item ka dhancha badle to badhao: purani saved scan dobara chalegi
+SCHEMA = 3                                               # scan ke item ka dhancha badle to badhao: purani saved scan dobara chalegi
 LENS = (10, 12, 15, 18)
 TOP = 12                                                 # har lambai ke itne milan dikhao
 PAL = ["FF9800", "AB47BC", "66BB6A", "EF5350", "26C6DA", "F06292", "8D6E63", "9CCC65"]
@@ -323,7 +324,7 @@ def scan_naksha2(rows, asof):
     return out
 
 
-SCANNERS = {"copy": scan_copy, "naksha": scan_naksha, "naksha2": scan_naksha2, "family": scan_family, "dana": scan_dana}
+SCANNERS = {"steps": steps.scan, "copy": scan_copy, "naksha": scan_naksha, "naksha2": scan_naksha2, "family": scan_family, "dana": scan_dana}
 COPY_COLORS = ["FFB74D", "CE93D8", "80DEEA", "A5D6A7", "EF9A9A", "FFF176", "90CAF9", "BCAAA4", "F48FB1", "C5E1A5", "FFCC80", "B39DDB"]   # kaale ank saaf dikhen
 
 

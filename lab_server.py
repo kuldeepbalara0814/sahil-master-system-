@@ -468,7 +468,7 @@ def api_scanner_run():
     return jsonify(rep)
 
 
-PATTERN_DIRS = {"001": "001_copy_pattern", "002": "002_mapping_pattern", "002b": "002_mapping_pattern", "003": "003_family_pattern", "004": "004_baar_tokri"}
+PATTERN_DIRS = {"001": "001_copy_pattern", "002": "002_mapping_pattern", "002b": "002_mapping_pattern", "003": "003_family_pattern", "004": "004_baar_tokri", "007": "007_puzzle_steps"}
 
 
 def _readme(pid):

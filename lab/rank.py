@@ -7,7 +7,7 @@ from collections import defaultdict
 
 from . import baar, data
 
-GROUPS = [("all", "ALL IN ONE"), ("naksha", "Naksha 1"), ("naksha2", "Naksha 2 (Rashi)"), ("family", "Family"), ("copy", "Copy"), ("dana", "Dana-Farak")]
+GROUPS = [("all", "ALL IN ONE"), ("naksha", "Naksha 1"), ("naksha2", "Naksha 2 (Rashi)"), ("family", "Family"), ("copy", "Copy"), ("dana", "Dana-Farak"), ("steps", "Puzzle-Steps")]
 LOCS = ("FB", "GB", "GL", "DS")
 
 

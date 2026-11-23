@@ -30,6 +30,9 @@ def view(rows, pid):
     parts = pid.split(":")
     D = [r[0] for r in rows]
     N = len(rows)
+    if parts[0] == "steps":
+        from . import steps
+        return steps.view(rows, pid)
     if parts[0] in ("naksha", "naksha2"):
         mode = "r" if parts[0] == "naksha2" else "n"
         L, so = int(parts[1]), D.index(dt.date.fromisoformat(parts[2]))

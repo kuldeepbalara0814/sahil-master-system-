@@ -37,7 +37,43 @@ const SX=window.SCANX=(()=>{
    paint();setTimeout(paint,0);return b}
  };return o})();
 
+/* Step-sheet: ek lambi sheet, mahine upar se niche (Step 1, 2, 3), har step ki boundary moti border me */
+const MFULL=["JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE","JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"];
+function stackSheet(st){
+ const t=el("table",{class:"st-t"}),tb=el("tbody");
+ t.append(el("colgroup",{},el("col",{class:"st-cd"}),...G.map(()=>el("col",{}))));
+ t.append(el("thead",{},el("tr",{},["Tarikh",...G].map((h,i)=>el("th",{class:i?"":"st-d"},h)))));
+ let ym=null;
+ for(const r of st.rows){
+  const k=r.date.slice(0,7);
+  if(k!==ym){ym=k;tb.append(el("tr",{class:"st-mon"},el("th",{colspan:5},MFULL[+k.slice(5)-1]+" "+k.slice(0,4))))}
+  const cls="st-r"+(r.step?" st-in":"")+(r.edge==="start"||r.edge==="startend"?" st-top":"")+(r.edge==="end"||r.edge==="startend"?" st-bot":"");
+  const first=r.edge==="start"||r.edge==="startend";
+  const d=el("td",{class:"st-d"},String(+r.date.slice(8)).padStart(2,"0")+" "+MN[+r.date.slice(5,7)-1]);
+  if(first&&r.step)d.prepend(el("span",{class:"st-tag"},"STEP "+r.step));
+  tb.append(el("tr",{class:cls,"data-step":String(r.step||0)},d,...[0,1,2,3].map(g=>{
+   const kd=r.kind&&r.kind[g],txt=(r.txt&&r.txt[g])||(r.v?p2(r.v[g]):"");
+   const td=el("td",{class:"st-c"+(kd?" st-"+kd:"")+(r.ind&&r.ind[g]?" st-red":"")},txt);
+   const col=r.c&&r.c[g];
+   if(col){td.style.background="#"+String(col).replace("#","");td.style.color="#000"}
+   if(r.ind&&r.ind[g]){if(col)td.classList.add("st-redo");else{td.style.background="#FF5252";td.style.color="#000"}}
+   return td})))}
+ t.append(tb);
+ return el("div",{},el("div",{class:"st-wrap"},t),
+  el("div",{class:"st-leg"},(st.legend||[]).map(l=>el("div",{class:"st-li"},el("span",{class:"st-sw",style:"background:#"+String(l.color).replace("#","")}),el("span",{},l.text)))),
+  st.note?el("p",{class:"mut small st-note"},st.note):null)}
+
 function chart(v){
+ if(v.stack){
+  let mode="one";const body=el("div"),seg=el("div",{class:"st-seg"});
+  const draw=()=>{
+   seg.replaceChildren(el("button",{class:mode==="one"?"on":"","data-m":"one",on:{click:()=>{mode="one";draw()}}},"Ek sheet (upar Step 1, beech Step 2, niche Step 3)"),
+    el("button",{class:mode==="blk"?"on":"","data-m":"blk",on:{click:()=>{mode="blk";draw()}}},"Side-by-side (3 block)"));
+   body.replaceChildren(mode==="one"?stackSheet(v.stack):chartBlocks(v))};
+  draw();return el("div",{},seg,body)}
+ return chartBlocks(v)}
+
+function chartBlocks(v){
  const t=el("table",{class:"sheet scn"}),th=el("thead"),tb=el("tbody");
  th.append(el("tr",{},v.blocks.map(b=>el("th",{class:"ttl2",colspan:5},b.label))));
  th.append(el("tr",{},v.blocks.flatMap(()=>["Tarikh",...G].map((h,i)=>el("th",{class:i==0?"d":"sh"},h)))));

@@ -13,7 +13,7 @@ from PIL import Image, ImageDraw, ImageFont
 from . import scan_view
 from .scanner import GAMES
 
-KEYS = {"naksha": "Naksha_pattern", "naksha2": "Naksha_Rashi_pattern", "copy": "Copy_pattern", "family": "Family_pattern", "dana": "Dana_Farak_pattern"}
+KEYS = {"naksha": "Naksha_pattern", "naksha2": "Naksha_Rashi_pattern", "copy": "Copy_pattern", "family": "Family_pattern", "dana": "Dana_Farak_pattern", "steps": "Puzzle_Steps_pattern"}
 MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 PW, PH, M = 1240, 1754, 40                      # A4 portrait 150 dpi, margin
@@ -99,12 +99,13 @@ def draw_pattern(no, it, v):
     """Ek pattern ki image (PATW chaudai)."""
     tmp = ImageDraw.Draw(Image.new("RGB", (10, 10)))
     fh, fn, fc = font(15, True), font(13), font(14, True)
-    head = wrap(tmp, heading(no, it, v), fh, PATW - 8)
-    note = wrap(tmp, v["note"], fn, PATW - 8)
-    tgt = wrap(tmp, target_text(it), font(13, True), PATW - 8)
+    pw = max(PATW, len(v["blocks"]) * (BW + 12))              # 3 block (steps) ho to chaudai badhao
+    head = wrap(tmp, heading(no, it, v), fh, pw - 8)
+    note = wrap(tmp, v["note"], fn, pw - 8)
+    tgt = wrap(tmp, target_text(it), font(13, True), pw - 8)
     nb = max([len(b["rows"]) for b in v["blocks"]] or [0])
     h = 6 + len(head) * 20 + len(note) * 17 + len(tgt) * 18 + 8 + (22 + RH + nb * RH if v["blocks"] else 0) + 14
-    im = Image.new("RGB", (PATW, h), "white")
+    im = Image.new("RGB", (pw, h), "white")
     d = ImageDraw.Draw(im)
     y = 6
     for ln in head:
@@ -136,7 +137,7 @@ def draw_pattern(no, it, v):
                 d.rectangle([x, ry, x + CW, ry + RH], fill="#" + col if col else "white", outline="#888888")
                 val = r["txt"][g] if r["txt"][g] else (None if r["v"] is None else f"{r['v'][g]:02d}")
                 if val:
-                    d.text((x + CW / 2, ry + RH / 2), val, font=font(14, True, r["kind"][g] == "light"), fill="black" if col else "#333333", anchor="mm")
+                    d.text((x + CW / 2, ry + RH / 2), val, font=font(14 if len(val) <= 3 else 10, True, r["kind"][g] == "light"), fill="black" if col else "#333333", anchor="mm")
                 if r["kind"][g] == "pass":
                     d.rectangle([x, ry, x + CW, ry + RH], outline="black", width=3)
         x0 += BW + 12

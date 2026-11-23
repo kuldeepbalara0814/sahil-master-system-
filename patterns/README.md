@@ -1,3 +1,5 @@
+> **AI ya naye insaan ke liye:** pehle `AI_REBUILD_GUIDE.md` padho (bina puchhe poora mapping + script).
+>
 > **Ye kya hai:** ek **puzzle-logic R&D** (khoj) hai. Hum jaanna chahte hai ki number ke chart me design/copy kaise banti hai aur koi system/machine kaise kaam karti hai. **Sirf paper trading** (kalpnik), asli paisa kabhi nahi. Maksad: jo log is lat se jude hai unhe **vigyan aur logic ke aadhar par** samjhana. Agar koi sach me pakad sake to wo khele; agar nahi pakad sakta to apni jama-punji kharab na kare. Faisla poori R&D ke baad.
 
 # Pattern library (aap sikhate ho, main likhta hoon)
@@ -10,6 +12,7 @@ Niyam: pattern sirf 3-6 mahine me parkho. Aap ki pushti ke baad hi pakka maano. 
 | 002b | naksha part 2 (rashi movement) | dikhane ka version APPROVED (23 Nov 2026); kamai ki pushti baaki |
 | 003 | family pattern (rashi chain) | sikhana jari, pichle 1 saal ki jaanch likhi, aap ki pushti baaki |
 | 004 | baar tokri (weekday ke zyada aaye 6 number) | likha, hint (highlight) ki tarah software me, aap ki pushti baaki |
+| 007 | **Puzzle-Steps** (3 mahine ek sheet, step 1/2/3, boundary, link-rang, indicator) | APPROVED, live (23 Nov 2026), jaanch: random jaisa |
 | 006 | single sheet pattern ke niyam (same duri, rang, flat/standing) | sikhana jari, kuch banaya nahi |
 | 005 | dana-farak (4 din box) | likha, aap ki pushti baaki, 6 mahine ki jaanch likhi, software (Pattern Scan) me hai |
 

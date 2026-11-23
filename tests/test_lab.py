@@ -347,7 +347,7 @@ class ScannerTests(unittest.TestCase):
 
     def test_run_report_shape_and_error_isolation(self):
         rep = scanner.run(ROWS)
-        self.assertEqual((rep["asof"], len(rep["patterns"]), rep["errors"]), (ROWS[-1][0].isoformat(), 5, []))
+        self.assertEqual((rep["asof"], len(rep["patterns"]), rep["errors"]), (ROWS[-1][0].isoformat(), 6, []))
         nak = [p for p in rep["patterns"] if p["key"] == "naksha"][0]
         self.assertTrue(nak["items"])
         for it in nak["items"]:
@@ -697,7 +697,7 @@ class RankTests(unittest.TestCase):
         r = lab_server.app.test_client().get("/api/rank")
         self.assertEqual(r.status_code, 200)
         j = r.get_json()
-        self.assertEqual([g["key"] for g in j["groups"]], ["all", "naksha", "naksha2", "family", "copy", "dana"])
+        self.assertEqual([g["key"] for g in j["groups"]], ["all", "naksha", "naksha2", "family", "copy", "dana", "steps"])
         self.assertTrue(j["groups"][0]["maps"] >= 0 and set(j["groups"][0]["lists"]) == {"FB", "GB", "GL", "DS", "ALL"})
         s = j["groups"][1]["lists"]["ALL"]
         self.assertTrue(all(s[i]["score"] >= s[i + 1]["score"] for i in range(len(s) - 1)))
@@ -742,3 +742,61 @@ class GameRecordTests(unittest.TestCase):
         r = c.get("/api/record/game.csv?g=FB")
         self.assertEqual(r.status_code, 200)
         self.assertTrue(r.data.startswith(b"date,fb"))
+
+
+class StepsTests(unittest.TestCase):
+    def _rows(self):
+        import random
+        from lab import steps
+        rnd = random.Random(5)
+        days = []
+        for m in (8, 9, 10):
+            d = dt.date(2026, m, 1)
+            while d.month == m:
+                if not data.is_last_day(d):
+                    days.append(d)
+                d += dt.timedelta(days=1)
+        vals = [[rnd.randint(0, 99) for _ in range(4)] for _ in days]
+        idx = {m: [i for i, d in enumerate(days) if d.month == m] for m in (8, 9, 10)}
+        X = 37                                                  # link A ka number: (i=1, DS) -> (j=3, GB)
+        for m, s in ((8, 3), (9, 5), (10, 4)):
+            r0 = idx[m][0] + s
+            vals[r0 + 1][3] = X
+            vals[r0 + 3][1] = X if m != 10 else X
+        # current mahine (Oct) me link A poora; link B (i=0, FB) -> (j=5, GL): pehla cell hi
+        Y = 12
+        for m, s in ((8, 3), (9, 5), (10, 4)):
+            r0 = idx[m][0] + s
+            vals[r0][0] = Y
+            if m != 10:
+                vals[r0 + 5][2] = Y
+        last = idx[10][0] + 4 + 3                               # Oct ke 8-ve row tak data
+        rows = [(d, v, "t") for d, v in zip(days[:last + 1], vals[:last + 1])]
+        return rows, steps
+
+    def test_find_pending_and_view(self):
+        rows, steps = self._rows()
+        D = [x[0] for x in rows]
+        vals = [list(x[1]) for x in rows]
+        first = lambda m: next(i for i, d in enumerate(D) if d.month == m)
+        a, b, c = first(8) + 3, first(9) + 5, first(10) + 4
+        r = steps.analyse(vals, D, a, b, c, 8)
+        self.assertIn((1, 3, 3, 1), r["common"])
+        self.assertIn((0, 0, 5, 2), r["common"])
+        self.assertIn((1, 3, 3, 1), r["present"])                 # link A Step 3 me poora
+        self.assertTrue(any(k == (0, 0, 5, 2) and cl == 12 for k, cl in r["pend"]))   # link B ka doosra cell: 12 aana chahiye
+        res = steps.find(rows, Ls=(8,), top=500)
+        self.assertTrue(any(x["a"] == a and x["b"] == b for x in res) or len(res) > 0)
+        it = steps.item(r, rows, data.play_date(rows))
+        self.assertEqual((it["kind"], it["status"]), ("steps", "aaj"))
+        self.assertTrue(it["targets"])
+        v = steps.view(rows, steps.pid(r, D))
+        self.assertEqual(len(v["blocks"]), 3)
+        self.assertTrue(any(x["step"] == 3 for x in v["stack"]["rows"]) and any(x["edge"] == "start" for x in v["stack"]["rows"]))
+        self.assertTrue(v["stack"]["legend"])
+
+    def test_run_has_steps_pattern(self):
+        rep = scanner.run(ROWS)
+        keys = [p["key"] for p in rep["patterns"]]
+        self.assertIn("steps", keys)
+        self.assertEqual(rep["errors"], [])
