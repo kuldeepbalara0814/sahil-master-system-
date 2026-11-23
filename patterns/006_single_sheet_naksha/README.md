@@ -92,3 +92,8 @@ Us boundary ke andar **cross, repeat, rashi** (jo bhi link ho) dekhte hai. **Wai
 - Yani: us design ke har step ki boundary me ek-do number jo har baar wahi rehte hai = indicator.
 - **Indicator ki jagah (user ne confirm kiya):** boundary ke andar **kahin bhi** aa sakta hai (same duri par hona zaroori nahi); bas **har step ki boundary ke andar** aana chahiye.
 - **Indicator zaroori nahi (user ne kaha):** indicator **mile to sahi** (pattern ko pakka karta hai); **na mile to bhi pattern ban sakta hai.** Par **koshish ye ki kam se kam koi ek number ka indicator mil jaye.**
+
+### Kam se kam kitne link? (user ka jawab, 23 Nov 2026)
+- **Koi gina nahi:** ek mile, do mile, jitna sikha utna mile - chalega. **Shuruat ek link se** karte hai, phir **koshish** karte hai ki aage aur kuch mile; **jitna najdik ja sake utna achha, pattern majboot.**
+- **Shart sirf EK:** **jo link step 1 ki boundary me liya, wahi (wahi tarah ka, wahi rang) step 2 ki boundary me ho**, aur phir step 3, 4, 5 me bhi. 
+- **Pattern saaf aur sudhra ho:** pehle jaisi galtiyan (jaise ek saath do cell dono mark, ya jude cell ko alag rang) na ho. **Rang aapas ke link ke hisaab se wahi** (step 1, 2, 3.. sab me).
