@@ -33,3 +33,11 @@ User ne (23 Nov 2026) Chrome se save ki hui ek pic di: `ref_screenshot.jpg` (Exc
 - **User ka udaharan (FB):** 2011 me March me 23 aaya, April me 23 aaya, dono ki duri **36 din**. Doosri taraf pehle koshish: wahi mahine (March, April) aur wahi number 23/32 dhundhna. 23/32 nahi mila, par **March me 16 aur April me 16** mila, gap bhi **36 din** -> mark kiya (mahina same, gap same, number alag). Phir pakka karne ko ek aur number dekha: **76/67**, jo left me 23/32 ko **cross** karta hai (March aur June me aaya, gap 58 din, 36 se kam-zyada); doosre chart me bhi 76/67 usi tarah cross kar raha hai. Chart me ye **cross (X) ke roop me dikhta hai**. Matlab: kai jod (link), har jod ka apna gap, aur jodon ka aapas me cross hone ka **shape** dono chart me same.
 - **Kahan banana:** user ke hisaab se "do pattern purane mahine par banane ka koi fayda nahi" (purane me chahe 100 alag-alag bana lo). **Doosri copy current mahine par banni chahiye**, tabhi pata chalta hai ki pattern solid hai aur **current ya future me kaun sa number aa sakta hai.**
 - Ye Naksha 1 wale "same duri" ka hi vistar hai, ek game ki sheet par; location-wise (DS 1966 se, FB/GB/GL 2013 se).
+
+## 23 Nov 2026 (teesri baat): current se current me copy (koi purana pattern na ho) - user ka udaharan (kalpnik number)
+- Maan lo current mahine ka 01 se 23 tarikh tak ka FB/GB/GL/DS ka chart hai aur hamare paas koi pattern nahi. Sabse pehle **koi sabse alag cheez** dhundho.
+- Udaharan: **04 ko FB me 52**, phir **08 ko GB me 25** (palat), **4 din ki duri**. Mark kiya. (user abhi 08 par hai, jana 24 tak hai, to abhi fayda nahi, par shuruat ho gayi.)
+- Phir pakka karne ke liye aur dekho: 52 ke **upar** (03 ko GL me) **28** aaya; 25 ke upar bhi **28** hai. Yani 28 ke baad 52 aur 28 ke baad 25 (ek hi tarah ka jod).
+- Phir aage: **82** (28 ka palat) **23 ko DS me** aaya. Isse **28/82 ek indicator** ban gaya: ab aage **25 ya 52** kisi location me aa sakta hai. Aur aage ki duri bhi wahi: 52 aur 25 me **4 din** ki thi to aage bhi 4 din.
+- Ye udaharan kalpnik hai (4 number, 4 din ki duri). Aise hi pattern ko majboot karne ke liye aur jod dhundh sakte hai.
+- **Rok:** majboot karne ke chakkar me **bina logic kuch bhi mark na karo.** Har mark ka aapas me koi na koi **logic/connection** ho: ya to **number/rashi** ka link, ya **same duri**.
