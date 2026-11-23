@@ -65,3 +65,8 @@ User ne kaha: jitna banaya sahi banaya, par **do galti** hai. Pehli:
 - Ya to **do standing** (dono jagah ek hi location par upar-neeche), ya **flat**: upar flat me jo do number aaye (jaise 62 aur 17, chahe GB-GL ya FB-DS same din), neeche bhi **flat** me wahi (15 aur 51 ya 15 aur 15) aaye.
 - **Same duri par neeche flat me 17 ki koi rashi aayi ho; agar 17 ki nahi to neeche koi bhi number ki rashi flat me aayi ho (upar ke number ki)** -> tab **logic ban jata hai**. Tab unko **alag colour** dete hai (ek jod = ek colour) ki "yaha ye cheez **same duri par** ho rahi hai".
 - Yani cell ek-ek karke bina soche nahi, **flat ke saath flat, standing ke saath standing**, same duri, aur number/rashi ka link.
+
+### Confirm + do niyam (user, 23 Nov 2026)
+1. **Rashi ka milan: ek cell ka milna kaafi hai** (dono ka milna zaroori nahi; dono mile to aur majboot).
+2. **Dusri copy (neeche wali) banate waqt:** pehli copy me jo kuch dikha ho wo dusri me **lazmi nahi** ki mile. Agar **kuch extra** mil jaye to bahut achha, par wo bhi dusri copy me **same duri par, wahi logic** se bana hona chahiye.
+3. **Rang ka kaam dono copy me ek jaisa:** jis rang se jis rang ko mark karte hai, wo rang **step 1 (pehli copy) aur step 2 (dusri copy) me wahi kaam kare** (wahi tarah ka link: same duri / rashi / number). Tabhi jab **step 3 (teesri copy) banne lage** to **surety milti hai ki logic dikhta hai.** Yani rang ka matlab (kya link hai) har step me ek hi rehna chahiye.
