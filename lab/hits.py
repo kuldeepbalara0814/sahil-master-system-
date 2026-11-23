@@ -77,6 +77,24 @@ def evaluate(state, date, game, number, source="auto", today=None):
     return out
 
 
+def unset(state, date, game):
+    """Hath se dala result hatao: ginti (done) aur us se bane hit (sirf manual wale) saaf. Site wale (auto) result nahi hatta. -> True agar kuch hata."""
+    key = f"{date}:{game}"
+    d = state.get("done", {}).get(key)
+    if not d or d.get("src") != "manual":
+        return False
+    del state["done"][key]
+    hits = state.get("hits", {})
+    for k in list(hits):
+        h = hits[k]
+        h["hits"] = [x for x in h["hits"] if not (x["date"] == date and x["game"] == game and x.get("src") == "manual")]
+        if not h["hits"]:
+            del hits[k]
+        else:
+            h["last_hit"] = max(x["date"] for x in h["hits"])
+    return True
+
+
 def settle(state, rows, manual=None, today=None):
     """Archive ke har din ke har game ka result (site ya hath se) mil gaya ho to evaluate karo. -> kul naye hit."""
     by = {d.isoformat(): v for d, v, _ in rows}
@@ -84,7 +102,12 @@ def settle(state, rows, manual=None, today=None):
     _trim_done(state, today)
     for date in sorted(state.get("archive", {})):
         for gi, g in enumerate(GAMES):
-            if f"{date}:{g}" in state.get("done", {}):
+            dn = state.get("done", {}).get(f"{date}:{g}")
+            if dn and dn.get("src") == "manual" and date in by and dn["n"] != by[date][gi]:      # site ka asli result alag nikla: hath wala hata ke site wala ginte
+                state.setdefault("mismatch", []).append({"date": date, "game": g, "manual": dn["n"], "site": by[date][gi]})
+                unset(state, date, g)
+                dn = None
+            if dn:
                 continue
             if date in by:
                 n += len(evaluate(state, date, g, by[date][gi], "auto", today))

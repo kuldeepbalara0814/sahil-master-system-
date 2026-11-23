@@ -693,15 +693,40 @@ def api_result_manual_set():
         del man[old]
     jsave("manual_results.json", man)
     hs = jload("hit_log.json", None) or hits.new_state()
-    already = f"{date.isoformat()}:{g}" in hs.get("done", {})
+    replaced = hits.unset(hs, date.isoformat(), g)                 # pehle hath se dala tha to badal do (galti sudhaar)
+    already = f"{date.isoformat()}:{g}" in hs.get("done", {})       # ab bhi hai to site ka result hai
     new = [] if already else hits.evaluate(hs, date.isoformat(), g, n, "manual", active.now_ist().date())
     jsave("hit_log.json", hs)
     try:
         persist(["manual_results.json", "hit_log.json"], "result (hath se)")
     except Exception as e:
         app.logger.warning("manual persist: %s", e)
-    return jsonify({"date": date.isoformat(), "game": g, "number": n, "already": already, "has_archive": date.isoformat() in hs.get("archive", {}),
+    return jsonify({"date": date.isoformat(), "game": g, "number": n, "already": already, "replaced": replaced, "has_archive": date.isoformat() in hs.get("archive", {}),
                     "new_hits": [{"id": x["id"], "name": x["name"], "title": x["title"], "pattern": x["pattern"]} for x in new], "n_new": len(new)})
+
+
+@app.post("/api/result/manual/delete")
+@guarded
+def api_result_manual_delete():
+    """Galat dala hua hath ka result hatao (site wala nahi hatta)."""
+    b = request.get_json(silent=True) or {}
+    g = str(b.get("game", "")).upper().replace("FD", "FB")
+    date = str(b.get("date", ""))
+    man = jload("manual_results.json", {}) or {}
+    hs = jload("hit_log.json", None) or hits.new_state()
+    gone = hits.unset(hs, date, g)
+    if g in man.get(date, {}):
+        del man[date][g]
+        if not man[date]:
+            del man[date]
+        gone = True
+    jsave("manual_results.json", man)
+    jsave("hit_log.json", hs)
+    try:
+        persist(["manual_results.json", "hit_log.json"], "result (hath se) hataya")
+    except Exception as e:
+        app.logger.warning("manual persist: %s", e)
+    return jsonify({"ok": True, "removed": gone})
 
 
 @app.get("/api/rank")

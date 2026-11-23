@@ -846,3 +846,36 @@ class HitsTests(unittest.TestCase):
         g = c.get("/api/result/manual").get_json()
         self.assertEqual(g["games"]["FB"]["n"], 12)
         self.assertIn("groups", c.get("/api/hits?days=3").get_json())
+
+
+class ManualFixTests(unittest.TestCase):
+    def test_replace_and_delete_manual(self):
+        from lab import hits
+        st = hits.new_state()
+        rep = {"play_date": "2026-11-23", "asof": "2026-11-22", "patterns": [{"id": "002", "key": "naksha", "naam": "Naksha", "items": [
+            {"id": "n1", "name": "N1", "title": "t", "lines": [], "targets": [{"game": "FB", "numbers": [18, 81]}]}]}]}
+        hits.archive(st, rep)
+        day = dt.date(2026, 11, 23)
+        self.assertEqual(hits.evaluate(st, "2026-11-23", "FB", 13, "manual", day), [])         # galti se 13
+        self.assertTrue(hits.unset(st, "2026-11-23", "FB"))                                      # hatao
+        self.assertEqual(len(hits.evaluate(st, "2026-11-23", "FB", 81, "manual", day)), 1)       # sahi 81
+        self.assertEqual(hits.view(st, 3, day)["total"], 1)
+        self.assertTrue(hits.unset(st, "2026-11-23", "FB"))
+        self.assertEqual(hits.view(st, 3, day)["total"], 0)                                      # hit bhi hat gaya
+        # site ka result alag aaye to hath wala hat jata hai
+        hits.evaluate(st, "2026-11-23", "FB", 13, "manual", day)
+        rows = [(dt.date(2026, 11, 23), [81, 0, 0, 0], "t")]
+        hits.settle(st, rows, {}, day)
+        self.assertEqual(hits.view(st, 3, day)["total"], 1)
+        self.assertEqual(st["mismatch"][0]["site"], 81)
+
+    def test_api_replace(self):
+        c = lab_server.app.test_client()
+        c.post("/api/result/manual", json={"game": "GL", "number": 13}, headers=H)
+        r = c.post("/api/result/manual", json={"game": "GL", "number": 81}, headers=H).get_json()
+        self.assertTrue(r["replaced"] and not r["already"])
+        self.assertEqual(c.get("/api/result/manual").get_json()["games"]["GL"]["n"], 81)
+        self.assertEqual(c.post("/api/result/manual/delete", json={"game": "GL", "date": r["date"]}).status_code, 401)
+        d = c.post("/api/result/manual/delete", json={"game": "GL", "date": r["date"]}, headers=H).get_json()
+        self.assertTrue(d["removed"])
+        self.assertIsNone(c.get("/api/result/manual").get_json()["games"]["GL"])

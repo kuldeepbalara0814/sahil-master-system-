@@ -12,20 +12,31 @@ const SXH=()=>window.SCANX;
 function htGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
 function htSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
 function htMsg(r){
- if(r.already)return"Ye result pehle se ginti me hai";
+ if(r.already)return"Ye result pehle se ginti me hai (site wala hai, badla nahi ja sakta)";
+ if(r.replaced)return"Hath wala result badal diya. "+(r.n_new>0?r.n_new+" map hit hue":"Koi map hit nahi hua");
  if(r.has_archive===false)return"Is din ke andaze saved nahi the";
  return r.n_new>0?r.n_new+" map hit hue":"Koi map hit nahi hua"}
 function htHitLine(h){return el("p",{class:"ht-line"},el("b",{},"HIT: "),`${p2(h.n)} ${fb(h.game||"")} ${dm(h.date)}`,h.src==="manual"?el("span",{class:"mut small"}," (hath se)"):null)}
+function htOpen(it){
+ const box=el("div",{class:"ht-view"}),b=el("button",{type:"button",class:"b g sm"},"Kholo (rang me dekho)");let on=false;
+ b.addEventListener("click",async()=>{on=!on;
+  if(!on){box.replaceChildren();b.textContent="Kholo (rang me dekho)";return}
+  b.textContent="Band karo";box.replaceChildren(el("p",{class:"mut"},el("span",{class:"spin"}),"Load..."));
+  try{const fam=String(it.id).startsWith("family:");
+   const v=await api("GET",(fam?"/scanner/month_view?id=":"/scanner/view?id=")+encodeURIComponent(it.id));
+   const sx=window.SCANX;if(!sx||!sx.chart)throw new Error("Pattern Scan tab ek baar kholo, phir yahan dobara");
+   box.replaceChildren(fam&&sx.famMonth?sx.famMonth(v):sx.chart(v))}
+  catch(e){box.replaceChildren(el("div",{class:"warn"},"Ye map ab dobara nahi ban pa raha: "+e.message))}});
+ return {btn:b,box}}
 function htCard(it){
- const sx=SXH();
+ const sx=SXH(),op=htOpen(it);
  return el("div",{class:"ht-card"+(sx&&sx.reviewed(it.id)?" seen":"")},
   el("b",{},it.title||it.name),
   it.title&&it.name&&it.title!==it.name?el("p",{class:"mut small",style:"margin:2px 0"},it.name):null,
   (it.recent||[]).map(htHitLine),
   el("div",{class:"row",style:"margin-top:6px"},
    sx?sx.seenUI(it.id,()=>{}):null,sx?sx.editUI(it.id):null,
-   el("button",{type:"button",class:"b g sm",on:{click:()=>go("scan")}},"Pura dekho"),
-   el("a",{href:"/api/scanner/view?id="+encodeURIComponent(it.id),target:"_blank"},el("button",{type:"button",class:"b g sm"},"Rang chart"))))}
+   op.btn,el("button",{type:"button",class:"b g sm",on:{click:()=>go("scan")}},"Pura dekho")),op.box)}
 function htGroup(g){return el("div",{},el("div",{class:"act-grp"},`${g.naam} (${g.count})`),(g.items||[]).map(htCard))}
 function htDraw(box,rep,days,redraw){
  const groups=rep.groups||[],show=htGet("ht_n2")==="1";
@@ -59,6 +70,11 @@ function htManual(box,onSaved){
    el("p",{class:"mut small",style:"margin:0 0 8px"},"Khel ki tareekh: ",el("b",{},dm(st.date))),
    el("div",{class:"ht-chips"},HG.map(g=>el("button",{type:"button",class:"ht-chip"+(g===game?" on":""),on:{click:()=>{game=g;draw()}}},known(g)))),
    el("div",{class:"row ht-form"},inp,save),
+   ...HG.filter(g=>st.games&&st.games[g]&&st.games[g].src==="manual").map(g=>el("div",{class:"row",style:"margin-top:8px"},
+    el("span",{class:"small"},`${g} ${p2(st.games[g].n)} (hath se dala). Galat ho to `),
+    el("button",{type:"button",class:"b g sm",on:{click:()=>{game=g;draw();const i=box.querySelector("input");if(i)i.focus()}}},"Badlo"),
+    el("button",{type:"button",class:"b g sm",on:{click:async()=>{if(!confirm(`${g} ka hath wala result hatana hai?`))return;
+     try{await api("POST","/result/manual/delete",{game:g,date:st.date});toast("Hath wala result hata diya");await onSaved()}catch(e){toast(e.message)}}}},"Hatao"))),
    el("p",{class:"mut small",style:"margin:8px 0 0"},"Site se result aate hi ye apne aap ginta hai; jaldi dekhna ho to yaha hath se dalo."))}
  return async function init(){
   try{st=await api("GET","/result/manual");
@@ -88,11 +104,10 @@ tabs.active=async function(root){
    el("div",{class:"row"},btn,seg)].filter(Boolean));}
  function nums(t){return t&&t.numbers&&t.numbers.length?el("div",{class:"act-nums"},t.numbers.map(n=>el("span",{class:"chip green"},p2(n)))):null}
  const SX=()=>window.SCANX;
- function links(it){const sx=SX();return el("div",{class:"row"},
-  sx?sx.seenUI(it.id,()=>draw()):null,sx?sx.editUI(it.id):null,
+ function links(it){const sx=SX(),op=htOpen(it);return el("div",{},el("div",{class:"row"},
+  sx?sx.seenUI(it.id,()=>draw()):null,sx?sx.editUI(it.id):null,op.btn,
   el("button",{class:"b g sm",on:{click:()=>go("scan")}},"Pura dekho"),
-  el("a",{href:"/api/scanner/view?id="+encodeURIComponent(it.id),target:"_blank"},el("button",{class:"b g sm"},"Rang chart")),
-  el("a",{href:"/api/scanner/xlsx?id="+encodeURIComponent(it.id)},el("button",{class:"b g sm"},"Excel")))}
+  el("a",{href:"/api/scanner/xlsx?id="+encodeURIComponent(it.id)},el("button",{class:"b g sm"},"Excel"))),op.box)}
  function card(it,pass){
   const t=it.target;
   return el("div",{class:"act-card "+(pass?"pass":"now")+(SX()&&SX().reviewed(it.id)?" seen":"")},

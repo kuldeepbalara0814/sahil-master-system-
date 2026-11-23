@@ -118,6 +118,7 @@ function famMonth(v){
   el("p",{class:"mut small"},"Har rashi family ka apna rang (rang par kaala ank). Is pattern ke cell moti safed border me, 3rd step gulabi '?'. Kisi family ke rang par dabao to sirf wahi family dikhegi (dobara dabao to sab)."),
   tabs2,el("div",{class:"row",style:"gap:6px"},legend),box)}
 
+window.SCANX.chart=chart;window.SCANX.famMonth=famMonth;           // Active tab me map kholne ke liye
 tabs.scan=async function(m){
  const unseen={};
  let rep=null,filter="all",plays={},sel=null,idx=[],mscope="recent";
