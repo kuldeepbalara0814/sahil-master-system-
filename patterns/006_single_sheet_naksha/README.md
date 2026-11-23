@@ -80,3 +80,4 @@ Pichle 1-2 mahine me wahi design/dhun mile to usko **chhodna nahi**; software me
 - **Design ek jagah se shuru hoke kahin khatam hota hai.** Uske **upar se niche tak box (row) ginti** karo. Jitne box Sep ke design me hai **utne hi box ka** design Nov me hoga.
 - **BOUNDARY (seema) = ek step ke design ke box ki ginti.** Wahi boundary baaki sab step ke liye.
 - **Fail/pass kaise tay karte hai:** Nov me us **box ginti ke andar** pattern ne kaam kiya (andaza wala number aaya) to **PASS**; **boundary ke bahar** nikla to **FAIL**. ("us box count ke andar us pattern ne kaam kiya to sahi, bahar nikla to fail hai.")
+- **Box ginti ka tarika (user ne confirm kiya):** design ke **pehle cell se aakhri cell tak, dono sire samet**, row ginti. Udaharan: Sep me pehla cell 5 Sep, aakhri 17 Sep => 13 box. Nov me wahi design ka pehla cell (maan lo 13 Nov) se 13 box => 13 Nov se 25 Nov tak; 25 Nov tak andaza wala number aaya = PASS, uske baad = FAIL.
