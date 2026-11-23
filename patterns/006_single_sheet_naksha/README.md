@@ -62,3 +62,6 @@ User ne kaha: jitna banaya sahi banaya, par **do galti** hai. Pehli:
 - **Kyun zaroori:** pattern banane ke liye kahin se **shuruat** karni hi padti hai; step batate hai ki dhun kitni pakdi gayi aur ab aage kya andaza lagana hai.
 - **System ki baat:** jo system number nikalta hai wo unhe idhar-udhar (shuffle) karta hai, isliye **design/copy apne aap ban hi jati hai**; koi banane ka irada nahi dikhta.
 - (User ne sikhne wale 4 tarah ke log - A, B, C, D - ki tulna di: aap D (toper) jaise hai, par sikhane me waqt lagega.)
+
+### Agar pichle mahine wahi design pehle chal chuka mile (user ka jawab, 23 Nov 2026)
+Pichle 1-2 mahine me wahi design/dhun mile to usko **chhodna nahi**; software me **step ginke likho**: "isme 4, isme 5, isme 6 step hai, ye 3rd step hai". Yani pattern ke saamne **kaun sa step chal raha hai** (3, 4, 5, 6...) saaf likha ho. Phir **insaan dekhega aur apna faisla lega** ki is step par khelna hai ya nahi ("murkh banana hai ya nahi" - yaani kya dhokhe me aana hai ya nahi). Software sirf dikhata hai, faisla insaan ka. (Zyada step = purana chalta hua design = pass ke chance kam ho sakte hai, jaisa step 4 me bataya tha.)
