@@ -90,3 +90,4 @@ Us boundary ke andar **cross, repeat, rashi** (jo bhi link ho) dekhte hai. **Wai
 - Udaharan: step 1 ki boundary me **13 aur 56** aaye; doosri boundary me **31 aur 56** aaye (13 aur 31 palat, 56 wahi) -> ye **indicator** hai.
 - Isko hum **laal (red) rang** me dalte hai; ye **pakka karta hai ki ye pattern ban sakta hai.** 
 - Yani: us design ke har step ki boundary me ek-do number jo har baar wahi rehte hai = indicator.
+- **Indicator ki jagah (user ne confirm kiya):** boundary ke andar **kahin bhi** aa sakta hai (same duri par hona zaroori nahi); bas **har step ki boundary ke andar** aana chahiye.
