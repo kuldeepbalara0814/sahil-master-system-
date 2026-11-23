@@ -81,3 +81,6 @@ Pichle 1-2 mahine me wahi design/dhun mile to usko **chhodna nahi**; software me
 - **BOUNDARY (seema) = ek step ke design ke box ki ginti.** Wahi boundary baaki sab step ke liye.
 - **Fail/pass kaise tay karte hai:** Nov me us **box ginti ke andar** pattern ne kaam kiya (andaza wala number aaya) to **PASS**; **boundary ke bahar** nikla to **FAIL**. ("us box count ke andar us pattern ne kaam kiya to sahi, bahar nikla to fail hai.")
 - **Box ginti ka tarika (user ne confirm kiya):** design ke **pehle cell se aakhri cell tak, dono sire samet**, row ginti. Udaharan: Sep me pehla cell 5 Sep, aakhri 17 Sep => 13 box. Nov me wahi design ka pehla cell (maan lo 13 Nov) se 13 box => 13 Nov se 25 Nov tak; 25 Nov tak andaza wala number aaya = PASS, uske baad = FAIL.
+
+### Boundary ke andar kya dekhte hai (user, 23 Nov 2026)
+Us boundary ke andar **cross, repeat, rashi** (jo bhi link ho) dekhte hai. **Waise hi link doosri boundary (doosre step) me bhi hone chahiye.** Aur **har ek link ka doosre se rishta hum RANG me dikhate hai** (ek link = ek rang; wahi rang doosre step me wahi link). (Pehle poochha tha ki indicator cell boundary me kahan aata hai - user ne abhi iska seedha jawab nahi diya; pending.)
