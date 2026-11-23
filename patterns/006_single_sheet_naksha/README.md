@@ -84,3 +84,9 @@ Pichle 1-2 mahine me wahi design/dhun mile to usko **chhodna nahi**; software me
 
 ### Boundary ke andar kya dekhte hai (user, 23 Nov 2026)
 Us boundary ke andar **cross, repeat, rashi** (jo bhi link ho) dekhte hai. **Waise hi link doosri boundary (doosre step) me bhi hone chahiye.** Aur **har ek link ka doosre se rishta hum RANG me dikhate hai** (ek link = ek rang; wahi rang doosre step me wahi link). (Pehle poochha tha ki indicator cell boundary me kahan aata hai - user ne abhi iska seedha jawab nahi diya; pending.)
+
+## INDICATOR (user ne samjhaya, 23 Nov 2026)
+- **Indicator = ek fix sankhya (1 ya 2 number)** jo **step 1, step 2, step 3 ki har boundary me same aaye.** Palat valid.
+- Udaharan: step 1 ki boundary me **13 aur 56** aaye; doosri boundary me **31 aur 56** aaye (13 aur 31 palat, 56 wahi) -> ye **indicator** hai.
+- Isko hum **laal (red) rang** me dalte hai; ye **pakka karta hai ki ye pattern ban sakta hai.** 
+- Yani: us design ke har step ki boundary me ek-do number jo har baar wahi rehte hai = indicator.
