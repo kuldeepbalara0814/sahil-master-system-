@@ -126,3 +126,4 @@ Ye mere samajhne ke liye hai. Software me bhi yahi niyam chalenge. Naam bolo to 
 
 | **Flat** (006) | ek hi din (ek row) me do alag location me number (jaise GB+GL ya FB+DS same tarikh) |
 | **Standing** (006, user ka matlab) | ek hi location (ek column) me upar-neeche, alag tarikh par number aana |
+| **Step 1/2/3/4** | step 1 = pehla design apne aap; step 2 = doosri copy poori (ab jude pata chalte); step 3 = hum andaza banate (khelte); step 4 = pass kam. Pichle 1-2 mahine check karo (HANDOFF 34) |
