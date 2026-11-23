@@ -800,3 +800,49 @@ class StepsTests(unittest.TestCase):
         keys = [p["key"] for p in rep["patterns"]]
         self.assertIn("steps", keys)
         self.assertEqual(rep["errors"], [])
+
+
+class HitsTests(unittest.TestCase):
+    def _rep(self, pd="2026-11-23"):
+        return {"play_date": pd, "asof": "2026-11-22", "patterns": [
+            {"id": "002", "key": "naksha", "naam": "Naksha", "items": [
+                {"id": "naksha:10:2020-01-01", "name": "N-A", "title": "A", "lines": ["x"], "targets": [{"game": "FB", "numbers": [58, 85]}]},
+                {"id": "naksha:10:2021-01-01", "name": "N-B", "title": "B", "lines": ["y"], "targets": [{"game": "GB", "numbers": [11]}]}]},
+            {"id": "002b", "key": "naksha2", "naam": "Naksha-Rashi", "items": [
+                {"id": "naksha2:10:2020-01-01", "name": "R-A", "title": "RA", "lines": [], "targets": [{"game": "FB", "numbers": [58, 85, 3, 8]}]}]}]}
+
+    def test_evaluate_any_location_and_view(self):
+        from lab import hits
+        st = hits.new_state()
+        hits.archive(st, self._rep())
+        today = dt.date(2026, 11, 23)
+        new = hits.evaluate(st, "2026-11-23", "DS", 85, "manual", today)         # FB bataya tha, DS me aaya = hit (location ka chakkar nahi)
+        self.assertEqual(sorted(x["id"] for x in new), ["naksha2:10:2020-01-01", "naksha:10:2020-01-01"])
+        self.assertEqual(hits.evaluate(st, "2026-11-23", "DS", 85, "manual", today), [])   # dobara nahi ginta
+        self.assertEqual(hits.evaluate(st, "2026-11-23", "GB", 99, "manual", today), [])   # koi hit nahi
+        v = hits.view(st, 3, today)
+        self.assertEqual((v["total"], [g["key"] for g in v["groups"]]), (2, ["naksha", "naksha2"]))
+        self.assertEqual(hits.view(st, 1, dt.date(2026, 11, 26))["total"], 0)               # 3 din baad nahi
+
+    def test_settle_from_rows_and_manual(self):
+        from lab import hits
+        st = hits.new_state()
+        d = ROWS[-1][0] + dt.timedelta(days=1)
+        rep = self._rep(d.isoformat())
+        hits.archive(st, rep)
+        rows = list(ROWS)
+        n = hits.settle(st, rows, {d.isoformat(): {"FB": 58}}, d)
+        self.assertEqual(n, 2)                                                               # manual FB 58 -> naksha A + rashi A
+
+    def test_api_manual_and_hits(self):
+        c = lab_server.app.test_client()
+        self.assertEqual(c.post("/api/result/manual", json={"game": "FB", "number": 12}).status_code, 401)   # PIN chahiye
+        r = c.post("/api/result/manual", json={"game": "FB", "number": 12}, headers=H)
+        self.assertEqual(r.status_code, 200)
+        j = r.get_json()
+        self.assertEqual((j["game"], j["number"]), ("FB", 12))
+        self.assertEqual(c.post("/api/result/manual", json={"game": "XX", "number": 12}, headers=H).status_code, 400)
+        self.assertEqual(c.post("/api/result/manual", json={"game": "FB", "number": 123}, headers=H).status_code, 400)
+        g = c.get("/api/result/manual").get_json()
+        self.assertEqual(g["games"]["FB"]["n"], 12)
+        self.assertIn("groups", c.get("/api/hits?days=3").get_json())

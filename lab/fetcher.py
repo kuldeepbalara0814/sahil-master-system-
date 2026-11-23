@@ -115,7 +115,7 @@ def months_between(a, b):
 
 def new_lines(rows, today=None, fetch=fetch_month, pause=1.5):
     """Aakhri line ke baad ki nayi lines (site se). Return (lines, info)."""
-    today = today or dt.date.today()
+    today = today or dt.datetime.now(dt.timezone(dt.timedelta(hours=5, minutes=30))).date()      # server UTC ho sakta hai, tarikh IST ki
     last = rows[-1][0]
     site, info = {}, {"months": [], "errors": []}
     for (y, m) in months_between(last, max(today, last)):

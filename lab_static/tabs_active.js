@@ -5,13 +5,73 @@ const MN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec
 const dm=s=>{if(!s)return"";const [y,m,d]=String(s).slice(0,10).split("-").map(Number);return d?d+" "+MN[m-1]:s};
 const tm=s=>String(s||"").replace("T"," ").slice(0,16);
 const SRC={auto:"auto",manual:"manual"};
+
+/* ---- HIT hue map + hath se result (prefix ht-) ---- */
+const HG=["FB","GB","GL","DS"];
+const SXH=()=>window.SCANX;
+function htGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function htSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function htMsg(r){
+ if(r.already)return"Ye result pehle se ginti me hai";
+ if(r.has_archive===false)return"Is din ke andaze saved nahi the";
+ return r.n_new>0?r.n_new+" map hit hue":"Koi map hit nahi hua"}
+function htHitLine(h){return el("p",{class:"ht-line"},el("b",{},"HIT: "),`${p2(h.n)} ${fb(h.game||"")} ${dm(h.date)}`,h.src==="manual"?el("span",{class:"mut small"}," (hath se)"):null)}
+function htCard(it){
+ const sx=SXH();
+ return el("div",{class:"ht-card"+(sx&&sx.reviewed(it.id)?" seen":"")},
+  el("b",{},it.title||it.name),
+  it.title&&it.name&&it.title!==it.name?el("p",{class:"mut small",style:"margin:2px 0"},it.name):null,
+  (it.recent||[]).map(htHitLine),
+  el("div",{class:"row",style:"margin-top:6px"},
+   sx?sx.seenUI(it.id,()=>{}):null,sx?sx.editUI(it.id):null,
+   el("button",{type:"button",class:"b g sm",on:{click:()=>go("scan")}},"Pura dekho"),
+   el("a",{href:"/api/scanner/view?id="+encodeURIComponent(it.id),target:"_blank"},el("button",{type:"button",class:"b g sm"},"Rang chart"))))}
+function htGroup(g){return el("div",{},el("div",{class:"act-grp"},`${g.naam} (${g.count})`),(g.items||[]).map(htCard))}
+function htDraw(box,rep,days,redraw){
+ const groups=rep.groups||[],show=htGet("ht_n2")==="1";
+ const n2=groups.find(g=>g.key==="naksha2"),main=groups.filter(g=>g.key!=="naksha2"&&g.count>0);
+ const tog=n2?el("div",{class:"ht-n2"},el("button",{type:"button",class:"b g sm",on:{click:()=>{htSet("ht_n2",show?"0":"1");redraw()}}},show?"Naksha 2 (Rashi) chhupao":"Naksha 2 (Rashi) bhi dikhao"),
+  el("span",{class:"mut small"}," zyada map, kam matlab"+(show?"":` (${n2.count} hit)`))):null;
+ const shown=[...main,...(show&&n2&&n2.count>0?[n2]:[])];
+ const tot=main.reduce((a,g)=>a+g.count,0)+(show&&n2?n2.count:0);
+ box.replaceChildren(...[
+  el("h2",{class:"act-h"},`Hit hue map (pichle ${days} din)`,el("span",{class:"ht-tot"},String(tot))),
+  rep.mismatch&&rep.mismatch.length?el("div",{class:"warn",style:"margin-bottom:8px"},el("b",{},"Dhyan do: "),rep.mismatch.map(m=>el("p",{class:"small",style:"margin:3px 0"},typeof m==="string"?m:JSON.stringify(m)))):null,
+  shown.length?shown.map(htGroup):el("p",{class:"mut"},"Abhi koi map hit nahi hua."),tog].flat().filter(Boolean))}
+async function htLoadHits(box,days){
+ box.replaceChildren(el("p",{class:"load"},el("span",{class:"spin"}),"Hit map dekh raha hoon..."));
+ try{const rep=await api("GET","/hits?days="+days);const redraw=()=>htDraw(box,rep,days,redraw);redraw()}
+ catch(e){box.replaceChildren(el("div",{class:"warn"},e.message))}}
+
+function htManual(box,onSaved){
+ let st=null,game=null;
+ function known(g){const x=st&&st.games&&st.games[g];return x?`${g} ${p2(x.n)} (${x.src==="manual"?"hath se":"site"})`:g}
+ function draw(){
+  const inp=el("input",{type:"text",inputmode:"numeric",maxlength:"2",placeholder:"00",class:"ht-in","aria-label":"Result number"});
+  inp.addEventListener("input",()=>{inp.value=inp.value.replace(/\D/g,"").slice(0,2)});
+  inp.addEventListener("blur",()=>{if(inp.value.length===1)inp.value=p2(inp.value)});
+  const save=el("button",{type:"button",class:"b big2 ht-save",on:{click:async()=>{
+   const v=inp.value.trim();if(!/^\d{1,2}$/.test(v)){toast("Number 00 se 99 ke beech dalo");return}
+   save.disabled=true;
+   try{const r=await api("POST","/result/manual",{game,number:+v,date:st.date});toast(htMsg(r));await onSaved()}
+   catch(e){toast(e.message)}finally{save.disabled=false}}}},"Save");
+  box.replaceChildren(el("h2",{style:"margin:0 0 4px"},"Result dalo ",el("span",{class:"sub"},"(hath se)")),
+   el("p",{class:"mut small",style:"margin:0 0 8px"},"Khel ki tareekh: ",el("b",{},dm(st.date))),
+   el("div",{class:"ht-chips"},HG.map(g=>el("button",{type:"button",class:"ht-chip"+(g===game?" on":""),on:{click:()=>{game=g;draw()}}},known(g)))),
+   el("div",{class:"row ht-form"},inp,save),
+   el("p",{class:"mut small",style:"margin:8px 0 0"},"Site se result aate hi ye apne aap ginta hai; jaldi dekhna ho to yaha hath se dalo."))}
+ return async function init(){
+  try{st=await api("GET","/result/manual");
+   if(!game||!HG.includes(game))game=HG.find(g=>!(st.games&&st.games[g]))||"FB";draw()}
+  catch(e){box.replaceChildren(el("div",{class:"warn"},e.message))}}}
 tabs.active=async function(root){
  let days=3,rep=null,busy=false;
  try{days=+localStorage.getItem("act_days")||3}catch(e){}
- const strip=el("div",{class:"card act-strip"}),body=el("div");
+ const strip=el("div",{class:"card act-strip"}),body=el("div"),hitBox=el("div",{class:"ht-sec"}),manBox=el("div",{class:"card ht-man"});
+ const manInit=htManual(manBox,async()=>{await manInit();await load(false);if(hitBox.scrollIntoView)hitBox.scrollIntoView({behavior:"smooth",block:"start"})});
  const skel=()=>body.replaceChildren(el("div",{class:"act-skel"}),el("div",{class:"act-skel"}),el("div",{class:"act-skel"}));
  async function load(post){
-  skel();busy=true;
+  skel();busy=true;htLoadHits(hitBox,days);
   try{if(SX())await SX().load();rep=await api(post?"POST":"GET","/active"+(post?"/scan":"?days="+days),post?{days}:undefined);
    if(post)toast(rep.errors&&rep.errors.length?"Scan hua, par kuch galti aayi (neeche dekho)":"Scan ho gaya");
    draw()}
@@ -63,8 +123,8 @@ tabs.active=async function(root){
    pass.length?grouped(pass,true):el("p",{class:"mut"},`Pichle ${n} din me koi pass nahi hua.`),
    rep.recent_fail?el("p",{class:"mut small"},`Pichle ${n} din me ${rep.recent_fail} FAIL bhi hue.`):null,
    el("h2",{class:"act-h"},"Scoreboard (pichle 30 din)"),el("div",{class:"card flat"},board())].flat().filter(Boolean))}
- root.append(el("button",{type:"button",class:"card rk-link",on:{click:()=>go("rank")}},"Aaj ke number ranking dekho"),el("div",{class:"card"},el("h2",{style:"margin:0 0 4px"},"Active ",el("span",{class:"sub"},"(jo pattern abhi chal rahe hain)")),
-  el("p",{class:"mut small",style:"margin:0"},"Ek baar bana pattern kabhi gayab nahi hota. Scan din me do baar apne aap hota hai.")),strip,body);
- drawStrip();await load(false);
+ root.append(el("button",{type:"button",class:"card rk-link",on:{click:()=>go("rank")}},"Aaj ke number ranking dekho"),manBox,el("div",{class:"card"},el("h2",{style:"margin:0 0 4px"},"Active ",el("span",{class:"sub"},"(jo pattern abhi chal rahe hain)")),
+  el("p",{class:"mut small",style:"margin:0"},"Ek baar bana pattern kabhi gayab nahi hota. Scan din me do baar apne aap hota hai.")),strip,hitBox,body);
+ drawStrip();manInit();await load(false);
 };
 })();

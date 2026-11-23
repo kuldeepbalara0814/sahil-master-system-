@@ -10,6 +10,7 @@ import datetime as dt
 import json
 import os
 import sys
+import threading
 
 from . import data, fetcher, friends, monitor, paper
 
@@ -29,10 +30,18 @@ def _load_json(path, default):
 
 
 def _save_json(path, obj):
-    tmp = path + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(obj, f, ensure_ascii=False, indent=1)
-    os.replace(tmp, path)
+    """Atomic save. Tmp file ka naam har thread ka alag (do thread ek saath likhen to ek doosre ki tmp file na tode)."""
+    tmp = f"{path}.{os.getpid()}.{threading.get_ident()}.tmp"
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(obj, f, ensure_ascii=False, indent=1)
+        os.replace(tmp, path)
+    except BaseException:
+        try:
+            os.remove(tmp)
+        except OSError:
+            pass
+        raise
 
 
 def run(fetch=True, today=None, stake=5, auto_bets=True, data_dir=None, fetch_fn=fetcher.fetch_month, pause=1.5):
@@ -42,7 +51,10 @@ def run(fetch=True, today=None, stake=5, auto_bets=True, data_dir=None, fetch_fn
     rows = data.load(csv_path)
     # 1) fetch
     if fetch:
-        new, info = fetcher.new_lines(rows, today=today, fetch=fetch_fn, pause=pause)
+        try:
+            new, info = fetcher.new_lines(rows, today=today, fetch=fetch_fn, pause=pause)
+        except Exception as e:                                        # fetch toote to baaki kaam (paper, scan) chalta rahe
+            new, info = [], {"errors": [f"fetch nahi hua: {type(e).__name__}: {str(e)[:150]}"]}
         rep["errors"] = info["errors"]
         merged, added, skipped, conflicts = data.merge_new(rows, new)
         rep["added"] = [d.isoformat() for d in added]
@@ -88,6 +100,15 @@ def run(fetch=True, today=None, stake=5, auto_bets=True, data_dir=None, fetch_fn
             _save_json(lp, active.merge(_load_json(lp, None) or active.new_log(), srep, source="auto"))
         except Exception as e:
             rep["scan_errors"] = [f"active log nahi bana: {type(e).__name__}: {e}"]
+        try:                                                          # hit hue map: pehle purane andaze ka hisaab, phir naye
+            from . import active, hits
+            hp = _path(data_dir, "hit_log.json")
+            hs = _load_json(hp, None) or hits.new_state()
+            hits.settle(hs, rows, _load_json(_path(data_dir, "manual_results.json"), {}), today or active.now_ist().date())
+            hits.archive(hs, srep)
+            _save_json(hp, hs)
+        except Exception as e:
+            rep.setdefault("scan_errors", []).append(f"hit log nahi bana: {type(e).__name__}: {e}")
         _save_json(_path(data_dir, "patterns_today.json"), srep)      # merge ke baad: items par "new" nishan
         rep.setdefault("scan_errors", [])
         rep["scan_errors"] += [f"{e['pattern']}: {e['error']}" for e in srep["errors"]]

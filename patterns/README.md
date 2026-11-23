@@ -28,7 +28,7 @@ Neeche ki bar: **Active | Aaj ki List | Pattern Scan | Paper Trading | Aur**. "A
 
 | Tab | Kya karta hai | Code |
 |---|---|---|
-| Active | abhi chal rahe pattern, pichle 1/2/3 din ke PASS, 30 din ka scoreboard, "Abhi scan karo" | tabs_active.js, lab/active.py, /api/active |
+| Active | abhi chal rahe pattern, **Hit hue map (pichle 1-3 din)**, **Result dalo (hath se)**, pichle 1/2/3 din ke PASS, 30 din ka scoreboard, "Abhi scan karo" | tabs_active.js, lab/active.py, /api/active |
 | Aaj ki List | dost jodi, Band Rashi/Number, Baar Filter | tabs_core.js, lab/band.py, lab/baar.py |
 | Pattern Scan | har pattern (001 Copy, 002 Naksha, 002b Naksha-Rashi, 003 Family, 005 Dana-Farak) ke card, rang wala chart, mahine ki copy, PNG/Excel, README, "dekh liya", sab download PDF/JPG/Excel, Edit karo | tabs_scan.js, lab/scanner.py, lab/scan_view.py, lab/export_all.py |
 | Number Rank | aaj ke saare map ke vote: ek map = ek vote, score = kitne map, +1 din ka point; har type me FB/GB/GL/DS aur All location + ALL IN ONE; copy button | tabs_rank.js, lab/rank.py, /api/rank |
