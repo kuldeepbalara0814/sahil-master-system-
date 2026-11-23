@@ -1123,11 +1123,272 @@
    "strength": "info",
    "ambiguous": false,
    "target": null
+  },
+  "steps:12:2026-09-03:2026-10-18": {
+   "id": "steps:12:2026-09-03:2026-10-18",
+   "first_seen": "2026-11-23",
+   "resolved_on": null,
+   "status": "aaj",
+   "pattern": {
+    "id": "007",
+    "key": "steps",
+    "naam": "Puzzle-Steps"
+   },
+   "last_seen": "2026-11-23",
+   "name": "Steps-03Sep-18Oct-12box",
+   "title": "12 box | 3 link | 3 mahine (03 Sep / 18 Oct / 12 Nov)",
+   "lines": [
+    "Boundary 12 box: Step 1 03 Sep se 14 Sep, Step 2 18 Oct se 29 Oct, Step 3 12 Nov se 23 Nov.",
+    "3 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 2 mila.",
+    "01/10 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 13 Nov GB par dikhaya",
+    "Indicator (laal): 01/10 har boundary me aaya (ek hi cell mark).",
+    "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+   ],
+   "strength": "info",
+   "target": {
+    "date": "2026-11-23",
+    "games": "GB",
+    "numbers": [
+     1,
+     10
+    ]
+   }
+  },
+  "steps:8:2026-09-03:2026-10-20": {
+   "id": "steps:8:2026-09-03:2026-10-20",
+   "first_seen": "2026-11-23",
+   "resolved_on": null,
+   "status": "aaj",
+   "pattern": {
+    "id": "007",
+    "key": "steps",
+    "naam": "Puzzle-Steps"
+   },
+   "last_seen": "2026-11-23",
+   "name": "Steps-03Sep-20Oct-8box",
+   "title": "8 box | 2 link | 3 mahine (03 Sep / 20 Oct / 16 Nov)",
+   "lines": [
+    "Boundary 8 box: Step 1 03 Sep se 10 Sep, Step 2 20 Oct se 27 Oct, Step 3 16 Nov se 23 Nov.",
+    "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 0 mila.",
+    "17/71 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 20 Nov FB par dikhaya",
+    "37/73 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 22 Nov DS par dikhaya",
+    "Indicator (laal): 08/80 har boundary me aaya (ek hi cell mark).",
+    "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+   ],
+   "strength": "info",
+   "target": {
+    "date": "2026-11-23",
+    "games": "DS, FB",
+    "numbers": [
+     17,
+     37,
+     71,
+     73
+    ]
+   }
+  },
+  "steps:8:2026-09-04:2026-10-02": {
+   "id": "steps:8:2026-09-04:2026-10-02",
+   "first_seen": "2026-11-23",
+   "resolved_on": null,
+   "status": "aaj",
+   "pattern": {
+    "id": "007",
+    "key": "steps",
+    "naam": "Puzzle-Steps"
+   },
+   "last_seen": "2026-11-23",
+   "name": "Steps-04Sep-02Oct-8box",
+   "title": "8 box | 2 link | 3 mahine (04 Sep / 02 Oct / 16 Nov)",
+   "lines": [
+    "Boundary 8 box: Step 1 04 Sep se 11 Sep, Step 2 02 Oct se 09 Oct, Step 3 16 Nov se 23 Nov.",
+    "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 0 mila.",
+    "25/52 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 16 Nov DS par dikhaya",
+    "55 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 22 Nov DS par dikhaya",
+    "Indicator (laal): 15/51 har boundary me aaya (ek hi cell mark).",
+    "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+   ],
+   "strength": "info",
+   "target": {
+    "date": "2026-11-23",
+    "games": "DS",
+    "numbers": [
+     25,
+     52,
+     55
+    ]
+   }
+  },
+  "steps:8:2026-09-07:2026-10-23": {
+   "id": "steps:8:2026-09-07:2026-10-23",
+   "first_seen": "2026-11-23",
+   "resolved_on": null,
+   "status": "aaj",
+   "pattern": {
+    "id": "007",
+    "key": "steps",
+    "naam": "Puzzle-Steps"
+   },
+   "last_seen": "2026-11-23",
+   "name": "Steps-07Sep-23Oct-8box",
+   "title": "8 box | 2 link | 3 mahine (07 Sep / 23 Oct / 16 Nov)",
+   "lines": [
+    "Boundary 8 box: Step 1 07 Sep se 14 Sep, Step 2 23 Oct se 30 Oct, Step 3 16 Nov se 23 Nov.",
+    "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 0 mila.",
+    "58/85 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 19 Nov DS par dikhaya",
+    "15/51 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 23 Nov DS par dikhaya",
+    "Indicator (laal): 05/50 har boundary me aaya (ek hi cell mark).",
+    "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+   ],
+   "strength": "info",
+   "target": {
+    "date": "2026-11-23",
+    "games": "DS",
+    "numbers": [
+     15,
+     51,
+     58,
+     85
+    ]
+   }
+  },
+  "steps:8:2026-09-16:2026-10-01": {
+   "id": "steps:8:2026-09-16:2026-10-01",
+   "first_seen": "2026-11-23",
+   "resolved_on": null,
+   "status": "aaj",
+   "pattern": {
+    "id": "007",
+    "key": "steps",
+    "naam": "Puzzle-Steps"
+   },
+   "last_seen": "2026-11-23",
+   "name": "Steps-16Sep-01Oct-8box",
+   "title": "8 box | 2 link | 3 mahine (16 Sep / 01 Oct / 16 Nov)",
+   "lines": [
+    "Boundary 8 box: Step 1 16 Sep se 23 Sep, Step 2 01 Oct se 08 Oct, Step 3 16 Nov se 23 Nov.",
+    "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 0 mila.",
+    "15/51 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 22 Nov FB par dikhaya",
+    "55 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 23 Nov FB par dikhaya",
+    "Indicator (laal): 09/90 har boundary me aaya (ek hi cell mark).",
+    "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+   ],
+   "strength": "info",
+   "target": {
+    "date": "2026-11-23",
+    "games": "FB",
+    "numbers": [
+     15,
+     51,
+     55
+    ]
+   }
+  },
+  "steps:8:2026-09-20:2026-10-05": {
+   "id": "steps:8:2026-09-20:2026-10-05",
+   "first_seen": "2026-11-23",
+   "resolved_on": null,
+   "status": "aaj",
+   "pattern": {
+    "id": "007",
+    "key": "steps",
+    "naam": "Puzzle-Steps"
+   },
+   "last_seen": "2026-11-23",
+   "name": "Steps-20Sep-05Oct-8box",
+   "title": "8 box | 2 link | 3 mahine (20 Sep / 05 Oct / 16 Nov)",
+   "lines": [
+    "Boundary 8 box: Step 1 20 Sep se 27 Sep, Step 2 05 Oct se 12 Oct, Step 3 16 Nov se 23 Nov.",
+    "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 0 mila.",
+    "25/52 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 18 Nov FB par dikhaya",
+    "05/50 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 19 Nov FB par dikhaya",
+    "Indicator (laal): 08/80 har boundary me aaya (ek hi cell mark).",
+    "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+   ],
+   "strength": "info",
+   "target": {
+    "date": "2026-11-23",
+    "games": "FB",
+    "numbers": [
+     5,
+     25,
+     50,
+     52
+    ]
+   }
+  },
+  "steps:10:2026-09-01:2026-10-18": {
+   "id": "steps:10:2026-09-01:2026-10-18",
+   "first_seen": "2026-11-23",
+   "resolved_on": null,
+   "status": "aaj",
+   "pattern": {
+    "id": "007",
+    "key": "steps",
+    "naam": "Puzzle-Steps"
+   },
+   "last_seen": "2026-11-23",
+   "name": "Steps-01Sep-18Oct-10box",
+   "title": "10 box | 2 link | 3 mahine (01 Sep / 18 Oct / 14 Nov)",
+   "lines": [
+    "Boundary 10 box: Step 1 01 Sep se 10 Sep, Step 2 18 Oct se 27 Oct, Step 3 14 Nov se 23 Nov.",
+    "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 0 mila.",
+    "17/71 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 20 Nov FB par dikhaya",
+    "37/73 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 22 Nov DS par dikhaya",
+    "Indicator (laal): 08/80 har boundary me aaya (ek hi cell mark).",
+    "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+   ],
+   "strength": "info",
+   "target": {
+    "date": "2026-11-23",
+    "games": "DS, FB",
+    "numbers": [
+     17,
+     37,
+     71,
+     73
+    ]
+   }
+  },
+  "steps:10:2026-09-03:2026-10-01": {
+   "id": "steps:10:2026-09-03:2026-10-01",
+   "first_seen": "2026-11-23",
+   "resolved_on": null,
+   "status": "aaj",
+   "pattern": {
+    "id": "007",
+    "key": "steps",
+    "naam": "Puzzle-Steps"
+   },
+   "last_seen": "2026-11-23",
+   "name": "Steps-03Sep-01Oct-10box",
+   "title": "10 box | 2 link | 3 mahine (03 Sep / 01 Oct / 14 Nov)",
+   "lines": [
+    "Boundary 10 box: Step 1 03 Sep se 12 Sep, Step 2 01 Oct se 10 Oct, Step 3 14 Nov se 23 Nov.",
+    "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 1 mila.",
+    "14/41 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 21 Nov DS par dikhaya",
+    "Indicator (laal): 17/71 har boundary me aaya (ek hi cell mark).",
+    "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+   ],
+   "strength": "info",
+   "target": {
+    "date": "2026-11-23",
+    "games": "DS",
+    "numbers": [
+     14,
+     41
+    ]
+   }
   }
  },
  "scans": [
   {
    "time": "2026-11-23T07:33:15",
+   "source": "auto",
+   "asof": "2026-11-22"
+  },
+  {
+   "time": "2026-11-23T18:59:57",
    "source": "auto",
    "asof": "2026-11-22"
   }
@@ -1272,6 +1533,36 @@
   "dana:farak:2026-11-19-1:2026-11-22-1": "0000-00-00",
   "dana:farak:2026-11-19-2:2026-11-20-0": "0000-00-00",
   "dana:farak:2026-11-20-0:2026-11-21-1": "0000-00-00",
-  "dana:farak:2026-11-20-1:2026-11-21-2": "0000-00-00"
+  "dana:farak:2026-11-20-1:2026-11-21-2": "0000-00-00",
+  "naksha:10:2013-01-17": "2026-11-23",
+  "naksha:10:2017-08-03": "2026-11-23",
+  "naksha:12:2025-05-24": "2026-11-23",
+  "naksha:12:2023-01-07": "2026-11-23",
+  "naksha:12:2025-08-19": "2026-11-23",
+  "naksha:15:2013-01-02": "2026-11-23",
+  "naksha:15:2015-05-02": "2026-11-23",
+  "naksha:15:2019-03-29": "2026-11-23",
+  "naksha:15:2018-01-26": "2026-11-23",
+  "naksha:15:2017-05-16": "2026-11-23",
+  "naksha:18:2022-11-13": "2026-11-23",
+  "naksha:18:2023-01-05": "2026-11-23",
+  "naksha:18:2017-03-26": "2026-11-23",
+  "naksha:18:2018-08-23": "2026-11-23",
+  "naksha:18:2018-11-27": "2026-11-23",
+  "naksha2:10:2024-05-21": "2026-11-23",
+  "naksha2:10:2021-05-25": "2026-11-23",
+  "naksha2:10:2026-01-23": "2026-11-23",
+  "naksha2:12:2024-08-11": "2026-11-23",
+  "naksha2:15:2023-10-16": "2026-11-23",
+  "naksha2:15:2023-01-27": "2026-11-23",
+  "naksha2:15:2022-10-26": "2026-11-23",
+  "steps:12:2026-09-03:2026-10-18": "2026-11-23",
+  "steps:8:2026-09-03:2026-10-20": "2026-11-23",
+  "steps:8:2026-09-04:2026-10-02": "2026-11-23",
+  "steps:8:2026-09-07:2026-10-23": "2026-11-23",
+  "steps:8:2026-09-16:2026-10-01": "2026-11-23",
+  "steps:8:2026-09-20:2026-10-05": "2026-11-23",
+  "steps:10:2026-09-01:2026-10-18": "2026-11-23",
+  "steps:10:2026-09-03:2026-10-01": "2026-11-23"
  }
 }
