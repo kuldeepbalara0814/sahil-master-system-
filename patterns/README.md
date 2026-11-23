@@ -12,4 +12,6 @@ Niyam: pattern sirf 3-6 mahine me parkho. Aap ki pushti ke baad hi pakka maano. 
 
 HANDOFF.md = niyam aur facts. GLOSSARY.md = shabd (rashi, cross, jodi, half jodi, gap).
 
+App me **Active** tab: jo pattern abhi chal rahe ya pichle 1-3 din me pass hue, sab ek jagah (HANDOFF item 19).
+
 App me pattern ki index (Pattern Scan tab): naam par click karo to wo pattern jitne chal rahe hain sab dikhte hain, har pattern ka README bhi. Details: HANDOFF.md.

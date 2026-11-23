@@ -1,0 +1,20 @@
+.act-strip{display:flex;flex-direction:column;gap:10px}
+.act-last{font-size:15px}
+.act-seg{display:inline-flex;border:1px solid var(--line);border-radius:11px;overflow:hidden}
+.act-seg button{font:inherit;font-weight:700;color:var(--mut);background:var(--bg2);border:0;padding:8px 16px;cursor:pointer}
+.act-seg button.on{background:var(--ac);color:#1b1200}
+.act-h{margin:18px 0 8px;font-size:17px}
+.act-grp{margin:12px 0 4px;font-weight:800;color:var(--ac)}
+.act-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px}
+.act-card.pass{border-left:4px solid var(--g)}
+.act-card.now{border-left:4px solid var(--ac)}
+.act-top{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.act-nums{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.act-tag{font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;background:var(--y);color:#241b00}
+.act-tag.ok{background:var(--g);color:#032b26}
+.act-bar{height:10px;border-radius:6px;background:var(--bg2);overflow:hidden;min-width:90px;flex:1}
+.act-bar i{display:block;height:100%;background:var(--g)}
+.act-row{padding:10px 0;border-bottom:1px solid var(--line)}
+.act-row:last-child{border-bottom:0}
+.act-skel{height:70px;border-radius:12px;margin-bottom:10px;background:linear-gradient(90deg,var(--card),var(--bg2),var(--card));background-size:200% 100%;animation:act-sk 1.2s linear infinite}
+@keyframes act-sk{to{background-position:-200% 0}}

@@ -32,16 +32,25 @@ const ICONS={dost:"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8
  scan:"M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16z M21 21l-4.3-4.3 M8 11h6 M11 8v6",
  pattern:"M12 20h9 M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z",
  data:"M12 8c4.4 0 8-1.3 8-3s-3.6-3-8-3-8 1.3-8 3 3.6 3 8 3z M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5 M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3",
+ active:"M13 2L4 14h7l-1 8 9-12h-7z",more:"M5 12h.01 M12 12h.01 M19 12h.01",
  guide:"M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"};
-const NAMES={dost:"Dost Khojo",aaj:"Aaj ki List",lab:"Lab",paper:"Paper Trading",monitor:"Monitor",record:"Record",pattern:"Pattern",scan:"Pattern Scan",baar:"Din (Baar)",data:"Data",guide:"Guide"};
-function icon(k){const s=document.createElementNS("http://www.w3.org/2000/svg","svg");s.setAttribute("viewBox","0 0 24 24");const p=document.createElementNS("http://www.w3.org/2000/svg","path");p.setAttribute("d",ICONS[k]);s.append(p);return s}
+const NAMES={active:"Active",aaj:"Aaj ki List",scan:"Pattern Scan",paper:"Paper Trading",dost:"Dost Khojo",lab:"Lab",monitor:"Monitor",record:"Record",pattern:"Pattern",baar:"Din (Baar)",data:"Data",guide:"Guide"};
+const MAIN=["active","aaj","scan","paper"],MORE=["dost","lab","monitor","record","pattern","baar","data","guide"];
+function icon(k){const s=document.createElementNS("http://www.w3.org/2000/svg","svg");s.setAttribute("viewBox","0 0 24 24");const p=document.createElementNS("http://www.w3.org/2000/svg","path");p.setAttribute("d",ICONS[k]||"");s.append(p);return s}
+function sheet(open){const n=$("#nav");if(n)n.classList.toggle("open",open===undefined?!n.classList.contains("open"):open);const m=$("#nav [data-more]");if(m)m.setAttribute("aria-expanded",n.classList.contains("open"))}
 async function go(t){
+ if(!NAMES[t])t="active";
  try{localStorage.setItem("tab",t)}catch(e){}
- document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));
- const my=go.n=(go.n||0)+1,m=$("#main"),tmp=el("div");m.replaceChildren(el("p",{class:"mut"},el("span",{class:"spin"}),"Load ho raha hai..."));
- try{await tabs[t](tmp);if(my===go.n)m.replaceChildren(...tmp.childNodes)}catch(e){if(my===go.n)m.replaceChildren(el("div",{class:"warn"},e.message))}
+ sheet(false);
+ document.querySelectorAll("#nav [data-t]").forEach(b=>b.classList.toggle("on",b.dataset.t===t));
+ const mb=$("#nav [data-more]");if(mb)mb.classList.toggle("on",MORE.includes(t));
+ const my=go.n=(go.n||0)+1,m=$("#main"),tmp=el("div");m.replaceChildren(el("p",{class:"load"},el("span",{class:"spin"}),"Load ho raha hai..."));
+ try{if(typeof tabs[t]!=="function")tmp.append(el("div",{class:"note"},"Ye tab abhi load nahi hua"));else await tabs[t](tmp);if(my===go.n)m.replaceChildren(...tmp.childNodes)}catch(e){if(my===go.n)m.replaceChildren(el("div",{class:"warn"},e.message))}
  window.scrollTo({top:0})}
 function boot(){
- for(const k of Object.keys(NAMES))$("#nav").append(el("button",{"data-t":k,on:{click:()=>go(k)}},icon(k),NAMES[k]));
- let first="dost";try{const t=localStorage.getItem("tab");if(t&&NAMES[t])first=t}catch(e){}
+ const nav=$("#nav"),tb=k=>el("button",{"data-t":k,type:"button",on:{click:()=>go(k)}},icon(k),el("span",{},NAMES[k]));
+ nav.append(el("div",{class:"scrim",on:{click:()=>sheet(false)}}),
+  el("div",{class:"sheetm"},el("div",{class:"gr"}),el("h4",{},"Aur tabs"),el("div",{class:"sgrid"},MORE.map(tb))),
+  el("div",{class:"bar"},MAIN.map(tb),el("button",{"data-more":"1",type:"button","aria-expanded":"false",on:{click:()=>sheet()}},icon("more"),el("span",{},"Aur"))));
+ let first="active";try{const t=localStorage.getItem("tab");if(t&&NAMES[t])first=t}catch(e){}
  fetch("/api/status").then(r=>r.json()).then(s=>{ST=s;$("#meta").textContent=`${s.days} din | aakhri ${s.last_date}`}).catch(()=>{$("#meta").textContent=""}).finally(()=>go(first))}

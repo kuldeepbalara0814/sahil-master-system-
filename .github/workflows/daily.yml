@@ -1,10 +1,13 @@
 name: daily-update
 
-# Roz subah 7:00 IST (= 01:30 UTC) site se nayi line laata hai, paper trading aur monitor update karta hai
-# aur data/ ke badlav ko repo me commit karta hai.  Manual: Actions tab -> daily-update -> Run workflow.
+# Roz 2 baar site se nayi line laata hai, paper trading, monitor aur pattern scan update karta hai
+# aur data/ ke badlav ko repo me commit karta hai.
+#   scan 1: subah 7:00 IST (01:30 UTC)      scan 2: raat 00:30 IST (19:00 UTC, GL ke baad)
+#   baaki (03:30, 05:30 UTC) sirf dobara koshish (retry) hain, agar site pehle na mili ho.  Manual: Actions tab -> daily-update -> Run workflow.
 on:
   schedule:
     - cron: "30 1,3,5 * * *"
+    - cron: "0 19 * * *"
   workflow_dispatch: {}
 
 permissions:

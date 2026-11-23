@@ -77,7 +77,14 @@ def run(fetch=True, today=None, stake=5, auto_bets=True, data_dir=None, fetch_fn
         from . import scanner
         srep = scanner.run(rows)
         _save_json(_path(data_dir, "patterns_today.json"), srep)
-        rep["scan_errors"] = [f"{e['pattern']}: {e['error']}" for e in srep["errors"]]
+        try:
+            from . import active
+            lp = _path(data_dir, "active_log.json")
+            _save_json(lp, active.merge(_load_json(lp, None) or active.new_log(), srep, source="auto"))
+        except Exception as e:
+            rep["scan_errors"] = [f"active log nahi bana: {type(e).__name__}: {e}"]
+        rep.setdefault("scan_errors", [])
+        rep["scan_errors"] += [f"{e['pattern']}: {e['error']}" for e in srep["errors"]]
     except Exception as e:
         rep["scan_errors"] = [f"scan chala hi nahi: {type(e).__name__}: {e}"]
     # log

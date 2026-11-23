@@ -149,7 +149,9 @@ def item(e, today):
         lines.append("FAIL: box poora, koi number nahi aaya")
     key = f"dana:{e['kind']}:{e['c1'][0].isoformat()}-{e['c1'][1]}:{e['c2'][0].isoformat()}-{e['c2'][1]}"
     st = {"pass": "pass", "pass2": "pass", "fail": "fail", "chalu": "aaj"}[e["status"]]
-    return {"id": key, "kind": "dana", "name": f"Dana-{e['kind']}-{e['c1'][0]:%d%b}", "status": st, "strength": "info", "ambiguous": e["amb"], "loc": [],
+    hit = e["hit"] or e["shit"]
+    end = (hit[0] if hit else e["end"]).isoformat()
+    return {"id": key, "kind": "dana", "end": end, "name": f"Dana-{e['kind']}-{e['c1'][0]:%d%b}", "status": st, "strength": "info", "ambiguous": e["amb"], "loc": [],
             "title": f"{e['core'][0]:02d} dana-farak | {e['c1'][0]:%d %b} se" + (" | confusion" if e["amb"] else ""),
             "lines": lines,
             "target": {"date": today.isoformat(), "games": f"baaki game, {e['end']:%d %b} DS tak", "numbers": e["core"]} if st == "aaj" else None}

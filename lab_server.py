@@ -26,7 +26,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import backtest, baar, band, data, export_xlsx, friends, gapchain, gh, idea, monitor, paper, picks, scan_view, scanner, update            # noqa: E402
+from lab import active, backtest, baar, band, data, export_xlsx, friends, gapchain, gh, idea, monitor, paper, picks, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -382,14 +382,64 @@ def api_board_delete():
 
 
 # ---------------- pattern scan (sikhaye hue pattern roz apne aap) ----------------
+def save_scan(rep, source="auto", push=False):
+    """Scan save karo + active_log me milao. push=True (manual) to GitHub par bhi (galti response na roke)."""
+    jsave("patterns_today.json", rep)
+    names = ["patterns_today.json"]
+    try:
+        jsave("active_log.json", active.merge(jload("active_log.json", None) or active.new_log(), rep, source=source))
+        names.append("active_log.json")
+    except Exception:
+        app.logger.exception("active log merge fail")
+    if push:
+        try:
+            persist(names, "pattern scan (manual)")
+        except Exception as e:
+            app.logger.warning("scan persist: %s", e)
+
+
+def scan_today(rows):
+    """Aaj ka scan (saved agar taaza ho, warna abhi chalao; ye 'auto' gina jaata hai)."""
+    rep = jload("patterns_today.json", None)
+    if not rep or rep.get("asof") != rows[-1][0].isoformat():
+        rep = scanner.run(rows)
+        save_scan(rep, "auto")
+    return rep
+
+
+def active_payload(rep):
+    log = jload("active_log.json", None) or active.new_log()
+    out = active.view(log, request.args.get("days", 3), report=rep)
+    out["patterns"] = [dict({"id": p["id"], "key": p["key"], "naam": p["naam"], "summary": p.get("summary", "")}, **({"errors": [e["error"] for e in rep["errors"] if e["pattern"] == p["naam"]]} if any(e["pattern"] == p["naam"] for e in rep["errors"]) else {}))
+                       for p in rep["patterns"]]
+    out["errors"] = rep["errors"]
+    return out
+
+
+@app.get("/api/active")
+def api_active():
+    rows, _ = state()
+    rep = scan_today(rows)
+    return jsonify(active_payload(rep))
+
+
+@app.post("/api/active/scan")
+def api_active_scan():
+    """Manual scan: chalao, active log me milao, GitHub par save, wahi jawab."""
+    rows, _ = state()
+    try:
+        rep = scanner.run(rows)
+    except Exception as e:
+        app.logger.exception("active scan fail")
+        return err(f"Script chali hi nahi: {type(e).__name__}: {str(e)[:200]}", 500)
+    save_scan(rep, "manual", push=True)
+    return jsonify(active_payload(rep))
+
+
 @app.get("/api/scanner")
 def api_scanner():
     rows, _ = state()
-    saved = jload("patterns_today.json", None)
-    if not saved or saved.get("asof") != rows[-1][0].isoformat():
-        saved = scanner.run(rows)                      # saved purani ho to abhi chala lo
-        jsave("patterns_today.json", saved)
-    return jsonify(saved)
+    return jsonify(scan_today(rows))
 
 
 @app.post("/api/scanner/run")
@@ -401,7 +451,7 @@ def api_scanner_run():
     except Exception as e:
         app.logger.exception("scanner run fail")
         return err(f"Script chali hi nahi: {type(e).__name__}: {str(e)[:200]}", 500)
-    jsave("patterns_today.json", rep)
+    save_scan(rep, "manual", push=True)
     return jsonify(rep)
 
 
@@ -420,10 +470,7 @@ def _readme(pid):
 def api_patterns_index():
     """Pattern ki index: naam, kya hai, README (kaise bana), kitne abhi chal rahe hain."""
     rows, _ = state()
-    rep = jload("patterns_today.json", None)
-    if not rep or rep.get("asof") != rows[-1][0].isoformat():
-        rep = scanner.run(rows)
-        jsave("patterns_today.json", rep)
+    rep = scan_today(rows)
     out = []
     for p in rep["patterns"]:
         txt = _readme(p["id"])
@@ -440,10 +487,7 @@ def api_scanner_months():
     rows, _ = state()
     key = request.args.get("key", "family")
     scope = request.args.get("scope", "recent")
-    rep = jload("patterns_today.json", None)
-    if not rep or rep.get("asof") != rows[-1][0].isoformat():
-        rep = scanner.run(rows)
-        jsave("patterns_today.json", rep)
+    rep = scan_today(rows)
     pat = [p for p in rep["patterns"] if p["key"] == key]
     if not pat:
         return err("Pattern nahi mila")

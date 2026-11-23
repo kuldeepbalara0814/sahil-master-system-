@@ -110,7 +110,7 @@ def scan_copy(rows, asof):
             continue
         key = f"{e['shape']}:{e['g']}:{e['d'].isoformat()}"
         sets = " ".join(f"{s:02d}" for s in e["S"])
-        items.append({"id": f"copy:{key}", "kind": "copy", "name": name_for("Copy", key), "status": e["status"],
+        items.append({"id": f"copy:{key}", "kind": "copy", "name": name_for("Copy", key), "status": e["status"], "end": e["t"].isoformat(),
                       "strength": "info",
                       "title": f"{e['shape']} | {GAMES[e['g']]} me {e['x']:02d} aur {e['y']:02d} ({e['d']:%d %b} se)",
                       "lines": [f"Set (4 jodi): {sets} (dono number + palat)",
@@ -280,7 +280,7 @@ def scan_family(rows, asof):
                 lines.append(f"3rd step ({e['t']:%d %b}): " + ", ".join(f"{GAMES[g]} {v:02d}" for g, v in e["hit"]) + f" - PASS ({kind})")
             else:
                 lines.append(f"3rd step ({e['t']:%d %b}): family ka koi number nahi aaya - FAIL")
-        items.append({"id": f"family:{key}", "kind": "family", "name": name_for("Family", key), "status": e["status"], "strength": "info",
+        items.append({"id": f"family:{key}", "kind": "family", "name": name_for("Family", key), "status": e["status"], "strength": "info", "end": e["t"].isoformat(),
                       "ambiguous": e["amb"], "loc": [GAMES[g] for g in e["loc"]],
                       "title": f"{e['rashi']:02d} rashi | {e['shape']} | {e['d']:%d %b} se" + (" | jodi rashi" if len(e["numbers"]) == 4 else ""),
                       "lines": lines,
@@ -300,7 +300,13 @@ def scan_dana(rows, asof):
     live = [e for e in ev if e["status"] == "chalu"]
     live.sort(key=lambda e: (e["amb"], e["c2"][0], e["c2"][1]), reverse=False)
     recent = [e for e in ev if e["status"] != "chalu" and (last - e["end"]).days <= 2]
-    items = [dana_farak.item(e, today) for e in (live + recent)[:40]]
+    seen, uniq = set(), []                                   # ek hi number-set aur ek hi box ke kai pair ek hi card
+    for e in live + recent:
+        k = (tuple(e["core"]), e["end"], e["amb"])
+        if k not in seen:
+            seen.add(k)
+            uniq.append(e)
+    items = [dana_farak.item(e, today) for e in uniq[:40]]
     summary = (f"Pichle 6 mahine (same + farak pair): saaf box {s['pass']}/{s['n']} pass (random ~{s['random']:.0f}), "
                f"confusion box {c['pass']}/{c['n']} (random ~{c['random']:.0f}). Abhi {len(live)} box chalu.")
     return {"summary": summary, "items": items}
@@ -347,6 +353,8 @@ def run(rows, only=None) -> dict[str, Any]:
         try:
             out = SCANNERS[p["key"]](rows, asof)
             entry.update(out)
+            for it in entry["items"]:
+                it["pattern"] = {"id": p["id"], "key": p["key"], "naam": p["naam"]}
         except Exception as e:                               # ek pattern ki galti baaki ko na roke
             tb = traceback.format_exc().strip().splitlines()
             rep["errors"].append({"pattern": p["naam"], "error": f"{type(e).__name__}: {e}", "trace": " | ".join(tb[-3:])})

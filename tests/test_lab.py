@@ -502,3 +502,49 @@ class NakshaRashiTests(unittest.TestCase):
         self.assertTrue(v["blocks"] and "rashi" in v["title"])
         self.assertEqual(scanner.RID[1], scanner.RID[6])                       # 01 aur 06 ek rashi
         self.assertNotEqual(scanner.RID[1], scanner.RID[2])
+
+
+class ActiveLogTests(unittest.TestCase):
+    def _rep(self, items, key="copy"):
+        pat = {"id": "001", "key": key, "naam": "X"}
+        return {"asof": "2026-10-01", "patterns": [{**pat, "summary": "s", "items": [dict(i, kind=i.get("kind", key), pattern=pat) for i in items]}], "errors": []}
+
+    def test_keep_and_resolved_on_fixed(self):
+        from lab import active
+        d1, d2, d3 = (dt.datetime(2026, 10, n, 8, 0, tzinfo=active.IST) for n in (1, 2, 3))
+        log = active.merge(active.new_log(), self._rep([{"id": "a", "status": "aaj", "name": "A"}]), d1)
+        active.merge(log, self._rep([{"id": "a", "status": "pass", "name": "A"}]), d2)
+        active.merge(log, self._rep([]), d3)                                    # ab scan ne a nahi diya
+        active.merge(log, self._rep([{"id": "a", "status": "fail"}]), d3)       # nateeja badalna nahi chahiye
+        a = log["items"]["a"]
+        self.assertEqual((a["status"], a["resolved_on"], a["first_seen"], a["last_seen"]), ("pass", "2026-10-02", "2026-10-01", "2026-10-03"))
+        self.assertEqual(len(log["scans"]), 4)
+
+    def test_naksha_not_stored(self):
+        from lab import active
+        log = active.merge(active.new_log(), self._rep([{"id": "n", "status": "aaj"}], key="naksha"))
+        self.assertEqual(log["items"], {})
+
+    def test_view_days_and_recent_pass(self):
+        from lab import active
+        log = active.new_log()
+        for n, st in ((1, "pass"), (8, "pass"), (9, "fail")):
+            active.merge(log, self._rep([{"id": f"i{n}", "status": st}]), dt.datetime(2026, 10, n, 8, 0, tzinfo=active.IST))
+        today = dt.date(2026, 10, 9)
+        v = active.view(log, 3, today)
+        self.assertEqual(([i["id"] for i in v["recent_pass"]], v["recent_fail"]), (["i8"], 1))
+        self.assertEqual(v["recent_pass"][0]["passed_on"], "2026-10-08")
+        self.assertEqual((active.view(log, 99, today)["days"], active.view(log, 0, today)["days"], active.view(log, "x", today)["days"]), (3, 1, 3))
+        self.assertEqual(active.view(log, 1, dt.date(2026, 10, 10))["recent_pass"], [])
+        self.assertEqual(v["board"][0]["pass"] + v["board"][0]["fail"], 3)
+
+    def test_endpoints(self):
+        c = lab_server.app.test_client()
+        g = c.get("/api/active?days=3")
+        p = c.post("/api/active/scan")
+        for r in (g, p):
+            self.assertEqual(r.status_code, 200)
+            j = r.get_json()
+            for k in ("now", "recent_pass", "board", "scans", "patterns", "errors"):
+                self.assertIn(k, j)
+        self.assertEqual(p.get_json()["scans"]["manual_today"] >= 1, True)
