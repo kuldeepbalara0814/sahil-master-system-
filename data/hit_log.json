@@ -1,0 +1,4067 @@
+{
+ "archive": {
+  "2026-11-23": {
+   "asof": "2026-11-22",
+   "items": [
+    {
+     "id": "naksha:10:2013-01-17",
+     "name": "Naksha-Hans-31",
+     "title": "#2 Jan 2013 jaisa (10 line)",
+     "lines": [
+      "Naya 13 Nov se 22 Nov (10 line) ka naksha purane 17 Jan 2013 se 26 Jan 2013 me mila. 1 jode milte hain (step), z=5.1.",
+      "Random jagah par bhi best z ~6.5 aata hai (max 9.4). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GL me 57 / 75"
+     ],
+     "targets": [
+      {
+       "game": "GL",
+       "numbers": [
+        57,
+        75
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002",
+      "key": "naksha",
+      "naam": "Naksha"
+     }
+    },
+    {
+     "id": "naksha:12:2025-09-20",
+     "name": "Naksha-Chita-37",
+     "title": "#4 Sep 2025 jaisa (12 line)",
+     "lines": [
+      "Naya 11 Nov se 22 Nov (12 line) ka naksha purane 20 Sep 2025 se 02 Oct 2025 me mila. 2 jode milte hain (step), z=5.4.",
+      "Random jagah par bhi best z ~6.0 aata hai (max 9.7). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GB me 45 / 54"
+     ],
+     "targets": [
+      {
+       "game": "GB",
+       "numbers": [
+        45,
+        54
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002",
+      "key": "naksha",
+      "naam": "Naksha"
+     }
+    },
+    {
+     "id": "naksha:12:2018-01-29",
+     "name": "Naksha-Bagula-75",
+     "title": "#7 Jan 2018 jaisa (12 line)",
+     "lines": [
+      "Naya 11 Nov se 22 Nov (12 line) ka naksha purane 29 Jan 2018 se 10 Feb 2018 me mila. 4 jode milte hain (step), z=5.4.",
+      "Random jagah par bhi best z ~6.0 aata hai (max 9.7). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GL me 37 / 73; GL me 49 / 94"
+     ],
+     "targets": [
+      {
+       "game": "GL",
+       "numbers": [
+        37,
+        73
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        49,
+        94
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002",
+      "key": "naksha",
+      "naam": "Naksha"
+     }
+    },
+    {
+     "id": "naksha:12:2013-05-10",
+     "name": "Naksha-Tara-69",
+     "title": "#8 May 2013 jaisa (12 line)",
+     "lines": [
+      "Naya 11 Nov se 22 Nov (12 line) ka naksha purane 10 May 2013 se 21 May 2013 me mila. 4 jode milte hain (step), z=5.4.",
+      "Random jagah par bhi best z ~6.0 aata hai (max 9.7). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GB me 45 / 54"
+     ],
+     "targets": [
+      {
+       "game": "GB",
+       "numbers": [
+        45,
+        54
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002",
+      "key": "naksha",
+      "naam": "Naksha"
+     }
+    },
+    {
+     "id": "naksha:12:2025-08-19",
+     "name": "Naksha-Tara-69",
+     "title": "#11 Aug 2025 jaisa (12 line)",
+     "lines": [
+      "Naya 11 Nov se 22 Nov (12 line) ka naksha purane 19 Aug 2025 se 30 Aug 2025 me mila. 3 jode milte hain (step), z=3.8.",
+      "Random jagah par bhi best z ~6.0 aata hai (max 9.7). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 45 / 54"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        45,
+        54
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002",
+      "key": "naksha",
+      "naam": "Naksha"
+     }
+    },
+    {
+     "id": "naksha:15:2025-09-17",
+     "name": "Naksha-Bhalu-62",
+     "title": "#1 Sep 2025 jaisa (15 line)",
+     "lines": [
+      "Naya 08 Nov se 22 Nov (15 line) ka naksha purane 17 Sep 2025 se 02 Oct 2025 me mila. 3 jode milte hain (step), z=5.5.",
+      "Random jagah par bhi best z ~5.8 aata hai (max 10.8). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GB me 45 / 54"
+     ],
+     "targets": [
+      {
+       "game": "GB",
+       "numbers": [
+        45,
+        54
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002",
+      "key": "naksha",
+      "naam": "Naksha"
+     }
+    },
+    {
+     "id": "naksha:15:2013-05-07",
+     "name": "Naksha-Jharna-38",
+     "title": "#3 May 2013 jaisa (15 line)",
+     "lines": [
+      "Naya 08 Nov se 22 Nov (15 line) ka naksha purane 07 May 2013 se 21 May 2013 me mila. 5 jode milte hain (step), z=5.5.",
+      "Random jagah par bhi best z ~5.8 aata hai (max 10.8). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GL me 49 / 94; GB me 45 / 54"
+     ],
+     "targets": [
+      {
+       "game": "GL",
+       "numbers": [
+        49,
+        94
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        45,
+        54
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002",
+      "key": "naksha",
+      "naam": "Naksha"
+     }
+    },
+    {
+     "id": "naksha:15:2018-12-01",
+     "name": "Naksha-Kachua-38",
+     "title": "#10 Dec 2018 jaisa (15 line)",
+     "lines": [
+      "Naya 08 Nov se 22 Nov (15 line) ka naksha purane 01 Dec 2018 se 15 Dec 2018 me mila. 2 jode milte hain (step), z=4.3.",
+      "Random jagah par bhi best z ~5.8 aata hai (max 10.8). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 05 / 50; GB me 05 / 50"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        5,
+        50
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        5,
+        50
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002",
+      "key": "naksha",
+      "naam": "Naksha"
+     }
+    },
+    {
+     "id": "naksha:15:2018-01-26",
+     "name": "Naksha-Kabutar-49",
+     "title": "#11 Jan 2018 jaisa (15 line)",
+     "lines": [
+      "Naya 08 Nov se 22 Nov (15 line) ka naksha purane 26 Jan 2018 se 10 Feb 2018 me mila. 4 jode milte hain (step), z=4.3.",
+      "Random jagah par bhi best z ~5.8 aata hai (max 10.8). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GL me 37 / 73; GL me 49 / 94"
+     ],
+     "targets": [
+      {
+       "game": "GL",
+       "numbers": [
+        37,
+        73
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        49,
+        94
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002",
+      "key": "naksha",
+      "naam": "Naksha"
+     }
+    },
+    {
+     "id": "naksha:18:2018-07-04",
+     "name": "Naksha-Machhli-12",
+     "title": "#2 Jul 2018 jaisa (18 line)",
+     "lines": [
+      "Naya 05 Nov se 22 Nov (18 line) ka naksha purane 04 Jul 2018 se 21 Jul 2018 me mila. 6 jode milte hain (step), z=5.0.",
+      "Random jagah par bhi best z ~5.5 aata hai (max 7.8). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GL me 57 / 75"
+     ],
+     "targets": [
+      {
+       "game": "GL",
+       "numbers": [
+        57,
+        75
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002",
+      "key": "naksha",
+      "naam": "Naksha"
+     }
+    },
+    {
+     "id": "naksha:18:2018-01-23",
+     "name": "Naksha-Jharna-80",
+     "title": "#4 Jan 2018 jaisa (18 line)",
+     "lines": [
+      "Naya 05 Nov se 22 Nov (18 line) ka naksha purane 23 Jan 2018 se 10 Feb 2018 me mila. 4 jode milte hain (step), z=5.0.",
+      "Random jagah par bhi best z ~5.5 aata hai (max 7.8). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GL me 37 / 73; GL me 49 / 94"
+     ],
+     "targets": [
+      {
+       "game": "GL",
+       "numbers": [
+        37,
+        73
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        49,
+        94
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002",
+      "key": "naksha",
+      "naam": "Naksha"
+     }
+    },
+    {
+     "id": "naksha:18:2025-09-14",
+     "name": "Naksha-Morni-60",
+     "title": "#5 Sep 2025 jaisa (18 line)",
+     "lines": [
+      "Naya 05 Nov se 22 Nov (18 line) ka naksha purane 14 Sep 2025 se 02 Oct 2025 me mila. 3 jode milte hain (step), z=4.0.",
+      "Random jagah par bhi best z ~5.5 aata hai (max 7.8). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GB me 45 / 54"
+     ],
+     "targets": [
+      {
+       "game": "GB",
+       "numbers": [
+        45,
+        54
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002",
+      "key": "naksha",
+      "naam": "Naksha"
+     }
+    },
+    {
+     "id": "naksha:18:2022-11-13",
+     "name": "Naksha-Hans-46",
+     "title": "#6 Nov 2022 jaisa (18 line)",
+     "lines": [
+      "Naya 05 Nov se 22 Nov (18 line) ka naksha purane 13 Nov 2022 se 01 Dec 2022 me mila. 3 jode milte hain (step), z=4.0.",
+      "Random jagah par bhi best z ~5.5 aata hai (max 7.8). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: DS me 18 / 81; GB me 59 / 95"
+     ],
+     "targets": [
+      {
+       "game": "DS",
+       "numbers": [
+        18,
+        81
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        59,
+        95
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002",
+      "key": "naksha",
+      "naam": "Naksha"
+     }
+    },
+    {
+     "id": "naksha:18:2018-11-27",
+     "name": "Naksha-Baaz-41",
+     "title": "#12 Nov 2018 jaisa (18 line)",
+     "lines": [
+      "Naya 05 Nov se 22 Nov (18 line) ka naksha purane 27 Nov 2018 se 15 Dec 2018 me mila. 3 jode milte hain (step), z=4.0.",
+      "Random jagah par bhi best z ~5.5 aata hai (max 7.8). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 05 / 50; GB me 05 / 50"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        5,
+        50
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        5,
+        50
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002",
+      "key": "naksha",
+      "naam": "Naksha"
+     }
+    },
+    {
+     "id": "naksha2:10:2015-02-23",
+     "name": "Naksha-Rashi-Baaz-45",
+     "title": "#1 Feb 2015 jaisa (10 line)",
+     "lines": [
+      "Naya 13 Nov se 22 Nov (10 line) ka naksha purane 23 Feb 2015 se 05 Mar 2015 me mila. 8 jode milte hain (step), z=5.4.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 8.9). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GB me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; FB me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; GL me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; FB me 01 / 06 / 10 / 15 / 51 / 56 / 60 / 65; GL me 01 / 06 / 10 / 15 / 51 / 56 / 60 / 65"
+     ],
+     "targets": [
+      {
+       "game": "GB",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        1,
+        6,
+        10,
+        15,
+        51,
+        56,
+        60,
+        65
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        1,
+        6,
+        10,
+        15,
+        51,
+        56,
+        60,
+        65
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:10:2014-01-17",
+     "name": "Naksha-Rashi-Baaz-12",
+     "title": "#2 Jan 2014 jaisa (10 line)",
+     "lines": [
+      "Naya 13 Nov se 22 Nov (10 line) ka naksha purane 17 Jan 2014 se 26 Jan 2014 me mila. 8 jode milte hain (step), z=4.4.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 8.9). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GL me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76; DS me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; FB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; DS me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; GL me 13 / 18 / 31 / 36 / 63 / 68 / 81 / 86; GL me 00 / 05 / 50 / 55"
+     ],
+     "targets": [
+      {
+       "game": "GL",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        13,
+        18,
+        31,
+        36,
+        63,
+        68,
+        81,
+        86
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        0,
+        5,
+        50,
+        55
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:10:2025-08-20",
+     "name": "Naksha-Rashi-Cheel-59",
+     "title": "#3 Aug 2025 jaisa (10 line)",
+     "lines": [
+      "Naya 13 Nov se 22 Nov (10 line) ka naksha purane 20 Aug 2025 se 29 Aug 2025 me mila. 8 jode milte hain (step), z=4.4.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 8.9). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; GB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; GL me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85; DS me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85; GL me 13 / 18 / 31 / 36 / 63 / 68 / 81 / 86; DS me 13 / 18 / 31 / 36 / 63 / 68 / 81 / 86"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        3,
+        8,
+        30,
+        35,
+        53,
+        58,
+        80,
+        85
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        3,
+        8,
+        30,
+        35,
+        53,
+        58,
+        80,
+        85
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        13,
+        18,
+        31,
+        36,
+        63,
+        68,
+        81,
+        86
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        13,
+        18,
+        31,
+        36,
+        63,
+        68,
+        81,
+        86
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:10:2014-08-04",
+     "name": "Naksha-Rashi-Bhalu-17",
+     "title": "#5 Aug 2014 jaisa (10 line)",
+     "lines": [
+      "Naya 13 Nov se 22 Nov (10 line) ka naksha purane 04 Aug 2014 se 13 Aug 2014 me mila. 7 jode milte hain (step), z=3.9.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 8.9). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:10:2025-11-24",
+     "name": "Naksha-Rashi-Bijli-21",
+     "title": "#6 Nov 2025 jaisa (10 line)",
+     "lines": [
+      "Naya 13 Nov se 22 Nov (10 line) ka naksha purane 24 Nov 2025 se 04 Dec 2025 me mila. 8 jode milte hain (step), z=3.9.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 8.9). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 13 / 18 / 31 / 36 / 63 / 68 / 81 / 86; GL me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; GL me 00 / 05 / 50 / 55; FB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; GB me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        13,
+        18,
+        31,
+        36,
+        63,
+        68,
+        81,
+        86
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        0,
+        5,
+        50,
+        55
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:10:2026-02-15",
+     "name": "Naksha-Rashi-Pahad-82",
+     "title": "#7 Feb 2026 jaisa (10 line)",
+     "lines": [
+      "Naya 13 Nov se 22 Nov (10 line) ka naksha purane 15 Feb 2026 se 24 Feb 2026 me mila. 7 jode milte hain (step), z=3.9.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 8.9). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76; FB me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; FB me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        3,
+        8,
+        30,
+        35,
+        53,
+        58,
+        80,
+        85
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:10:2024-05-21",
+     "name": "Naksha-Rashi-Ghoda-66",
+     "title": "#9 May 2024 jaisa (10 line)",
+     "lines": [
+      "Naya 13 Nov se 22 Nov (10 line) ka naksha purane 21 May 2024 se 30 May 2024 me mila. 7 jode milte hain (step), z=3.4.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 8.9). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        3,
+        8,
+        30,
+        35,
+        53,
+        58,
+        80,
+        85
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:10:2016-10-01",
+     "name": "Naksha-Rashi-Baaz-23",
+     "title": "#10 Oct 2016 jaisa (10 line)",
+     "lines": [
+      "Naya 13 Nov se 22 Nov (10 line) ka naksha purane 01 Oct 2016 se 10 Oct 2016 me mila. 7 jode milte hain (step), z=3.4.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 8.9). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: DS me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; DS me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76"
+     ],
+     "targets": [
+      {
+       "game": "DS",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:10:2021-05-25",
+     "name": "Naksha-Rashi-Mor-55",
+     "title": "#11 May 2021 jaisa (10 line)",
+     "lines": [
+      "Naya 13 Nov se 22 Nov (10 line) ka naksha purane 25 May 2021 se 04 Jun 2021 me mila. 7 jode milte hain (step), z=3.4.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 8.9). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GB me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; DS me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; FB me 44 / 49 / 94 / 99; GL me 44 / 49 / 94 / 99; GB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; DS me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97"
+     ],
+     "targets": [
+      {
+       "game": "GB",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        44,
+        49,
+        94,
+        99
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        44,
+        49,
+        94,
+        99
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:10:2026-01-23",
+     "name": "Naksha-Rashi-Hiran-41",
+     "title": "#12 Jan 2026 jaisa (10 line)",
+     "lines": [
+      "Naya 13 Nov se 22 Nov (10 line) ka naksha purane 23 Jan 2026 se 02 Feb 2026 me mila. 7 jode milte hain (step), z=3.4.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 8.9). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GB me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95"
+     ],
+     "targets": [
+      {
+       "game": "GB",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:12:2024-05-22",
+     "name": "Naksha-Rashi-Uloo-17",
+     "title": "#1 May 2024 jaisa (12 line)",
+     "lines": [
+      "Naya 11 Nov se 22 Nov (12 line) ka naksha purane 22 May 2024 se 03 Jun 2024 me mila. 8 jode milte hain (step), z=6.8.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 7.3). Isliye: theek.",
+      "Aaj 23 Nov ka andaza: DS me 34 / 39 / 43 / 48 / 84 / 89 / 93 / 98; FB me 23 / 28 / 32 / 37 / 73 / 78 / 82 / 87; GB me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; FB me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; FB me 01 / 06 / 10 / 15 / 51 / 56 / 60 / 65; GB me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85"
+     ],
+     "targets": [
+      {
+       "game": "DS",
+       "numbers": [
+        34,
+        39,
+        43,
+        48,
+        84,
+        89,
+        93,
+        98
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        23,
+        28,
+        32,
+        37,
+        73,
+        78,
+        82,
+        87
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        1,
+        6,
+        10,
+        15,
+        51,
+        56,
+        60,
+        65
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        3,
+        8,
+        30,
+        35,
+        53,
+        58,
+        80,
+        85
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:12:2014-08-02",
+     "name": "Naksha-Rashi-Tota-98",
+     "title": "#2 Aug 2014 jaisa (12 line)",
+     "lines": [
+      "Naya 11 Nov se 22 Nov (12 line) ka naksha purane 02 Aug 2014 se 13 Aug 2014 me mila. 9 jode milte hain (step), z=5.1.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 7.3). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 34 / 39 / 43 / 48 / 84 / 89 / 93 / 98; FB me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        34,
+        39,
+        43,
+        48,
+        84,
+        89,
+        93,
+        98
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:12:2025-08-18",
+     "name": "Naksha-Rashi-Sambhar-56",
+     "title": "#3 Aug 2025 jaisa (12 line)",
+     "lines": [
+      "Naya 11 Nov se 22 Nov (12 line) ka naksha purane 18 Aug 2025 se 29 Aug 2025 me mila. 9 jode milte hain (step), z=5.1.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 7.3). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; GB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; GL me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85; DS me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85; GL me 13 / 18 / 31 / 36 / 63 / 68 / 81 / 86; DS me 13 / 18 / 31 / 36 / 63 / 68 / 81 / 86"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        3,
+        8,
+        30,
+        35,
+        53,
+        58,
+        80,
+        85
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        3,
+        8,
+        30,
+        35,
+        53,
+        58,
+        80,
+        85
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        13,
+        18,
+        31,
+        36,
+        63,
+        68,
+        81,
+        86
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        13,
+        18,
+        31,
+        36,
+        63,
+        68,
+        81,
+        86
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:12:2017-10-13",
+     "name": "Naksha-Rashi-Chita-82",
+     "title": "#4 Oct 2017 jaisa (12 line)",
+     "lines": [
+      "Naya 11 Nov se 22 Nov (12 line) ka naksha purane 13 Oct 2017 se 24 Oct 2017 me mila. 10 jode milte hain (step), z=4.7.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 7.3). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 34 / 39 / 43 / 48 / 84 / 89 / 93 / 98; GL me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; GB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; DS me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        34,
+        39,
+        43,
+        48,
+        84,
+        89,
+        93,
+        98
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:12:2016-01-07",
+     "name": "Naksha-Rashi-Uloo-46",
+     "title": "#5 Jan 2016 jaisa (12 line)",
+     "lines": [
+      "Naya 11 Nov se 22 Nov (12 line) ka naksha purane 07 Jan 2016 se 18 Jan 2016 me mila. 7 jode milte hain (step), z=4.3.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 7.3). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GL me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; DS me 44 / 49 / 94 / 99; DS me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75"
+     ],
+     "targets": [
+      {
+       "game": "GL",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        44,
+        49,
+        94,
+        99
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:12:2014-01-15",
+     "name": "Naksha-Rashi-Sambhar-69",
+     "title": "#7 Jan 2014 jaisa (12 line)",
+     "lines": [
+      "Naya 11 Nov se 22 Nov (12 line) ka naksha purane 15 Jan 2014 se 26 Jan 2014 me mila. 10 jode milte hain (step), z=3.8.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 7.3). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: DS me 34 / 39 / 43 / 48 / 84 / 89 / 93 / 98; GL me 23 / 28 / 32 / 37 / 73 / 78 / 82 / 87; GL me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76; DS me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; FB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; DS me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; GL me 13 / 18 / 31 / 36 / 63 / 68 / 81 / 86; GL me 00 / 05 / 50 / 55"
+     ],
+     "targets": [
+      {
+       "game": "DS",
+       "numbers": [
+        34,
+        39,
+        43,
+        48,
+        84,
+        89,
+        93,
+        98
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        23,
+        28,
+        32,
+        37,
+        73,
+        78,
+        82,
+        87
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        13,
+        18,
+        31,
+        36,
+        63,
+        68,
+        81,
+        86
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        0,
+        5,
+        50,
+        55
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:12:2021-11-26",
+     "name": "Naksha-Rashi-Bulbul-44",
+     "title": "#9 Nov 2021 jaisa (12 line)",
+     "lines": [
+      "Naya 11 Nov se 22 Nov (12 line) ka naksha purane 26 Nov 2021 se 08 Dec 2021 me mila. 8 jode milte hain (step), z=3.8.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 7.3). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GL me 44 / 49 / 94 / 99; FB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; GB me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95"
+     ],
+     "targets": [
+      {
+       "game": "GL",
+       "numbers": [
+        44,
+        49,
+        94,
+        99
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:12:2021-05-29",
+     "name": "Naksha-Rashi-Baaz-39",
+     "title": "#10 May 2021 jaisa (12 line)",
+     "lines": [
+      "Naya 11 Nov se 22 Nov (12 line) ka naksha purane 29 May 2021 se 10 Jun 2021 me mila. 9 jode milte hain (step), z=3.8.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 7.3). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; GB me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85; FB me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        3,
+        8,
+        30,
+        35,
+        53,
+        58,
+        80,
+        85
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:12:2024-08-11",
+     "name": "Naksha-Rashi-Hawa-41",
+     "title": "#11 Aug 2024 jaisa (12 line)",
+     "lines": [
+      "Naya 11 Nov se 22 Nov (12 line) ka naksha purane 11 Aug 2024 se 22 Aug 2024 me mila. 10 jode milte hain (step), z=3.8.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 7.3). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 13 / 18 / 31 / 36 / 63 / 68 / 81 / 86; GL me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        13,
+        18,
+        31,
+        36,
+        63,
+        68,
+        81,
+        86
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:12:2025-06-21",
+     "name": "Naksha-Rashi-Hans-60",
+     "title": "#12 Jun 2025 jaisa (12 line)",
+     "lines": [
+      "Naya 11 Nov se 22 Nov (12 line) ka naksha purane 21 Jun 2025 se 03 Jul 2025 me mila. 9 jode milte hain (step), z=3.8.",
+      "Random jagah par bhi best z ~5.0 aata hai (max 7.3). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GB me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; GL me 44 / 49 / 94 / 99"
+     ],
+     "targets": [
+      {
+       "game": "GB",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        44,
+        49,
+        94,
+        99
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:15:2019-07-14",
+     "name": "Naksha-Rashi-Bijli-90",
+     "title": "#1 Jul 2019 jaisa (15 line)",
+     "lines": [
+      "Naya 08 Nov se 22 Nov (15 line) ka naksha purane 14 Jul 2019 se 28 Jul 2019 me mila. 11 jode milte hain (step), z=5.2.",
+      "Random jagah par bhi best z ~4.9 aata hai (max 6.2). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; GL me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; FB me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; DS me 13 / 18 / 31 / 36 / 63 / 68 / 81 / 86"
+     ],
+     "targets": [
+      {
+       "game": "GB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        13,
+        18,
+        31,
+        36,
+        63,
+        68,
+        81,
+        86
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:15:2024-05-19",
+     "name": "Naksha-Rashi-Chanda-66",
+     "title": "#2 May 2024 jaisa (15 line)",
+     "lines": [
+      "Naya 08 Nov se 22 Nov (15 line) ka naksha purane 19 May 2024 se 03 Jun 2024 me mila. 9 jode milte hain (step), z=4.8.",
+      "Random jagah par bhi best z ~4.9 aata hai (max 6.2). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; DS me 34 / 39 / 43 / 48 / 84 / 89 / 93 / 98; FB me 23 / 28 / 32 / 37 / 73 / 78 / 82 / 87; GB me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; FB me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; FB me 01 / 06 / 10 / 15 / 51 / 56 / 60 / 65; GB me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        34,
+        39,
+        43,
+        48,
+        84,
+        89,
+        93,
+        98
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        23,
+        28,
+        32,
+        37,
+        73,
+        78,
+        82,
+        87
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        1,
+        6,
+        10,
+        15,
+        51,
+        56,
+        60,
+        65
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        3,
+        8,
+        30,
+        35,
+        53,
+        58,
+        80,
+        85
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:15:2017-10-10",
+     "name": "Naksha-Rashi-Hawa-42",
+     "title": "#3 Oct 2017 jaisa (15 line)",
+     "lines": [
+      "Naya 08 Nov se 22 Nov (15 line) ka naksha purane 10 Oct 2017 se 24 Oct 2017 me mila. 13 jode milte hain (step), z=4.5.",
+      "Random jagah par bhi best z ~4.9 aata hai (max 6.2). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: DS me 01 / 06 / 10 / 15 / 51 / 56 / 60 / 65; FB me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; FB me 34 / 39 / 43 / 48 / 84 / 89 / 93 / 98; GL me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; GB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; DS me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76"
+     ],
+     "targets": [
+      {
+       "game": "DS",
+       "numbers": [
+        1,
+        6,
+        10,
+        15,
+        51,
+        56,
+        60,
+        65
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        34,
+        39,
+        43,
+        48,
+        84,
+        89,
+        93,
+        98
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:15:2021-05-26",
+     "name": "Naksha-Rashi-Chita-67",
+     "title": "#4 May 2021 jaisa (15 line)",
+     "lines": [
+      "Naya 08 Nov se 22 Nov (15 line) ka naksha purane 26 May 2021 se 10 Jun 2021 me mila. 13 jode milte hain (step), z=4.1.",
+      "Random jagah par bhi best z ~4.9 aata hai (max 6.2). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; GB me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85; FB me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        3,
+        8,
+        30,
+        35,
+        53,
+        58,
+        80,
+        85
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:15:2014-07-29",
+     "name": "Naksha-Rashi-Pahad-92",
+     "title": "#5 Jul 2014 jaisa (15 line)",
+     "lines": [
+      "Naya 08 Nov se 22 Nov (15 line) ka naksha purane 29 Jul 2014 se 13 Aug 2014 me mila. 11 jode milte hain (step), z=3.8.",
+      "Random jagah par bhi best z ~4.9 aata hai (max 6.2). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; FB me 34 / 39 / 43 / 48 / 84 / 89 / 93 / 98; FB me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76"
+     ],
+     "targets": [
+      {
+       "game": "GB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        34,
+        39,
+        43,
+        48,
+        84,
+        89,
+        93,
+        98
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:15:2020-08-23",
+     "name": "Naksha-Rashi-Sarus-44",
+     "title": "#7 Aug 2020 jaisa (15 line)",
+     "lines": [
+      "Naya 08 Nov se 22 Nov (15 line) ka naksha purane 23 Aug 2020 se 07 Sep 2020 me mila. 12 jode milte hain (step), z=3.8.",
+      "Random jagah par bhi best z ~4.9 aata hai (max 6.2). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GB me 34 / 39 / 43 / 48 / 84 / 89 / 93 / 98; GL me 34 / 39 / 43 / 48 / 84 / 89 / 93 / 98; GB me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; GL me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; FB me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; DS me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; GB me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85; GL me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85"
+     ],
+     "targets": [
+      {
+       "game": "GB",
+       "numbers": [
+        34,
+        39,
+        43,
+        48,
+        84,
+        89,
+        93,
+        98
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        34,
+        39,
+        43,
+        48,
+        84,
+        89,
+        93,
+        98
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        3,
+        8,
+        30,
+        35,
+        53,
+        58,
+        80,
+        85
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        3,
+        8,
+        30,
+        35,
+        53,
+        58,
+        80,
+        85
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:15:2018-11-28",
+     "name": "Naksha-Rashi-Bakri-34",
+     "title": "#8 Nov 2018 jaisa (15 line)",
+     "lines": [
+      "Naya 08 Nov se 22 Nov (15 line) ka naksha purane 28 Nov 2018 se 13 Dec 2018 me mila. 9 jode milte hain (step), z=3.8.",
+      "Random jagah par bhi best z ~4.9 aata hai (max 6.2). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GB me 23 / 28 / 32 / 37 / 73 / 78 / 82 / 87"
+     ],
+     "targets": [
+      {
+       "game": "GB",
+       "numbers": [
+        23,
+        28,
+        32,
+        37,
+        73,
+        78,
+        82,
+        87
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:15:2014-01-12",
+     "name": "Naksha-Rashi-Uloo-43",
+     "title": "#9 Jan 2014 jaisa (15 line)",
+     "lines": [
+      "Naya 08 Nov se 22 Nov (15 line) ka naksha purane 12 Jan 2014 se 26 Jan 2014 me mila. 13 jode milte hain (step), z=3.8.",
+      "Random jagah par bhi best z ~4.9 aata hai (max 6.2). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: DS me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; DS me 34 / 39 / 43 / 48 / 84 / 89 / 93 / 98; GL me 23 / 28 / 32 / 37 / 73 / 78 / 82 / 87; GL me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76; DS me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; FB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; DS me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; GL me 13 / 18 / 31 / 36 / 63 / 68 / 81 / 86; GL me 00 / 05 / 50 / 55"
+     ],
+     "targets": [
+      {
+       "game": "DS",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        34,
+        39,
+        43,
+        48,
+        84,
+        89,
+        93,
+        98
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        23,
+        28,
+        32,
+        37,
+        73,
+        78,
+        82,
+        87
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        13,
+        18,
+        31,
+        36,
+        63,
+        68,
+        81,
+        86
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        0,
+        5,
+        50,
+        55
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:15:2023-10-16",
+     "name": "Naksha-Rashi-Bulbul-84",
+     "title": "#10 Oct 2023 jaisa (15 line)",
+     "lines": [
+      "Naya 08 Nov se 22 Nov (15 line) ka naksha purane 16 Oct 2023 se 30 Oct 2023 me mila. 8 jode milte hain (step), z=3.4.",
+      "Random jagah par bhi best z ~4.9 aata hai (max 6.2). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: DS me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75"
+     ],
+     "targets": [
+      {
+       "game": "DS",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:15:2023-01-27",
+     "name": "Naksha-Rashi-Bijli-83",
+     "title": "#11 Jan 2023 jaisa (15 line)",
+     "lines": [
+      "Naya 08 Nov se 22 Nov (15 line) ka naksha purane 27 Jan 2023 se 11 Feb 2023 me mila. 10 jode milte hain (step), z=3.4.",
+      "Random jagah par bhi best z ~4.9 aata hai (max 6.2). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GL me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76; DS me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76"
+     ],
+     "targets": [
+      {
+       "game": "GL",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:15:2022-10-26",
+     "name": "Naksha-Rashi-Hathi-64",
+     "title": "#12 Oct 2022 jaisa (15 line)",
+     "lines": [
+      "Naya 08 Nov se 22 Nov (15 line) ka naksha purane 26 Oct 2022 se 10 Nov 2022 me mila. 10 jode milte hain (step), z=3.4.",
+      "Random jagah par bhi best z ~4.9 aata hai (max 6.2). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GL me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; DS me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76; GB me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95"
+     ],
+     "targets": [
+      {
+       "game": "GL",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:18:2020-08-20",
+     "name": "Naksha-Rashi-Chakor-30",
+     "title": "#1 Aug 2020 jaisa (18 line)",
+     "lines": [
+      "Naya 05 Nov se 22 Nov (18 line) ka naksha purane 20 Aug 2020 se 07 Sep 2020 me mila. 14 jode milte hain (step), z=4.9.",
+      "Random jagah par bhi best z ~4.5 aata hai (max 6.5). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GB me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; GL me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; GB me 34 / 39 / 43 / 48 / 84 / 89 / 93 / 98; GL me 34 / 39 / 43 / 48 / 84 / 89 / 93 / 98; FB me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; DS me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; GB me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85; GL me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85"
+     ],
+     "targets": [
+      {
+       "game": "GB",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        34,
+        39,
+        43,
+        48,
+        84,
+        89,
+        93,
+        98
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        34,
+        39,
+        43,
+        48,
+        84,
+        89,
+        93,
+        98
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        3,
+        8,
+        30,
+        35,
+        53,
+        58,
+        80,
+        85
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        3,
+        8,
+        30,
+        35,
+        53,
+        58,
+        80,
+        85
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:18:2024-05-16",
+     "name": "Naksha-Rashi-Tara-20",
+     "title": "#2 May 2024 jaisa (18 line)",
+     "lines": [
+      "Naya 05 Nov se 22 Nov (18 line) ka naksha purane 16 May 2024 se 03 Jun 2024 me mila. 11 jode milte hain (step), z=4.6.",
+      "Random jagah par bhi best z ~4.5 aata hai (max 6.5). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GB me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; FB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; DS me 34 / 39 / 43 / 48 / 84 / 89 / 93 / 98; FB me 23 / 28 / 32 / 37 / 73 / 78 / 82 / 87; FB me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; FB me 01 / 06 / 10 / 15 / 51 / 56 / 60 / 65; GB me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85"
+     ],
+     "targets": [
+      {
+       "game": "GB",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        34,
+        39,
+        43,
+        48,
+        84,
+        89,
+        93,
+        98
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        23,
+        28,
+        32,
+        37,
+        73,
+        78,
+        82,
+        87
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        1,
+        6,
+        10,
+        15,
+        51,
+        56,
+        60,
+        65
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        3,
+        8,
+        30,
+        35,
+        53,
+        58,
+        80,
+        85
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:18:2021-11-20",
+     "name": "Naksha-Rashi-Suraj-95",
+     "title": "#3 Nov 2021 jaisa (18 line)",
+     "lines": [
+      "Naya 05 Nov se 22 Nov (18 line) ka naksha purane 20 Nov 2021 se 08 Dec 2021 me mila. 12 jode milte hain (step), z=4.3.",
+      "Random jagah par bhi best z ~4.5 aata hai (max 6.5). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: DS me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; GL me 44 / 49 / 94 / 99; FB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; GB me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95"
+     ],
+     "targets": [
+      {
+       "game": "DS",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        44,
+        49,
+        94,
+        99
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:18:2014-10-17",
+     "name": "Naksha-Rashi-Sambhar-28",
+     "title": "#4 Oct 2014 jaisa (18 line)",
+     "lines": [
+      "Naya 05 Nov se 22 Nov (18 line) ka naksha purane 17 Oct 2014 se 04 Nov 2014 me mila. 15 jode milte hain (step), z=4.3.",
+      "Random jagah par bhi best z ~4.5 aata hai (max 6.5). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: DS me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76; GB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; FB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; DS me 01 / 06 / 10 / 15 / 51 / 56 / 60 / 65; GB me 01 / 06 / 10 / 15 / 51 / 56 / 60 / 65; GL me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97"
+     ],
+     "targets": [
+      {
+       "game": "DS",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        1,
+        6,
+        10,
+        15,
+        51,
+        56,
+        60,
+        65
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        1,
+        6,
+        10,
+        15,
+        51,
+        56,
+        60,
+        65
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:18:2017-08-10",
+     "name": "Naksha-Rashi-Suraj-28",
+     "title": "#5 Aug 2017 jaisa (18 line)",
+     "lines": [
+      "Naya 05 Nov se 22 Nov (18 line) ka naksha purane 10 Aug 2017 se 27 Aug 2017 me mila. 10 jode milte hain (step), z=4.1.",
+      "Random jagah par bhi best z ~4.5 aata hai (max 6.5). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; GB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; GB me 00 / 05 / 50 / 55"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        0,
+        5,
+        50,
+        55
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:18:2016-07-22",
+     "name": "Naksha-Rashi-Kachua-39",
+     "title": "#6 Jul 2016 jaisa (18 line)",
+     "lines": [
+      "Naya 05 Nov se 22 Nov (18 line) ka naksha purane 22 Jul 2016 se 09 Aug 2016 me mila. 11 jode milte hain (step), z=4.1.",
+      "Random jagah par bhi best z ~4.5 aata hai (max 6.5). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GL me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; DS me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; GL me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; DS me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; GB me 01 / 06 / 10 / 15 / 51 / 56 / 60 / 65; FB me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95"
+     ],
+     "targets": [
+      {
+       "game": "GL",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        1,
+        6,
+        10,
+        15,
+        51,
+        56,
+        60,
+        65
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:18:2026-06-03",
+     "name": "Naksha-Rashi-Koyal-61",
+     "title": "#7 Jun 2026 jaisa (18 line)",
+     "lines": [
+      "Naya 05 Nov se 22 Nov (18 line) ka naksha purane 03 Jun 2026 se 20 Jun 2026 me mila. 13 jode milte hain (step), z=4.1.",
+      "Random jagah par bhi best z ~4.5 aata hai (max 6.5). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:18:2013-01-17",
+     "name": "Naksha-Rashi-Hiran-82",
+     "title": "#8 Jan 2013 jaisa (18 line)",
+     "lines": [
+      "Naya 05 Nov se 22 Nov (18 line) ka naksha purane 17 Jan 2013 se 04 Feb 2013 me mila. 11 jode milte hain (step), z=4.1.",
+      "Random jagah par bhi best z ~4.5 aata hai (max 6.5). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; GL me 01 / 06 / 10 / 15 / 51 / 56 / 60 / 65; GB me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        1,
+        6,
+        10,
+        15,
+        51,
+        56,
+        60,
+        65
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        3,
+        8,
+        30,
+        35,
+        53,
+        58,
+        80,
+        85
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:18:2024-09-09",
+     "name": "Naksha-Rashi-Tara-65",
+     "title": "#9 Sep 2024 jaisa (18 line)",
+     "lines": [
+      "Naya 05 Nov se 22 Nov (18 line) ka naksha purane 09 Sep 2024 se 26 Sep 2024 me mila. 11 jode milte hain (step), z=4.1.",
+      "Random jagah par bhi best z ~4.5 aata hai (max 6.5). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GL me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; FB me 44 / 49 / 94 / 99; GL me 01 / 06 / 10 / 15 / 51 / 56 / 60 / 65; DS me 01 / 06 / 10 / 15 / 51 / 56 / 60 / 65; GL me 23 / 28 / 32 / 37 / 73 / 78 / 82 / 87; GL me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76"
+     ],
+     "targets": [
+      {
+       "game": "GL",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        44,
+        49,
+        94,
+        99
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        1,
+        6,
+        10,
+        15,
+        51,
+        56,
+        60,
+        65
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        1,
+        6,
+        10,
+        15,
+        51,
+        56,
+        60,
+        65
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        23,
+        28,
+        32,
+        37,
+        73,
+        78,
+        82,
+        87
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:18:2023-11-16",
+     "name": "Naksha-Rashi-Sher-58",
+     "title": "#10 Nov 2023 jaisa (18 line)",
+     "lines": [
+      "Naya 05 Nov se 22 Nov (18 line) ka naksha purane 16 Nov 2023 se 04 Dec 2023 me mila. 10 jode milte hain (step), z=3.8.",
+      "Random jagah par bhi best z ~4.5 aata hai (max 6.5). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; DS me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:18:2014-01-09",
+     "name": "Naksha-Rashi-Baaz-26",
+     "title": "#11 Jan 2014 jaisa (18 line)",
+     "lines": [
+      "Naya 05 Nov se 22 Nov (18 line) ka naksha purane 09 Jan 2014 se 26 Jan 2014 me mila. 17 jode milte hain (step), z=3.8.",
+      "Random jagah par bhi best z ~4.5 aata hai (max 6.5). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: GL me 00 / 05 / 50 / 55; DS me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; DS me 34 / 39 / 43 / 48 / 84 / 89 / 93 / 98; GL me 23 / 28 / 32 / 37 / 73 / 78 / 82 / 87; GL me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76; DS me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; FB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97; DS me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; GL me 13 / 18 / 31 / 36 / 63 / 68 / 81 / 86"
+     ],
+     "targets": [
+      {
+       "game": "GL",
+       "numbers": [
+        0,
+        5,
+        50,
+        55
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        34,
+        39,
+        43,
+        48,
+        84,
+        89,
+        93,
+        98
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        23,
+        28,
+        32,
+        37,
+        73,
+        78,
+        82,
+        87
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        13,
+        18,
+        31,
+        36,
+        63,
+        68,
+        81,
+        86
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "naksha2:18:2017-10-07",
+     "name": "Naksha-Rashi-Uloo-51",
+     "title": "#12 Oct 2017 jaisa (18 line)",
+     "lines": [
+      "Naya 05 Nov se 22 Nov (18 line) ka naksha purane 07 Oct 2017 se 24 Oct 2017 me mila. 15 jode milte hain (step), z=3.8.",
+      "Random jagah par bhi best z ~4.5 aata hai (max 6.5). Isliye: kamzor.",
+      "Aaj 23 Nov ka andaza: FB me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; DS me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76; DS me 01 / 06 / 10 / 15 / 51 / 56 / 60 / 65; FB me 34 / 39 / 43 / 48 / 84 / 89 / 93 / 98; GL me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; GB me 24 / 29 / 42 / 47 / 74 / 79 / 92 / 97"
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        2,
+        7,
+        20,
+        25,
+        52,
+        57,
+        70,
+        75
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        1,
+        6,
+        10,
+        15,
+        51,
+        56,
+        60,
+        65
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        34,
+        39,
+        43,
+        48,
+        84,
+        89,
+        93,
+        98
+       ]
+      },
+      {
+       "game": "GL",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "GB",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "002b",
+      "key": "naksha2",
+      "naam": "Naksha-Rashi"
+     }
+    },
+    {
+     "id": "steps:12:2026-09-03:2026-10-18",
+     "name": "Steps-03Sep-18Oct-12box",
+     "title": "12 box | 3 link | 3 mahine (03 Sep / 18 Oct / 12 Nov)",
+     "lines": [
+      "Boundary 12 box: Step 1 03 Sep se 14 Sep, Step 2 18 Oct se 29 Oct, Step 3 12 Nov se 23 Nov.",
+      "3 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 2 mila.",
+      "01/10 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 13 Nov GB par dikhaya",
+      "Indicator (laal): 01/10 har boundary me aaya (ek hi cell mark).",
+      "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+     ],
+     "targets": [
+      {
+       "game": "GB",
+       "numbers": [
+        1,
+        10
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "007",
+      "key": "steps",
+      "naam": "Puzzle-Steps"
+     }
+    },
+    {
+     "id": "steps:8:2026-09-03:2026-10-20",
+     "name": "Steps-03Sep-20Oct-8box",
+     "title": "8 box | 2 link | 3 mahine (03 Sep / 20 Oct / 16 Nov)",
+     "lines": [
+      "Boundary 8 box: Step 1 03 Sep se 10 Sep, Step 2 20 Oct se 27 Oct, Step 3 16 Nov se 23 Nov.",
+      "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 0 mila.",
+      "17/71 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 20 Nov FB par dikhaya",
+      "37/73 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 22 Nov DS par dikhaya",
+      "Indicator (laal): 08/80 har boundary me aaya (ek hi cell mark).",
+      "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        17,
+        71
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        37,
+        73
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "007",
+      "key": "steps",
+      "naam": "Puzzle-Steps"
+     }
+    },
+    {
+     "id": "steps:8:2026-09-04:2026-10-02",
+     "name": "Steps-04Sep-02Oct-8box",
+     "title": "8 box | 2 link | 3 mahine (04 Sep / 02 Oct / 16 Nov)",
+     "lines": [
+      "Boundary 8 box: Step 1 04 Sep se 11 Sep, Step 2 02 Oct se 09 Oct, Step 3 16 Nov se 23 Nov.",
+      "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 0 mila.",
+      "25/52 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 16 Nov DS par dikhaya",
+      "55 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 22 Nov DS par dikhaya",
+      "Indicator (laal): 15/51 har boundary me aaya (ek hi cell mark).",
+      "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+     ],
+     "targets": [
+      {
+       "game": "DS",
+       "numbers": [
+        25,
+        52
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        55
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "007",
+      "key": "steps",
+      "naam": "Puzzle-Steps"
+     }
+    },
+    {
+     "id": "steps:8:2026-09-07:2026-10-23",
+     "name": "Steps-07Sep-23Oct-8box",
+     "title": "8 box | 2 link | 3 mahine (07 Sep / 23 Oct / 16 Nov)",
+     "lines": [
+      "Boundary 8 box: Step 1 07 Sep se 14 Sep, Step 2 23 Oct se 30 Oct, Step 3 16 Nov se 23 Nov.",
+      "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 0 mila.",
+      "58/85 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 19 Nov DS par dikhaya",
+      "15/51 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 23 Nov DS par dikhaya",
+      "Indicator (laal): 05/50 har boundary me aaya (ek hi cell mark).",
+      "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+     ],
+     "targets": [
+      {
+       "game": "DS",
+       "numbers": [
+        58,
+        85
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        15,
+        51
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "007",
+      "key": "steps",
+      "naam": "Puzzle-Steps"
+     }
+    },
+    {
+     "id": "steps:8:2026-09-16:2026-10-01",
+     "name": "Steps-16Sep-01Oct-8box",
+     "title": "8 box | 2 link | 3 mahine (16 Sep / 01 Oct / 16 Nov)",
+     "lines": [
+      "Boundary 8 box: Step 1 16 Sep se 23 Sep, Step 2 01 Oct se 08 Oct, Step 3 16 Nov se 23 Nov.",
+      "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 0 mila.",
+      "15/51 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 22 Nov FB par dikhaya",
+      "55 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 23 Nov FB par dikhaya",
+      "Indicator (laal): 09/90 har boundary me aaya (ek hi cell mark).",
+      "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        15,
+        51
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        55
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "007",
+      "key": "steps",
+      "naam": "Puzzle-Steps"
+     }
+    },
+    {
+     "id": "steps:8:2026-09-20:2026-10-05",
+     "name": "Steps-20Sep-05Oct-8box",
+     "title": "8 box | 2 link | 3 mahine (20 Sep / 05 Oct / 16 Nov)",
+     "lines": [
+      "Boundary 8 box: Step 1 20 Sep se 27 Sep, Step 2 05 Oct se 12 Oct, Step 3 16 Nov se 23 Nov.",
+      "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 0 mila.",
+      "25/52 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 18 Nov FB par dikhaya",
+      "05/50 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 19 Nov FB par dikhaya",
+      "Indicator (laal): 08/80 har boundary me aaya (ek hi cell mark).",
+      "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        25,
+        52
+       ]
+      },
+      {
+       "game": "FB",
+       "numbers": [
+        5,
+        50
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "007",
+      "key": "steps",
+      "naam": "Puzzle-Steps"
+     }
+    },
+    {
+     "id": "steps:10:2026-09-01:2026-10-18",
+     "name": "Steps-01Sep-18Oct-10box",
+     "title": "10 box | 2 link | 3 mahine (01 Sep / 18 Oct / 14 Nov)",
+     "lines": [
+      "Boundary 10 box: Step 1 01 Sep se 10 Sep, Step 2 18 Oct se 27 Oct, Step 3 14 Nov se 23 Nov.",
+      "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 0 mila.",
+      "17/71 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 20 Nov FB par dikhaya",
+      "37/73 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 22 Nov DS par dikhaya",
+      "Indicator (laal): 08/80 har boundary me aaya (ek hi cell mark).",
+      "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        17,
+        71
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        37,
+        73
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "007",
+      "key": "steps",
+      "naam": "Puzzle-Steps"
+     }
+    },
+    {
+     "id": "steps:10:2026-09-03:2026-10-01",
+     "name": "Steps-03Sep-01Oct-10box",
+     "title": "10 box | 2 link | 3 mahine (03 Sep / 01 Oct / 14 Nov)",
+     "lines": [
+      "Boundary 10 box: Step 1 03 Sep se 12 Sep, Step 2 01 Oct se 10 Oct, Step 3 14 Nov se 23 Nov.",
+      "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 1 mila.",
+      "14/41 kisi bhi location me boundary (23 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 21 Nov DS par dikhaya",
+      "Indicator (laal): 17/71 har boundary me aaya (ek hi cell mark).",
+      "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+     ],
+     "targets": [
+      {
+       "game": "DS",
+       "numbers": [
+        14,
+        41
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "007",
+      "key": "steps",
+      "naam": "Puzzle-Steps"
+     }
+    },
+    {
+     "id": "family:4:seedha:2026-11-20",
+     "name": "Family-Bakri-20",
+     "title": "04 rashi | seedha | 20 Nov se",
+     "lines": [
+      "Step 1 (20 Nov): FB 95. Step 2 (21 Nov): FB 90.",
+      "Family 04 rashi: 04 09 40 45 54 59 90 95",
+      "location (zyada paise): FB | baaki halka",
+      "Aaj 23 Nov (3rd step): family ka koi bhi number kisi bhi game me aaye to PASS. Paper: har number 10 Rs, location par 20 Rs."
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "003",
+      "key": "family",
+      "naam": "Family"
+     }
+    },
+    {
+     "id": "family:4:ulta:2026-11-20",
+     "name": "Family-Koyal-40",
+     "title": "04 rashi | ulta | 20 Nov se",
+     "lines": [
+      "Step 1 (20 Nov): FB 95. Step 2 (22 Nov): DS 59.",
+      "Family 04 rashi: 04 09 40 45 54 59 90 95",
+      "location (zyada paise): FB, DS | baaki halka",
+      "Aaj 23 Nov (3rd step): family ka koi bhi number kisi bhi game me aaye to PASS. Paper: har number 10 Rs, location par 20 Rs."
+     ],
+     "targets": [
+      {
+       "game": "FB",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      },
+      {
+       "game": "DS",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "003",
+      "key": "family",
+      "naam": "Family"
+     }
+    },
+    {
+     "id": "family:12:seedha:2026-11-20",
+     "name": "Family-Panda-80",
+     "title": "12 rashi | seedha | 20 Nov se",
+     "lines": [
+      "Step 1 (20 Nov): DS 76. Step 2 (21 Nov): DS 67.",
+      "Family 12 rashi: 12 17 21 26 62 67 71 76",
+      "location (zyada paise): DS | baaki halka",
+      "Aaj 23 Nov (3rd step): family ka koi bhi number kisi bhi game me aaye to PASS. Paper: har number 10 Rs, location par 20 Rs."
+     ],
+     "targets": [
+      {
+       "game": "DS",
+       "numbers": [
+        12,
+        17,
+        21,
+        26,
+        62,
+        67,
+        71,
+        76
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "003",
+      "key": "family",
+      "naam": "Family"
+     }
+    },
+    {
+     "id": "dana:gap:2026-11-20-2:2026-11-20-3",
+     "name": "Dana-gap-20Nov",
+     "title": "57 dana-farak | 20 Nov se",
+     "lines": [
+      "Pair: 20 Nov GL 47 + 20 Nov DS 76 (beech ka number gayab).",
+      "Khelo: 57 75 (23 Nov ke DS tak, 12 game baaki)."
+     ],
+     "targets": [
+      {
+       "game": "ALL",
+       "numbers": [
+        57,
+        75
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "005",
+      "key": "dana",
+      "naam": "Dana-Farak"
+     }
+    },
+    {
+     "id": "dana:gap:2026-11-20-1:2026-11-21-1",
+     "name": "Dana-gap-20Nov",
+     "title": "05 dana-farak | 20 Nov se",
+     "lines": [
+      "Pair: 20 Nov GB 15 + 21 Nov GB 94 (beech ka number gayab).",
+      "Khelo: 05 50 (23 Nov ke DS tak, 10 game baaki)."
+     ],
+     "targets": [
+      {
+       "game": "ALL",
+       "numbers": [
+        5,
+        50
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "005",
+      "key": "dana",
+      "naam": "Dana-Farak"
+     }
+    },
+    {
+     "id": "dana:gap:2026-11-20-2:2026-11-21-1",
+     "name": "Dana-gap-20Nov",
+     "title": "48 dana-farak | 20 Nov se",
+     "lines": [
+      "Pair: 20 Nov GL 47 + 21 Nov GB 94 (beech ka number gayab).",
+      "Khelo: 48 84 (23 Nov ke DS tak, 10 game baaki)."
+     ],
+     "targets": [
+      {
+       "game": "ALL",
+       "numbers": [
+        48,
+        84
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "005",
+      "key": "dana",
+      "naam": "Dana-Farak"
+     }
+    },
+    {
+     "id": "dana:same:2026-11-20-3:2026-11-21-3",
+     "name": "Dana-same-20Nov",
+     "title": "57 dana-farak | 20 Nov se",
+     "lines": [
+      "Pair: 20 Nov DS 76 + 21 Nov DS 67 (ek hi number do baar).",
+      "Khelo: 57 67 68 75 76 77 86 (23 Nov ke DS tak, 8 game baaki)."
+     ],
+     "targets": [
+      {
+       "game": "ALL",
+       "numbers": [
+        57,
+        67,
+        68,
+        75,
+        76,
+        77,
+        86
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "005",
+      "key": "dana",
+      "naam": "Dana-Farak"
+     }
+    },
+    {
+     "id": "dana:farak:2026-11-21-2:2026-11-22-0",
+     "name": "Dana-farak-21Nov",
+     "title": "13 dana-farak | 21 Nov se",
+     "lines": [
+      "Pair: 21 Nov GL 41 + 22 Nov FB 13 (dana 10/01 ka farak).",
+      "Khelo: 13 14 31 41 (24 Nov ke DS tak, 11 game baaki).",
+      "Part 2 spot (series): 12 15 21 51 (khelna aap ki marzi)"
+     ],
+     "targets": [
+      {
+       "game": "ALL",
+       "numbers": [
+        13,
+        14,
+        31,
+        41
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "005",
+      "key": "dana",
+      "naam": "Dana-Farak"
+     }
+    },
+    {
+     "id": "dana:gap:2026-11-20-2:2026-11-21-3",
+     "name": "Dana-gap-20Nov",
+     "title": "57 dana-farak | 20 Nov se | confusion",
+     "lines": [
+      "Pair: 20 Nov GL 47 + 21 Nov DS 67 (beech ka number gayab).",
+      "Khelo: 57 75 (23 Nov ke DS tak, 8 game baaki).",
+      "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai."
+     ],
+     "targets": [
+      {
+       "game": "ALL",
+       "numbers": [
+        57,
+        75
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "005",
+      "key": "dana",
+      "naam": "Dana-Farak"
+     }
+    },
+    {
+     "id": "dana:gap:2026-11-20-1:2026-11-22-0",
+     "name": "Dana-gap-20Nov",
+     "title": "14 dana-farak | 20 Nov se | confusion",
+     "lines": [
+      "Pair: 20 Nov GB 15 + 22 Nov FB 13 (beech ka number gayab).",
+      "Khelo: 14 41 (23 Nov ke DS tak, 7 game baaki).",
+      "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai."
+     ],
+     "targets": [
+      {
+       "game": "ALL",
+       "numbers": [
+        14,
+        41
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "005",
+      "key": "dana",
+      "naam": "Dana-Farak"
+     }
+    },
+    {
+     "id": "dana:farak:2026-11-20-2:2026-11-22-1",
+     "name": "Dana-farak-20Nov",
+     "title": "37 dana-farak | 20 Nov se | confusion",
+     "lines": [
+      "Pair: 20 Nov GL 47 + 22 Nov GB 37 (dana 10/01 ka farak).",
+      "Khelo: 37 47 73 74 (23 Nov ke DS tak, 6 game baaki).",
+      "Part 2 spot (series): 27 57 72 75 (khelna aap ki marzi)",
+      "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai."
+     ],
+     "targets": [
+      {
+       "game": "ALL",
+       "numbers": [
+        37,
+        47,
+        73,
+        74
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "005",
+      "key": "dana",
+      "naam": "Dana-Farak"
+     }
+    },
+    {
+     "id": "dana:same:2026-11-20-0:2026-11-22-3",
+     "name": "Dana-same-20Nov",
+     "title": "06 dana-farak | 20 Nov se | confusion",
+     "lines": [
+      "Pair: 20 Nov FB 95 + 22 Nov DS 59 (ek hi number do baar).",
+      "Khelo: 06 49 59 60 94 95 (23 Nov ke DS tak, 4 game baaki).",
+      "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai."
+     ],
+     "targets": [
+      {
+       "game": "ALL",
+       "numbers": [
+        6,
+        49,
+        59,
+        60,
+        94,
+        95
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "005",
+      "key": "dana",
+      "naam": "Dana-Farak"
+     }
+    },
+    {
+     "id": "dana:farak:2026-11-21-1:2026-11-22-3",
+     "name": "Dana-farak-21Nov",
+     "title": "49 dana-farak | 21 Nov se | confusion",
+     "lines": [
+      "Pair: 21 Nov GB 94 + 22 Nov DS 59 (dana 10/01 ka farak).",
+      "Khelo: 49 59 94 95 (24 Nov ke DS tak, 8 game baaki).",
+      "Part 2 spot (series): 39 69 93 96 (khelna aap ki marzi)",
+      "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai."
+     ],
+     "targets": [
+      {
+       "game": "ALL",
+       "numbers": [
+        49,
+        59,
+        94,
+        95
+       ]
+      }
+     ],
+     "pattern": {
+      "id": "005",
+      "key": "dana",
+      "naam": "Dana-Farak"
+     }
+    }
+   ]
+  }
+ },
+ "hits": {},
+ "done": {}
+}
