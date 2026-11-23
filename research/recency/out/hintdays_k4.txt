@@ -1,0 +1,29 @@
+overall: stake 49352 hits 641 rate 1.299% roi95 +0.234
+conditions tested 37  null max|z| 95th pct 3.79 99th 4.48
+month=1          days  1080 stake   4245 rate 1.696% (rest 1.261%) z +2.39  p_adj 0.611 roi95 +0.61
+distinct12<=9    days   272 stake   1023 rate 0.587% (rest 1.314%) z -2.03  p_adj 0.847 roi95 -0.44
+m<=3             days   909 stake   2716 rate 0.957% (rest 1.319%) z -1.62  p_adj 0.983 roi95 -0.09
+m=4              days 11659 stake  46636 rate 1.319% (rest 0.957%) z +1.62  p_adj 0.983 roi95 +0.25
+distinct12<=10   days  2041 stake   7805 rate 1.127% (rest 1.331%) z -1.46  p_adj 0.994 roi95 +0.07
+month=2          days   980 stake   3852 rate 1.532% (rest 1.279%) z +1.33  p_adj 0.999 roi95 +0.46
+game=gb          days  3142 stake  12343 rate 1.183% (rest 1.338%) z -1.31  p_adj 0.999 roi95 +0.12
+dow=4            days  1796 stake   7043 rate 1.462% (rest 1.272%) z +1.31  p_adj 0.999 roi95 +0.39
+month=3          days  1080 stake   4250 rate 1.106% (rest 1.317%) z -1.16  p_adj 1.000 roi95 +0.05
+month=7          days  1080 stake   4229 rate 1.490% (rest 1.281%) z +1.15  p_adj 1.000 roi95 +0.42
+by year (all games):
+2018 days 1412 stake 5542 hits 95 rate 1.714 roi +0.63
+2019 days 1412 stake 5542 hits 66 rate 1.191 roi +0.13
+2020 days 1416 stake 5555 hits 70 rate 1.260 roi +0.20
+2021 days 1412 stake 5535 hits 70 rate 1.265 roi +0.20
+2022 days 1412 stake 5563 hits 73 rate 1.312 roi +0.25
+2023 days 1412 stake 5553 hits 57 rate 1.026 roi -0.02
+2024 days 1416 stake 5547 hits 76 rate 1.370 roi +0.30
+2025 days 1412 stake 5541 hits 59 rate 1.065 roi +0.01
+2026 days 1264 stake 4974 hits 75 rate 1.508 roi +0.43
+fd stake 12338 hits 160 rate 1.297 roi +0.23
+gb stake 12343 hits 146 rate 1.183 roi +0.12
+gl stake 12331 hits 168 rate 1.362 roi +0.29
+ds stake 12340 hits 167 rate 1.353 roi +0.29
+yearly slope of rate per yr -0.0204%
+month-block bootstrap roi95 CI [0.143 0.234 0.321]
+betting days/yr 352.85714285714283 numbers/yr 5546.530612244897

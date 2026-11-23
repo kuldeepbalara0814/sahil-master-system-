@@ -1,0 +1,36 @@
+=== target ds walk-forward 2018-26 top-k lag-slots (interleaved lag) selected by past hits
+ k= 1 stake   3142 hits   31 rate 0.987% roi95 -0.06  z -0.1 | last5y(22-26) roi -0.12
+ k= 2 stake   6253 hits   90 rate 1.439% roi95 +0.37  z +3.5 | last5y(22-26) roi +0.30
+ k= 3 stake   9318 hits  126 rate 1.352% roi95 +0.28  z +3.4 | last5y(22-26) roi +0.24
+ k= 4 stake  12340 hits  167 rate 1.353% roi95 +0.29  z +3.9 | last5y(22-26) roi +0.23
+ k= 6 stake  18349 hits  232 rate 1.264% roi95 +0.20  z +3.6 | last5y(22-26) roi +0.28
+ k= 8 stake  24190 hits  306 rate 1.265% roi95 +0.20  z +4.1 | last5y(22-26) roi +0.18
+ k=12 stake  35485 hits  445 rate 1.254% roi95 +0.19  z +4.8 | last5y(22-26) roi +0.20
+  k=4 slots per year: [(2018, [np.int64(6), np.int64(13), np.int64(2), np.int64(5)]), (2020, [np.int64(2), np.int64(6), np.int64(13), np.int64(5)]), (2022, [np.int64(6), np.int64(2), np.int64(5), np.int64(3)]), (2024, [np.int64(2), np.int64(6), np.int64(3), np.int64(5)]), (2026, [np.int64(2), np.int64(6), np.int64(5), np.int64(8)])]
+=== target gl walk-forward 2018-26 top-k lag-slots (interleaved lag) selected by past hits
+ k= 1 stake   3142 hits   37 rate 1.178% roi95 +0.12  z +1.0 | last5y(22-26) roi -0.01
+ k= 2 stake   6244 hits   76 rate 1.217% roi95 +0.16  z +1.7 | last5y(22-26) roi +0.05
+ k= 3 stake   9309 hits  128 rate 1.375% roi95 +0.31  z +3.6 | last5y(22-26) roi +0.07
+ k= 4 stake  12331 hits  168 rate 1.362% roi95 +0.29  z +4.0 | last5y(22-26) roi +0.11
+ k= 6 stake  18298 hits  232 rate 1.268% roi95 +0.20  z +3.6 | last5y(22-26) roi +0.18
+ k= 8 stake  24187 hits  292 rate 1.207% roi95 +0.15  z +3.2 | last5y(22-26) roi +0.12
+ k=12 stake  35445 hits  423 rate 1.193% roi95 +0.13  z +3.6 | last5y(22-26) roi +0.07
+  k=4 slots per year: [(2018, [np.int64(6), np.int64(2), np.int64(5), np.int64(1)]), (2020, [np.int64(5), np.int64(6), np.int64(2), np.int64(1)]), (2022, [np.int64(5), np.int64(2), np.int64(6), np.int64(1)]), (2024, [np.int64(2), np.int64(5), np.int64(6), np.int64(1)]), (2026, [np.int64(2), np.int64(5), np.int64(6), np.int64(1)])]
+=== target gb walk-forward 2018-26 top-k lag-slots (interleaved lag) selected by past hits
+ k= 1 stake   3142 hits   41 rate 1.305% roi95 +0.24  z +1.7 | last5y(22-26) roi +0.32
+ k= 2 stake   6244 hits   69 rate 1.105% roi95 +0.05  z +0.8 | last5y(22-26) roi +0.13
+ k= 3 stake   9307 hits  108 rate 1.160% roi95 +0.10  z +1.5 | last5y(22-26) roi +0.28
+ k= 4 stake  12343 hits  146 rate 1.183% roi95 +0.12  z +2.0 | last5y(22-26) roi +0.26
+ k= 6 stake  18298 hits  220 rate 1.202% roi95 +0.14  z +2.7 | last5y(22-26) roi +0.31
+ k= 8 stake  24099 hits  293 rate 1.216% roi95 +0.16  z +3.4 | last5y(22-26) roi +0.19
+ k=12 stake  35369 hits  439 rate 1.241% roi95 +0.18  z +4.5 | last5y(22-26) roi +0.19
+  k=4 slots per year: [(2018, [np.int64(8), np.int64(1), np.int64(3), np.int64(33)]), (2020, [np.int64(8), np.int64(25), np.int64(29), np.int64(1)]), (2022, [np.int64(9), np.int64(1), np.int64(8), np.int64(5)]), (2024, [np.int64(9), np.int64(17), np.int64(1), np.int64(5)]), (2026, [np.int64(9), np.int64(5), np.int64(17), np.int64(1)])]
+=== target fd walk-forward 2018-26 top-k lag-slots (interleaved lag) selected by past hits
+ k= 1 stake   3142 hits   43 rate 1.369% roi95 +0.30  z +2.1 | last5y(22-26) roi +0.15
+ k= 2 stake   6230 hits   84 rate 1.348% roi95 +0.28  z +2.7 | last5y(22-26) roi +0.16
+ k= 3 stake   9298 hits  120 rate 1.291% roi95 +0.23  z +2.8 | last5y(22-26) roi +0.13
+ k= 4 stake  12338 hits  160 rate 1.297% roi95 +0.23  z +3.3 | last5y(22-26) roi +0.16
+ k= 6 stake  18280 hits  223 rate 1.220% roi95 +0.16  z +3.0 | last5y(22-26) roi +0.08
+ k= 8 stake  24114 hits  288 rate 1.194% roi95 +0.13  z +3.0 | last5y(22-26) roi +0.09
+ k=12 stake  35367 hits  401 rate 1.134% roi95 +0.08  z +2.5 | last5y(22-26) roi +0.06
+  k=4 slots per year: [(2018, [np.int64(12), np.int64(3), np.int64(23), np.int64(11)]), (2020, [np.int64(12), np.int64(3), np.int64(23), np.int64(11)]), (2022, [np.int64(12), np.int64(3), np.int64(8), np.int64(23)]), (2024, [np.int64(12), np.int64(3), np.int64(23), np.int64(16)]), (2026, [np.int64(12), np.int64(3), np.int64(23), np.int64(32)])]

@@ -1,0 +1,42 @@
+roi {'fd': (3142, 43, np.float64(0.3)), 'gb': (1363, 16, np.float64(0.115)), 'gl': (3142, 35, np.float64(0.058)), 'ds': (3142, 31, np.float64(-0.063)), 'PORT': (10789, 125, np.float64(0.101))}
+z {'fd': (8714, 95, np.float64(0.036)), 'gb': (6247, 74, np.float64(0.125)), 'gl': (9814, 132, np.float64(0.278)), 'ds': (10666, 141, np.float64(0.256)), 'PORT': (35441, 442, np.float64(0.185))}
+10 0
+20 1
+30 1
+40 1
+50 2
+60 2
+70 2
+80 3
+90 3
+100 3
+110 4
+120 4
+130 4
+140 5
+150 5
+160 5
+170 6
+180 6
+190 6
+200 7
+210 7
+220 7
+230 8
+240 8
+250 8
+260 9
+270 9
+280 9
+290 10
+300 10
+roi fd real OOS roi 0.300 stake 3142 null mean -0.060 p95 0.240  p(null>=real) 0.043
+roi gb real OOS roi 0.115 stake 1363 null mean -0.029 p95 0.354  p(null>=real) 0.230
+roi gl real OOS roi 0.058 stake 3142 null mean -0.038 p95 0.300  p(null>=real) 0.310
+roi ds real OOS roi -0.063 stake 3142 null mean -0.057 p95 0.264  p(null>=real) 0.533
+roi PORT real OOS roi 0.101 stake 10789 null mean -0.051 p95 0.099  p(null>=real) 0.050
+z fd real OOS roi 0.036 stake 8714 null mean -0.571 p95 0.150  p(null>=real) 0.120
+z gb real OOS roi 0.125 stake 6247 null mean -0.449 p95 0.217  p(null>=real) 0.123
+z gl real OOS roi 0.278 stake 9814 null mean -0.474 p95 0.210  p(null>=real) 0.023
+z ds real OOS roi 0.256 stake 10666 null mean -0.448 p95 0.231  p(null>=real) 0.043
+z PORT real OOS roi 0.185 stake 35441 null mean -0.139 p95 0.168  p(null>=real) 0.040

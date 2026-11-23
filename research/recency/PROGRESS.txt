@@ -1,0 +1,1 @@
+recency R&D DONE (23 Nov 2026). scripts/: common.py rules.py run1(rules table) run2(walk-forward+null) run5/5b(distance) run6(pool panel) run7/8(slot walk-forward, hint days) run9/10(DS 1966+, decades, hint) run11(final rules). Outputs in out/. Run with /data/data/com.termux/files/usr/bin/python3 -I from scripts/.

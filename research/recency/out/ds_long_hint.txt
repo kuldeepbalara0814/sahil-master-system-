@@ -1,0 +1,23 @@
+DS own-lag 1980-2026 exp 1.01: 1:0.94 2:1.43 3:1.35 4:1.45 5:1.45 6:1.15 7:1.01 8:1.22 9:1.26 10:1.05 11:1.22 12:1.11 13:1.05 14:0.98 15:1.10 16:1.02 17:1.21 18:1.07 19:1.00 20:0.92 | 21-40 mean 1.03
+   lags 2-6 mean 1.37, 7-12 mean 1.14, 13-40 mean 1.03
+DS own-lag 2013-2026 exp 1.00: 1:0.90 2:1.47 3:1.33 4:1.39 5:1.26 6:0.88 7:1.04 8:1.20 9:1.41 10:1.25 11:1.16 12:0.94 13:0.94 14:0.94 15:1.08 16:1.02 17:1.43 18:1.06 19:1.23 20:0.96 | 21-40 mean 1.02
+   lags 2-6 mean 1.26, 7-12 mean 1.17, 13-40 mean 1.04
+train 1966-99 base rate 1.525%, null max|z| p95 4.02; tested 31
+mon=4            train z +1.89 (p_adj 0.88) | test 2000-26: rate in 1.296 vs out 1.440  z -0.65; roi95 in +0.23
+mon=12           train z -1.72 (p_adj 0.96) | test 2000-26: rate in 1.473 vs out 1.424  z +0.22; roi95 in +0.40
+dow=4            train z +1.56 (p_adj 0.99) | test 2000-26: rate in 1.294 vs out 1.450  z -0.89; roi95 in +0.23
+dom15-21         train z +1.49 (p_adj 1.00) | test 2000-26: rate in 1.451 vs out 1.421  z +0.21; roi95 in +0.38
+dom22-31         train z -1.48 (p_adj 1.00) | test 2000-26: rate in 1.348 vs out 1.460  z -0.83; roi95 in +0.28
+dow=1            train z -1.38 (p_adj 1.00) | test 2000-26: rate in 1.480 vs out 1.419  z +0.35; roi95 in +0.41
+dom8-14          train z +1.32 (p_adj 1.00) | test 2000-26: rate in 1.591 vs out 1.377  z +1.48; roi95 in +0.51
+dom1-7           train z -1.24 (p_adj 1.00) | test 2000-26: rate in 1.338 vs out 1.456  z -0.82; roi95 in +0.27
+1966 1979 rate 1.664 roi +0.580 days/yr 348.7142857142857
+1980 1989 rate 1.451 roi +0.379 days/yr 352.4
+1990 1999 rate 1.409 roi +0.339 days/yr 352.0
+2000 2009 rate 1.477 roi +0.403 days/yr 353.3
+2010 2019 rate 1.421 roi +0.350 days/yr 353.0
+2020 2026 rate 1.366 roi +0.298 days/yr 348.0
+2022-26: stake 6807 hits 100 rate 1.469 roi +0.40
+2000+ bootstrap roi95 CI [0.253 0.356 0.463]
+2013+ bootstrap roi95 CI [0.166 0.302 0.435]
+2022+ bootstrap roi95 CI [0.178 0.396 0.617]
