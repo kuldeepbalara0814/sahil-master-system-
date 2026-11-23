@@ -1,6 +1,6 @@
 """Har game ka alag record: FB, GB, GL (2013 se) aur DS (1966 se). Sab 'sab ek me' results.csv se bante hain, isliye wo update hota hai to ye bhi apne aap.
 
-DS ka purana hissa (1966-2012) data/ds_1966_2012.csv me hai (satta-xpress.com se, scripts/fetch_ds_history.py).
+DS ka purana hissa (1966-2012) data/ds_1966_2012.csv me hai (doosri site se, scripts/fetch_ds_history.py).
 DS hamare record me 'pichli tarikh ki line' me likha jata hai (line = Desawar khulne ki tarikh - 1 din). basis="khula" me site jaisi tarikh.
 """
 import csv

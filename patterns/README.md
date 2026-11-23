@@ -1,3 +1,5 @@
+> **Ye kya hai:** ek **puzzle-logic R&D** (khoj) hai. Hum jaanna chahte hai ki number ke chart me design/copy kaise banti hai aur koi system/machine kaise kaam karti hai. **Sirf paper trading** (kalpnik), asli paisa kabhi nahi. Maksad: jo log is lat se jude hai unhe **vigyan aur logic ke aadhar par** samjhana. Agar koi sach me pakad sake to wo khele; agar nahi pakad sakta to apni jama-punji kharab na kare. Faisla poori R&D ke baad.
+
 # Pattern library (aap sikhate ho, main likhta hoon)
 Har pattern ka folder: README.md (main kaise samjha), examples.csv (aap ke nishaan), spec.json, Excel copy (scripts/pattern_excel.py), screenshot.
 Niyam: pattern sirf 3-6 mahine me parkho. Aap ki pushti ke baad hi pakka maano. Bahut pattern ikathe hone par software (lab/) me daalna: roz pattern pakde, app me dikhaye, Excel me rang se mark kare, aur jo pattern ruk jaye use band kare.

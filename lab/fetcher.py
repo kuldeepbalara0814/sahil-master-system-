@@ -1,4 +1,4 @@
-"""satta-king-fast.com ke mahine ke chart se nayi lines laana.
+"""Result site (pehli) ke mahine ke chart se nayi lines laana.
 
 Site ka niyam: DSWR column me DS us tarikh par dikhta hai jis tarikh subah khula (agli subah 5:30).
 Isliye  line(d) = FD,GB,GL (site ki tarikh d)  +  DS (site ki tarikh d+1).

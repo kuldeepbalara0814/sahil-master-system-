@@ -1,4 +1,4 @@
-"""DS (Desawar) ka purana record 1966-2012 satta-xpress.com se uthao -> data/ds_1966_2012.csv  (ek baar chalane ka kaam).
+"""DS (Desawar) ka purana record 1966-2012 doosri site se uthao -> data/ds_1966_2012.csv  (ek baar chalane ka kaam).
 
 Site par tarikh = Desawar khulne ki tarikh. Hamare record me DS 'pichli tarikh ki line' me likha jata hai (line = khula - 1 din).
 CSV: line_date, ds, khula_date. XX / CL (result nahi) chhod diye jate hain.

@@ -127,7 +127,7 @@ function grCard(){
   }catch(e){if(my!==seq)return;body.replaceChildren(el("div",{class:"warn"},e.message));info.textContent=""}}
  drawSeg();drawBasis();links();
  const c=el("div",{class:"card gr-card"},el("h2",{},"Har game ka alag record ",el("span",{class:"sub"},"(FB, GB, GL, DS)")),
-  el("p",{class:"mut"},"Chuno kaun sa game aur kaun sa saal. Chart satta site jaisa hai: upar mahine, side me din 1-31."),
+  el("p",{class:"mut"},"Chuno kaun sa game aur kaun sa saal. Chart purane chart jaisa hai: upar mahine, side me din 1-31."),
   seg,bbox,el("div",{class:"row gr-yr"},pv,ysel,nx),body,info,
   el("div",{class:"row gr-btns"},xl,cs),
   el("p",{class:"mut small"},"Ye sheet sab-ek-me record se bante hain, isliye naya result aate hi apne aap update ho jaati hain."));
