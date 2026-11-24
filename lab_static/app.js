@@ -40,9 +40,10 @@ const ICONS={dost:"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8
  data:"M12 8c4.4 0 8-1.3 8-3s-3.6-3-8-3-8 1.3-8 3 3.6 3 8 3z M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5 M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3",
  active:"M13 2L4 14h7l-1 8 9-12h-7z",more:"M5 12h.01 M12 12h.01 M19 12h.01",
  rank:"M4 20V10 M10 20V4 M16 20v-8 M22 20H2",
+ meri:"M3 3h18v18H3z M3 9h18 M9 9v12",
  guide:"M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"};
-const NAMES={active:"Active",aaj:"Aaj ki List",scan:"Pattern Scan",paper:"Paper Trading",dost:"Dost Khojo",lab:"Lab",monitor:"Monitor",record:"Record",pattern:"Pattern",baar:"Din (Baar)",data:"Data",rank:"Number Rank",guide:"Guide"};
-const MAIN=["active","aaj","scan","paper"],MORE=["dost","lab","monitor","record","pattern","baar","data","rank","guide"];
+const NAMES={active:"Active",aaj:"Aaj ki List",scan:"Pattern Scan",paper:"Paper Trading",dost:"Dost Khojo",lab:"Lab",monitor:"Monitor",record:"Record",pattern:"Pattern",baar:"Din (Baar)",data:"Data",rank:"Number Rank",meri:"Meri Window",guide:"Guide"};
+const MAIN=["active","aaj","scan","paper"],MORE=["meri","dost","lab","monitor","record","pattern","baar","data","rank","guide"];
 function icon(k){const s=document.createElementNS("http://www.w3.org/2000/svg","svg");s.setAttribute("viewBox","0 0 24 24");const p=document.createElementNS("http://www.w3.org/2000/svg","path");p.setAttribute("d",ICONS[k]||"");s.append(p);return s}
 function sheet(open){const n=$("#nav");if(n)n.classList.toggle("open",open===undefined?!n.classList.contains("open"):open);const m=$("#nav [data-more]");if(m)m.setAttribute("aria-expanded",n.classList.contains("open"))}
 async function go(t){

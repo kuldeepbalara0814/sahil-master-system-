@@ -121,3 +121,10 @@ th{color:var(--cy)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 .b008{font-size:9px;font-weight:800;letter-spacing:.3px;margin-left:3px;vertical-align:top;color:#12031a;background:linear-gradient(135deg,var(--mg),var(--cy));border-radius:6px;padding:0 3px}
+
+/* Meri Window (010) */
+.wn-graph{width:100%;height:auto;display:block;margin-top:6px}
+.wn-line{stroke:var(--cy);stroke-width:2}.wn-base{stroke:var(--mut);stroke-width:1}
+.wn-dot{fill:var(--mg)}.wn-ax{fill:var(--mut);font-size:9px}
+.wn-pat{border-top:1px solid var(--line);padding:8px 0}.wn-pat:first-of-type{border-top:0}
+.wn-empty{padding:10px 0}

@@ -31,7 +31,8 @@ function ankPanels(heroBox,ankBox){
    el("h2",{},"DS ke naye signal kagaz par chal rahe hain"),
    el("div",{class:"big"},`DS ke 4 number (008) + ${r.today.length} ank (009). Purane data par sabse upar: `,el("b",{},`${best.game} ${best.pos} ank (${best.rate_2020}%, 2020-26)`),". "),
    el("div",{class:"row2"},dsn.map(n=>el("span",{class:"chip blue"},p2(n))),r.today.map(x=>el("span",{class:"chip green",title:x.game+" "+x.pos},`${x.game} ${x.pos==="andar"?"a":"b"} ${x.ank}`))),
-   el("div",{class:"quote"},"Ye sirf kagaz ka research hai: software dikhata hai, faisla aapka. Ye ank-level asar hai: DS ke dahai aur ikai ank alag-alag ~12% baar 2 draw pehle jaise aate hain; inka jod hi number ka lag-2 repeat (1.55%) hai. FB andar alag game ka hai. 90 din me kuch sabit nahi hota.")));
+   el("div",{class:"quote"},"Ye sirf kagaz ka research hai: software dikhata hai, faisla aapka. Ye ank-level asar hai: DS ke dahai aur ikai ank alag-alag ~12% baar 2 draw pehle jaise aate hain; inka jod hi number ka lag-2 repeat (1.55%) hai. FB andar alag game ka hai. 90 din me kuch sabit nahi hota."),
+   el("button",{type:"button",class:"b sm",style:"margin-top:10px",on:{click:()=>go("meri")}},"Meri Window kholo")));
   const sum=(ls,k)=>ls.reduce((a,x)=>a+x[k],0),pc=(h,n)=>n?(100*h/n).toFixed(1)+"%":"-";
   const sig=(title,ls,pairs,note)=>{const rate=Math.round(ls.reduce((a,x)=>a+x.rate_2020,0)/ls.length*100)/100,v=verdict(rate),
     all=Math.round(ls.reduce((a,x)=>a+x.rate,0)/ls.length*100)/100,h90=sum(ls,"hit90"),n90=sum(ls,"n90"),fh=sum(ls,"fw_hit"),fn=sum(ls,"fw_n");
