@@ -230,7 +230,8 @@ def status():
     flog = jload("fetch_log.json", [])
     return jsonify({"last_date": rows[-1][0].isoformat(), "days": len(rows), "play_date": data.play_date(rows).isoformat(),
                     "github": bool(SYNC), "can_write": bool(SYNC and SYNC.can_write) or not SYNC_ON, "pin_required": bool(ADMIN_PIN),
-                    "last_fetch": flog[-1] if flog else None, "auto_fetching": fetching, "today_ist": dt.datetime.now(IST).date().isoformat()})
+                    "last_fetch": flog[-1] if flog else None, "auto_fetching": fetching,
+                    "expected_last": expected_last(dt.datetime.now(IST)).isoformat(), "behind_days": max(0, (expected_last(dt.datetime.now(IST)) - rows[-1][0]).days), "today_ist": dt.datetime.now(IST).date().isoformat()})
 
 
 # ---------------- dost ----------------

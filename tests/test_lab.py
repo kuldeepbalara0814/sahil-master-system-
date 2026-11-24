@@ -563,6 +563,15 @@ class TodayDsRuleTests(unittest.TestCase):
         self.assertTrue(1 <= len(j["ds_rule"]["numbers"]) <= 4)
 
 
+class StaleBannerTests(unittest.TestCase):
+    def test_status_has_behind_days(self):
+        import lab_server
+        j = lab_server.app.test_client().get("/api/status").get_json()
+        self.assertIn("behind_days", j)
+        self.assertIn("expected_last", j)
+        self.assertGreaterEqual(j["behind_days"], 0)
+
+
 if __name__ == "__main__":
     unittest.main()
 
