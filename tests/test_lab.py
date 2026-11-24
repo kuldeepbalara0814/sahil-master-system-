@@ -771,6 +771,8 @@ class WindowOpenByNumberTests(unittest.TestCase):
         for x in w["top30"]:
             self.assertIn("maps", x)
             for lb in x["maps"]:
+                if lb.startswith("Dost "):                                    # dost ke point: koi pattern nahi, UI me sirf label (button nahi)
+                    continue
                 m = re.match(r"^Pattern (\d+)(?: \((.+)\))?$", lb)
                 self.assertIsNotNone(m, lb)
                 key = keys.get(m.group(2), "naksha") if m.group(2) else "naksha"
@@ -1554,16 +1556,46 @@ class RankTests(unittest.TestCase):
         self.assertEqual([r["n"] for r in g["copy"]["lists"]["ALL"]], [11])
         self.assertEqual(g["all"]["maps"], 3)
         eleven = [r for r in g["all"]["lists"]["ALL"] if r["n"] == 11][0]
-        self.assertEqual(eleven["votes"], 2)
+        self.assertEqual(len([m for m in eleven["maps"] if not m.startswith("Dost ")]), 2)      # pattern ke vote (dost ke point alag, RankDostBaarTests)
 
     def test_rank_api(self):
         r = lab_server.app.test_client().get("/api/rank")
         self.assertEqual(r.status_code, 200)
         j = r.get_json()
-        self.assertEqual([g["key"] for g in j["groups"]], ["all", "naksha", "naksha2", "family", "copy", "dana", "steps"])
+        self.assertEqual([g["key"] for g in j["groups"]], ["all", "naksha", "naksha2", "family", "copy", "dana", "steps", "dost"])
         self.assertTrue(j["groups"][0]["maps"] >= 0 and set(j["groups"][0]["lists"]) == {"FB", "GB", "GL", "DS", "ALL"})
         s = j["groups"][1]["lists"]["ALL"]
         self.assertTrue(all(s[i]["score"] >= s[i + 1]["score"] for i in range(len(s) - 1)))
+
+
+class RankDostBaarTests(unittest.TestCase):
+    """24 Nov 2026: Baar = 2 point; pichhli line ke har number ke 12 dost (5 hara, 4 peela, 3 narangi) teeno samay me, har hazri 1 point."""
+
+    def test_friends_rank_tiers_are_5_4_3(self):
+        from lab import friends
+        cnt = friends.counts(ROWS)
+        top = friends.top_friends(cnt, ROWS[-1][1][0], friends.RANK_K, friends.RANK_TIERS)
+        self.assertLessEqual(len(top), 12)
+        tiers = [f["tier"] for f in top]
+        self.assertEqual(tiers, (["green"] * 5 + ["yellow"] * 4 + ["orange"] * 3)[:len(tiers)])
+        self.assertEqual(len(friends.top_friends(cnt, ROWS[-1][1][0], 10)), min(10, len(friends.top_friends(cnt, ROWS[-1][1][0], 10))))   # purana 10 wala (3/3/4) waise hi
+        self.assertEqual([f["tier"] for f in friends.top_friends(cnt, ROWS[-1][1][0], 10)][:3], ["green"] * 3)
+
+    def test_dost_points_and_baar_two(self):
+        from lab import rank, friends, baar, data
+        fr = friends.Friends(ROWS)
+        labs = rank.dost_labels(ROWS, fr)
+        self.assertTrue(labs)
+        out = rank.build({"patterns": []}, ROWS, fr)
+        g = {x["key"]: x for x in out["groups"]}
+        self.assertIn("dost", g)
+        allr = {r["n"]: r for r in g["all"]["lists"]["ALL"]}
+        n = max(labs, key=lambda k: len(labs[k]))
+        self.assertEqual(allr[n]["votes"], len(labs[n]))                       # jitni baar dost list me, utne point
+        tk = set(baar.tokri(ROWS, data.play_date(ROWS).weekday(), asof=data.play_date(ROWS))["numbers"])
+        for r in allr.values():
+            self.assertEqual(r["score"], r["votes"] + (2 if r["n"] in tk else 0))
+            self.assertEqual(r["baar"], 1 if r["n"] in tk else 0)
 
 
 class StaleScanTests(unittest.TestCase):

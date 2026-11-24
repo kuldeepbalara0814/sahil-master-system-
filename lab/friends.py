@@ -12,6 +12,8 @@ import numpy as np
 from . import data
 
 TIERS = ["green"] * 3 + ["yellow"] * 3 + ["orange"] * 4    # 10 dost: top 3 hara, beech 3 peela, last 4 narangi
+RANK_TIERS = ["green"] * 5 + ["yellow"] * 4 + ["orange"] * 3   # Number Rank ke liye 12 dost: 5 hara, 4 peela, 3 narangi (hamesha itne)
+RANK_K = 12
 PERIOD_NAMES = {"poora": "Poora (sab saal)", "last3m": "Pichle 3 mahine (is mahine samet)", "month": "Is mahina (chal raha)"}
 
 
@@ -59,7 +61,7 @@ def pair_pct(cnt, x, y):
     return (int(C[x, y] + C[y, x]) / trials) if trials else 0.0
 
 
-def top_friends(cnt, x, k=10):
+def top_friends(cnt, x, k=10, tiers=None):
     """x ke top-k dost. Sirf wahi jo kam se kam 1 baar saath aaye."""
     C, kk, seen = cnt
     out = []
@@ -78,7 +80,8 @@ def top_friends(cnt, x, k=10):
     out.sort(key=lambda f: (-f["together"], -f["z"], f["n"]))
     out = out[:k]
     for i, f in enumerate(out):
-        f["tier"] = TIERS[i] if i < len(TIERS) else "orange"
+        t = tiers or TIERS
+        f["tier"] = t[i] if i < len(t) else "orange"
     return out
 
 

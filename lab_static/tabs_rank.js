@@ -36,15 +36,15 @@ tabs.rank=async function(root){
   return el("div",{class:"rk-row"},
    el("span",{class:"rk-no"},"#"+(i+1)),chip(r.n,i<3?"green":i<6?"yellow":"grey"),
    el("div",{class:"rk-mid"},
-    el("div",{class:"rk-top"},el("b",{},String(r.score)),r.baar?el("span",{class:"act-tag"},"+1 din"):null,el("span",{class:"mut small"},`${r.votes} map`)),
+    el("div",{class:"rk-top"},el("b",{},String(r.score)),r.baar?el("span",{class:"act-tag"},"+2 din"):null,el("span",{class:"mut small"},`${r.votes} map`)),
     el("div",{class:"act-bar"},el("i",{style:`width:${Math.max(4,100*r.score/top)}%`})),
     mp.length?el("div",{class:"mut small rk-maps"},shown.join(", ")+(more>0?` +${more} aur`:"")):null))}
  root.append(head,el("div",{class:"rk-lbl mut small"},"Pattern type"),gsel,el("div",{class:"rk-lbl mut small"},"Location"),lsel,body,
-  el("div",{class:"card flat"},el("b",{},"Ye kaise kaam karta hai"),el("p",{class:"mut small",style:"margin:6px 0 0"},"Ek map = ek vote. Score = kitne alag map ne ye number diya (+1 agar aaj ke din ki tokri me hai).")));
+  el("div",{class:"card flat"},el("b",{},"Ye kaise kaam karta hai"),el("p",{class:"mut small",style:"margin:6px 0 0"},"Ek map = ek vote. Score = kitne alag map ne ye number diya + dost ke point (pichli line ke har number ke 12 dost: 5 hara, 4 peela, 3 narangi; list me jitni baar aaya utne point) + 2 agar aaj ke din (baar) ki tokri me hai.")));
  body.replaceChildren(el("p",{class:"load"},el("span",{class:"spin"}),"Ranking ban rahi hai..."));
  try{rep=await api("GET","/rank")}catch(e){body.replaceChildren(el("div",{class:"warn"},e.message));return}
  head.replaceChildren(el("h2",{style:"margin:0 0 4px"},"Number Rank"),
-  el("p",{class:"small",style:"margin:0"},el("b",{},`${rep.date||""} ${rep.weekday||""}`),el("span",{class:"mut"}," | Din ka +1 point: "),el("b",{},rep.weekday||"")),
+  el("p",{class:"small",style:"margin:0"},el("b",{},`${rep.date||""} ${rep.weekday||""}`),el("span",{class:"mut"}," | Din ke 2 point: "),el("b",{},rep.weekday||"")),
   rep.scan_time?el("p",{class:"mut small",style:"margin:4px 0 0"},"Scan: "+String(rep.scan_time).replace("T"," ").slice(0,16)):null);
  draw()};
 })();

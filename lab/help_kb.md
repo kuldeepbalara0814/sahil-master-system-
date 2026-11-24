@@ -20,7 +20,7 @@ Roz 3 baar apne aap scan: subah 7:00, shaam 7:00 (19:00), raat 12:30 IST. Subah 
 - **Paper Trading:** kalpnik paisa (Rs 10,000). 4 khate alag chalte hain: list10, list10s, single, manual. Ek hi number kayi khate me aa sakta hai, wo duplicate nahi hai. Payout 95 guna (40 se kam number ki list), warna 90 guna.
 - **Aur menu me:** Meri Window, Number Rank, Dost Khojo, Lab, Monitor, Record, Pattern, Din (Baar), Data, Guide.
 - **Meri Window:** apni chuni hui screen: aaj ke naye Naksha pattern ki jodi (copy ho sakti hai), Top 30 jodi (copy), "Pattern number se kholo" (kind chuno, number likho, rang wala chart aur Excel), aur do kagaz ki pocket (Rs 10,000 each).
-- **Number Rank:** aaj ke saare pattern ke vote se number ki ranking. Ek map = ek vote. Location ke hisaab se list (FB, GB, GL, DS, ALL) aur Copy button. Din (weekday) ki tokri me ho to +1.
+- **Number Rank:** aaj ke saare pattern ke vote se number ki ranking. Ek map = ek vote. Location ke hisaab se list (FB, GB, GL, DS, ALL) aur Copy button. Din (weekday, Baar) ki tokri me ho to +2. Dost: pichhli line ke har number ke 12 dost (5 hara, 4 peela, 3 narangi) teeno samay me; dost list me jitni baar aaye utne point (har baar 1).
 - **Dost Khojo:** ek number likho, wo kin numbers ke saath aata hai (poora record / pichle 3 mahine / is mahine). Aakhri line ka number agle din ke bina ginti me nahi aata, isliye wo "aakhri line me bhi aaya" likha hota hai.
 - **Lab:** apna khayal likho (jaise "FB ke baad GB me wahi number"), app 13 saal par kharcha aur random se tulna ke saath jaanchta hai.
 - **Monitor:** paper list ka asli hit-rate vs break-even (poora / pichle 12 mahine / pichle 30 din). 30 din ka sample chhota hota hai, header chetavani sirf pichle 3 mahine se banti hai.
