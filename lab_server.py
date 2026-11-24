@@ -174,7 +174,7 @@ def healthz():
 
 
 STATE_FILES = ["results.csv", "paper_ledger.json", "active_log.json", "hit_log.json", "review_log.json", "play_log.json", "manual_results.json",
-               "boards.json", "ideas.json", "fetch_log.json", "drift_log.json", "patterns_today.json"]
+               "boards.json", "ideas.json", "fetch_log.json", "drift_log.json", "patterns_today.json", "window_log.json", "help_requests.json"]
 
 
 @app.get("/api/health")

@@ -1305,6 +1305,14 @@ class ZollyAvatarTests(unittest.TestCase):
         self.assertFalse([n for n in names if n.lower().endswith((".mp4", ".mp3", ".aac", ".wav", ".m4a", ".ogg"))])   # awaaz/video repo me nahi
 
 
+class HealthShowsHelpFilesTests(unittest.TestCase):
+    def test_health_lists_window_and_help_request_files(self):
+        import lab_server
+        j = lab_server.app.test_client().get("/api/health").get_json()
+        self.assertIn("help_requests.json", j["file_bytes"])          # request Render par save hui ya nahi: size se pata chale (text kabhi nahi)
+        self.assertIn("window_log.json", j["file_bytes"])
+
+
 if __name__ == "__main__":
     unittest.main()
 
