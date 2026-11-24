@@ -82,3 +82,24 @@ Status: **sirf note. Kuch banaya/push nahi kiya** (user: "abhi kuch mat karo").
 5. Dahai-bias, hot/cold-10 jaise kamzor signal jod kar zyada shor, 90x par hot-10 -0.2%.
 6. 007 ke bug 5-8 wahi jo pehle note kiye; baaki doc ke bug (disk wipe, workers, timeout) pehle jaise **purani/galat baat**.
 7. Doc me emoji kharab encode (kuch jagah): sirf dikhawat.
+
+## 5. Teesri report (PDF "Sahil_Lab_Report_24Nov2026.pdf", repo clone karke code padha) - user ne "dekho" kaha
+Status: **sirf note, kuch badla nahi.** Is report ke daave maine apne data par dobara chalaye.
+
+**Dobara ginne par mel khaye:**
+- DS lag-2 1.554% (333/21429), lag-3 1.433%, lag-4 1.447%, lag-5 1.456%; 1966-2012 1.516%, 2013-26 1.368%, 2022-26 1.468%: hamare nateejo se mel.
+- **Naya (B4): DS ka aakhri ank (unit digit) 2 din pehle jaisa.** Maine dobara chalaya: poora 12.71% (2724/21429), 2013-26 11.71%, 2020-26 11.57%; shuffle control (saal-saal shuffle, 100 baar) mean 9.95%, max 10.34% => sanyog nahi. Exact number repeat hata kar bhi 11.33% (random ~9.1% se upar) => ank-level ka asli asar, number repeat ka hi roop nahi. Lag-3 ank 2013-26 10.84%.
+- Break-even: ank par 9.5x = 10.53%, **9x = 11.11%** (isliye 9x par margin sirf ~+5%, 9.5x par +11%). Pehle kisi report me ye ank-wala hissa nahi tha.
+- Is naye test ko bhi baaki jaisa maano: ye bahut saare digit-tests me se ek hai (multiple testing), purane data par mila. **Paper-only, alag khate me** forward dekhna.
+
+**App ke naye bug (code se):**
+1. `lab/picks.py` (list10): DS ke liye apna lag 2-5 signal hai hi nahi (grep: picks.py me "lag" nahi). Aaj ki DS list me 47 aur 76 nahi hai (jo 008 ke aaj ke sabse mazboot number). **Sahi.**
+2. DS par "single" bet cross-game (kal ka GB) hai; 2022-26 me ye kamzor (+9%, CI -13..+34).
+3. Paper payout: 95x har jagah; asli market 90/9.5 hota hai: ledger ROI thoda zyada dikhta hai.
+4. Fetch fail ho to purani tarikh ki list chalti rehti hai (banner nahi).
+5. Active log: `first_seen` = pehli scan ka din, isliye "kitne din chala/kab pass hua" ginti galat ban sakti hai.
+6. List ke weights usi data par set (monitor ka "list10 +14.6%" poora walk-forward nahi).
+7-12. Chhote: bina settle holiday-bet pending rehti hai; /api/paper GET aur /api/monitor GET bina lock file likhte hain; fetch_log ulti tarteeb/duplicate; backtest cache ki chaabi me data badalne par safayi nahi; hits.py ka default "aaj" UTC se.
+(Inme se 2-3 pehle wali reports ke saath milte hain; jaanch pending: kaun sa pehle ho sakta hai user tay karega.)
+
+**Report ke sujhav:** pehle bug 1+2 (DS ke liye lag number list me), payout setting (95/90/9.5), haruf paper mode alag, purani list par banner, first_seen sahi, weights walk-forward, forward-test ka niyam likh dena ("90 din = chalu hai ya toota; faisla ~5 saal").
