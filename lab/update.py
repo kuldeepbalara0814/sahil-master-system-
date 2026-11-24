@@ -12,7 +12,7 @@ import os
 import sys
 import threading
 
-from . import data, fetcher, friends, monitor, paper
+from . import alerts, data, fetcher, friends, monitor, paper, partial
 
 KEEP_LOG = 90
 
@@ -50,6 +50,7 @@ def run(fetch=True, today=None, stake=5, auto_bets=True, data_dir=None, fetch_fn
     rep = {"time": dt.datetime.now(dt.timezone(dt.timedelta(hours=5, minutes=30))).isoformat(timespec="seconds"), "added": [], "skipped": [], "conflicts": [], "errors": [], "problems": []}
     rows = data.load(csv_path)
     # 1) fetch
+    cur_partial, prev_partial, fetched_ok = None, _load_json(_path(data_dir, "partial_results.json"), None), False
     if fetch:
         try:
             new, info = fetcher.new_lines(rows, today=today, fetch=fetch_fn, pause=pause)
@@ -63,6 +64,14 @@ def run(fetch=True, today=None, stake=5, auto_bets=True, data_dir=None, fetch_fn
         if added:
             data.save(merged, csv_path)
             rows = merged
+        if not info.get("errors") and "partial" in info:                  # aadhi line (aaj ke aa chuke FB/GB/GL): sirf dikhane ke liye alag file
+            fetched_ok = True
+            cur_partial = partial.clean(dict(info["partial"] or {}, asof=rep["time"]), rows[-1][0])
+            _save_json(_path(data_dir, "partial_results.json"), cur_partial or {"asof": rep["time"], "date": None, "results": {}})
+    if not fetched_ok:
+        cur_partial = partial.clean(prev_partial, rows[-1][0])           # fetch na hua/toota: purana (agar abhi bhi aaj ka hai)
+    rep["partial"] = cur_partial
+    rep["partial_new"] = [f"{g} {n:02d}" for g, n in partial.new_games(prev_partial, cur_partial)]
     rep["problems"] = data.validate(rows)
     rep["last_date"] = rows[-1][0].isoformat()
     rep["days"] = len(rows)
@@ -93,7 +102,22 @@ def run(fetch=True, today=None, stake=5, auto_bets=True, data_dir=None, fetch_fn
     # 5) pattern scan (sikhaye hue pattern: aaj kya ban raha hai). Galti ho to baaki kaam na ruke.
     try:
         from . import scanner
-        srep = scanner.run(rows)
+        prev_scan = _load_json(_path(data_dir, "patterns_today.json"), None)
+        srep = scanner.run(rows, partial=cur_partial)
+        try:                                                          # banner khabar: result ke baad kaun se pattern NAYE active hue
+            label = None
+            if rep["added"]:
+                label = "Subah ka final scan (DS aaya, line poori): sab pattern naye sire se"
+            elif rep["partial_new"]:
+                label = "Result aaya: " + ", ".join(rep["partial_new"]) + " - ab ye current pattern active hue"
+            if label:
+                al = alerts.make(prev_scan, srep, label)
+                if al:
+                    lg = alerts.add(_load_json(_path(data_dir, "alerts.json"), None) or {"items": []}, al)
+                    _save_json(_path(data_dir, "alerts.json"), lg)
+                    rep["alert"] = al["total"]
+        except Exception as e:
+            rep.setdefault("scan_errors", []).append(f"khabar (alert) nahi bani: {type(e).__name__}: {e}")
         try:
             from . import active
             lp = _path(data_dir, "active_log.json")
@@ -104,7 +128,7 @@ def run(fetch=True, today=None, stake=5, auto_bets=True, data_dir=None, fetch_fn
             from . import active, hits
             hp = _path(data_dir, "hit_log.json")
             hs = _load_json(hp, None) or hits.new_state()
-            hits.settle(hs, rows, _load_json(_path(data_dir, "manual_results.json"), {}), today or active.now_ist().date())
+            hits.settle(hs, rows, partial.merged_results(_load_json(_path(data_dir, "manual_results.json"), {}), cur_partial), today or active.now_ist().date())
             hits.archive(hs, srep)
             _save_json(hp, hs)
         except Exception as e:

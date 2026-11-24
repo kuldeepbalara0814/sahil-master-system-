@@ -27,7 +27,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import active, ank_chal, help_bot, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
+from lab import active, alerts, ank_chal, help_bot, partial, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -174,7 +174,7 @@ def healthz():
 
 
 STATE_FILES = ["results.csv", "paper_ledger.json", "active_log.json", "hit_log.json", "review_log.json", "play_log.json", "manual_results.json",
-               "boards.json", "ideas.json", "fetch_log.json", "drift_log.json", "patterns_today.json", "window_log.json", "help_requests.json"]
+               "boards.json", "ideas.json", "fetch_log.json", "drift_log.json", "patterns_today.json", "window_log.json", "help_requests.json", "partial_results.json", "alerts.json"]
 
 
 @app.get("/api/health")
@@ -491,7 +491,7 @@ def _save_scan(rep, source, push):
     try:                                                       # hit hue map: pehle purane andaze ka hisaab, phir naye andaze rakho
         rws, _ = state()
         hs = jload("hit_log.json", None) or hits.new_state()
-        hits.settle(hs, rws, jload("manual_results.json", {}), active.now_ist().date())
+        hits.settle(hs, rws, partial.merged_results(jload("manual_results.json", {}), cur_partial(rws)), active.now_ist().date())
         hits.archive(hs, rep)
         jsave("hit_log.json", hs)
         names.append("hit_log.json")
@@ -513,11 +513,23 @@ def _save_scan(rep, source, push):
             app.logger.warning("scan persist: %s", e)
 
 
+def cur_partial(rows):
+    """Aaj ki aadhi line (jo game aa chuke) ya None."""
+    return partial.clean(jload("partial_results.json", None), rows[-1][0])
+
+
+def _partial_games(p):
+    return sorted((p or {}).get("results") or {}) if p else []
+
+
 def scan_today(rows):
     """Aaj ka scan (saved agar taaza ho, warna abhi chalao; ye 'auto' gina jaata hai)."""
     rep = jload("patterns_today.json", None)
-    if not rep or rep.get("asof") != rows[-1][0].isoformat() or rep.get("schema") != scanner.SCHEMA:
-        rep = scanner.run(rows)
+    cp = cur_partial(rows)
+    saved_p = (rep or {}).get("partial") or {}
+    if not rep or rep.get("asof") != rows[-1][0].isoformat() or rep.get("schema") != scanner.SCHEMA \
+            or (saved_p.get("games") or []) != _partial_games(cp) or (cp and saved_p.get("date") != cp["date"]):
+        rep = scanner.run(rows, partial=cp)
         save_scan(rep, "auto")
     return rep
 
@@ -546,7 +558,7 @@ def api_active_scan():
         return c
     rows, _ = state()
     try:
-        rep = scanner.run(rows)
+        rep = scanner.run(rows, partial=cur_partial(rows))
     except Exception as e:
         app.logger.exception("active scan fail")
         return err(f"Script chali hi nahi: {type(e).__name__}: {str(e)[:200]}", 500)
@@ -568,7 +580,7 @@ def api_scanner_run():
         return c
     rows, _ = state()
     try:
-        rep = scanner.run(rows)
+        rep = scanner.run(rows, partial=cur_partial(rows))
     except Exception as e:
         app.logger.exception("scanner run fail")
         return err(f"Script chali hi nahi: {type(e).__name__}: {str(e)[:200]}", 500)
@@ -858,17 +870,26 @@ def api_window():
     rows, fr = state()
     rep = scan_today(rows)                                       # aaj ka scan (tokri isi se lock hoti hai)
     wl = jload("window_log.json", None) or window.new_state()
-    out = window.view(wl, rows, jload("manual_results.json", {}) or {})
+    out = window.view(wl, rows, partial.merged_results(jload("manual_results.json", {}) or {}, cur_partial(rows)))
     try:                                                         # top 30 ke har number ke saath: kaun-kaun se pattern ('Pattern 03 (Family)') se aaya
         rk = rank.build(rep, rows, fr)
         allg = next(g for g in rk["groups"] if g["key"] == "all")
         mp = {r["n"]: r["maps"] for r in allg["lists"]["ALL"]}
         for x in out["top30"]:
             x["maps"] = mp.get(x["n"], [])
+        out["dost_baar"] = window.dost_baar(rk)                  # dost + baar ke aaj ke number (sirf dikhane ke liye)
         out["naksha_all"] = window.naksha_all(rk)                # aaj ke SAB Naksha (purane + naye, Rashi samet) number, sirf dikhane ke liye
     except Exception:
         app.logger.exception("window top30 maps")
     return jsonify(out)
+
+
+@app.get("/api/alerts")
+def api_alerts():
+    """Upar ki banner khabar: result ke baad kaun se current pattern naye active hue + aadhi line (aaj ke aa chuke game)."""
+    rows, _ = state()
+    log = jload("alerts.json", None) or {"items": []}
+    return jsonify({"items": log.get("items", [])[:5], "partial": cur_partial(rows)})
 
 
 @app.get("/api/ank")
@@ -971,7 +992,7 @@ def api_scanner_play():
 def api_scanner_view():
     rows, _ = state()
     try:
-        return jsonify(scan_view.view(rows, request.args.get("id", "")))
+        return jsonify(scan_view.view(rows, request.args.get("id", ""), cur_partial(rows)))
     except (ValueError, IndexError) as e:
         return err(str(e) or "Pattern nahi mila")
 

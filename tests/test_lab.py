@@ -1613,6 +1613,104 @@ class RankDostBaarTests(unittest.TestCase):
 
 
 
+class AutoFetchPartialTests(unittest.TestCase):
+    """24 Nov 2026: result aate hi (FB 6:45pm, GB 10:30pm, GL 12:15am, DS subah) auto fetch; aadhi line, 007 aage badhe, banner khabar."""
+
+    def test_partial_line_from_site(self):
+        from lab import fetcher
+        D = dt.date
+        site = {D(2026, 11, 23): dict(fd=1, gb=2, gl=3, ds=4), D(2026, 11, 24): dict(fd=53, gb=None, gl=None, ds=9), D(2026, 11, 25): dict(fd=None, gb=None, gl=None, ds=None)}
+        self.assertEqual(fetcher.partial_line(site, D(2026, 11, 23)), {"date": "2026-11-24", "results": {"FB": 53}})
+        site[D(2026, 11, 24)].update(gb=93, gl=10)
+        self.assertEqual(fetcher.partial_line(site, D(2026, 11, 23))["results"], {"FB": 53, "GB": 93, "GL": 10})
+        self.assertIsNone(fetcher.partial_line(site, D(2026, 11, 24)))                     # line poori ho chuki: partial nahi
+
+    def test_partial_module(self):
+        from lab import partial
+        cur = partial.clean({"date": "2026-11-24", "results": {"FB": 53, "DS": 7, "GB": 100}, "asof": "x"}, dt.date(2026, 11, 23))
+        self.assertEqual(cur["results"], {"FB": 53})                                       # DS aadhi line me nahi; 100 galat
+        self.assertIsNone(partial.clean(cur, dt.date(2026, 11, 24)))                       # line poori (results.csv me) -> purana partial bekaar
+        self.assertIsNone(partial.clean({"date": None, "results": {}}))
+        cur2 = {"date": "2026-11-24", "results": {"FB": 53, "GB": 93}}
+        self.assertEqual(partial.new_games(cur, cur2), [("GB", 93)])
+        self.assertEqual(partial.new_games({"date": "2026-11-23", "results": {"FB": 1}}, cur), [("FB", 53)])   # nayi tarikh: sab naya
+        m = partial.merged_results({"2026-11-24": {"FB": 11}}, cur2)
+        self.assertEqual(m["2026-11-24"], {"FB": 11, "GB": 93})                            # hath se dala bhaari
+
+    def test_alerts_only_new_active(self):
+        from lab import alerts
+        def rep(*ids):
+            return {"patterns": [{"key": "steps", "naam": "Puzzle-Steps", "items": [{"id": i, "name": i, "status": "aaj", "targets": [{"game": "GB", "numbers": [39, 93]}]} for i in ids]},
+                                 {"key": "naksha2", "naam": "Naksha-Rashi", "items": [{"id": "r" + i, "name": "R", "status": "aaj", "targets": []} for i in ids]}]}
+        self.assertIsNone(alerts.make(None, rep("a"), "x"))
+        self.assertIsNone(alerts.make(rep("a"), rep("a"), "x"))
+        al = alerts.make(rep("a"), rep("a", "b"), "FB aaya")
+        self.assertEqual(al["total"], 2)                                                   # b (steps) + rb (rashi)
+        g = {x["key"]: x for x in al["groups"]}
+        self.assertEqual(g["steps"]["items"][0]["numbers"], [39, 93])
+        self.assertEqual((g["naksha2"]["count"], g["naksha2"]["items"]), (1, []))          # Rashi: sirf ginti, naam nahi
+        log = alerts.add({}, al)
+        self.assertEqual(len(log["items"]), 1)
+
+    def test_scanner_with_partial_and_steps_view(self):
+        from lab import scanner, scan_view, steps
+        rows = data.load()
+        nxt = (rows[-1][0] + dt.timedelta(days=1)).isoformat()
+        p = {"date": nxt, "results": {"FB": 53}}
+        rep = scanner.run(rows, partial=p)
+        self.assertEqual(rep["partial"], {"date": nxt, "games": ["FB"]})
+        self.assertEqual(rep["errors"], [])
+        st = next(x for x in rep["patterns"] if x["key"] == "steps")
+        self.assertTrue(st["items"])
+        v = scan_view.view(rows, st["items"][0]["id"], p)
+        row = next(r for r in v["stack"]["rows"] if r["date"] == nxt)
+        self.assertEqual((row["v"], row["txt"][0], row["txt"][1]), (None, "53", None))     # aadhi line: FB dikha, baaki khali
+        base = scanner.run(rows)
+        self.assertNotIn("partial", base)
+        self.assertEqual([i["id"] for i in steps.scan(rows, "x")["items"]], [i["id"] for i in steps.scan(rows, "x", None)["items"]])
+
+    def test_update_saves_partial_and_reports_new_game(self):
+        import shutil
+        import tempfile
+        from unittest import mock
+        from lab import update, fetcher
+        tmp = tempfile.mkdtemp()
+        try:
+            rows = data.load()
+            data.save(rows, os.path.join(tmp, "results.csv"))
+            nxt = (rows[-1][0] + dt.timedelta(days=1)).isoformat()
+            def nl(p):
+                return lambda *a, **k: ([], {"errors": [], "months": [], "partial": p})
+            with mock.patch.object(fetcher, "new_lines", nl({"date": nxt, "results": {"FB": 53}})):
+                r1 = update.run(today=rows[-1][0], data_dir=tmp, pause=0)
+            self.assertEqual(r1["partial_new"], ["FB 53"])
+            with open(os.path.join(tmp, "partial_results.json"), encoding="utf-8") as f:
+                self.assertEqual(json.load(f)["results"], {"FB": 53})
+            with mock.patch.object(fetcher, "new_lines", nl({"date": nxt, "results": {"FB": 53, "GB": 93}})):
+                r2 = update.run(today=rows[-1][0], data_dir=tmp, pause=0)
+            self.assertEqual(r2["partial_new"], ["GB 93"])                                 # sirf naya aaya
+            with mock.patch.object(fetcher, "new_lines", nl({"date": nxt, "results": {"FB": 53, "GB": 93}})):
+                r3 = update.run(today=rows[-1][0], data_dir=tmp, pause=0)
+            self.assertEqual(r3["partial_new"], [])
+            self.assertNotIn("alert", r3)                                                  # kuch naya nahi to khabar nahi
+            with mock.patch.object(fetcher, "new_lines", side_effect=RuntimeError("net band")):
+                r4 = update.run(today=rows[-1][0], data_dir=tmp, pause=0)                  # fetch toota: purana partial bacha rahe
+            self.assertEqual(r4["partial"]["results"], {"FB": 53, "GB": 93})
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_alerts_api_and_window_dost_baar(self):
+        c = lab_server.app.test_client()
+        j = c.get("/api/alerts").get_json()
+        self.assertIn("items", j)
+        self.assertIn("partial", j)
+        w = c.get("/api/window").get_json()
+        self.assertIn("dost_baar", w)
+        db = w["dost_baar"]
+        self.assertTrue(all(db[i]["score"] >= db[i + 1]["score"] for i in range(len(db) - 1)))
+        self.assertTrue(all(r["score"] == r["dost"] + 2 * r["baar"] for r in db))
+
+
 class StaleScanTests(unittest.TestCase):
     def test_old_schema_scan_is_rerun(self):
         old = scanner.run(ROWS)

@@ -39,7 +39,7 @@ Neeche ki bar: **Active | Aaj ki List | Pattern Scan | Paper Trading | Aur**. "A
 | Record | Gap Filter (same gap se bane step, rang), Excel; **Har game ka alag record** (FB/GB/GL 2013 se, DS 1966 se; Excel/CSV) | tabs_guide.js, lab/gapchain.py |
 | Paper Trading, Monitor, Lab, Dost, Data, Guide | pehle ke approved hisse | tabs_lab.js, tabs_core.js, tabs_guide.js |
 
-**Scan:** din me 3 baar auto (subah 7:00, shaam 19:00, raat 00:30 IST) + manual button. Roz naya "batch" (dekh liya nishan roz 0 se). Pattern kabhi gayab nahi hote (data/active_log.json).
+**Scan:** din me 8 baar auto (FB ke baad 18:45, GB ke baad 22:45, GL ke baad 00:30, subah 7:00 final; har ek ka ek retry) + manual button; patterns/013_auto_fetch_alerts/README.md. Roz naya "batch" (dekh liya nishan roz 0 se). Pattern kabhi gayab nahi hote (data/active_log.json).
 **Approved naksha version:** git tag `naksha-approved-2026-11-23`. **Abhi live nahi (user sikha raha hai):** current 3 mahine ka Naksha mapping, Naksha ka pass/fail niyam.
 Poori detail: HANDOFF.md (items 1-24).
 

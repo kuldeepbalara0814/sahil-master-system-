@@ -1,14 +1,19 @@
 name: daily-update
 
-# Roz 3 baar auto scan: (1) subah 7:00 IST (01:30 UTC, DS ke baad), (2) shaam 19:00 IST (13:30 UTC, FB ke baad),
-# (3) raat 00:30 IST (19:00 UTC, GL ke baad). 03:30 UTC (9:00 IST) sirf dobara koshish hai (GitHub kabhi der karta hai).
-# Har baar site se nayi line, paper trading, monitor aur pattern scan; data/ ka badlav repo me commit hota hai.
-# Manual: Actions tab -> daily-update -> Run workflow, ya app me "Abhi scan karo".
+# Roz 8 baar auto fetch + scan (IST). Har result ke baad aur subah ka final:
+#   FB  (~6:30-6:45 pm)  -> 18:45 (13:15 UTC) aur retry 19:15 (13:45 UTC)
+#   GB  (~10:30 pm)      -> 22:45 (17:15 UTC) aur retry 23:15 (17:45 UTC)
+#   GL  (~12:15 am)      -> 00:30 (19:00 UTC) aur retry 01:00 (19:30 UTC)
+#   DS  (~5:30 am), FINAL-> 07:00 (01:30 UTC) aur retry 09:00 (03:30 UTC): line poori, sab pattern naye sire se
+# GitHub kabhi 10-30 min der karta hai, isliye har result ka ek retry. Har baar: site se result (aadhi line bhi), paper trading, monitor,
+# pattern scan; naye active pattern ho to app ke upar banner khabar (data/alerts.json). data/ ka badlav repo me commit hota hai
+# (Render data/** par dobara deploy nahi karta). Manual: Actions tab -> daily-update -> Run workflow, ya app me "Abhi scan karo".
 on:
   schedule:
     - cron: "30 1,3 * * *"
-    - cron: "30 13 * * *"
-    - cron: "0 19 * * *"
+    - cron: "15,45 13 * * *"
+    - cron: "15,45 17 * * *"
+    - cron: "0,30 19 * * *"
   workflow_dispatch: {}
 
 permissions:

@@ -25,7 +25,7 @@ def _row(date, v=None, c=None, kind=None, txt=None):
     return {"date": date, "v": v, "c": c or [None] * 4, "kind": kind or [None] * 4, "txt": txt or [None] * 4}
 
 
-def view(rows, pid):
+def view(rows, pid, partial=None):
     """pid: 'naksha:L:YYYY-MM-DD' ya 'copy:shape:g:YYYY-MM-DD'."""
     parts = pid.split(":")
     D = [r[0] for r in rows]
@@ -34,7 +34,7 @@ def view(rows, pid):
         raise ValueError("009 Ank-Chal ka rang wala chart nahi banta (ye ank ka pattern hai); iska card Active tab me hai")
     if parts[0] == "steps":
         from . import steps
-        return steps.view(rows, pid)
+        return steps.view(rows, pid, partial)
     if parts[0] in ("naksha", "naksha2"):
         mode = "r" if parts[0] == "naksha2" else "n"
         L, so = int(parts[1]), D.index(dt.date.fromisoformat(parts[2]))

@@ -102,6 +102,19 @@ def build_lines(site):
     return lines
 
 
+def partial_line(site, last):
+    """last (aakhri poori line) ke baad ki agli tarikh ke jo game (FB, GB, GL) aa chuke: {"date": iso, "results": {...}} ya None.
+    DS isme nahi (DS agli subah aata hai aur tab line poori hoti hai)."""
+    for d in sorted(site):
+        if d <= last:
+            continue
+        s = site[d]
+        res = {g: s[k] for g, k in (("FB", "fd"), ("GB", "gb"), ("GL", "gl")) if s[k] is not None}
+        if res:
+            return {"date": d.isoformat(), "results": res}
+    return None
+
+
 def months_between(a, b):
     y, m = a.year, a.month
     out = []
@@ -126,4 +139,7 @@ def new_lines(rows, today=None, fetch=fetch_month, pause=1.5):
             info["errors"].append(str(e))
         if pause:
             time.sleep(pause)
-    return [ln for ln in build_lines(site) if ln[0] > last], info
+    lines = [ln for ln in build_lines(site) if ln[0] > last]
+    eff = lines[-1][0] if lines else last
+    info["partial"] = partial_line(site, eff)
+    return lines, info

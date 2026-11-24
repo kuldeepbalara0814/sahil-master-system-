@@ -69,6 +69,23 @@ def naksha_all(rk):
     return out
 
 
+def dost_baar(rk):
+    """Aaj ke Dost (pichhli line ke 12 dost x 3 samay) + Baar (2 point) ke number - sirf dikhane ke liye; Top 30 isse nahi banti
+    (backtest research/dost_top30: dost+baar 28.6% vs random 30%). -> [{n, dost, baar, score, top30}] score zyada pehle."""
+    g = {x["key"]: x for x in rk["groups"]}
+    allg = {r["n"]: r for r in g["all"]["lists"]["ALL"]}
+    top = {r["n"] for r in g["all"]["lists"]["ALL"][:TOP_N]}
+    out = []
+    for r in g["dost"]["lists"]["ALL"]:
+        out.append({"n": r["n"], "dost": r["votes"], "baar": r["baar"], "score": r["votes"] + 2 * r["baar"], "top30": r["n"] in top})
+    seen = {x["n"] for x in out}
+    for n, r in allg.items():                                       # baar ki tokri ke wo number jo kisi dost list me nahi
+        if r["baar"] and n not in seen:
+            out.append({"n": n, "dost": 0, "baar": 1, "score": 2, "top30": n in top})
+    out.sort(key=lambda r: (-r["score"], -r["dost"], r["n"]))
+    return out
+
+
 def record(state, rep, rows):
     """Is play_date ki tokri abhi tak nahi bani to LOCK karo. -> True agar nayi bani."""
     play, naksha, top = baskets(rep, rows)

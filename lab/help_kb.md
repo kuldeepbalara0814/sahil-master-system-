@@ -11,7 +11,7 @@
 ## App kya hai
 Sahil Lab ek research app hai: 4 game (FB, GB, GL, DS) ke result ka record (FB/GB/GL 2013 se, DS 1966 se) aur "sikhaye hue pattern" ko roz data par jaanchna. FB = FD (Faridabad) bhi likha jata hai. Har din ki ek line me chaaron game hote hain. DS ka result hamare record me us tarikh ki line me likha jata hai jiski agli subah wo khulta hai (line d ka DS = d+1 subah ka Desawar). Mahine ka aakhri din chhutti hota hai, uski line nahi banti.
 
-Roz 3 baar apne aap scan: subah 7:00, shaam 7:00 (19:00), raat 12:30 IST. Subah 9:00 baje ek dobara koshish bhi hoti hai (agar pehla der se chala). Naya result site se laya jata hai (PIN wala "Abhi fetch" button se bhi).
+Roz 8 baar apne aap fetch + scan (IST): FB result ke baad 6:45 pm (retry 7:15), GB ke baad 10:45 pm (retry 11:15), GL ke baad 12:30 am (retry 1:00), aur subah 7:00 (retry 9:00) final: DS aane par line poori, sab pattern naye sire se. Result aate hi aadhi line (aaj ke aa chuke FB/GB/GL) bhi judti hai, aur naye active pattern ho to app ke upar banner khabar aati hai.
 
 ## Neeche ke tab (bar) aur "Aur" menu
 - **Active:** upar "Aaj ka saar" (aaj ke DS number aur ank), hath se result dalna, DS rule ka kagaz ka khata, DS ank (009) card, jo pattern abhi chal rahe hain, pichle 1-3 din ke PASS aur "Hit hue map", 30 din ka scoreboard.

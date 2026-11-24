@@ -35,7 +35,7 @@ Ye pattern user ne **kai baatein** alag-alag samjhayi (006 README me poori sikha
 - Har design card par "Dekh liya", "Edit karo" (Pattern window me rang badlo), bhi aate hai.
 
 ## App me kaise chalta hai
-- **Apne aap:** din me 3 baar scan (subah 7:00, shaam 19:00, raat 00:30 IST) + **manual "Abhi scan karo"** button (Pattern Scan aur Active tab). Script me galti aaye to sirf us pattern me dikhti hai (error box), baaki chalte rehte hai. **Har jagah manual option hai.**
+- **Apne aap:** din me 8 baar scan (FB ke baad 18:45, GB ke baad 22:45, GL ke baad 00:30, subah 7:00 final; har ek ka retry), aadhi line (aaj ke aa chuke FB/GB/GL) ke saath Step 3 aage badhta hai + **manual "Abhi scan karo"** button (Pattern Scan aur Active tab). Script me galti aaye to sirf us pattern me dikhti hai (error box), baaki chalte rehte hai. **Har jagah manual option hai.**
 - Naye result ke saath **roz naye design** banenge (Step 3 ki boundary aage badhti hai).
 - Active tab aur Number Rank (aaj ke vote) me ye apne aap judta hai.
 - **Result abhi site se fetch hota hai** (rakha hai). Aage user hath se Excel me result dekar bhi data de sakte hai.

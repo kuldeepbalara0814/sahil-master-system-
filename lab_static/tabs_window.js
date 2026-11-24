@@ -159,6 +159,13 @@ tabs.meri=async function(root){
   el("div",{class:"row"},copyBtn("Sab copy",na.map(r=>r.n),"sm")),
   el("div",{class:"act-nums"},na.map(r=>el("span",{class:"chip "+(r.top30?"green":r.votes>=2?"yellow":"grey"),title:`${r.naksha?"Naksha "+r.naksha:""}${r.naksha&&r.steps?", ":""}${r.steps?"Steps "+r.steps:""}${r.baar?", baar":""}${r.dost?", dost x"+r.dost:""}${r.top30?", Top 30 me":""}`},p2(r.n)))),
   el("p",{class:"mut small",style:"margin:6px 0 0"},`${na.length} number. Hara = Top 30 me bhi hai; peela = 2+ vote; baaki halka. Naksha 1 ke saare aaj-wale (purane+naye) aur Puzzle-Steps ke number. Naksha-Rashi isme nahi. Sirf dikhane ke liye, paper basket nahi.`)));
+ /* aaj ke Dost + Baar number - sirf dikhane ke liye */
+ const db=w.dost_baar||[];
+ if(db.length)root.append(el("div",{class:"card wn-dostbaar"},
+  el("h2",{style:"margin:0 0 6px"},"Aaj ke Dost + Baar number ",el("span",{class:"sub"},"(sirf dikhane ke liye)")),
+  el("div",{class:"row"},copyBtn("Sab copy",db.map(r=>r.n),"sm"),copyBtn("Top 30 copy",db.slice(0,30).map(r=>r.n),"sm")),
+  el("div",{class:"act-nums"},db.map((r,i)=>el("span",{class:"chip "+(r.top30?"green":i<12?"yellow":"grey"),title:`score ${r.score}: dost ${r.dost}${r.baar?", baar (+2)":""}${r.top30?", Top 30 me":""}`},p2(r.n)))),
+  el("p",{class:"mut small",style:"margin:6px 0 0"},`${db.length} number. Dost = pichhli line ke har number ke 12 dost (5 hara, 4 peela, 3 narangi), teeno samay; list me jitni baar utne point. Baar ki tokri ke number ko 2 point. Hara = Top 30 me bhi. Backtest (13 saal): ye tokri random se behtar nahi nikli (28.6% vs 30%), isliye Top 30 isse nahi bani; yahan sirf dekhne ke liye.`)));
  /* 2 pocket */
  for(const k of ["naksha","top30"])if(w.pockets&&w.pockets[k])root.append(pocketCard(k,w.pockets[k],pl[k],nm,w.play_date));
  /* tarika */

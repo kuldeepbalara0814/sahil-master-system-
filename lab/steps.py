@@ -7,7 +7,7 @@ Ek link = ek rang. Indicator = ek hi number (laal), har boundary me kahin bhi. S
 """
 import datetime as dt
 
-from . import data
+from . import data, partial as partial_mod
 
 GAMES = ("FB", "GB", "GL", "DS")
 COLS = ["FFB74D", "CE93D8", "80DEEA", "A5D6A7", "F48FB1", "FFF176", "90CAF9", "BCAAA4"]
@@ -16,6 +16,8 @@ LS = (8, 10, 12)
 
 
 def cls(n):
+    if n is None:                       # aadhi line me abhi na aaya hua game: kisi se mel nahi khata
+        return -1
     return min(n, (n % 10) * 10 + n // 10)
 
 
@@ -95,7 +97,7 @@ def _indicator(vals, a, b, c, L, N, avoid):
     return k, cells
 
 
-def analyse(vals, D, a, b, c, L):
+def analyse(vals, D, a, b, c, L, part=False):
     """Ek (a, b, c, L) ka poora hisaab."""
     N = len(vals)
     ka, kb = _keyed(vals, a, L), _keyed(vals, b, L)
@@ -109,6 +111,9 @@ def analyse(vals, D, a, b, c, L):
             pend2.append(k)
             continue
         first = cls(vals[c + i][aa])
+        if first == -1:                                          # pehla cell aadhi line ka abhi-na-aaya game: dono cell aage
+            pend2.append(k)
+            continue
         hit = None                                               # Step 3: wahi number boundary ke andar KISI BHI location me aa jaye (user ne tay kiya)
         if i == j:                                               # flat link (usi din doosri location): usi row me aage ki location bhi boundary ke andar hai
             for g in range(aa + 1, 4):
@@ -125,7 +130,7 @@ def analyse(vals, D, a, b, c, L):
         if hit:
             present.append(k)
             found[k] = hit
-        elif c + L - 1 > N - 1:
+        elif (c + L - 1 >= N - 1) if part else (c + L - 1 > N - 1):      # boundary abhi khuli (aadhi line ho to uski tarikh par bhi)
             pend.append((k, first))
     link_cells = set()
     for n, k in enumerate(common):
@@ -146,11 +151,11 @@ def _windows(rows):
     return D, vals, i2, i1, i0
 
 
-def find(rows, Ls=LS, top=8, only=None):
+def find(rows, Ls=LS, top=8, only=None, part=False):
     """-> list of analyse() dict (sabse achhe), har (L, a, b) ka ek, Step 3 ki boundary jo aaj ko dhake (adhuri) ya abhi poori hui."""
     D, vals, i2, i1, i0 = _windows(rows)
     N = len(vals)
-    if len(i2) < 12 or len(i1) < 12 or len(i0) < 3:
+    if len(i2) < 12 or len(i1) < 12 or len(i0) < 1:
         return []
     rem = future_days(D[-1], _month_end(D[-1]))
     best = {}
@@ -172,10 +177,10 @@ def find(rows, Ls=LS, top=8, only=None):
                 for c in range(i0[0], N):
                     if c + L - 1 < N - 1 or c + L - 1 > N - 1 + len(rem):
                         continue
-                    r = analyse(vals, D, x, y, c, L)
+                    r = analyse(vals, D, x, y, c, L, part)
                     if not r or not (r["present"] or r["pend"] or r["pend2"]):
                         continue
-                    ended = c + L - 1 <= N - 1
+                    ended = c + L - 1 < N - 1 if part else c + L - 1 <= N - 1
                     sc = (len(r["common"]), not ended, len(r["present"]) + len(r["pend"]), r["ind"] is not None)
                     key = (L, x, y)
                     if key not in best or sc > best[key][0]:
@@ -201,8 +206,8 @@ def parse_pid(p, rows):
     return int(L), D.index(dt.date.fromisoformat(da)), D.index(dt.date.fromisoformat(db))
 
 
-def status_of(r, N):
-    ended = r["end_idx"] <= N - 1
+def status_of(r, N, part=False):
+    ended = r["end_idx"] < N - 1 if part else r["end_idx"] <= N - 1      # aadhi line (DS baaki) ho to boundary uski tarikh par bhi khuli maani jaati hai
     if not ended:
         return "aaj"
     return "pass" if len(r["present"]) == len(r["common"]) else "fail"
@@ -212,13 +217,13 @@ def _cd(D, idx, N, fut):
     return D[idx] if idx < N else fut[idx - N]
 
 
-def item(r, rows, today):
+def item(r, rows, today, part=False):
     D = [x[0] for x in rows]
     vals = [list(x[1]) for x in rows]
     N = len(vals)
     L = r["L"]
     fut = future_days(D[-1], _month_end(D[-1]))
-    st = status_of(r, N)
+    st = status_of(r, N, part)
     end_d = _cd(D, r["end_idx"], N, fut)
     lines = [f"Boundary {L} box: Step 1 {D[r['a']]:%d %b} se {D[r['a'] + L - 1]:%d %b}, Step 2 {D[r['b']]:%d %b} se {D[r['b'] + L - 1]:%d %b}, Step 3 {D[r['c']]:%d %b} se {end_d:%d %b}.",
              f"{len(r['common'])} link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) {len(r['present'])} mila."]
@@ -228,7 +233,8 @@ def item(r, rows, today):
         dd = _cd(D, r["c"] + j, N, fut)
         nums = sorted({cl, pal(cl)})
         tg.append({"game": GAMES[bb], "numbers": nums})
-        qtxt = f"; '?' box {dd:%d %b} {GAMES[bb]} par dikhaya" if r["c"] + j >= N else "; (wo din beet chuka, '?' nahi, asli number dikh raha hai)"
+        unknown = r["c"] + j >= N or (r["c"] + j < N and vals[r["c"] + j][bb] is None)
+        qtxt = f"; '?' box {dd:%d %b} {GAMES[bb]} par dikhaya" if unknown else "; (wo din beet chuka, '?' nahi, asli number dikh raha hai)"
         hint.append(f"{'/'.join(f'{x:02d}' for x in nums)} kisi bhi location me boundary ({end_d:%d %b}) tak aana chahiye (andar = PASS, bahar = FAIL)" + qtxt)
     if r["pend2"]:
         hint.append(f"{len(r['pend2'])} link ke dono cell abhi aage ki tarikh me (jamuni '?' box); jab pehla aaye to uska number aur palat agle box ki location me single khelne layak")
@@ -249,21 +255,37 @@ def item(r, rows, today):
             "target": {"date": today.isoformat(), "games": ", ".join(sorted({t["game"] for t in tg})) or "jamuni box (aage)", "numbers": sorted({x for t in tg for x in t["numbers"]})} if st == "aaj" and (tg or r["pend2"]) else None}
 
 
-def scan(rows, asof):
+def scan(rows, asof, partial=None):
+    """partial = lab.partial ka dict (aaj ke aa chuke FB/GB/GL) ya None. Aadhi line sirf is scan ke liye judti hai, record me nahi."""
     today = data.play_date(rows)
-    res = find(rows)
-    items = [item(r, rows, today) for r in res]
+    part = partial_mod.clean(partial, rows[-1][0]) if partial else None
+    prow = [partial_mod.as_row(part)] if part else []
+    rows2 = list(rows) + prow
+    res = find(rows2, part=bool(prow))
+    items = [item(r, rows2, today, bool(prow)) for r in res]
     live = sum(1 for i in items if i["status"] == "aaj")
+    extra = f" Aadhi line judi hai ({', '.join(part['results'])} aa chuke)." if part else ""
     summary = (f"3 mahine ek sheet par step 1 (pichle se pichla mahina), step 2 (pichla mahina), step 3 (current): {len(items)} design mile, {live} abhi chal rahe. "
-               "Ye khoj hai; random data me bhi aise milan aate hai, isliye pass/fail se parkho.")
+               "Ye khoj hai; random data me bhi aise milan aate hai, isliye pass/fail se parkho." + extra)
     return {"summary": summary, "items": items}
 
 
 # ---------------------------------------------------------------- view (3 block + ek sheet)
-def view(rows, p):
+def view(rows, p, partial=None):
+    from .scan_view import _row, _lt
+    part = partial_mod.clean(partial, rows[-1][0]) if partial else None
+    if part:
+        try:
+            return _view(list(rows) + [partial_mod.as_row(part)], p, True)
+        except ValueError:                                       # aadhi line ke saath nahi mila: poori lines se
+            pass
+    return _view(rows, p, False)
+
+
+def _view(rows, p, part):
     from .scan_view import _row, _lt
     L, a, b = parse_pid(p, rows)
-    res = find(rows, only=(L, a, b))
+    res = find(rows, only=(L, a, b), part=part)
     if not res:
         raise ValueError("Ye steps pattern ab nahi mila")
     r = res[0]
@@ -287,7 +309,7 @@ def view(rows, p):
         col = COLS[r["common"].index(k) % len(COLS)]
         i, aa, j, bb = k
         colour[2][(r["c"] + i, aa)] = col
-        if r["c"] + j >= N:                                  # beet chuki tarikh par asli number ke upar '?' nahi likhna
+        if r["c"] + j >= N or vals[r["c"] + j][bb] is None:    # beet chuki tarikh par asli number ke upar '?' nahi likhna
             pend[(r["c"] + j, bb)] = (col, "%02d?" % cl if cl == pal(cl) else "%02d/%02d?" % (cl, pal(cl)))
     for k in r["pend2"]:
         col = COLS[r["common"].index(k) % len(COLS)]
@@ -305,6 +327,7 @@ def view(rows, p):
         dd = D[idx] if known else fut[idx - N]
         c, kind, txt = [None] * 4, [None] * 4, [None] * 4
         ind = [False] * 4
+        half = part and idx == N - 1                              # aadhi line: jo aaye wo txt me, baaki khali
         for g in range(4):
             cell = (idx, g)
             if cell in colour[w]:
@@ -315,7 +338,11 @@ def view(rows, p):
                 ind[g] = True
                 if c[g] is None:
                     c[g], kind[g] = RED, "step"
-        return dd, (vals[idx] if known else None), c, kind, txt, ind
+        if half:
+            for g in range(4):
+                if vals[idx][g] is not None:
+                    txt[g] = "%02d" % vals[idx][g]
+        return dd, (None if half else (vals[idx] if known else None)), c, kind, txt, ind
 
     blocks = []
     for w, nm in enumerate(("STEP 1", "STEP 2", "STEP 3 (adhura)")):
