@@ -54,5 +54,13 @@
   "settled": 53,
   "new_bets": 53,
   "last_date": "2026-11-23"
+ },
+ {
+  "time": "2026-11-24T04:07:12",
+  "added": [],
+  "errors": [],
+  "settled": 0,
+  "new_bets": 0,
+  "last_date": "2026-11-23"
  }
 ]
