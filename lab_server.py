@@ -628,8 +628,16 @@ def api_record_game():
     if year not in ys:
         return err(f"{g} ka {year} ka record nahi hai ({ys[0]}-{ys[-1]})", 404)
     note = "DS us tarikh ki line me (agli subah ka Desawar), baaki sab game jaise hain." if g == "DS" and basis == "line" else ("DS khulne ki tarikh par (site jaisa)." if g == "DS" else "")
+    marks = None
+    if g == "DS":                                   # rang: 2 = roz-1 rule se pass (hara), 1 = sirf roz-4 rule (narangi); naya result aate hi apne aap
+        fl = ds_rule.mark_flags(gamefiles.series(rows, g, "line"))
+        marks = [[0] * 12 for _ in range(31)]
+        for d, f in fl.items():
+            dd = d + dt.timedelta(days=1) if basis == "khula" else d
+            if dd.year == year:
+                marks[dd.day - 1][dd.month - 1] = f
     return jsonify({"g": g, "basis": basis, "years": ys, "year": year, "grid": gamefiles.grid(ser, year), "first": ser[0][0].isoformat(), "last": ser[-1][0].isoformat(),
-                    "count": len(ser), "note": note, "months": gamefiles.MONTHS})
+                    "count": len(ser), "note": note, "months": gamefiles.MONTHS, "marks": marks})
 
 
 @app.get("/api/record/game.xlsx")

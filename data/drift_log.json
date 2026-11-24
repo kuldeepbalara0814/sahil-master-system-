@@ -62,5 +62,76 @@
     "new": 13
    }
   ]
+ },
+ {
+  "asof": "2026-11-23",
+  "changes": [
+   {
+    "number": 13,
+    "period": "month",
+    "old": 67,
+    "new": 73
+   },
+   {
+    "number": 37,
+    "period": "last3m",
+    "old": 67,
+    "new": 59
+   },
+   {
+    "number": 37,
+    "period": "month",
+    "old": 10,
+    "new": 52
+   },
+   {
+    "number": 44,
+    "period": "month",
+    "old": 70,
+    "new": 59
+   },
+   {
+    "number": 55,
+    "period": "month",
+    "old": 38,
+    "new": 81
+   },
+   {
+    "number": 59,
+    "period": "last3m",
+    "old": 95,
+    "new": 37
+   },
+   {
+    "number": 59,
+    "period": "month",
+    "old": 67,
+    "new": 73
+   },
+   {
+    "number": 67,
+    "period": "month",
+    "old": 13,
+    "new": 59
+   },
+   {
+    "number": 81,
+    "period": "month",
+    "old": 85,
+    "new": 55
+   },
+   {
+    "number": 90,
+    "period": "month",
+    "old": 13,
+    "new": 59
+   },
+   {
+    "number": 37,
+    "period": "poora",
+    "old": 40,
+    "new": 59
+   }
+  ]
  }
 ]
