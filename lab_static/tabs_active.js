@@ -43,6 +43,7 @@ function ankPanels(heroBox,ankBox){
   const tiles=(a,b2,c)=>el("div",{class:"mini3"},[a,b2,c].map(([k,v,s])=>el("div",{class:"t"},el("div",{class:"k"},k),el("div",{class:"v"},v),el("div",{class:"s"},s))));
   const best=r.lines.filter(x=>x.pick).sort((x,y)=>y.rate_2020-x.rate_2020)[0];
   heroBox.replaceChildren(el("div",{class:"hero"},
+   zimg("zolly_body.webp","zl-hero",84),
    el("div",{class:"eyebrow"},`Aaj ka saar · ${dm(r.play_date)}`),
    el("h2",{},"DS ke naye signal kagaz par chal rahe hain"),
    el("div",{class:"big"},`DS ke 4 number (008) + ${r.today.length} ank (009). Purane data par sabse upar: `,el("b",{},`${best.game} ${best.pos} ank (${best.rate_2020}%, 2020-26)`),". "),

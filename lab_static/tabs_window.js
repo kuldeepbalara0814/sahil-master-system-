@@ -126,6 +126,7 @@ tabs.meri=async function(root){
  const nk=w.naksha_new||[],t30=w.top30||[],pl=w.plan||{},nm=w.pocket_names||{};
  const counted=!(pl.naksha&&pl.naksha.counted===false);
  root.append(el("div",{class:"hero"},
+  zimg("zolly_body.webp","zl-hero",84),
   el("div",{class:"eyebrow"},`Meri Window · ${dm(w.play_date)}`),
   el("h2",{},"Meri apni window"),
   el("div",{class:"big"},"Ye meri apni window hai: sirf mere chune hue. Baaki sab main app me chalta rehta hai."),

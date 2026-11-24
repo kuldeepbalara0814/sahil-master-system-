@@ -12,14 +12,15 @@ function robot(){const s=document.createElementNS(NS,"svg");s.setAttribute("view
 let isOpen=false,busy=false,hist=[],cfg=null;
 const body=el("div",{class:"hb-body"}),foot=el("div",{class:"hb-foot"});
 const panel=el("div",{class:"hb-panel",role:"dialog","aria-label":"Sahil Lab Help",style:"display:none"},
- el("div",{class:"hb-head"},el("b",{},"Sahil Lab Help"),el("span",{class:"hb-sub"},"app ke baare me poochho"),
+ el("div",{class:"hb-head"},zimg("zolly_face.webp","hb-ava",30),el("b",{},"Sahil Lab Help"),el("span",{class:"hb-sub"},"Zolly se poochho"),
   el("span",{class:"hb-acts"},
    el("button",{type:"button",class:"hb-x",title:"Badlav/bug batao",on:{click:()=>SS.get("hb_pin")?reqView():start()}},"📝"),
    el("button",{type:"button",class:"hb-x",title:"Naya chat",on:{click:()=>{hist=[];SS.get("hb_pin")?chatView():start()}}},"↺"),
    el("button",{type:"button",class:"hb-x",title:"Lock (password bhool jao)",on:{click:()=>{SS.del("hb_pin");hist=[];start()}}},"🔒"),
    el("button",{type:"button",class:"hb-x",title:"Band karo","aria-label":"Band karo",on:{click:()=>toggle(false)}},"✕"))),
  body,foot);
-const fab=el("button",{type:"button",class:"hb-fab","aria-label":"Sahil Lab Help kholo",title:"Sahil Lab Help",on:{click:()=>toggle()}},robot());
+const fab=el("button",{type:"button",class:"hb-fab zl","aria-label":"Zolly (Sahil Lab Help) kholo",title:"Zolly - Sahil Lab Help",on:{click:()=>toggle()}},zimg("zolly_face.webp","","",""));
+fab.firstChild.addEventListener("error",()=>{fab.classList.remove("zl");fab.replaceChildren(robot())});   // avatar na mile to purana robot
 function toggle(v){isOpen=v===undefined?!isOpen:v;panel.style.display=isOpen?"flex":"none";fab.classList.toggle("on",isOpen);if(isOpen)start()}
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&isOpen)toggle(false)});
 const bubble=(who,txt)=>{const b=el("div",{class:"hb-msg "+who});b.textContent=txt;body.append(b);body.scrollTop=body.scrollHeight;return b};
@@ -40,12 +41,12 @@ function pinView(msg){
   try{await api("POST","/help/unlock",{pin});SS.set("hb_pin",pin);chatView()}catch(e){err.textContent=e.message;inp.value="";inp.focus()}finally{go.b.disabled=false}};
  inp.addEventListener("keydown",e=>{if(e.key==="Enter")go()});
  go.b=el("button",{type:"button",class:"b",on:{click:go}},"Kholo");
- body.replaceChildren(el("div",{class:"hb-lock"},el("div",{class:"hb-big"},"🔒"),el("p",{},"Ye chat password se khulta hai."),inp,go.b,err));foot.replaceChildren();
+ body.replaceChildren(el("div",{class:"hb-lock"},zimg("zolly_body.webp","hb-lockava",88),el("p",{},"🔒 Ye chat password se khulta hai."),inp,go.b,err));foot.replaceChildren();
  setTimeout(()=>inp.focus&&inp.focus(),50)}
 
 function chatView(){
- body.replaceChildren();
- bubble("bot","Namaste! Mai Sahil Lab Help hu. App ke tab, pattern (Naksha, Family, 009...), niyam ya data ke baare me Hinglish me poochho. Mai sirf samjhata hu, kuch badalta nahi.");
+ body.replaceChildren(el("div",{class:"hb-hello"},zimg("zolly_body.webp","hb-helloava",84),el("div",{},el("b",{},"Namaste! Mai Zolly hu 👋"),el("div",{class:"hb-sub",style:"white-space:normal"},"Sahil Lab ka help bot"))));
+ bubble("bot","App ke tab, pattern (Naksha, Family, 009...), niyam ya data ke baare me Hinglish me poochho. Mai sirf samjhata hu, kuch badalta nahi. Badlav ya bug ho to upar 📝 se likho.");
  const ta=el("textarea",{rows:"2",maxlength:"400",placeholder:"Apna sawaal likho...","aria-label":"Sawaal"});
  const send=el("button",{type:"button",class:"b",on:{click:()=>ask(ta,send)}},"Bhejo");
  ta.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();ask(ta,send)}});

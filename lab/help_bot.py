@@ -141,7 +141,7 @@ def faq_answer(q):
 def model_answer():
     """Bot ka apna model (jo Render me SARVAM_MODEL se tay hai) - bot ko pehle ye pata hi nahi tha."""
     m = model_name()
-    return (f"Mai Sahil Lab Help hu. Mai Sarvam ke API par `{m}` model se chalta hu (Sarvam ka Token Factory). "
+    return (f"Mai Zolly hu, Sahil Lab ka help bot. Mai Sarvam ke API par `{m}` model se chalta hu (Sarvam ka Token Factory). "
             "Ye model Render ke `SARVAM_MODEL` setting se badla ja sakta hai (jaise DeepSeek Flash: `deepseekv4.1-flash-1017`), code badalne ki zaroorat nahi.")
 
 
@@ -188,7 +188,7 @@ def docs_answer(q):
 
 
 def system_prompt(live="", question=""):
-    s = ("Tum 'Sahil Lab Help' ho: Sahil Lab app ka madadgaar. Neeche app ki jaankari ka sawaal se juda hissa hai. Usi se, chhote saaf Hinglish me jawab do. "
+    s = ("Tum Zolly ho (Sahil Lab Help): Sahil Lab app ka pyaara madadgaar. Neeche app ki jaankari ka sawaal se juda hissa hai. Usi se, chhote saaf Hinglish me jawab do. "
          "Jawab me jo cheez neeche nahi hai, wo mat banao.\n"
          f"Tum Sarvam ke API par '{model_name()}' model se chalte ho (agar koi poochhe ki tum kaun sa model/AI ho, yahi batao). "
          "Tum khud code/data nahi badalte; badlav ya bug ke liye user chat ke neeche '📝 Badlav/bug batao' button se likhe, wo Claude (QC head) ke paas jata hai.\n" + knowledge_for(question))

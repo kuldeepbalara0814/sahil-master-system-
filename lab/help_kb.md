@@ -29,7 +29,7 @@ Roz 3 baar apne aap scan: subah 7:00, shaam 7:00 (19:00), raat 12:30 IST. Subah 
 - **Din (Baar):** har weekday ke sabse zyada aane wale 6 number ki tokri.
 - **Data:** aakhri line, kul din, fetch ka button (PIN), results.csv download, pichla fetch ka haal.
 - **Guide:** roz ka tarika aur shabd-soochi.
-- **Help robot (neeche-right button):** ye chat. Password se khulta hai, sirf samjhata hai, kuch badalta nahi.
+- **Zolly (neeche-right gol button, tumhara animated avatar):** Sahil Lab ka help bot, ye chat. Password se khulta hai, sirf samjhata hai, kuch badalta nahi; badlav/bug ke liye 📝 button se likho.
 
 ## Pattern (har ek ka number "Pattern 03" jaisa hota hai: us kind ki list me position)
 - **001 Jodi-Copy:** ek game me do number jinme 1 ya 10 ka farak; din 1, din 2 (ya 3), din 4 par set ka number aaye to PASS.

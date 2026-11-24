@@ -2,6 +2,15 @@
 
 Har tab par neeche-right robot button. Dabao -> "Sahil Lab Help" panel. Hinglish me app ke tab/pattern/niyam ke baare me poochho. **Sirf samjhata hai, kuch badalta nahi** (koi data, bet, setting ya code nahi).
 
+## Zolly (user ka animated avatar, 25 Nov 2026)
+Meta AI me bana animated avatar **Zolly** ab app ki pehchan hai: header ka logo (gol, uski chamak user ki `animations.css` wali), tab ka favicon, har tab par neeche-right **help button**, chat ka header/avatar/welcome/lock-screen, aur Active + Meri Window ke hero card (daayen). Loading ka ghoomta chakra bhi ab Zolly ka chehra hai jo halka uchhalta hai.
+- **Poora 8 second ka clip loop me chalta rehta hai jab tak app khuli hai.** Clip ke antim 0.6 sec ko shuru me crossfade kiya hai taaki loop ka jhatka na ho (jod ka frame-badlav aam se kam naapa).
+- **Awaaz hata di** (autoplay me awaaz waise bhi band rehti hai aur header me bajti awaaz pareshan karti). Source video user ke phone ke Download me hai, repo me nahi (video/audio repo me nahi rakhte).
+- Files `lab_static/`: `zolly_face.webp` (128px, ~240 KB), `zolly_body.webp` (176px, ~357 KB), `zolly_poster.webp` (ek frame: loading, chat avatar, reduced-motion), `zolly_icon_64.png`, `zolly_icon_192.png`.
+- Banane ki recipe: `python3 scripts/make_zolly.py <clip>.mp4` (ffmpeg + PIL; crop, loop-blend, size sab tay). Naya avatar ho to wahi chalao.
+- Kam-motion chahne wale phone par animated ki jagah ek tasveer. Avatar file na mile to chhup jata hai (app nahi tootti), logo par purana zigzag nishan wapas aata hai.
+- Bot ne apna naam **Zolly** rakha hai (model puchho to batata hai). Wapas purana look: `git revert <hash>`.
+
 ## Chalane ke liye (Kuldeep ko Render me do cheez set karni hain; key kabhi chat/repo me nahi)
 1. Render dashboard -> apni service **sahil-lab** -> left menu **Environment**.
 2. **Add Environment Variable**: Key = `SARVAM_API_KEY`, Value = Sarvam dashboard se copy ki hui API key. (Sarvam key: dashboard.sarvam.ai -> API Keys.)

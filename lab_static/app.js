@@ -5,6 +5,8 @@ function el(t,a,...k){if(a===null||typeof a!=="object"||a instanceof Node||Array
  const e=document.createElement(t);for(const[x,v]of Object.entries(a)){if(x==="class")e.className=v;else if(x==="on")for(const[ev,fn]of Object.entries(v))e.addEventListener(ev,fn);else if(v!==undefined&&v!==null&&v!==false)e.setAttribute(x,v===true?"":v)}
  for(const c of k.flat())if(c!==undefined&&c!==null&&c!==false)e.append(c instanceof Node?c:String(c));return e}
 const p2=n=>String(n).padStart(2,"0");
+// Zolly (user ka animated avatar, Meta AI se): file /static/ me. Na mile to chhup jata hai (kuch toot'ta nahi). alt khaali = sirf sajawat.
+const zimg=(file,cls,size,alt)=>el("img",{class:"zolly "+(cls||""),src:"/static/"+file,alt:alt||"",width:size,height:size,decoding:"async","aria-hidden":alt?undefined:"true",on:{error:e=>{e.target.style.visibility="hidden"}}});
 // meter: rate ki bar, laal line = break-even (Sarvam mockup). val/be percent me; bar ki lambai be ke 1.7 guna tak.
 const meter=(val,be,left,right)=>{const mx=be*1.7,w=Math.max(2,Math.min(100,val/mx*100)),t=Math.min(100,be/mx*100);
  return el("div",{class:"meter"},el("div",{class:"track"},el("div",{class:"fill",style:`width:${w}%`}),el("div",{class:"tick",style:`left:${t}%`})),el("div",{class:"lbl"},el("span",{},left),el("span",{},right)))};

@@ -1254,6 +1254,57 @@ class HelpBotHybridTests(unittest.TestCase):
             self.assertIsNone(re.search(r"(HELP_PIN|ADMIN_PIN|SARVAM_API_KEY)\s*[:=]\s*[\"']?[A-Za-z0-9_\-]{4,}", c["text"]), c["label"])
 
 
+class ZollyAvatarTests(unittest.TestCase):
+    """Zolly (user ka animated avatar): files sahi, chhoti, loop me; sab jagah lagi; purani animation (logo glow, zigzag) saath me."""
+    FILES = {"zolly_face.webp": 300, "zolly_body.webp": 450, "zolly_poster.webp": 20, "zolly_icon_64.png": 30, "zolly_icon_192.png": 80}
+
+    def setUp(self):
+        import lab_server
+        self.c = lab_server.app.test_client()
+        self.base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    def read(self, rel):
+        with open(os.path.join(self.base, rel), encoding="utf-8") as f:
+            return f.read()
+
+    def test_assets_served_small_and_animated_loop(self):
+        from PIL import Image
+        for name, max_kb in self.FILES.items():
+            r = self.c.get("/static/" + name)
+            self.assertEqual(r.status_code, 200, name)
+            self.assertLessEqual(len(r.data) // 1024, max_kb, f"{name} bahut bhari")
+            self.assertTrue(r.mimetype.startswith("image/"), name)
+        for name, min_frames, px in (("zolly_face.webp", 100, 128), ("zolly_body.webp", 80, 176)):
+            im = Image.open(os.path.join(self.base, "lab_static", name))
+            self.assertEqual(im.size, (px, px))
+            self.assertGreaterEqual(im.n_frames, min_frames)                                   # poora ~7.4 sec ka clip (8 sec ka loop)
+            self.assertEqual(im.info.get("loop"), 0)                                           # hamesha loop me (0 = anant)
+
+    def test_zolly_used_in_header_favicon_fab_chat_and_heroes(self):
+        idx = self.read("lab_static/index.html")
+        self.assertIn('class="logo zl"', idx)
+        self.assertIn("/static/zolly_face.webp", idx)
+        self.assertIn('rel="icon"', idx)
+        self.assertIn("zolly_icon_192.png", idx)
+        self.assertIn("zigzag-bar", idx)                                                       # user ki purani animation bachi hai
+        self.assertIn("animations.css", idx)
+        h = self.read("lab_static/help.js")
+        for key in ("zolly_face.webp", "zolly_body.webp", "hb-hello", "Mai Zolly hu"):
+            self.assertIn(key, h)
+        self.assertIn("zl-hero", self.read("lab_static/tabs_active.js"))
+        self.assertIn("zl-hero", self.read("lab_static/tabs_window.js"))
+        css = self.read("lab_static/theme.css")
+        for key in (".logo.zl", ".hb-fab.zl", ".zl-hero", "prefers-reduced-motion"):
+            self.assertIn(key, css)
+
+    def test_bot_introduces_itself_as_zolly_and_no_audio_assets(self):
+        from lab import help_bot
+        self.assertIn("Zolly", help_bot.model_answer())
+        self.assertIn("Zolly", help_bot.system_prompt("", "kuch"))
+        names = os.listdir(os.path.join(self.base, "lab_static"))
+        self.assertFalse([n for n in names if n.lower().endswith((".mp4", ".mp3", ".aac", ".wav", ".m4a", ".ogg"))])   # awaaz/video repo me nahi
+
+
 if __name__ == "__main__":
     unittest.main()
 
