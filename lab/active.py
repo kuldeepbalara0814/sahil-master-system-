@@ -66,6 +66,8 @@ def merge(log, report, now=None, source="auto"):
                 for k in ("name", "title", "strength", "ambiguous"):
                     if k not in old and k in it:
                         old[k] = it[k]
+            if old.get("resolved_on") and old["first_seen"] > old["resolved_on"]:   # nateeja pehli baar dekhne se pehle ka ho to shuruat bhi wahi (kitne din chala galat na aaye)
+                old["first_seen"] = old["resolved_on"]
     if len(items) > MAX_ITEMS:                                 # sabse purane resolved pehle hatao
         done = sorted((v for v in items.values() if v.get("resolved_on")), key=lambda v: (v["resolved_on"], v["first_seen"]))
         for v in done[:len(items) - MAX_ITEMS]:

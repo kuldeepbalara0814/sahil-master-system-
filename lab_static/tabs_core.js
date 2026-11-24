@@ -9,7 +9,7 @@ async dost(m){
   try{const t=await api("GET","/friends/"+x);const d=await api("GET","/drift");render(t,d)}catch(e){out.replaceChildren(el("div",{class:"warn"},e.message))}};
  inp.addEventListener("keydown",e=>{if(e.key==="Enter")go()});
  function col(name,title,t){
-  const f=t.friends[name];const c=el("div",{class:"card",style:"margin:0"},el("h3",{},title),el("div",{class:"mut",style:"font-size:12px"},(t.since[name]?`${t.since[name]} se`:"2013 se")+` | ${p2(t.number)} ${t.seen[name]} baar aaya`));
+  const f=t.friends[name];const c=el("div",{class:"card",style:"margin:0"},el("h3",{},title),el("div",{class:"mut",style:"font-size:12px"},(t.since[name]?`${t.since[name]} se`:"2013 se")+` | ${p2(t.number)} ${t.seen[name]} baar aaya`+(t.last_has?" (+ aakhri line "+t.last_date.slice(5)+" me bhi aaya, uska agla din na aane se ginti me nahi)":"")));
   if(!f.length)c.append(el("p",{class:"mut"},"Is samay me abhi koi dost nahi mila."));
   f.forEach((x,i)=>{const r=el("div",{class:"fr"},chip(x.n,x.tier),el("div",{style:"flex:1"},el("b",{},x.together+" baar"),el("span",{class:"mut"},"  "+pct(x.pct)+" (random "+pct(x.random_pct)+")")));
    if(name!=="poora"){const tag=x.change==="naya"?el("span",{class:"tag new"},"naya"):x.change==="upar"?el("span",{class:"tag up"},"▲ upar"):x.change==="neeche"?el("span",{class:"tag down"},"▼ neeche"):el("span",{class:"tag"},"wahi");r.append(tag);
@@ -22,14 +22,14 @@ async dost(m){
    el("div",{class:"row"},el("div",{},el("div",{class:"mut"},"Poora (13 saal)"),chip(t.friends.poora[0]?t.friends.poora[0].n:0,"green","big")),
     el("div",{},el("div",{class:"mut"},"Pichle 3 mahine"),t.friends.last3m[0]?chip(t.friends.last3m[0].n,"yellow","big"):el("span",{class:"mut"},"-")),
     el("div",{},el("div",{class:"mut"},"Is mahina"),t.friends.month[0]?chip(t.friends.month[0].n,"orange","big"):el("span",{class:"mut"},"-"))),
-   (tp("poora")!==tp("last3m")||tp("poora")!==tp("month"))?el("p",{},"⚠ Sabse bada dost badal raha hai: pehle ",el("b",{},tp("poora")),", ab (3 mahine) ",el("b",{},tp("last3m")),", is mahine ",el("b",{},tp("month")),". Recent samay me data kam hota hai, isliye ise pakka mat maano."):el("p",{},"✔ Sabse bada dost teeno samay me wahi hai."),
+   (tp("poora")!==tp("last3m")||tp("poora")!==tp("month"))?el("p",{},"⚠ Teen samay ki tulna (poora record / pichle 3 mahine / is mahine): sabse bada dost alag hai. Poora: ",el("b",{},tp("poora")),", ab (3 mahine) ",el("b",{},tp("last3m")),", is mahine ",el("b",{},tp("month")),". Recent samay me data kam hota hai, isliye ise pakka mat maano."):el("p",{},"✔ Sabse bada dost teeno samay me wahi hai."),
    LEGEND()));
   if(t.last_has)out.append(el("p",{class:"mut small"},`Dhyan: ${p2(t.number)} aakhri line (${t.last_date}) me aaya hai, par uska "agla din" abhi nahi aaya, isliye wo is ginti me abhi shamil nahi.`));
   out.append(el("div",{class:"grid3"},col("poora","Poora (sab saal)",t),col("last3m","Pichle 3 mahine (is mahine samet)",t),col("month","Is mahina (chal raha)",t)));
   const mine=[];for(const e of drift)for(const c of e.changes)if(c.number===t.number)mine.push([e.asof,c]);
   const pn={poora:"poora",last3m:"3 mahine",month:"is mahine"};
-  out.append(el("div",{class:"card"},el("h2",{},"Kya badla (drift) - aap ka sawal: pehle 93 tha ab 94?"),
-   mine.length?el("ul",{class:"g"},mine.slice(0,10).map(([d,c])=>el("li",{},`${d}: ${p2(c.number)} par (${pn[c.period]}) sabse bada dost ${p2(c.old)} se ${p2(c.new)} ho gaya`))):el("p",{class:"mut"},"Is number ke sabse bade dost me abhi tak koi badlaav darj nahi hua. Roz subah ka update ye apne aap jodta hai."),
+  out.append(el("div",{class:"card"},el("h2",{},"Roz ka drift log ",el("span",{class:"sub"},"(kal ke mukable top dost badla? - aap ka sawal: pehle 93 tha ab 94?)")),el("p",{class:"mut small"},"Upar ki chetavani teen samay ki tulna hai (aaj ke din ki); ye roz ka badlaav-log hai (kal se aaj). Dono alag cheez hain, isliye ek me badlaav dikh sakta hai aur doosre me nahi."),
+   mine.length?el("ul",{class:"g"},mine.slice(0,10).map(([d,c])=>el("li",{},`${d}: ${p2(c.number)} par (${pn[c.period]}) sabse bada dost ${p2(c.old)} se ${p2(c.new)} ho gaya`))):el("p",{class:"mut"},"Roz ke log me is number ka koi badlaav abhi darj nahi hua (ye log roz subah ke update se judta hai)."),
    el("h3",{},"Aaj-kal ke saare badlaav"),drift.length?el("ul",{class:"g"},drift.slice(0,3).flatMap(e=>e.changes.filter(c=>c.period!=="poora").slice(0,6).map(c=>el("li",{},`${e.asof}: ${p2(c.number)} (${pn[c.period]}): ${p2(c.old)} -> ${p2(c.new)}`)))):el("p",{class:"mut"},"Abhi koi nahi.")))}
  m.append(el("div",{class:"card"},el("h2",{},"Dost Khojo"),el("p",{class:"mut"},"Number likho: uske sabse zyada saath aane wale 10 number 3 samay ke hisaab se dikhenge."),el("div",{class:"row"},inp,el("button",{class:"b",on:{click:go}},"Dost dikhao"))),out);go()},
 
@@ -54,7 +54,7 @@ async aaj(m){
   const g4=el("div",{class:"grid4"});
   ["FD","GB","GL","DS"].forEach((g,gi)=>{const seq=t.list10[g];const lst=seq||t.list10_static[g];
    g4.append(el("div",{class:"card",style:"margin:0"},el("h3",{},GN[g]+(seq?"  (aaj ke result dekh kar)":"  (subah wali)")),
-    el("div",{class:"row"},lst.map(([n,s],i)=>el("span",{class:"chip "+tiers(i),title:"score "+s},p2(n)))),
+    el("div",{class:"row"},lst.map(([n,s],i)=>el("span",{class:"chip "+tiers(i),title:"score "+s+((g==="DS"&&t.ds_rule&&t.ds_rule.numbers.includes(n))?" | DS rule (008) ka bhi number":"")},p2(n),(g==="DS"&&t.ds_rule&&t.ds_rule.numbers.includes(n))?el("sup",{class:"b008"},"008"):null))),
     el("div",{class:"mut",style:"font-size:12px;margin-top:6px"},"Hara = top 3, peela = beech, narangi = baaki")))});
   out.append(el("div",{class:"card"},el("h2",{},"Har game ki 10 number ki list"),g4,LEGEND(),
    t.ds_rule?el("div",{class:"card",style:"margin:10px 0"},el("h3",{},"DS ka apna rule (008, pichle 2-5 DS result)"),el("div",{class:"row"},t.ds_rule.numbers.map(n=>chip(n,"blue"))),el("p",{class:"mut small"},t.ds_rule.note+" Upar ki DS wali 10-number list me ye numbers na dikhein to ye alag cheez hai; dono paper me alag khate hain.")):null,
@@ -133,7 +133,7 @@ async paper(m){
   const mrows=Object.entries(s.months).sort().slice(-6).reverse();
   m.append(el("div",{class:"card"},el("h2",{},fb(names[k])),el("div",{class:"row"},
    el("div",{},el("div",{class:"mut"},"Poori bet"),el("b",{},s.bets+" + "+s.pending+" baaki")),el("div",{},el("div",{class:"mut"},"Jeet"),el("b",{},s.wins+" ("+pct(s.hit_pct,2)+")")),
-   el("div",{},el("div",{class:"mut"},"Net"),el("b",{class:s.net>=0?"ok":"bad"},(s.net>=0?"+":"")+s.net+" Rs")),el("div",{},el("div",{class:"mut"},"ROI (95x / 90x par)"),el("b",{class:s.roi>=0?"ok":"bad"},pct(s.roi)+(s.roi_90x!=null?" / "+pct(s.roi_90x):""))),
+   el("div",{},el("div",{class:"mut"},"Net"),el("b",{class:s.net>=0?"ok":"bad"},(s.net>=0?"+":"")+s.net+" Rs")),el("div",{},el("div",{class:"mut",title:"Net asli payout ka hai (40 se kam number ki list par 95x, warna 90x). 90x wala ROI sabse kharab hisaab dikhane ke liye hai."},"ROI (95x / 90x par)"),el("b",{class:s.roi>=0?"ok":"bad"},pct(s.roi)+(s.roi_90x!=null?" / "+pct(s.roi_90x):""))),
    el("div",{},el("div",{class:"mut"},"Ab ka paisa"),el("b",{},s.capital_now+" Rs")),el("div",{},el("div",{class:"mut"},"Sabse badi giraavat"),el("b",{},s.max_drawdown+" Rs"))),
    s.curve.length?svg:el("p",{class:"mut"},"Abhi settle hui bet nahi."),
    mrows.length?el("table",{},el("thead",{},el("tr",{},["Mahina","Bet","Jeet","Net"].map(x=>el("th",{},x)))),el("tbody",{},mrows.map(([mm,v])=>el("tr",{},el("td",{},mm),el("td",{},v.bets),el("td",{},v.wins),el("td",{class:v.net>=0?"ok":"bad"},v.net))))):null))}
@@ -142,8 +142,8 @@ async paper(m){
  m.append(el("div",{class:"card"},el("h2",{},"Meri apni paper bet (aaj ke liye)"),el("div",{class:"row"},num,games,stake,el("button",{class:"b",on:{click:async()=>{
   const ns=num.value.split(/[ ,]+/).filter(Boolean).map(Number);const gs=games.map(l=>l.firstChild).filter(i=>i.checked).map(i=>i.value);
   try{const r=await api("POST","/paper/place",{strategy:"manual",numbers:ns,games:gs,stake:parseInt(stake.value,10)});toast(r.added+" bet lagi")}catch(e){toast(e.message)}}}},"Bet lagao"))));
- m.append(el("div",{class:"card"},el("h2",{},"Pichli bet"),el("table",{},el("thead",{},el("tr",{},["Tarikh","Game","Number","Stake","Result","Haal","Net"].map(x=>el("th",{},x)))),
-  el("tbody",{},p.recent.map(b=>el("tr",{},el("td",{},b.date),el("td",{},GN[b.game]||b.game),el("td",{},p2(b.number)),el("td",{},b.stake),el("td",{},b.result===null?"-":p2(b.result)),
+ m.append(el("div",{class:"card"},el("h2",{},"Pichli bet"),el("p",{class:"mut small"},"Alag-alag khate (list10, list10s, single, manual) alag chalte hain; ek hi number kayi khate me aa sakta hai, isliye ek hi number kayi baar dikhna duplicate nahi hai. 'Khata' column dekho (naam par dabao to matlab dikhega)."),el("table",{},el("thead",{},el("tr",{},["Tarikh","Khata","Game","Number","Stake","Result","Haal","Net"].map(x=>el("th",{},x)))),
+  el("tbody",{},p.recent.map(b=>el("tr",{},el("td",{},b.date),el("td",{class:"mut small",title:names[b.strategy]||""},b.strategy),el("td",{},GN[b.game]||b.game),el("td",{},p2(b.number)),el("td",{},b.stake),el("td",{},b.result===null?"-":p2(b.result)),
    el("td",{class:b.status==="win"?"ok":b.status==="loss"?"bad":"mut"},b.status==="win"?"JEET":b.status==="loss"?"haar":"baaki"),el("td",{class:b.net>0?"ok":b.net<0?"bad":""},b.net===null?"-":b.net)))))))},
 
 /* ---------------- 4. MONITOR ---------------- */

@@ -349,4 +349,6 @@ def view(rows, p):
     note = ("Step 1 (upar), Step 2 (beech), Step 3 (niche, adhura) ek lambi sheet me. Moti border = boundary (%d box, pehle se aakhri cell, dono sire samet). "
             "Ek link = ek rang. Laal = indicator (ek cell). Halka rang '?' = aane wala cell.") % L
     title = f"Puzzle-Steps: {L} box, {len(r['common'])} link"
+    if r["pend"] or r["pend2"]:
+        legend.append({"color": "#9e9e9e", "text": "'?' = aane wale din ka box (abhi result nahi). Beet chuki tarikh par '?' nahi likhte: wahan asli number dikhta hai."})
     return {"id": p, "title": title, "note": note, "blocks": blocks, "stack": {"rows": srows, "legend": legend, "note": note}}

@@ -135,12 +135,18 @@ def view(rows):
     play = data.play_date(rows)
     today = [{"game": NAMES[gi], "pos": pos, "ank": next_ank(rows, gi, pos), "src": rows[-LAG][1][gi] if len(rows) >= LAG else None} for gi, pos in PICKS]
     lines = []
+    first_i = next((i for i, r in enumerate(rows) if r[0] >= START), len(rows))      # forward record ki pehli row
     for gi in range(4):
         for pos in ("andar", "bahar"):
             s = line_stats(rows, gi, pos)
             hold = line_stats(rows, gi, pos, start=next((i for i, r in enumerate(rows) if r[0].year >= 2020), len(rows)))
+            a = series(rows, gi, pos)
+            n90 = min(90, max(0, len(a) - LAG))
+            h90 = sum(1 for i in range(len(a) - n90, len(a)) if a[i] == a[i - LAG])
+            fw = [i for i in range(max(first_i, LAG), len(a))]
             lines.append({"game": NAMES[gi], "pos": pos, "pick": (gi, pos) in PICKS, "hit": s["hit"], "n": s["n"], "rate": round(100 * s["rate"], 2),
-                          "roi": round(100 * s["roi"], 1), "z": round(s["z"], 1), "rate_2020": round(100 * hold["rate"], 2)})
+                          "roi": round(100 * s["roi"], 1), "z": round(s["z"], 1), "rate_2020": round(100 * hold["rate"], 2),
+                          "hit90": h90, "n90": n90, "fw_hit": sum(1 for i in fw if a[i] == a[i - LAG]), "fw_n": len(fw)})
     led, bal = [], CAPITAL
     first = next((i for i, r in enumerate(rows) if r[0] >= START), len(rows))
     for i in range(max(first, LAG), len(rows)):
@@ -159,7 +165,7 @@ def view(rows):
             "breakeven": round(100 * BREAKEVEN, 2), "today": today, "lines": lines, "last90": scoreboard(rows, 90), "forward": fw,
             "balance": round(bal, 1), "ledger": led[-30:][::-1],
             "picks_rate": round(100 * stats(rows)["PICKS"]["rate"], 2),
-            "warning": "Ye DS lag-2 number-repeat asar ka ank wala roop hai (alag naya signal nahi). Chuni hui line purane data par mili thi (2013-19 me chuni, 2020-26 me parakhi); asli sabut sirf 24 Nov 2026 se ka record. 9.5x par katauti/limit se asli fayda kam ho sakta hai; 9x par break-even 11.11%. 90 din me kuch sabit nahi hota."}
+            "warning": "Ye ank-level asar hai: DS ka dahai ank (~12.2%) aur ikai ank (~12.7%) alag-alag, 2 draw pehle jaise aate hain (random 10%). Dono aapas me alag-alag (independent) hain: dono ek saath 1.55% = 12.2% x 12.7%, yaani number ka lag-2 repeat isi ka jod hai. DS andar/bahar aur FB andar alag line hain. Chuni hui line 2013-19 me chuni, 2020-26 me parakhi; asli sabut sirf 24 Nov 2026 se ka record. 9.5x par katauti/limit se asli fayda kam ho sakta hai; 9x par break-even 11.11%. 90 din me kuch sabit nahi hota."}
 
 
 def scan(rows, asof=None):

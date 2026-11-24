@@ -31,17 +31,19 @@ function ankPanels(heroBox,ankBox){
    el("h2",{},"DS ke naye signal kagaz par chal rahe hain"),
    el("div",{class:"big"},`DS ke 4 number (008) + ${r.today.length} ank (009). Purane data par sabse upar: `,el("b",{},`${best.game} ${best.pos} ank (${best.rate_2020}%, 2020-26)`),". "),
    el("div",{class:"row2"},dsn.map(n=>el("span",{class:"chip blue"},p2(n))),r.today.map(x=>el("span",{class:"chip green",title:x.game+" "+x.pos},`${x.game} ${x.pos==="andar"?"a":"b"} ${x.ank}`))),
-   el("div",{class:"quote"},"Ye sirf kagaz ka research hai: software dikhata hai, faisla aapka. Ye sab DS ke 2-5 draw pehle wale asar ke roop hain (alag-alag naya signal nahi). 90 din me kuch sabit nahi hota.")));
-  const sig=(title,pairs,rate,note)=>{const v=verdict(rate);return el("div",{class:"card sig"},
+   el("div",{class:"quote"},"Ye sirf kagaz ka research hai: software dikhata hai, faisla aapka. Ye ank-level asar hai: DS ke dahai aur ikai ank alag-alag ~12% baar 2 draw pehle jaise aate hain; inka jod hi number ka lag-2 repeat (1.55%) hai. FB andar alag game ka hai. 90 din me kuch sabit nahi hota.")));
+  const sum=(ls,k)=>ls.reduce((a,x)=>a+x[k],0),pc=(h,n)=>n?(100*h/n).toFixed(1)+"%":"-";
+  const sig=(title,ls,pairs,note)=>{const rate=Math.round(ls.reduce((a,x)=>a+x.rate_2020,0)/ls.length*100)/100,v=verdict(rate),
+    all=Math.round(ls.reduce((a,x)=>a+x.rate,0)/ls.length*100)/100,h90=sum(ls,"hit90"),n90=sum(ls,"n90"),fh=sum(ls,"fw_hit"),fn=sum(ls,"fw_n");
+   return el("div",{class:"card sig"},
    el("div",{class:"top"},el("div",{class:"eyebrow"},title),badge(v[0],v[1])),
    el("div",{class:"bigrow"},pairs.map(([n,lab,cls])=>el("div",{class:"bignum "+cls},String(n),el("small",{},lab)))),
-   el("div",{class:"mut"},note),meter(rate,be,`${rate}% (2020-26)`,`break-even ${be}%`),
-   tiles(["13 saal",(r.picks_rate)+"%","chuni 3 line"],["Pichle 90 din",`${l.hits}/${l.bets}`,(100*l.rate).toFixed(1)+"%, kam data"],["Asli (24 Nov se)",`${f.hits}/${f.bets}`,f.bets?(100*f.rate).toFixed(1)+"%":"abhi shuru"]))};
+   el("div",{class:"mut"},note),meter(rate,be,ls.map(x=>`${x.pos} ${x.rate_2020}%`).join(" · ")+" (2020-26)",`break-even ${be}%`),
+   tiles(["13 saal (2013-26)",all+"%",ls.length>1?"in "+ls.length+" line ka ausat":"is line ka"],["Pichle 90 din",`${h90}/${n90}`,pc(h90,n90)+", kam data"],["Asli (24 Nov se)",`${fh}/${fn}`,fn?pc(fh,fn):"abhi shuru"]))};
   const dsA=line("DS","andar"),dsB=line("DS","bahar"),fbA=line("FB","andar"),dsT=t("DS"),fbT=t("FB")[0];
-  const dsRate=Math.round((dsA.rate_2020+dsB.rate_2020)/2*100)/100;
   ankBox.replaceChildren(
-   sig("DS · ank (naya, 009)",[[dsT.find(x=>x.pos==="andar").ank,"andar","mg"],[dsT.find(x=>x.pos==="bahar").ank,"bahar",""]],dsRate,`2 draw pehle ${p2(dsT[0].src)} → andar ${dsT.find(x=>x.pos==="andar").ank}, bahar ${dsT.find(x=>x.pos==="bahar").ank} · ${r.payout}x`),
-   sig("FB · ank (naya, 009)",[[fbT.ank,"andar","mg"]],fbA.rate_2020,`2 draw pehle ${p2(fbT.src)} → andar ${fbT.ank} · ${r.payout}x`),
+   sig("DS · ank (naya, 009)",[dsA,dsB],[[dsT.find(x=>x.pos==="andar").ank,"andar","mg"],[dsT.find(x=>x.pos==="bahar").ank,"bahar",""]],`2 draw pehle ${p2(dsT[0].src)} → andar ${dsT.find(x=>x.pos==="andar").ank}, bahar ${dsT.find(x=>x.pos==="bahar").ank} · ${r.payout}x`),
+   sig("FB · ank (naya, 009)",[fbA],[[fbT.ank,"andar","mg"]],`2 draw pehle ${p2(fbT.src)} → andar ${fbT.ank} · ${r.payout}x`),
    el("div",{class:"card"},
     el("div",{class:"tiles",style:"margin-top:0"},el("div",{class:"tile"},el("div",{class:"k"},"Kagaz ki raqam (Rs "+r.stake+"/ank)"),el("div",{class:"v "+(pos?"ok":"bad")},rs(r.balance)),el("div",{class:"s"},`shuru ${rs(r.capital)}, 24 Nov se`))),
     el("details",{style:"margin-top:8px"},el("summary",{class:"mut small"},"8 line ki table (13 saal, 2013-2026)"),
@@ -111,7 +113,7 @@ function htDraw(box,rep,days,redraw){
  const shown=[...main,...(show&&n2&&n2.count>0?[n2]:[])];
  const tot=main.reduce((a,g)=>a+g.count,0)+(show&&n2?n2.count:0);
  box.replaceChildren(...[
-  el("h2",{class:"act-h"},`Hit hue map (pichle ${days} din)`,el("span",{class:"ht-tot"},String(tot))),
+  el("h2",{class:"act-h"},`Hit hue map (pichle ${days} din)`,el("span",{class:"ht-tot"},String(tot))),el("p",{class:"mut small",style:"margin:-4px 0 8px"},"Hit = kisi map ke andaze wala number kisi bhi game me aaya. (Neeche 'PASS' alag cheez hai: pattern poora hua.)"),
   rep.mismatch&&rep.mismatch.length?el("div",{class:"warn",style:"margin-bottom:8px"},el("b",{},"Dhyan do: "),rep.mismatch.map(m=>el("p",{class:"small",style:"margin:3px 0"},typeof m==="string"?m:JSON.stringify(m)))):null,
   shown.length?shown.map(htGroup):el("p",{class:"mut"},"Abhi koi map hit nahi hua."),tog].flat().filter(Boolean))}
 async function htLoadHits(box,days){
@@ -165,7 +167,7 @@ tabs.active=async function(root){
   const seg=el("div",{class:"act-seg"},[1,2,3].map(d=>el("button",{class:d===days?"on":"",on:{click:()=>{if(busy||d===days)return;days=d;try{localStorage.setItem("act_days",d)}catch(e){}load(false)}}},d+" din")));
   strip.replaceChildren(...[
    el("div",{class:"act-last"},el("b",{},"Aakhri scan: "),last?`${SRC[last.source]||last.source}, ${tm(last.time)}`:"abhi tak aaj koi scan nahi hua"),
-   s?el("div",{class:"row"},el("span",{class:"pill "+(s.auto_today>=2?"g":"o")},`Aaj auto scan: ${s.auto_today} (do hone chahiye)`),el("span",{class:"pill m"},`Manual: ${s.manual_today}`)):null,
+   s?el("div",{class:"row"},el("span",{class:"pill "+(s.auto_today>=3?"g":"o")},`Aaj auto scan: ${s.auto_today} (din me 3: subah 7, shaam 7, raat 12:30 IST; 9 baje wala sirf dobara koshish)`),el("span",{class:"pill m"},`Manual: ${s.manual_today}`)):null,
    el("div",{class:"row"},btn,seg)].filter(Boolean));}
  function nums(t){return t&&t.numbers&&t.numbers.length?el("div",{class:"act-nums"},t.numbers.map(n=>el("span",{class:"chip green"},p2(n)))):null}
  const SX=()=>window.SCANX;
@@ -199,13 +201,13 @@ tabs.active=async function(root){
    rep.errors&&rep.errors.length?el("div",{class:"warn",style:"margin-bottom:10px"},el("b",{},"Kuch galti aayi:"),rep.errors.map(e=>el("p",{class:"small",style:"margin:3px 0"},typeof e==="string"?e:JSON.stringify(e)))):null,
    el("h2",{class:"act-h"},"Abhi chal rahe (aaj khelne layak)"),
    now.length?grouped(now,false):el("p",{class:"mut"},"Abhi koi pattern chal nahi raha. Naya ban-ne par yahan apne aap aa jayega."),
-   el("h2",{class:"act-h"},`Pichle ${n} din me PASS hue`),
+   el("h2",{class:"act-h"},`Pichle ${n} din me PASS hue`),el("p",{class:"mut small",style:"margin:-4px 0 8px"},"PASS = pattern poora hua (uski shart puri). Upar 'Hit hue map' alag hai: usme sirf number aana ginta hai, isliye dono ginti alag aa sakti hain."),
    pass.length?grouped(pass,true):el("p",{class:"mut"},`Pichle ${n} din me koi pass nahi hua.`),
    rep.recent_fail?el("p",{class:"mut small"},`Pichle ${n} din me ${rep.recent_fail} FAIL bhi hue.`):null,
    el("h2",{class:"act-h"},"Scoreboard (pichle 30 din)"),el("div",{class:"card flat"},board())].flat().filter(Boolean))}
  const dsBox=el("div",{class:"card"});dsRuleCard(dsBox);const heroBox=el("div"),ankBox=el("div");ankPanels(heroBox,ankBox);
  root.append(heroBox,el("button",{type:"button",class:"card rk-link",on:{click:()=>go("rank")}},"Aaj ke number ranking dekho"),manBox,dsBox,ankBox,el("div",{class:"card"},el("h2",{style:"margin:0 0 4px"},"Active ",el("span",{class:"sub"},"(jo pattern abhi chal rahe hain)")),
-  el("p",{class:"mut small",style:"margin:0"},"Ek baar bana pattern kabhi gayab nahi hota. Scan din me do baar apne aap hota hai.")),strip,hitBox,body);
+  el("p",{class:"mut small",style:"margin:0"},"Ek baar bana pattern kabhi gayab nahi hota. Scan din me 3 baar apne aap hota hai (subah 7, shaam 7, raat 12:30 IST).")),strip,hitBox,body);
  drawStrip();manInit();await load(false);
 };
 })();

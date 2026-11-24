@@ -650,6 +650,45 @@ class AnkViewTests(unittest.TestCase):
                 self.assertEqual(b["hit"], b["want"] == b["got"])
 
 
+class ReviewRound2Tests(unittest.TestCase):
+    def test_last_fetch_is_newest_by_time_not_by_position(self):
+        import lab_server
+        flog = [{"time": "2026-11-24T06:45:22"}, {"time": "2026-11-24T04:07:12"},            # purane bina-offset (UTC), ulta tarteeb
+                {"time": "2026-11-24T12:30:00+05:30"}]                                       # naya IST: UTC me 07:00 -> sabse naya
+        self.assertEqual(lab_server.last_fetch(flog)["time"], "2026-11-24T12:30:00+05:30")
+        self.assertEqual(lab_server.last_fetch(flog[:2])["time"], "2026-11-24T06:45:22")
+        self.assertIsNone(lab_server.last_fetch([]))
+
+    def test_active_first_seen_not_after_resolved_on(self):
+        from lab import active
+        now = dt.datetime(2026, 11, 24, 9, 0, tzinfo=active.IST)
+        rep = {"patterns": [{"key": "family", "id": "003", "naam": "Family", "items": [
+            {"id": "family:x:1", "kind": "family", "status": "pass", "end": "2026-11-20", "name": "F", "title": "t", "lines": []}]}]}
+        log = active.merge({}, rep, now=now)
+        it = log["items"]["family:x:1"]
+        self.assertEqual(it["resolved_on"], "2026-11-20")
+        self.assertLessEqual(it["first_seen"], it["resolved_on"])
+
+    def test_ank_view_has_per_line_90_and_forward(self):
+        from lab import ank_chal
+        rows = data.load()
+        v = ank_chal.view(rows)
+        for x in v["lines"]:
+            self.assertEqual(x["n90"], 90)
+            self.assertTrue(0 <= x["hit90"] <= 90)
+            self.assertEqual(x["fw_n"], 0)                        # 24 Nov se pehle koi forward din nahi
+        picks = [x for x in v["lines"] if x["pick"]]
+        self.assertEqual(sum(x["hit90"] for x in picks), v["last90"]["hits"])        # card ke tile aur combined 90 din ek hi ginti
+        self.assertIn("independent", v["warning"])
+        self.assertNotIn("alag naya signal nahi", v["warning"])
+
+    def test_scan_view_ank_gives_clear_error(self):
+        import lab_server
+        r = lab_server.app.test_client().get("/api/scanner/view?id=ank:DS:andar")
+        self.assertEqual(r.status_code, 400)
+        self.assertIn("Active tab", r.get_json()["error"])
+
+
 if __name__ == "__main__":
     unittest.main()
 

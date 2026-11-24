@@ -116,7 +116,7 @@ Status: **sirf note. 009 app me NAHI joda** (user ki "haan" ke baad hi). Zip pad
 - Report ke ye daave bhi hamari pehle ki jaanch se mel: baki-ki-chal (41->59) random se KAM (6/6), "bahut din se nahi aaya" DS me ulta (0.923%, z -3.96), single-sheet jagah ka koi fayda nahi, GB/FB->DS asli par 2020+ halka (1.27%), 2040 test me holdout par sirf 25 tike (chance se ~5), 009 unhi me se.
 
 **Saavdhani (meri taraf se):**
-1. Ye wahi lag-2 repeat asar ka ank-level roop hai (DS andar/bahar aapas me correlated: ek hi number dono ko hit karta hai). Naya alag signal nahi, usi family ka doosra naap.
+1. **[SUDHAAR 24 Nov, doosre AI ki review ke baad]** Pehle yahan likha tha "ank number-repeat ka roop hai, andar/bahar correlated". Ye GALAT tha. Maine ginkar dekha: DS dahai ank 12.16%, ikai 12.71%, dono ek saath 1.554% = 12.16% x 12.71% (z +0.1) => andar/bahar independent; number ka lag-2 repeat in ank-repeat ka jod hai, ulta nahi. FB andar bhi DS andar se independent (1.47% vs 1.45%). [purani galat line:] Ye wahi lag-2 repeat asar ka ank-level roop hai, usi family ka doosra naap.
 2. Payout 9.5x maana gaya. 9x hota to break-even 11.11%: 3 line 11.95% par margin sirf ~+7.6%, FB andar 2020-26 (11.45%) par ~+3%.
 3. 3 line 8 me se chuni gayi (discovery me top-3): holdout theek hai, par ab bhi ek family ka hi test; forward hi asli faisla (~5 saal).
 4. **Mockup me "KHELO", "aaj ka faisla", "stake 10 unit (bank ka 1%)"** jaise shabd hain: ye hamare niyam ("software dikhata hai, insaan faisla karta hai", sirf paper) se alag hai. Rang CI se karna, break-even har card par, "30 poori + 10 baaki" label achhe sujhav; "KHELO" ki jagah "paper me chal raha" jaisa shabd hona chahiye.

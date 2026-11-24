@@ -75,6 +75,20 @@ def cooldown(name, seconds):
     return None
 
 
+def _ts(s):
+    """fetch_log ka samay: bina offset wala purana = UTC, +05:30 wala naya. Sorting ke liye ek hi paimane me."""
+    try:
+        t = dt.datetime.fromisoformat(str(s))
+    except ValueError:
+        return dt.datetime.min.replace(tzinfo=dt.timezone.utc)
+    return t if t.tzinfo else t.replace(tzinfo=dt.timezone.utc)
+
+
+def last_fetch(flog):
+    """Sabse naya fetch (file me 06:45 ke baad 04:07 likha ho to bhi 06:45 hi naya maana jaye)."""
+    return max(flog, key=lambda x: _ts(x.get("time"))) if flog else None
+
+
 def locked(fn):
     """Write route: padhna-badalna-likhna ek ke baad ek (do click ek saath aayen to ek ka badlav na khoye)."""
     def wrap(*a, **k):
@@ -183,7 +197,7 @@ def api_health():
                     "last_date": rows[-1][0].isoformat(), "expected_last": exp.isoformat(), "behind_days": max(0, (exp - rows[-1][0]).days),
                     "days": len(rows), "play_date": data.play_date(rows).isoformat(),
                     "last_scan": scans[-1] if scans else None, "scan_asof": rep.get("asof"), "scan_errors": rep.get("errors") or [],
-                    "last_fetch": flog[-1] if flog else None, "github": bool(SYNC), "can_write": bool(SYNC and SYNC.can_write) or not SYNC_ON,
+                    "last_fetch": last_fetch(flog), "github": bool(SYNC), "can_write": bool(SYNC and SYNC.can_write) or not SYNC_ON,
                     "data_problems": data.validate(rows)[:10], "file_bytes": sizes})
 
 
@@ -230,7 +244,7 @@ def status():
     flog = jload("fetch_log.json", [])
     return jsonify({"last_date": rows[-1][0].isoformat(), "days": len(rows), "play_date": data.play_date(rows).isoformat(),
                     "github": bool(SYNC), "can_write": bool(SYNC and SYNC.can_write) or not SYNC_ON, "pin_required": bool(ADMIN_PIN),
-                    "last_fetch": flog[-1] if flog else None, "auto_fetching": fetching,
+                    "last_fetch": last_fetch(flog), "auto_fetching": fetching,
                     "expected_last": expected_last(dt.datetime.now(IST)).isoformat(), "behind_days": max(0, (expected_last(dt.datetime.now(IST)) - rows[-1][0]).days), "today_ist": dt.datetime.now(IST).date().isoformat()})
 
 
@@ -963,7 +977,7 @@ def lab_test():
     except (ValueError, TypeError, KeyError) as e:
         return err(str(e))
     rows, _ = state()
-    key = (json.dumps(spec, sort_keys=True), len(rows), rows[-1][0])
+    key = (json.dumps(spec, sort_keys=True), len(rows), rows[-1][0], tuple(rows[-1][1]))   # aakhri line ka number badle to cache bhi badle
     with _lock:
         res = _lab_cache.get(key)
     if res is None:

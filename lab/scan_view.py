@@ -30,6 +30,8 @@ def view(rows, pid):
     parts = pid.split(":")
     D = [r[0] for r in rows]
     N = len(rows)
+    if parts[0] == "ank":
+        raise ValueError("009 Ank-Chal ka rang wala chart nahi banta (ye ank ka pattern hai); iska card Active tab me hai")
     if parts[0] == "steps":
         from . import steps
         return steps.view(rows, pid)
