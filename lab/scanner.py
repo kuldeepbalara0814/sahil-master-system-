@@ -349,7 +349,7 @@ def run(rows, only=None) -> dict[str, Any]:
     """Sab pattern chalao. Ek me galti ho to baaki chalte hain. -> report"""
     t0 = time.time()
     asof = rows[-1][0].isoformat()
-    rep: dict[str, Any] = {"schema": SCHEMA, "asof": asof, "play_date": data.play_date(rows).isoformat(), "time": dt.datetime.now().isoformat(timespec="seconds"),
+    rep: dict[str, Any] = {"schema": SCHEMA, "asof": asof, "play_date": data.play_date(rows).isoformat(), "time": dt.datetime.now(dt.timezone(dt.timedelta(hours=5, minutes=30))).isoformat(timespec="seconds"),
                            "patterns": [], "errors": []}
     for p in PATTERNS:
         if only and p["key"] != only:

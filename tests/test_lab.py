@@ -453,6 +453,19 @@ class ScannerTests(unittest.TestCase):
         self.assertGreater(n_old, 3)
 
 
+class Roi90Tests(unittest.TestCase):
+    def test_roi_90x_worst_case(self):
+        from lab import paper
+        led = paper.new_ledger(1000)
+        for i, (st, net) in enumerate([("win", 5 * 94), ("loss", -5), ("loss", -5), ("pending", None)]):
+            led["bets"].append({"strategy": "single", "date": "2026-11-0%d" % (i + 1), "game": "FD", "number": i, "stake": 5, "status": st, "net": net})
+        s = paper.summary(led, "single")
+        self.assertEqual((s["bets"], s["pending"], s["wins"]), (3, 1, 1))
+        self.assertAlmostEqual(s["roi"], (470 - 10) / 15)               # 95x: 5*94 - 5 - 5 par 15 staked
+        self.assertAlmostEqual(s["roi_90x"], (5 * 89 - 10) / 15)        # 90x worst-case
+        self.assertLess(s["roi_90x"], s["roi"])
+
+
 if __name__ == "__main__":
     unittest.main()
 

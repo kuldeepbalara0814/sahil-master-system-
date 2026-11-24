@@ -114,7 +114,8 @@ def summary(ledger, strategy=None):
         x["bets"] += 1
         x["wins"] += b["status"] == "win"
         x["net"] += b["net"]
-    return {"bets": len(done), "pending": len(bets) - len(done), "wins": len(wins),
+    net90 = sum(b["stake"] * 89 if b["status"] == "win" else -b["stake"] for b in done)   # worst-case: 90x payout par
+    return {"bets": len(done), "pending": len(bets) - len(done), "wins": len(wins), "roi_90x": (net90 / staked) if staked else 0.0,
             "hit_pct": (len(wins) / len(done)) if done else 0.0, "staked": staked, "net": net,
             "roi": (net / staked) if staked else 0.0, "capital_now": ledger["capital"] + net,
             "max_drawdown": dd, "curve": curve, "months": months}

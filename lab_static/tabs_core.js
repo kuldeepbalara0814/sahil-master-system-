@@ -130,8 +130,8 @@ async paper(m){
   const pl=document.createElementNS("http://www.w3.org/2000/svg","polyline");pl.setAttribute("points",pts);pl.setAttribute("fill","none");pl.setAttribute("stroke",s.net>=0?"#2e9e4f":"#d64545");pl.setAttribute("stroke-width","2");svg.append(pl);
   const mrows=Object.entries(s.months).sort().slice(-6).reverse();
   m.append(el("div",{class:"card"},el("h2",{},fb(names[k])),el("div",{class:"row"},
-   el("div",{},el("div",{class:"mut"},"Bet"),el("b",{},s.bets+" (baaki "+s.pending+")")),el("div",{},el("div",{class:"mut"},"Jeet"),el("b",{},s.wins+" ("+pct(s.hit_pct,2)+")")),
-   el("div",{},el("div",{class:"mut"},"Net"),el("b",{class:s.net>=0?"ok":"bad"},(s.net>=0?"+":"")+s.net+" Rs")),el("div",{},el("div",{class:"mut"},"ROI"),el("b",{class:s.roi>=0?"ok":"bad"},pct(s.roi))),
+   el("div",{},el("div",{class:"mut"},"Poori bet"),el("b",{},s.bets+" + "+s.pending+" baaki")),el("div",{},el("div",{class:"mut"},"Jeet"),el("b",{},s.wins+" ("+pct(s.hit_pct,2)+")")),
+   el("div",{},el("div",{class:"mut"},"Net"),el("b",{class:s.net>=0?"ok":"bad"},(s.net>=0?"+":"")+s.net+" Rs")),el("div",{},el("div",{class:"mut"},"ROI (95x / 90x par)"),el("b",{class:s.roi>=0?"ok":"bad"},pct(s.roi)+(s.roi_90x!=null?" / "+pct(s.roi_90x):""))),
    el("div",{},el("div",{class:"mut"},"Ab ka paisa"),el("b",{},s.capital_now+" Rs")),el("div",{},el("div",{class:"mut"},"Sabse badi giraavat"),el("b",{},s.max_drawdown+" Rs"))),
    s.curve.length?svg:el("p",{class:"mut"},"Abhi settle hui bet nahi."),
    mrows.length?el("table",{},el("thead",{},el("tr",{},["Mahina","Bet","Jeet","Net"].map(x=>el("th",{},x)))),el("tbody",{},mrows.map(([mm,v])=>el("tr",{},el("td",{},mm),el("td",{},v.bets),el("td",{},v.wins),el("td",{class:v.net>=0?"ok":"bad"},v.net))))):null))}
@@ -149,7 +149,7 @@ async monitor(m){
  const d=await api("GET","/monitor");const nm={single:"Single jodi (FB+GL+DS)",list10s:"10 number list (subah wali)",list10:"10 number list (game se pehle)"};
  const pn={all:"Poora",y2016:"2016 se",last12m:"Pichle 12 mahine",last3m:"Pichle 3 mahine",last30d:"Pichle 30 din"};
  m.append(el("div",{class:"card"},el("h2",{},"Monitor: asar chal raha hai ya ghat gaya?"),el("p",{class:"mut"},`Hit % = 100 me kitni baar number aaya. Break-even ${pct(d.breakeven,2)} (95 guna par). Random = 1.00%. Data: ${d.asof} tak.`),
-  d.alerts.length?el("div",{class:"warn"},d.alerts.map(a=>el("div",{},"⚠ "+fb(a)))):el("p",{class:"ok"},"✔ Abhi koi chetavani nahi."),
+  d.alerts.length?el("div",{class:"warn"},d.alerts.map(a=>el("div",{},"⚠ "+fb(a)))):el("p",{class:"ok"},"✔ Pichle 3 mahine ke hisaab se koi chetavani nahi. (30 din ka sample chhota hota hai, wo chetavani nahi ginta.)"),
   el("p",{class:"legend mut"},el("span",{class:"st hara"},"hara")," break-even se 10% upar  ",el("span",{class:"st peela"},"peela")," aas-paas  ",el("span",{class:"st laal"},"laal")," neeche  ",el("span",{class:"st kam"},"kam data")," 300 se kam bet")));
  for(const [k,v] of Object.entries(d.strategies))m.append(el("div",{class:"card"},el("h2",{},fb(nm[k]||k)),el("table",{},el("thead",{},el("tr",{},["Samay","Bet","Hit","Hit %","95% range","Paper ROI","Haal"].map(x=>el("th",{},x)))),
   el("tbody",{},Object.entries(pn).map(([p,l])=>{const s=v[p];return el("tr",{},el("td",{},l),el("td",{},s.trials),el("td",{},s.hits),el("td",{},el("b",{},pct(s.hit_pct,2))),el("td",{class:"mut"},pct(s.ci_low,2)+" - "+pct(s.ci_high,2)),el("td",{class:s.roi95>=0?"ok":"bad"},(s.roi95>=0?"+":"")+pct(s.roi95,0)),el("td",{},el("span",{class:"st "+(s.status==="kam data"?"kam":s.status)},s.status)))})))));
@@ -163,6 +163,6 @@ async data(m){
   el("div",{class:"row"},el("button",{class:"b",on:{click:async()=>{out.textContent="Site se la raha hai...";try{const r=await api("POST","/fetch",{stake:5});
     out.textContent=`Nayi lines: ${r.added.join(", ")||"koi nahi"}\nAakhri line: ${r.last_date} (kul ${r.days} din)\nPaper: ${r.settled} bet settle, ${r.new_bets} nayi\nDost badlaav: ${r.drift_changes}\n`+(r.errors.length?"Dikkat:\n"+r.errors.join("\n"):"")+(r.saved_to_github?"\nGitHub par save ho gaya":"")}catch(e){out.textContent=e.message}}}},"Abhi result fetch karo"),
    el("a",{href:"/api/download/results.csv"},el("button",{class:"b g"},"results.csv download"))),out));
- const l=s.last_fetch;m.append(el("div",{class:"card"},el("h2",{},"Pichla fetch"),l?el("pre",{},JSON.stringify(l,null,1)):el("p",{class:"mut"},"Abhi koi log nahi.")),
+ const l=s.last_fetch;m.append(el("div",{class:"card"},el("h2",{},"Pichla fetch"),l?el("div",{},el("p",{},"Kab: ",el("b",{},istm(l.time))),el("p",{},"Nayi lines: ",el("b",{},(l.added||[]).join(", ")||"koi nahi")," | Aakhri line: ",el("b",{},l.last_date||"-")),el("p",{},"Paper: ",el("b",{},(l.settled||0)+" bet settle, "+(l.new_bets||0)+" nayi")),(l.errors&&l.errors.length)?el("div",{class:"warn"},l.errors.join("\n")):el("p",{class:"ok"},"Koi dikkat nahi")):el("p",{class:"mut"},"Abhi koi log nahi.")),
   el("div",{class:"card"},el("h2",{},"Backup"),el("p",{class:"mut"},"Phone me folder /sdcard/SahilLab_Data/ me results.csv ki copy rehti hai. Bhari ho jaye to purani files Google Drive me move kar do. Phone se fetch: Termux me  bash /sdcard/SahilLab_Data/fetch_now.sh")))}
 });

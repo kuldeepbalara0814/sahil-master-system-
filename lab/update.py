@@ -47,7 +47,7 @@ def _save_json(path, obj):
 def run(fetch=True, today=None, stake=5, auto_bets=True, data_dir=None, fetch_fn=fetcher.fetch_month, pause=1.5):
     data_dir = data_dir or os.path.dirname(data.DATA_FILE)
     csv_path = _path(data_dir, "results.csv")
-    rep = {"time": dt.datetime.now().isoformat(timespec="seconds"), "added": [], "skipped": [], "conflicts": [], "errors": [], "problems": []}
+    rep = {"time": dt.datetime.now(dt.timezone(dt.timedelta(hours=5, minutes=30))).isoformat(timespec="seconds"), "added": [], "skipped": [], "conflicts": [], "errors": [], "problems": []}
     rows = data.load(csv_path)
     # 1) fetch
     if fetch:

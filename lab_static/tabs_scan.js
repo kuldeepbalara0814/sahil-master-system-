@@ -251,7 +251,7 @@ tabs.scan=async function(m){
  function draw(){
   if(!rep)return;
   const nA=rep.patterns.reduce((a,p)=>a+p.items.filter(i=>i.status==="aaj").length,0),nAll=rep.patterns.reduce((a,p)=>a+p.items.length,0);
-  info.textContent=`Kul ${nAll} pattern dikh rahe hain, unme ${nA} aaj ban rahe hain (3rd step aaj). `+`Aakhri line: ${dm(rep.asof)} | Aaj khelne ki tarikh: ${dm(rep.play_date)} | script chali: ${rep.time.replace("T"," ")} (${rep.seconds} sec)`;
+  info.textContent=`Kul ${nAll} pattern dikh rahe hain, unme ${nA} aaj ban rahe hain (3rd step aaj). `+`Aakhri line: ${dm(rep.asof)} | Aaj khelne ki tarikh: ${dm(rep.play_date)} | script chali: ${istm(rep.time)} (${rep.seconds} sec)`;
   errBox.replaceChildren(...(rep.errors.length?[el("div",{class:"warn"},el("b",{},`Script me ${rep.errors.length} galti:`),rep.errors.map(e=>el("div",{style:"margin-top:6px"},el("b",{},e.pattern+": "),e.error,el("pre",{class:"small",style:"white-space:pre-wrap"},e.trace))))]:[el("p",{class:"ok small"},"Script me koi galti nahi.")]));
   drawIdx();showDetail();
   list.replaceChildren(...(sel?[]:rep.patterns.map(p=>{
