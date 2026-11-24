@@ -1,0 +1,36 @@
+/* Sahil Lab — animations (25 Nov 2026).
+   Teeno animation: (1) thinking dots, (2) PASS/excited pop, (3) hero zigzag line.
+   Sirf animation hai: koi rang, layout, data, ya logic nahi badalti.
+   Rang theme.css ke variables se (magenta --mg, peacock-blue --cy) — NEON theme se mel khata hai.
+   Wapas hatana ho to index.html se animations.css wali line hata do (ya git revert). */
+
+/* 1) THINKING — teen dot, baari-baari uchhalte hue (magenta, peacock-blue, safed).
+   Istemal: tabs_active.js me "Hit map dekh raha hoon..." wali load line aur
+   "Scan chal raha hai..." wale button me .spin ki jagah .think (3 x <i> ke saath). */
+.think{display:inline-flex;align-items:center;gap:5px;margin-right:6px;vertical-align:-2px}
+.think i{width:7px;height:7px;border-radius:50%;background:var(--mg);animation:thinkBounce .9s ease-in-out infinite}
+.think i:nth-child(2){background:var(--cy);animation-delay:.15s}
+.think i:nth-child(3){background:#fff;animation-delay:.3s}
+@keyframes thinkBounce{0%,100%{transform:translateY(0);opacity:.55}50%{transform:translateY(-4px);opacity:1}}
+
+/* 2) EXCITED (PASS) — PASS card halka pop + halki magenta glow, PASS badge halka bounce.
+   Ek baar, ~0.5 sec, phir normal. Card dobara render hone par phir chalega (wahi excited pal hai). */
+.act-card.pass{animation:passPop .5s ease-out}
+@keyframes passPop{0%{transform:scale(.985);opacity:0;box-shadow:0 0 0 rgba(240,70,224,0)}60%{box-shadow:var(--glow-mg)}100%{transform:scale(1);opacity:1}}
+.act-card.pass .act-tag.ok{display:inline-block;animation:tagBounce .5s ease-out}
+@keyframes tagBounce{0%{transform:scale(.7)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
+
+/* 3) ZIGZAG — hero ("AAJ KA SAAR") ke neeche zigzag line: pehle left se right draw hokar aaye,
+   phir dashes zigzag par behti rahen. Logo wali zigzag (M3 17l6-6 4 4 8-8) se mel khata motif hai. */
+.hero::after{content:"";display:block;height:14px;margin-top:10px;
+ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='14' viewBox='0 0 60 14'><path d='M0 12 L10 2 L20 12 L30 2 L40 12 L50 2 L60 12' fill='none' stroke='%23f046e0' stroke-width='2' stroke-dasharray='6 4' stroke-linejoin='round' stroke-linecap='round'/></svg>");
+ background-repeat:repeat-x;background-size:60px 14px;
+ filter:drop-shadow(0 0 4px rgba(240,70,224,.55));
+ animation:zigDraw 1s ease-out,zigFlow 1.2s linear infinite}
+@keyframes zigDraw{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes zigFlow{from{background-position-x:0}to{background-position-x:60px}}
+
+/* Kam motion chahne wale user ke liye: animation band, zigzag line phir bhi dikhegi. */
+@media (prefers-reduced-motion:reduce){
+ .think i,.act-card.pass,.act-card.pass .act-tag.ok,.hero::after{animation:none}
+}

@@ -135,7 +135,7 @@ function htDraw(box,rep,days,redraw){
   rep.mismatch&&rep.mismatch.length?el("div",{class:"warn",style:"margin-bottom:8px"},el("b",{},"Dhyan do: "),rep.mismatch.map(m=>el("p",{class:"small",style:"margin:3px 0"},typeof m==="string"?m:JSON.stringify(m)))):null,
   shown.length?shown.map(htGroup):el("p",{class:"mut"},"Abhi koi map hit nahi hua."),tog].flat().filter(Boolean))}
 async function htLoadHits(box,days){
- box.replaceChildren(el("p",{class:"load"},el("span",{class:"spin"}),"Hit map dekh raha hoon..."));
+ box.replaceChildren(el("p",{class:"load"},el("span",{class:"think"},el("i"),el("i"),el("i")),"Hit map dekh raha hoon..."));
  try{const rep=await api("GET","/hits?days="+days);const redraw=()=>htDraw(box,rep,days,redraw);redraw()}
  catch(e){box.replaceChildren(el("div",{class:"warn"},e.message))}}
 
@@ -180,7 +180,7 @@ tabs.active=async function(root){
   finally{busy=false;drawStrip()}}
  function drawStrip(){
   const s=rep&&rep.scans,last=s&&s.last;
-  const btn=el("button",{class:"b big2",on:{click:()=>{if(!busy)load(true)}}},busy?[el("span",{class:"spin"}),"Scan chal raha hai..."]:"Abhi scan karo");
+  const btn=el("button",{class:"b big2",on:{click:()=>{if(!busy)load(true)}}},busy?[el("span",{class:"think"},el("i"),el("i"),el("i")),"Scan chal raha hai..."]:"Abhi scan karo");
   if(busy)btn.disabled=true;
   const seg=el("div",{class:"act-seg"},[1,2,3].map(d=>el("button",{class:d===days?"on":"",on:{click:()=>{if(busy||d===days)return;days=d;try{localStorage.setItem("act_days",d)}catch(e){}load(false)}}},d+" din")));
   strip.replaceChildren(...[
