@@ -21,6 +21,16 @@ Chat me bhi galti par ab aisa hi code aur kaaran dikhta hai (kachcha Sarvam text
 - **Password server par jaanchta hai** (browser ki JS badalne se nahi bachega). PIN code/repo me kahin nahi likha. 4 ank ka PIN kamzor hota hai, isliye: galat PIN 5 baar lagatar -> sabke liye 15 minute band; roz ki seema; 2 second se kam gap me AI sawaal nahi; sawaal 400 akshar tak. **Salah: 6 ya zyada ank ka HELP_PIN rakho, aur aisa jo tumhare naam/GitHub username ke ank se na milta ho** (repo ka naam public hai, usme ank dikhte hain, to wo andaze me aasan hai).
 - Sarvam ki galti par saaf message ("Sarvam se jawab nahi aaya, dobara try karo."), kachcha error ya key kabhi nahi dikhti. Jawab `textContent` se dikhta hai (HTML andar nahi ghus sakta).
 
+## HYBRID (user ne kaha: jo zaroori ho wo Sarvam, baaki docs/HANDOFF se) - 25 Nov 2026
+Har sawaal is kram se jata hai; **pehle teen me token zero**, sirf aakhri me Sarvam:
+1. **FAQ** (`lab/help_faq.py`): 15 taiyar jawab (copy, scan time, 009, ladder, model, badlav...). Chat ke beech me bhi.
+2. **Cache:** pehle ka AI jawab (usi live sthiti me, 3 din).
+3. **DOCS** (`lab/help_docs.py`): `lab/help_kb.md`, `patterns/README.md`, `GLOSSARY.md`, **`HANDOFF.md` (har item ek tukda)**, har pattern ka README, `AI_REBUILD_GUIDE.md` ~250 tukdon me todkar sawaal se milate hain. Jawab saaf mile (kam se kam 2 shabd, sawaal ke shabdon ka bada hissa, ek tukda saaf aage; ek hi baat kai jagah ho to `help_kb` wala) to wahi tukda seedha, neeche "📖 Source: ..." ke saath. Docs file badalte hi index apne aap naya.
+4. **Sarvam (AI):** jo docs me saaf nahi ya live ("aaj/abhi/kal") ho. Usme bhi poora gyaan nahi: niyam + "App kya hai" + docs ke mile hue top 5 tukde (isliye jawab docs par tikta hai aur token kam lagte hain).
+- Har seedhe jawab ke neeche **"🤖 AI se dobara poochho"** button: dabao to wahi sawaal seedha Sarvam ko (FAQ/docs/cache chhod kar); wo jawab cache me chala jata hai.
+- Docs/FAQ/cache ke jawab daily seema me nahi ginte.
+- Seema aur sachchai: docs ka mel **shabd-mel** (semantic nahi), isliye jo bahut saaf nahi wo AI ko jata hai (galat jawab se achha hai). Docs ka text jaisa likha hai waisa aata hai: HANDOFF me "user ne kaha..." jaisi line bhi aa sakti hain.
+
 ## Token/kharcha kaise bachta hai
 1. **FAQ (zero token):** 13 aam sawaal (copy, pattern number se kholna, scan time, 009, ladder, pocket, paper trading, galat result, break-even, andar/bahar, Excel, data purana, 008, PIN) ke taiyar jawab `lab/help_faq.py`. "aaj/abhi/kal" wale (live) sawaal isme nahi aate.
 2. **Cache:** pichle jawab (usi live sthiti me) 3 din; milte-julte sawaal par wahi jawab. Jawab ke neeche "turant jawab (token nahi laga)" likha aata hai.
@@ -33,7 +43,13 @@ Chat me bhi galti par ab aisa hi code aur kaaran dikhta hai (kachcha Sarvam text
 - **DeepSeek:** tumhari Sarvam key par hi chalta hai (`deepseekv4.1-flash-1017`, tumhare mapping me "ffmpeg / code" ke liye), alag DeepSeek account/key nahi chahiye. Uska bhav mujhe pakka nahi mila (sirf DeepSeek V4 Pro Rs 115/350 dikha). Help Q&A me bachat itni kam hai ki badalne ka fayda nahi; **code/bug-fix wale kaam (Phase 2) ke liye ye achha dawedaar hai.** Badalna ho to Render me `SARVAM_MODEL=deepseekv4.1-flash-1017` (koi code badlav nahi).
 - `sarvam-105b-conversations` bhi chalega (roz ki chat ke liye); uske liye `SARVAM_MODEL=sarvam-105b-conversations` (code apne aap /v1 aur bina reasoning bhejta hai).
 
-## Phase 2 (BADLAV KARNE WALA BOT) - sirf DESIGN, kuch banaya nahi. Tumhari "haan" ke bina code nahi.
+## Phase 2a BAN GAYA (25 Nov 2026): "📝 Badlav/bug batao" (bot khud kuch nahi badalta)
+Chat ke upar **📝** button: tum simple Hinglish me likho kya galat hai ya kya badalna hai. Ye `data/help_requests.json` me save hota hai (PIN se, GitHub sync). **Koi file/data nahi badalta, AI call nahi hoti (token nahi lagta).** Phir Claude (QC head) ise padhta hai, jaanchta hai, test karta hai, ek alag commit me lagata hai, push + live check. Request ka text **data hai, hukm nahi**: bina jaanch ke kuch nahi lagta. Tumhari haan ke bina live nahi hota.
+- Claude ko dikhane ke liye: session shuru me `data/help_requests.json` dekha jata hai (status "naya"); tum bhi "requests dekho" bol sakte ho.
+- Bot ab apna model batata hai (Render ka `SARVAM_MODEL`), aur "badlav/bug fix kar sakte ho" ka seedha jawab deta hai (FAQ, zero token).
+- Limit: 600 akshar, 30 pending se zyada nahi, sirf aakhri 200 rakhte hain.
+
+## Phase 2b (bot khud PR banaye) - sirf DESIGN. Tumhari alag "haan" ke bina code nahi.
 Tumne kaha bot tumhare kehne par bug fix/badlav kar sake. Sidha live app ko badalne dena **khatarnak** hai (galat edit ya prompt-injection se app toot sakti hai, aur live app public repo se judi hai). Do surakshit darje:
 - **2a (zero khatra, meri salah pehle ye):** chat me "Badlav request" button: tum simple Hinglish me likho ("ye button theek karo"); bot **EXACT badlav likhta hai** (kaun si file, kya purana -> kya naya, kyun) aur request ek queue me save hoti hai (PIN se). Phir wo mujhe (QC head) milti hai: mai jaanchta hu, test chalata hu, ek alag commit me lagata hu, push + live check. Bot khud kuch nahi badalta.
 - **2b (zyada khatarnak, baad me, sirf tumhari alag "haan" par):** tumhari PIN-haan ke baad server GitHub par **branch + pull request** banaye (kabhi seedha main nahi), GitHub Action poore test chalaye, tum merge dabao, phir Render deploy. Niyam: sirf allowlist ki files (lab_static/*, patterns/*.md, lab/help_kb.md...); `lab_server.py` ka auth, `lab/gh.py`, `data/`, `.github/`, `render.yaml`, secrets kabhi nahi; chhota diff; har badlav ek commit (revert aasan); kill-switch env `HELP_WRITE=0`; GitHub token alag (sirf PR), key env me. Koi delete nahi. PIN wale kaam (fetch, paper bet) PIN se hi rahenge.

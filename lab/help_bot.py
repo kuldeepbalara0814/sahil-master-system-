@@ -8,7 +8,8 @@ Surakshit tareeka (user ke paise Sarvam API se katte hain):
 - Sarvam se kuch bhi galat/khaali aaye to saaf message; kachcha upstream error ya key kabhi user ko nahi dikhti.
 
 Token bachane ke 3 tareeke (user ne kaha: baar-baar ek jaise sawaal ho to zyada token na lage):
-1) FAQ: aam sawaalon ke taiyar jawab (lab/help_faq.py), zero token.  2) Cache: pichle jawab (usi live sthiti me) 3 din tak.  3) Retrieval: poora gyaan nahi, sirf sawaal se mile hue hisse bhejte hain.
+HYBRID: 1) FAQ (lab/help_faq.py, taiyar jawab)  2) Cache (pichle AI jawab)  3) DOCS (lab/help_docs.py: README/HANDOFF/GLOSSARY me jawab saaf likha ho to seedha) - ye sab zero token;
+sirf jo docs me saaf nahi ya live (aaj/abhi) hai wo Sarvam ko jata hai, aur usme bhi poora gyaan nahi, sirf docs ke mile hue 4-5 tukde.
 Reasoning band ("none"), isliye soch ke token bhi nahi lagte. FAQ/cache se aaya jawab daily seema ya gap me nahi ginta.
 """
 import datetime as dt
@@ -22,7 +23,7 @@ import time
 import urllib.error
 import urllib.request
 
-from . import help_faq
+from . import help_docs, help_faq
 
 KB_PATH = os.path.join(os.path.dirname(__file__), "help_kb.md")
 URL_V2 = "https://api.sarvam.ai/v2/chat/completions"           # user ke test: reasoning_effort "none" SIRF /v2 par chalta hai (v1 reject karta hai)
@@ -55,8 +56,7 @@ def upstream_message(status):
         return f"Sarvam se jawab nahi aaya (code {status}). Dobara try karo."
     return UPSTREAM_MSG
 
-STOP = set("""kya hai hain ka ki ke me mein se ko to aur ya hota hoti hote hoga kar karo karna karu karun kare batao bata bataiye mujhe mera meri mere ye yeh wo woh ho tha the thi ek
- kaise kyun kyu kahan kab kaun kaunsa koi kuch bhi hi na nahi par pe liye wala wali wale jaise jaisa isme usme iska uska isse usse hum aap tum main mai bhai please plz ji""".split())
+STOP = help_docs.STOP
 LIVE = {"aaj", "abhi", "kal", "parso", "today", "latest", "taza", "taaza", "current", "ab", "filhal"}     # aaj ki sthiti wale sawaal: FAQ nahi, live data ke saath AI
 
 _lock = threading.Lock()
@@ -113,9 +113,7 @@ def check_pin(pin, now=None):
 
 
 # ---------------- sawaal ko shabdon me todna ----------------
-def tokens(text):
-    """Chhote shabd (a-z, 0-9), stop-shabd hata kar. 009/008/fb jaise chhote bhi rakhte hain."""
-    return {w for w in re.findall(r"[a-z0-9]+", str(text).lower()) if w not in STOP and (len(w) >= 3 or w.isdigit() or w in ("fb", "gb", "gl", "ds", "fd"))}
+tokens = help_docs.tokens
 
 
 def _all_words(text):
@@ -134,8 +132,17 @@ def faq_answer(q):
     for item in help_faq.FAQ:
         for grp in item["groups"]:
             if all(any(w == g or (len(g) >= 4 and w.startswith(g)) for w in words) for g in grp):
+                if item.get("dynamic") == "model":
+                    return model_answer()
                 return item["answer"]
     return None
+
+
+def model_answer():
+    """Bot ka apna model (jo Render me SARVAM_MODEL se tay hai) - bot ko pehle ye pata hi nahi tha."""
+    m = model_name()
+    return (f"Mai Sahil Lab Help hu. Mai Sarvam ke API par `{m}` model se chalta hu (Sarvam ka Token Factory). "
+            "Ye model Render ke `SARVAM_MODEL` setting se badla ja sakta hai (jaise DeepSeek Flash: `deepseekv4.1-flash-1017`), code badalne ki zaroorat nahi.")
 
 
 # ---------------- gyaan (KB) ka retrieval ----------------
@@ -147,60 +154,44 @@ def _knowledge():
         return "(app ki jaankari file nahi mili)"
 
 
-def _chunks():
-    """KB ko (section, line) ke tukdon me. 'Bot ke niyam' aur 'App kya hai' hamesha jate hain, baaki sawaal se mel khane par."""
-    kb = _knowledge()
-    h = hashlib.sha1(kb.encode()).hexdigest()
-    if _chunks_cache.get("h") == h:
-        return _chunks_cache["v"]
-    always, items, sec = [], [], ""
-    for line in kb.splitlines():
+def _always():
+    """KB ke 'Bot ke niyam' aur 'App kya hai' hisse: har AI sawaal ke saath jate hain."""
+    out, sec, keep = [], "", False
+    for line in _knowledge().splitlines():
         if line.startswith("# "):
             continue
         if line.startswith("## "):
             sec = line[3:].strip()
+            keep = sec.startswith("Bot ke niyam") or sec.startswith("App kya hai")
+            if keep:
+                out.append(f"\n## {sec}")
             continue
-        if not line.strip():
-            continue
-        row = (sec, line.strip())
-        if sec.startswith("Bot ke niyam") or sec.startswith("App kya hai"):
-            always.append(row)
-        else:
-            items.append((sec, line.strip(), tokens(sec + " " + line)))
-    _chunks_cache.update({"h": h, "v": (always, items)})
-    return always, items
+        if keep and line.strip():
+            out.append(line.strip())
+    return "\n".join(out)
 
 
 def knowledge_for(question):
-    """Sawaal se mile hue hisse (kam token). Kuch na mile to poora gyaan (kabhi andaze se jawab na ho)."""
-    always, items = _chunks()
-    q = tokens(question)
-    scored = []
-    for i, (sec, line, tk) in enumerate(items):
-        sc = sum((2 if w.isdigit() else 1) for w in q if w in tk or any(len(w) >= 4 and (t.startswith(w) or w.startswith(t)) for t in tk if len(t) >= 4))
-        if sc:
-            scored.append((-sc, i))
-    if not scored:
+    """AI ke liye: niyam + 'App kya hai' + sawaal se mile docs ke top tukde (KB/README/HANDOFF/GLOSSARY). Kuch na mile to poora KB (andaza nahi)."""
+    ctx = help_docs.context(question, k=5)
+    if not ctx:
         return _knowledge()
-    pick = sorted(i for _, i in sorted(scored)[:TOP_CHUNKS])
-    out, last = [], None
-    for sec, line in always:
-        if sec != last:
-            out.append(f"\n## {sec}")
-            last = sec
-        out.append(line)
-    for i in pick:
-        sec, line, _ = items[i]
-        if sec != last:
-            out.append(f"\n## {sec}")
-            last = sec
-        out.append(line)
-    return "\n".join(out)
+    return _always() + "\n\n## Docs se mile hisse (inhi se jawab do)\n" + ctx
+
+
+def docs_answer(q):
+    """Hybrid ka docs hissa: jawab docs me saaf likha ho to seedha (zero token). Live (aaj/abhi) sawaal nahi."""
+    if _has_live_intent(q):
+        return None
+    d = help_docs.best(q)
+    return f"{d['text']}\n\n📖 Source: {d['label']}" if d else None
 
 
 def system_prompt(live="", question=""):
     s = ("Tum 'Sahil Lab Help' ho: Sahil Lab app ka madadgaar. Neeche app ki jaankari ka sawaal se juda hissa hai. Usi se, chhote saaf Hinglish me jawab do. "
-         "Jawab me jo cheez neeche nahi hai, wo mat banao.\n" + knowledge_for(question))
+         "Jawab me jo cheez neeche nahi hai, wo mat banao.\n"
+         f"Tum Sarvam ke API par '{model_name()}' model se chalte ho (agar koi poochhe ki tum kaun sa model/AI ho, yahi batao). "
+         "Tum khud code/data nahi badalte; badlav ya bug ke liye user chat ke neeche '📝 Badlav/bug batao' button se likhe, wo Claude (QC head) ke paas jata hai.\n" + knowledge_for(question))
     if live:
         s += "\n\n## Abhi ki sthiti (live, sahi maano)\n" + live
     return s
@@ -281,7 +272,7 @@ def _cache_put(tok, livehash, answer, now):
             del _cache[k]
 
 
-def ask(question, history=None, live="", now=None):
+def ask(question, history=None, live="", now=None, force_ai=False):
     """-> (answer ya None, error message ya None, http_status, via). via: faq | cache | ai. PIN pehle check ho chuka hona chahiye."""
     now = time.time() if now is None else now
     q = str(question or "").strip()
@@ -293,17 +284,20 @@ def ask(question, history=None, live="", now=None):
     if not key:
         return None, NO_KEY_MSG, 503, None
     hist = clean_history(history)
-    if not hist:                                               # follow-up sawaal (pichli baat par nirbhar) me FAQ/cache nahi
-        a = faq_answer(q)
-        if a:
-            return a, None, 200, "faq"
     livehash = hashlib.sha1(live.encode()).hexdigest()[:12]
     tok = tokens(q)
-    if not hist:
-        with _lock:
-            cached = _cache_lookup(tok, livehash, now)
-        if cached:
-            return cached, None, 200, "cache"
+    if not force_ai:                                           # 'AI se dobara poochho' par FAQ/cache/docs sab chhod kar seedha AI
+        a = faq_answer(q)                                      # 1) FAQ: taiyar jawab (mel sakht, follow-up me bhi)
+        if a:
+            return a, None, 200, "faq"
+        if not hist:                                           # 2) cache: pehle ka AI jawab (follow-up pichli baat par nirbhar, isliye usme nahi)
+            with _lock:
+                cached = _cache_lookup(tok, livehash, now)
+            if cached:
+                return cached, None, 200, "cache"
+        a = docs_answer(q)                                     # 3) docs (README/HANDOFF) me saaf jawab ho to seedha
+        if a:
+            return a, None, 200, "docs"
     day = dt.datetime.fromtimestamp(now, IST).date().isoformat()
     with _lock:
         if _state["day"] != day:
@@ -325,5 +319,29 @@ def ask(question, history=None, live="", now=None):
     with _lock:
         _state["count"] += 1                                  # sirf safal AI jawab ginta hai
         if not hist:
-            _cache_put(tok, livehash, ans, now)
+            _cache_put(tok, livehash, ans, now)                # force_ai ka jawab bhi cache me: agla vahi sawaal ise hi dega
     return ans, None, 200, "ai"
+
+
+# ---------------- Badlav / bug request (Phase 2a): bot khud kuch nahi badalta ----------------
+MAX_REQ_CHARS = 600
+MAX_PENDING = 30
+
+
+def new_request(items, text, tab="", history=None, now=None):
+    """items (list) me ek request jodo. -> (item ya None, error ya None). Ye sirf likh kar rakhti hai: koi file/data nahi badalta.
+    Likha hua text 'data' hai, hukm nahi: Claude (QC) use jaanch kar hi kuch lagata hai."""
+    now = time.time() if now is None else now
+    t = str(text or "").strip()
+    if not t:
+        return None, "Pehle likho ki kya badalna ya theek karna hai."
+    if len(t) > MAX_REQ_CHARS:
+        return None, f"Thoda chhota likho ({MAX_REQ_CHARS} akshar tak)."
+    if sum(1 for x in items if x.get("status") == "naya") >= MAX_PENDING:
+        return None, "Pehle ki bahut request abhi baaki hain. Thodi der baad bhejo."
+    nid = (max((x.get("id", 0) for x in items), default=0) or 0) + 1
+    item = {"id": nid, "time": dt.datetime.fromtimestamp(now, IST).isoformat(timespec="seconds"), "text": t,
+            "tab": str(tab or "")[:40], "chat": clean_history(history), "status": "naya"}
+    items.append(item)
+    del items[:-200]                                           # sirf aakhri 200
+    return item, None

@@ -14,6 +14,7 @@ const body=el("div",{class:"hb-body"}),foot=el("div",{class:"hb-foot"});
 const panel=el("div",{class:"hb-panel",role:"dialog","aria-label":"Sahil Lab Help",style:"display:none"},
  el("div",{class:"hb-head"},el("b",{},"Sahil Lab Help"),el("span",{class:"hb-sub"},"app ke baare me poochho"),
   el("span",{class:"hb-acts"},
+   el("button",{type:"button",class:"hb-x",title:"Badlav/bug batao",on:{click:()=>SS.get("hb_pin")?reqView():start()}},"📝"),
    el("button",{type:"button",class:"hb-x",title:"Naya chat",on:{click:()=>{hist=[];SS.get("hb_pin")?chatView():start()}}},"↺"),
    el("button",{type:"button",class:"hb-x",title:"Lock (password bhool jao)",on:{click:()=>{SS.del("hb_pin");hist=[];start()}}},"🔒"),
    el("button",{type:"button",class:"hb-x",title:"Band karo","aria-label":"Band karo",on:{click:()=>toggle(false)}},"✕"))),
@@ -50,16 +51,37 @@ function chatView(){
  ta.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();ask(ta,send)}});
  foot.replaceChildren(ta,send);setTimeout(()=>ta.focus&&ta.focus(),50)}
 
+function reqView(){
+ const ta=el("textarea",{rows:"5",maxlength:"600",placeholder:"Kya galat hai ya kya badalna hai? Jaise: 'Paper tab me ye button theek karo' ya 'Active me ye number galat dikh raha hai'",class:"hb-reqta","aria-label":"Badlav ya bug"});
+ const st=el("div",{class:"hb-err"}),send=el("button",{type:"button",class:"b",on:{click:async()=>{
+  const t=ta.value.trim();if(!t){st.textContent="Pehle likho kya badalna hai.";return}
+  send.disabled=true;st.textContent="";
+  let tab="";try{tab=localStorage.getItem("tab")||""}catch(e){}
+  try{const r=await api("POST","/help/request",{text:t,tab,history:hist.slice(-4),pin:SS.get("hb_pin")});
+   body.replaceChildren(el("div",{class:"hb-lock"},el("div",{class:"hb-big"},"✅"),el("p",{},`Request #${r.id} save ho gayi.`),
+    el("p",{class:"hb-sub",style:"white-space:normal"},"Claude (QC head) ise jaanchega, test karega aur ek alag commit me lagayega. Tumhari haan ke bina live nahi hoga."),
+    el("button",{type:"button",class:"b g",on:{click:chatView}},"Wapas chat")));foot.replaceChildren()}
+  catch(e){st.textContent=e.message;if(/PIN galat|password/i.test(e.message)){SS.del("hb_pin");setTimeout(()=>pinView(e.message),600)}}
+  finally{send.disabled=false}}}},"Claude ko bhejo");
+ body.replaceChildren(el("div",{class:"hb-reqform"},el("b",{},"📝 Badlav ya bug batao"),
+  el("p",{class:"hb-sub",style:"white-space:normal;margin:4px 0 8px"},"Bot khud kuch nahi badalta. Tumhari baat Claude ko jati hai, wo jaanch kar lagata hai."),ta,st,
+  el("div",{class:"row"},send,el("button",{type:"button",class:"b g",on:{click:chatView}},"Wapas chat"))));foot.replaceChildren()}
+
+const VIA={faq:"⚡ taiyar jawab (bina AI ke, token nahi laga)",docs:"📖 docs se (bina AI ke, token nahi laga)",cache:"⚡ pehle ka jawab (token nahi laga)"};
+/* ek sawaal ka jawab: node me likhta hai. force=true -> seedha AI (FAQ/docs/cache chhod kar) */
+async function run(q,node,force){
+ node.className="hb-msg bot wait";node.textContent="soch raha hai...";
+ try{const r=await api("POST","/help",{question:q,history:hist.slice(-4),pin:SS.get("hb_pin"),force_ai:!!force});
+  node.className="hb-msg bot";node.textContent=r.answer;
+  if(VIA[r.via])node.append(el("div",{class:"hb-via"},VIA[r.via]+" ",el("button",{type:"button",class:"hb-again",on:{click:()=>{if(!busy)ai(q,node)}}},"🤖 AI se dobara poochho")));
+  hist.push({role:"user",content:q},{role:"assistant",content:r.answer});hist=hist.slice(-4)}
+ catch(e){node.className="hb-msg bot bad";node.textContent=e.message;
+  if(/PIN galat|password/i.test(e.message)){SS.del("hb_pin");setTimeout(()=>pinView(e.message),600)}}}
+async function ai(q,node){busy=true;try{await run(q,node,true)}finally{busy=false;body.scrollTop=body.scrollHeight}}
 async function ask(ta,send){
  const q=ta.value.trim();if(!q||busy)return;busy=true;send.disabled=true;ta.value="";
- bubble("user",q);const wait=bubble("bot wait","soch raha hai...");
- try{const r=await api("POST","/help",{question:q,history:hist.slice(-4),pin:SS.get("hb_pin")});
-  wait.className="hb-msg bot";wait.textContent=r.answer;
-  if(r.via==="faq"||r.via==="cache")wait.append(el("div",{class:"hb-via"},r.via==="faq"?"⚡ taiyar jawab (bina AI ke, token nahi laga)":"⚡ pehle ka jawab (token nahi laga)"));
-  hist.push({role:"user",content:q},{role:"assistant",content:r.answer});hist=hist.slice(-4)}
- catch(e){wait.className="hb-msg bot bad";wait.textContent=e.message;
-  if(/PIN galat|password/i.test(e.message)){SS.del("hb_pin");setTimeout(()=>pinView(e.message),600)}}
- finally{busy=false;send.disabled=false;body.scrollTop=body.scrollHeight;ta.focus&&ta.focus()}}
+ bubble("user",q);const node=bubble("bot wait","soch raha hai...");
+ try{await run(q,node,false)}finally{busy=false;send.disabled=false;body.scrollTop=body.scrollHeight;ta.focus&&ta.focus()}}
 
 document.body.append(panel,fab);
 })();

@@ -4,6 +4,10 @@ Mel khane ka niyam sakht rakha hai (galat jawab se achha hai ki AI se pooch liya
 Live sthiti (aaj ke number, tarikh) wale sawaal yahan nahi aate: unhe AI live data ke saath jawab deta hai.
 """
 FAQ = [
+    {"id": "model", "dynamic": "model", "groups": [["model", "konsa"], ["model", "kaun"], ["konsa", "model"], ["kaunsa", "model"], ["apka", "model"], ["aapka", "model"], ["tumhara", "model"], ["tera", "model"], ["kis", "model"], ["deepseek"]],
+     "answer": ""},
+    {"id": "change_request", "groups": [["bug", "fix"], ["bug", "theek"], ["error", "fix"], ["error", "theek"], ["badlav", "kar"], ["badlab", "kar"], ["badalna", "chahta"], ["code", "badal"], ["theek", "kar", "sakte"], ["fix", "kar", "sakte"], ["badal", "sakte"]],
+     "answer": "Mai khud code ya data nahi badalta (live app ke liye ye khatarnak hota hai). Par tum chat ke neeche **📝 Badlav/bug batao** button se apni baat likh sakte ho: kya galat hai ya kya badalna hai. Wo Claude (QC head) ke paas pahunchti hai; wo jaanchta hai, test karta hai aur ek alag commit me lagata hai (jisse purana wapas aa sake). Live tabhi hota hai jab tumhari haan ho. PIN wale kaam (fetch, paper bet) PIN se hi rahenge."},
     {"id": "copy", "groups": [["copy", "number"], ["copy", "jodi"], ["copy", "kaise"], ["copy", "button"]],
      "answer": "Number Rank ya Meri Window me jodi ke saamne 'Copy' button hai (Meri Window me 'Sab jodi copy' aur Top 30 ka Copy bhi). Dabate hi numbers copy ho jate hain, phir kahin bhi paste karo."},
     {"id": "open_by_number", "groups": [["pattern", "number", "khol"], ["pattern", "number", "open"], ["number", "se", "khol"], ["pattern", "khol"]],

@@ -805,6 +805,36 @@ def api_help_unlock():
     return jsonify({"ok": True}) if ok else err(msg, code)
 
 
+@app.post("/api/help/request")
+def api_help_request():
+    """Badlav/bug request (Phase 2a): sirf likh kar rakhti hai (PIN se). Koi file/data nahi badalti; Claude (QC) jaanch kar lagata hai."""
+    if len(request.get_data(cache=True) or b"") > 8000:
+        return err("Request bahut badi hai.", 413)
+    b = request.get_json(silent=True) or {}
+    ok, msg, code = help_bot.check_pin(request.headers.get("X-Help-Pin") or b.get("pin"))
+    if not ok:
+        return err(msg, code)
+    with _wlock:
+        items = jload("help_requests.json", []) or []
+        item, e = help_bot.new_request(items, b.get("text"), b.get("tab"), b.get("history"))
+        if e:
+            return err(e, 400)
+        jsave("help_requests.json", items)
+        try:
+            persist(["help_requests.json"], "help: badlav request")
+        except Exception as ex:
+            app.logger.warning("help request persist: %s", ex)
+    return jsonify({"ok": True, "id": item["id"]})
+
+
+@app.get("/api/help/requests")
+def api_help_requests():
+    ok, msg, code = help_bot.check_pin(request.headers.get("X-Help-Pin"))
+    if not ok:
+        return err(msg, code)
+    return jsonify({"requests": (jload("help_requests.json", []) or [])[-30:][::-1]})
+
+
 @app.post("/api/help")
 def api_help():
     if len(request.get_data(cache=True) or b"") > 8000:
@@ -816,10 +846,10 @@ def api_help():
     if not ok:
         return err(msg, code)
     rows, _ = state()
-    ans, e, code, via = help_bot.ask(b.get("question"), b.get("history"), _help_live(rows))
+    ans, e, code, via = help_bot.ask(b.get("question"), b.get("history"), _help_live(rows), force_ai=bool(b.get("force_ai")))
     if e:
         return err(e, code)
-    return jsonify({"answer": ans, "via": via})                  # via: faq (taiyar) | cache | ai
+    return jsonify({"answer": ans, "via": via})                  # via: faq (taiyar) | docs (README/HANDOFF) | cache | ai
 
 
 @app.get("/api/window")

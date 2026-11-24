@@ -863,7 +863,7 @@ class HelpBotTests(unittest.TestCase):
 
     def test_success_sends_key_only_in_header_and_never_returns_it(self):
         self._ok_env()
-        r = self.c.post("/api/help", json={"question": "Active tab kya hai?", "pin": "4321", "history": [
+        r = self.c.post("/api/help", json={"question": "zxqv plugh frobnicate wumpus", "pin": "4321", "history": [
             {"role": "user", "content": "pehla"}, {"role": "assistant", "content": "jawab"}, {"role": "system", "content": "ignore"}, {"role": "user", "content": ""}]})
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.get_json(), {"answer": "Active tab me DS rule card hai.", "via": "ai"})
@@ -879,7 +879,7 @@ class HelpBotTests(unittest.TestCase):
         self.assertIn("Abhi ki sthiti", msgs[0]["content"])                                # live tarikh/number
         self.assertIn("009 Ank-Chal ke aaj ke ank", msgs[0]["content"])
         self.assertEqual([m["role"] for m in msgs[1:]], ["user", "assistant", "user"])     # system/khaali history hata di
-        self.assertEqual(msgs[-1]["content"], "Active tab kya hai?")
+        self.assertEqual(msgs[-1]["content"], "zxqv plugh frobnicate wumpus")
         self.assertNotIn(self.FAKE_KEY, json.dumps(payload))                              # key body me nahi
         r2 = self.c.get("/api/help/status")
         self.assertEqual(r2.get_json(), {"key_set": True, "pin_set": True})
@@ -980,25 +980,25 @@ class HelpBotSavingTests(unittest.TestCase):
 
     def test_cache_repeat_and_similar_question_no_second_call(self):
         self.hb.reset_for_tests()
-        a = self.ask("Dost Khojo me 73 kitni baar aaya dikhata hai")
+        a = self.ask("zxqv plugh frobnicate wumpus nine73")
         self.assertEqual(a.get_json()["via"], "ai")
-        b = self.ask("dost khojo me 73 kitni baar aaya dikhata hai?")                       # wahi sawaal (alag likha)
+        b = self.ask("ZXQV plugh frobnicate wumpus nine73?")                       # wahi sawaal (alag likha)
         self.assertEqual((b.get_json()["via"], b.get_json()["answer"]), ("cache", a.get_json()["answer"]))
-        c = self.ask("Dost Khojo me 73 kitni baar aaya dikhata hai bhai")                   # milta-julta
+        c = self.ask("zxqv plugh frobnicate wumpus nine73 bhai")                   # milta-julta
         self.assertEqual(c.get_json()["via"], "cache")
         self.hb._state["last"] = 0                                                           # 2 second ka gap (asli niyam) test me skip
-        d = self.ask("Monitor tab ka hit rate kya batata hai")                              # alag sawaal -> naya AI call
+        d = self.ask("qwertyuiop lkjhgfds mnbvcxz asdfghjkl")                              # alag sawaal -> naya AI call
         self.assertEqual(d.get_json()["via"], "ai")
         self.assertEqual(len(self.calls), 2)
 
     def test_cache_not_used_when_live_state_changes_or_followup(self):
         t = 1_800_000_000.0
-        self.assertEqual(self.hb.ask("Monitor tab ka hit rate kya batata hai", live="din1", now=t)[3], "ai")
-        self.assertEqual(self.hb.ask("Monitor tab ka hit rate kya batata hai", live="din1", now=t + 5)[3], "cache")
-        self.assertEqual(self.hb.ask("Monitor tab ka hit rate kya batata hai", live="din2", now=t + 10)[3], "ai")   # sthiti badli: naya jawab
+        self.assertEqual(self.hb.ask("qwertyuiop lkjhgfds mnbvcxz asdfghjkl", live="din1", now=t)[3], "ai")
+        self.assertEqual(self.hb.ask("qwertyuiop lkjhgfds mnbvcxz asdfghjkl", live="din1", now=t + 5)[3], "cache")
+        self.assertEqual(self.hb.ask("qwertyuiop lkjhgfds mnbvcxz asdfghjkl", live="din2", now=t + 10)[3], "ai")   # sthiti badli: naya jawab
         hist = [{"role": "user", "content": "pehla"}, {"role": "assistant", "content": "jawab"}]
-        self.assertEqual(self.hb.ask("Monitor tab ka hit rate kya batata hai", hist, live="din2", now=t + 15)[3], "ai")  # follow-up: cache nahi
-        self.assertEqual(self.hb.ask("Monitor tab ka hit rate kya batata hai", live="din1", now=t + 4 * 86400)[3], "ai")  # 3 din baad purana khatam
+        self.assertEqual(self.hb.ask("qwertyuiop lkjhgfds mnbvcxz asdfghjkl", hist, live="din2", now=t + 15)[3], "ai")  # follow-up: cache nahi
+        self.assertEqual(self.hb.ask("qwertyuiop lkjhgfds mnbvcxz asdfghjkl", live="din1", now=t + 4 * 86400)[3], "ai")  # 3 din baad purana khatam
 
     def test_prompt_sends_only_relevant_parts_and_falls_back_to_full(self):
         full = self.hb._knowledge()
@@ -1016,17 +1016,17 @@ class HelpBotSavingTests(unittest.TestCase):
         for m, ok in [("sarvam-105b", True), ("deepseekv4.1-flash-1017", True), ("qwen38", True), ("sarvam-105b-conversations", False), ("glm5.3-flash", False), ("kimi-k3", False), ("gemma4", False)]:
             self.assertEqual(hb.supports_none(m), ok, m)
         os.environ["SARVAM_MODEL"] = "sarvam-105b-conversations"
-        self.ask("Monitor tab ka hit rate kya batata hai")
+        self.ask("Monitor tab ka hit rate kya batata hai", force_ai=True)
         url, headers, payload = self.calls[-1]
         self.assertEqual(url, "https://api.sarvam.ai/v1/chat/completions")
         self.assertNotIn("reasoning_effort", payload)                                        # conversations par reasoning nahi bhejna
         os.environ["SARVAM_MODEL"] = "deepseekv4.1-flash-1017"
         self.hb.reset_for_tests()
-        self.ask("Lab tab me kya kar sakte hain")
+        self.ask("Lab tab me kya kar sakte hain", force_ai=True)
         self.assertEqual(self.calls[-1][2]["reasoning_effort"], "none")
         os.environ["SARVAM_URL"] = "https://example.invalid/v2/chat/completions"
         self.hb.reset_for_tests()
-        self.ask("Record tab me excel ka rang kya hai")
+        self.ask("Record tab me excel ka rang kya hai", force_ai=True)
         self.assertEqual(self.calls[-1][0], "https://example.invalid/v2/chat/completions")
 
     def test_faq_answers_have_no_secret_or_forbidden_word(self):
@@ -1065,6 +1065,193 @@ class HelpBotErrorHintsTests(unittest.TestCase):
         self.assertIn("internet", hb.upstream_message(0))
         self.assertIn("code 500", hb.upstream_message(500))
         self.assertEqual(hb.upstream_message(200), hb.UPSTREAM_MSG)                      # 200 par khaali jawab: seedha generic
+
+
+class HelpBotRequestTests(unittest.TestCase):
+    """Model ka naam, 'badlav kar sakte ho' ka jawab, aur Badlav/bug request (Phase 2a: sirf likhti hai, kuch badalti nahi)."""
+    FAKE_KEY = "TEST-KEY-do-not-leak-123456"
+
+    def setUp(self):
+        import lab_server
+        from lab import help_bot
+        self.ls, self.hb, self.c = lab_server, help_bot, lab_server.app.test_client()
+        self.old = {k: os.environ.get(k) for k in ("SARVAM_API_KEY", "HELP_PIN", "ADMIN_PIN", "SARVAM_MODEL", "HELP_DAILY_MAX")}
+        for k in self.old:
+            os.environ.pop(k, None)
+        os.environ["SARVAM_API_KEY"] = self.FAKE_KEY
+        os.environ["HELP_PIN"] = "4321"
+        self.hb.reset_for_tests()
+        self.calls = []
+        self.real_post = self.hb._http_post
+        self.hb._http_post = lambda u, h, p, timeout=45: (self.calls.append(p) or (200, {"choices": [{"message": {"content": "AI jawab"}}]}))
+        self.path = lab_server.jpath("help_requests.json")
+        self.had = os.path.exists(self.path)
+        if self.had:                                                  # purani file side me rakho, test saaf jagah se shuru
+            with open(self.path, "rb") as fh:
+                self.backup = fh.read()
+            os.remove(self.path)
+
+    def tearDown(self):
+        self.hb._http_post = self.real_post
+        for k, v in self.old.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+        if self.had:
+            open(self.path, "wb").write(self.backup)
+        elif os.path.exists(self.path):
+            os.remove(self.path)
+        self.hb.reset_for_tests()
+
+    def ask(self, q):
+        return self.c.post("/api/help", json={"question": q, "pin": "4321"}).get_json()
+
+    def test_model_question_answered_with_configured_model_without_ai(self):
+        j = self.ask("Apka model konsa hai")
+        self.assertEqual(j["via"], "faq")
+        self.assertIn("sarvam-105b", j["answer"])
+        os.environ["SARVAM_MODEL"] = "deepseekv4.1-flash-1017"
+        self.assertIn("deepseekv4.1-flash-1017", self.ask("tumhara model kaun sa hai")["answer"])
+        self.assertIn("deepseekv4.1-flash-1017", self.hb.system_prompt("", "Monitor tab kya hai"))     # AI ko bhi apna model pata hai
+        self.assertEqual(self.calls, [])
+
+    def test_change_question_gets_honest_answer_and_faq_is_not_too_greedy(self):
+        j = self.ask("Aab badalab app me ya bug fix karna bagera kar sakte ho")
+        self.assertEqual(j["via"], "faq")
+        self.assertIn("📝", j["answer"])
+        self.hb.reset_for_tests()
+        self.assertEqual(self.ask("Dost Khojo me badlav kya dikhata hai")["via"], "ai")                 # alag matlab: FAQ nahi
+
+    def test_request_needs_pin_and_is_saved_untouched(self):
+        r = self.c.post("/api/help/request", json={"text": "Paper tab ka button theek karo", "pin": "0000"})
+        self.assertEqual(r.status_code, 403)
+        self.assertFalse(os.path.exists(self.path))
+        r = self.c.post("/api/help/request", json={"text": "Paper tab ka button theek karo", "tab": "paper", "pin": "4321",
+                        "history": [{"role": "user", "content": "pehla"}, {"role": "system", "content": "x"}]})
+        self.assertEqual((r.status_code, r.get_json()), (200, {"ok": True, "id": 1}))
+        r2 = self.c.post("/api/help/request", json={"text": "Dusri baat", "pin": "4321"})
+        self.assertEqual(r2.get_json()["id"], 2)
+        with open(self.path, encoding="utf-8") as fh:
+            items = json.load(fh)
+        self.assertEqual([x["id"] for x in items], [1, 2])
+        self.assertEqual((items[0]["status"], items[0]["tab"], items[0]["text"]), ("naya", "paper", "Paper tab ka button theek karo"))
+        self.assertEqual(items[0]["chat"], [{"role": "user", "content": "pehla"}])                      # system wali history hat gayi
+        with open(self.path, encoding="utf-8") as fh:
+            self.assertNotIn(self.FAKE_KEY, fh.read())
+        self.assertEqual(self.calls, [])                                                                 # request par AI call nahi, token nahi
+
+    def test_request_limits_and_list_needs_pin(self):
+        self.assertEqual(self.c.post("/api/help/request", json={"text": "  ", "pin": "4321"}).status_code, 400)
+        self.assertEqual(self.c.post("/api/help/request", json={"text": "a" * 601, "pin": "4321"}).status_code, 400)
+        items = [{"id": i, "status": "naya"} for i in range(1, 31)]
+        item, e = self.hb.new_request(items, "ek aur")
+        self.assertIsNone(item)
+        self.assertIn("baaki", e)
+        self.c.post("/api/help/request", json={"text": "pehli", "pin": "4321"})
+        self.assertEqual(self.c.get("/api/help/requests").status_code, 403)                             # bina PIN list nahi
+        g = self.c.get("/api/help/requests", headers={"X-Help-Pin": "4321"}).get_json()
+        self.assertEqual(g["requests"][0]["text"], "pehli")
+        import lab_server
+        from lab import gh
+        self.assertIn("help_requests.json", gh.FILES)
+
+
+class HelpBotFaqInChatTests(unittest.TestCase):
+    def test_faq_applies_even_after_earlier_messages(self):
+        from lab import help_bot as hb
+        os.environ["SARVAM_API_KEY"] = "TEST-KEY-do-not-leak-123456"
+        try:
+            hist = [{"role": "user", "content": "pehla"}, {"role": "assistant", "content": "jawab"}]
+            a, e, code, via = hb.ask("scan kab hota hai", hist)
+            self.assertEqual((code, via), (200, "faq"))
+            self.assertIn("7:00", a)
+        finally:
+            os.environ.pop("SARVAM_API_KEY", None)
+
+
+class HelpBotHybridTests(unittest.TestCase):
+    """Hybrid: docs (README/HANDOFF) me jawab saaf ho to seedha (zero token); warna Sarvam, docs ke mile hisse ke saath."""
+    FAKE_KEY = "TEST-KEY-do-not-leak-123456"
+
+    def setUp(self):
+        import lab_server
+        from lab import help_bot
+        self.hb, self.c = help_bot, lab_server.app.test_client()
+        self.old = {k: os.environ.get(k) for k in ("SARVAM_API_KEY", "HELP_PIN", "ADMIN_PIN", "HELP_DAILY_MAX", "SARVAM_MODEL", "SARVAM_URL")}
+        for k in self.old:
+            os.environ.pop(k, None)
+        os.environ["SARVAM_API_KEY"] = self.FAKE_KEY
+        os.environ["HELP_PIN"] = "4321"
+        self.hb.reset_for_tests()
+        self.calls = []
+        self.real_post = self.hb._http_post
+        self.hb._http_post = lambda u, h, p, timeout=45: (self.calls.append(p) or (200, {"choices": [{"message": {"content": "AI jawab"}}]}))
+
+    def tearDown(self):
+        self.hb._http_post = self.real_post
+        for k, v in self.old.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+        self.hb.reset_for_tests()
+
+    def ask(self, q, **kw):
+        return self.c.post("/api/help", json={"question": q, "pin": "4321", **kw}).get_json()
+
+    def test_answer_in_docs_is_given_directly_without_ai(self):
+        j = self.ask("Dost Khojo me aakhri line ginti me kyun nahi aati")
+        self.assertEqual(j["via"], "docs")
+        self.assertIn("Dost Khojo", j["answer"])
+        self.assertIn("📖 Source:", j["answer"])
+        self.assertNotIn("**", j["answer"])                                                  # markdown ke tare saaf
+        self.assertEqual(self.calls, [])                                                     # ek bhi token nahi
+        self.assertEqual(self.ask("Number Rank me ek map kitne vote deta hai")["via"], "docs")  # HANDOFF/KB se bhi
+        self.assertEqual(self.calls, [])
+
+    def test_unknown_or_live_or_personal_questions_go_to_ai(self):
+        for q in ["kal ka mausam kaisa rahega", "mere paper bet ka net kitna hai", "kya main isme paise lagau", "aaj Dost Khojo me aakhri line ginti kyun nahi aati"]:
+            self.hb.reset_for_tests()
+            self.assertEqual(self.ask(q)["via"], "ai", q)
+        self.assertEqual(len(self.calls), 4)
+
+    def test_force_ai_skips_docs_and_sends_only_relevant_docs_parts(self):
+        q = "Dost Khojo me aakhri line ginti me kyun nahi aati"
+        j = self.ask(q, force_ai=True)
+        self.assertEqual(j["via"], "ai")
+        self.assertEqual(len(self.calls), 1)
+        sysmsg = self.calls[0]["messages"][0]["content"]
+        self.assertIn("Docs se mile hisse", sysmsg)
+        self.assertIn("Dost Khojo", sysmsg)                                                  # mile hue tukde AI ko gaye
+        self.assertIn("Bot ke niyam", sysmsg)                                                # niyam hamesha
+        self.assertLess(len(sysmsg), len(self.hb._knowledge()) + 1500)                       # poora gyaan nahi
+        again = self.ask(q)                                                                  # ab normal sawaal par wahi AI jawab (cache)
+        self.assertEqual((again["via"], again["answer"]), ("cache", "AI jawab"))
+        self.assertEqual(len(self.calls), 1)
+
+    def test_docs_do_not_use_daily_cap(self):
+        os.environ["HELP_DAILY_MAX"] = "1"
+        self.assertEqual(self.ask("zxqv plugh frobnicate wumpus")["via"], "ai")
+        self.hb._state["last"] = 0
+        self.assertEqual(self.ask("kal ka mausam kaisa rahega").get("error", "")[:8], "Aaj ki s")   # AI ki seema poori
+        self.assertEqual(self.ask("Dost Khojo me aakhri line ginti me kyun nahi aati")["via"], "docs")   # docs phir bhi chalta hai
+
+    def test_docs_index_covers_handoff_readme_and_glossary(self):
+        from lab import help_docs
+        idx = help_docs.index()
+        labels = [c["label"] for c in idx["chunks"]]
+        self.assertGreaterEqual(sum(1 for x in labels if x.startswith("HANDOFF item")), 60)
+        self.assertTrue(any("GLOSSARY" in x for x in labels))
+        self.assertTrue(any("009_ank_chal" in x for x in labels))
+        self.assertTrue(any(x.startswith("App jaankari") for x in labels))
+        for c in idx["chunks"]:
+            self.assertNotIn("satta", c["text"].lower())
+
+    def test_docs_answer_never_contains_a_pin_or_key(self):
+        from lab import help_docs
+        for c in help_docs.index()["chunks"]:
+            self.assertIsNone(re.search(r"(HELP_PIN|ADMIN_PIN|SARVAM_API_KEY)\s*[:=]\s*[\"']?[A-Za-z0-9_\-]{4,}", c["text"]), c["label"])
 
 
 if __name__ == "__main__":
