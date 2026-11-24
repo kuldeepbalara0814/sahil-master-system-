@@ -43,6 +43,17 @@ IST = dt.timezone(dt.timedelta(hours=5, minutes=30))
 NO_KEY_MSG = "API key set nahi hai — Render dashboard me SARVAM_API_KEY set karo."
 NO_PIN_MSG = "Help ka password set nahi hai — Render dashboard me HELP_PIN set karo."
 UPSTREAM_MSG = "Sarvam se jawab nahi aaya, dobara try karo."
+HINTS = {403: "key galat ya band hai", 401: "key galat hai", 400: "model ya setting galat (SARVAM_MODEL / SARVAM_URL dekho)", 404: "SARVAM_URL galat hai",
+         429: "Sarvam ki limit ya credit khatam", 402: "credit khatam", 0: "internet/server se jud nahi paya"}
+
+
+def upstream_message(status):
+    """Sarvam ka status number (secret nahi) + seedha kaaran, taaki Render me kya theek karna hai pata chale. Kachcha upstream text kabhi nahi."""
+    if status in HINTS:
+        return f"Sarvam se jawab nahi aaya (code {status}: {HINTS[status]}). Dobara try karo."
+    if status and status != 200:
+        return f"Sarvam se jawab nahi aaya (code {status}). Dobara try karo."
+    return UPSTREAM_MSG
 
 STOP = set("""kya hai hain ka ki ke me mein se ko to aur ya hota hoti hote hoga kar karo karna karu karun kare batao bata bataiye mujhe mera meri mere ye yeh wo woh ho tha the thi ek
  kaise kyun kyu kahan kab kaun kaunsa koi kuch bhi hi na nahi par pe liye wala wali wale jaise jaisa isme usme iska uska isse usse hum aap tum main mai bhai please plz ji""".split())
@@ -310,7 +321,7 @@ def ask(question, history=None, live="", now=None):
     status, resp = _http_post(endpoint(model), {"Content-Type": "application/json", "api-subscription-key": key}, payload)
     ans = _extract(resp) if status == 200 and resp else None
     if not ans:
-        return None, UPSTREAM_MSG, 502, None
+        return None, upstream_message(status), 502, None
     with _lock:
         _state["count"] += 1                                  # sirf safal AI jawab ginta hai
         if not hist:

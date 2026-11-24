@@ -894,7 +894,7 @@ class HelpBotTests(unittest.TestCase):
             self.hb.reset_for_tests()
             r = self.c.post("/api/help", json={"question": "hi", "pin": "4321"})
             self.assertEqual(r.status_code, 502, reply)
-            self.assertEqual(r.get_json()["error"], "Sarvam se jawab nahi aaya, dobara try karo.")
+            self.assertTrue(r.get_json()["error"].startswith("Sarvam se jawab nahi aaya"), r.get_json())
             self.assertNotIn(self.FAKE_KEY, r.get_data(as_text=True))
 
     def test_think_block_stripped_and_input_limits(self):
@@ -1053,6 +1053,18 @@ class NoSecretInRepoTests(unittest.TestCase):
                             if m and "environ" not in line and "set karo" not in line and "Key =" not in line and "Value" not in line:
                                 bad.append(f"{os.path.relpath(os.path.join(dp, f), base)}:{i}")
         self.assertEqual(bad, [])
+
+
+class HelpBotErrorHintsTests(unittest.TestCase):
+    def test_upstream_message_has_code_and_reason_but_no_raw_text(self):
+        from lab import help_bot as hb
+        self.assertIn("403", hb.upstream_message(403))
+        self.assertIn("key galat", hb.upstream_message(403))
+        self.assertIn("limit", hb.upstream_message(429))
+        self.assertIn("model", hb.upstream_message(400))
+        self.assertIn("internet", hb.upstream_message(0))
+        self.assertIn("code 500", hb.upstream_message(500))
+        self.assertEqual(hb.upstream_message(200), hb.UPSTREAM_MSG)                      # 200 par khaali jawab: seedha generic
 
 
 if __name__ == "__main__":

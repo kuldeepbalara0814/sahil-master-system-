@@ -12,6 +12,11 @@ Har tab par neeche-right robot button. Dabao -> "Sahil Lab Help" panel. Hinglish
 - Key kabhi: chat me nahi, git me nahi, browser me nahi. Browser sirf apne server ko bolta hai; server Sarvam ko.
 - Optional: `HELP_DAILY_MAX` (roz ke AI jawab ki seema, default 80), `SARVAM_MODEL` (default `sarvam-105b`), `SARVAM_URL`.
 
+## Pehle asli jaanch (Termux me, key kahin likhi nahi jati)
+`git clone https://github.com/kuldeepbalara0814/sahil-master-system-.git && cd sahil-master-system- && python3 scripts/help_selftest.py`
+Script key chhupa kar poochhti hai (screen par nahi dikhti) ya `SARVAM_API_KEY` environment se leti hai. Sarvam ko ek chhota sawaal bhejti hai aur sirf status, token ginti aur jawab ke pehle 220 akshar dikhati hai. "SAB THEEK" aaye to Render me key set karo. FAIL aaye to kaaran likha aata hai: `403` = key galat/band, `400` = model ya setting galat, `429` = limit ya credit khatam, `0` = internet.
+Chat me bhi galti par ab aisa hi code aur kaaran dikhta hai (kachcha Sarvam text ya key nahi).
+
 ## Surakshit kyun hai (paise Sarvam credits se katte hain)
 - **Password server par jaanchta hai** (browser ki JS badalne se nahi bachega). PIN code/repo me kahin nahi likha. 4 ank ka PIN kamzor hota hai, isliye: galat PIN 5 baar lagatar -> sabke liye 15 minute band; roz ki seema; 2 second se kam gap me AI sawaal nahi; sawaal 400 akshar tak. **Salah: 6 ya zyada ank ka HELP_PIN rakho, aur aisa jo tumhare naam/GitHub username ke ank se na milta ho** (repo ka naam public hai, usme ank dikhte hain, to wo andaze me aasan hai).
 - Sarvam ki galti par saaf message ("Sarvam se jawab nahi aaya, dobara try karo."), kachcha error ya key kabhi nahi dikhti. Jawab `textContent` se dikhta hai (HTML andar nahi ghus sakta).
