@@ -42,7 +42,7 @@ async aaj(m){
  async function load(){
   const kv=vals();const t=await api("GET","/today?known="+kv.join(","));out.replaceChildren();
   out.append(el("div",{class:"card"},el("h2",{},"Khelne ki tarikh: "+t.play_date),el("div",{class:"mut"},"Pichli line ("+t.last_line.date+"):  "+Object.entries(t.last_line.results).map(([g,v])=>GN[g]+" "+p2(v)).join("   ")),
-   el("h3",{},"SINGLE JODI  (kal ka GB number)"),el("div",{class:"row"},chip(t.single.number,"blue","big"),el("div",{},el("div",{},"Khelo: ",el("b",{},"FB, GL, DS")),el("div",{class:"mut"},"GB me nahi. Har bet 95 guna (40 se kam number)."),
+   el("h3",{},"SINGLE JODI  (kal ka GB number)"),el("div",{class:"row"},chip(t.single.number,"blue","big"),el("div",{},el("div",{},"Khelo: ",el("b",{},"FB, GL, DS")),el("div",{class:"mut"},"GB me nahi. Har bet 95 guna (40 se kam number)."),el("div",{class:"mut small"},"DS par ye signal kamzor hai (2022-26 me ~+9%, pakka nahi); DS ke liye neeche 'DS ka apna rule' dekho."),
    el("button",{class:"b",on:{click:()=>place({strategy:"manual",numbers:[t.single.number],games:t.single.games})}},"Paper bet: single jodi"))),
    el("p",{class:"warn"},"Ye paper trading hai (kalpnik paisa). Asar chhota hai aur ghat-badh sakta hai, pakka nahi.")));
   const pn={poora:"Poora",last3m:"3 mahine",month:"Is mahina"},pc={poora:"green",last3m:"yellow",month:"orange"};
@@ -57,6 +57,7 @@ async aaj(m){
     el("div",{class:"row"},lst.map(([n,s],i)=>el("span",{class:"chip "+tiers(i),title:"score "+s},p2(n)))),
     el("div",{class:"mut",style:"font-size:12px;margin-top:6px"},"Hara = top 3, peela = beech, narangi = baaki")))});
   out.append(el("div",{class:"card"},el("h2",{},"Har game ki 10 number ki list"),g4,LEGEND(),
+   t.ds_rule?el("div",{class:"card",style:"margin:10px 0"},el("h3",{},"DS ka apna rule (008, pichle 2-5 DS result)"),el("div",{class:"row"},t.ds_rule.numbers.map(n=>chip(n,"blue"))),el("p",{class:"mut small"},t.ds_rule.note+" Upar ki DS wali 10-number list me ye numbers na dikhein to ye alag cheez hai; dono paper me alag khate hain.")):null,
    el("div",{class:"row",style:"margin-top:10px"},el("button",{class:"b",on:{click:()=>place({strategy:"auto"})}},"Subah ki saari paper bet lagao"),
     el("button",{class:"b g",on:{click:()=>place({strategy:"list10",known:vals()})}},"Agle game ki list ki bet (upar ke result ke baad)"))));
  }

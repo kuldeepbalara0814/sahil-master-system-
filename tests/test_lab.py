@@ -551,6 +551,18 @@ class ScanCooldownTests(unittest.TestCase):
         self.assertEqual(d, dt.datetime.now(dt.timezone(dt.timedelta(hours=5, minutes=30))).date())
 
 
+class TodayDsRuleTests(unittest.TestCase):
+    def test_today_has_ds_rule_numbers(self):
+        import lab_server
+        from lab import ds_rule
+        j = lab_server.app.test_client().get("/api/today").get_json()
+        self.assertIn("ds_rule", j)
+        self.assertEqual(j["lags"] if "lags" in j else j["ds_rule"]["lags"], [2, 3, 4, 5])
+        rows, _ = lab_server.state()
+        self.assertEqual(j["ds_rule"]["numbers"], ds_rule.numbers_for(rows, len(rows), ds_rule.MODES["four"]))
+        self.assertTrue(1 <= len(j["ds_rule"]["numbers"]) <= 4)
+
+
 if __name__ == "__main__":
     unittest.main()
 

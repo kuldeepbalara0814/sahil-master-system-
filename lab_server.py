@@ -1019,6 +1019,8 @@ def api_today():
         return err("aaj ke result (FD, GB, GL) 0-99 ke number me")
     plan = picks.daily_plan(rows, known)
     plan["known"] = known
+    plan["ds_rule"] = {"numbers": ds_rule.numbers_for(rows, len(rows), ds_rule.MODES["four"]), "lags": list(ds_rule.MODES["four"]),
+                       "note": "DS ka apna sabse mazboot signal (008): pichle 2-5 DS result ke number. Ye 10-number list me alag se ginta nahi hota."}
     plan["last_line"] = {"date": rows[-1][0].isoformat(), "results": dict(zip(data.GAMES, rows[-1][1]))}
     # dost jodi: kal ke (aur aaj ke aaye) result ke top-3 dost, teeno samay me
     srcs = [("kal", g, n) for g, n in zip(data.GAMES, rows[-1][1])] + [("aaj", data.GAMES[i], n) for i, n in enumerate(known)]
