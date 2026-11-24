@@ -22,7 +22,7 @@
   },
   "copy:seedha:1:2026-11-18": {
    "id": "copy:seedha:1:2026-11-18",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-21",
    "resolved_on": "2026-11-21",
    "status": "fail",
    "pattern": {
@@ -157,7 +157,7 @@
   },
   "family:12:seedha:2026-11-19": {
    "id": "family:12:seedha:2026-11-19",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-22",
    "resolved_on": "2026-11-22",
    "status": "fail",
    "pattern": {
@@ -180,7 +180,7 @@
   },
   "family:12:ulta:2026-11-19": {
    "id": "family:12:ulta:2026-11-19",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-22",
    "resolved_on": "2026-11-22",
    "status": "fail",
    "pattern": {
@@ -203,7 +203,7 @@
   },
   "family:24:seedha:2026-11-19": {
    "id": "family:24:seedha:2026-11-19",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-22",
    "resolved_on": "2026-11-22",
    "status": "fail",
    "pattern": {
@@ -586,7 +586,7 @@
   },
   "dana:farak:2026-11-18-1:2026-11-19-1": {
    "id": "dana:farak:2026-11-18-1:2026-11-19-1",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-19",
    "resolved_on": "2026-11-19",
    "status": "pass",
    "pattern": {
@@ -609,7 +609,7 @@
   },
   "dana:farak:2026-11-18-1:2026-11-19-2": {
    "id": "dana:farak:2026-11-18-1:2026-11-19-2",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-20",
    "resolved_on": "2026-11-20",
    "status": "pass",
    "pattern": {
@@ -633,7 +633,7 @@
   },
   "dana:farak:2026-11-18-1:2026-11-19-3": {
    "id": "dana:farak:2026-11-18-1:2026-11-19-3",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-20",
    "resolved_on": "2026-11-20",
    "status": "pass",
    "pattern": {
@@ -657,7 +657,7 @@
   },
   "dana:gap:2026-11-18-1:2026-11-20-0": {
    "id": "dana:gap:2026-11-18-1:2026-11-20-0",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-21",
    "resolved_on": "2026-11-21",
    "status": "fail",
    "pattern": {
@@ -680,7 +680,7 @@
   },
   "dana:farak:2026-11-18-1:2026-11-20-3": {
    "id": "dana:farak:2026-11-18-1:2026-11-20-3",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-21",
    "resolved_on": "2026-11-21",
    "status": "pass",
    "pattern": {
@@ -704,7 +704,7 @@
   },
   "dana:gap:2026-11-18-2:2026-11-18-3": {
    "id": "dana:gap:2026-11-18-2:2026-11-18-3",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-21",
    "resolved_on": "2026-11-21",
    "status": "fail",
    "pattern": {
@@ -726,7 +726,7 @@
   },
   "dana:farak:2026-11-18-2:2026-11-20-1": {
    "id": "dana:farak:2026-11-18-2:2026-11-20-1",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-21",
    "resolved_on": "2026-11-21",
    "status": "pass",
    "pattern": {
@@ -750,7 +750,7 @@
   },
   "dana:farak:2026-11-18-2:2026-11-21-1": {
    "id": "dana:farak:2026-11-18-2:2026-11-21-1",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-21",
    "resolved_on": "2026-11-21",
    "status": "fail",
    "pattern": {
@@ -774,7 +774,7 @@
   },
   "dana:gap:2026-11-18-3:2026-11-21-0": {
    "id": "dana:gap:2026-11-18-3:2026-11-21-0",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-21",
    "resolved_on": "2026-11-21",
    "status": "fail",
    "pattern": {
@@ -797,7 +797,7 @@
   },
   "dana:gap:2026-11-19-0:2026-11-21-2": {
    "id": "dana:gap:2026-11-19-0:2026-11-21-2",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-22",
    "resolved_on": "2026-11-22",
    "status": "pass",
    "pattern": {
@@ -820,7 +820,7 @@
   },
   "dana:farak:2026-11-19-0:2026-11-22-0": {
    "id": "dana:farak:2026-11-19-0:2026-11-22-0",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-22",
    "resolved_on": "2026-11-22",
    "status": "fail",
    "pattern": {
@@ -844,7 +844,7 @@
   },
   "dana:same:2026-11-19-1:2026-11-19-3": {
    "id": "dana:same:2026-11-19-1:2026-11-19-3",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-20",
    "resolved_on": "2026-11-20",
    "status": "pass",
    "pattern": {
@@ -866,7 +866,7 @@
   },
   "dana:same:2026-11-19-1:2026-11-20-2": {
    "id": "dana:same:2026-11-19-1:2026-11-20-2",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-22",
    "resolved_on": "2026-11-22",
    "status": "pass",
    "pattern": {
@@ -889,7 +889,7 @@
   },
   "dana:gap:2026-11-19-1:2026-11-20-3": {
    "id": "dana:gap:2026-11-19-1:2026-11-20-3",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-22",
    "resolved_on": "2026-11-22",
    "status": "fail",
    "pattern": {
@@ -912,7 +912,7 @@
   },
   "dana:gap:2026-11-19-1:2026-11-21-1": {
    "id": "dana:gap:2026-11-19-1:2026-11-21-1",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-22",
    "resolved_on": "2026-11-22",
    "status": "fail",
    "pattern": {
@@ -935,7 +935,7 @@
   },
   "dana:farak:2026-11-19-1:2026-11-22-1": {
    "id": "dana:farak:2026-11-19-1:2026-11-22-1",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-22",
    "resolved_on": "2026-11-22",
    "status": "fail",
    "pattern": {
@@ -959,7 +959,7 @@
   },
   "dana:farak:2026-11-19-2:2026-11-20-0": {
    "id": "dana:farak:2026-11-19-2:2026-11-20-0",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-22",
    "resolved_on": "2026-11-22",
    "status": "pass",
    "pattern": {
@@ -982,7 +982,7 @@
   },
   "dana:farak:2026-11-20-0:2026-11-21-1": {
    "id": "dana:farak:2026-11-20-0:2026-11-21-1",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-22",
    "resolved_on": "2026-11-22",
    "status": "pass",
    "pattern": {
@@ -1005,7 +1005,7 @@
   },
   "dana:farak:2026-11-20-1:2026-11-21-2": {
    "id": "dana:farak:2026-11-20-1:2026-11-21-2",
-   "first_seen": "2026-11-23",
+   "first_seen": "2026-11-22",
    "resolved_on": "2026-11-22",
    "status": "pass",
    "pattern": {
@@ -1042,8 +1042,8 @@
    "lines": [
     "Boundary 12 box: Step 1 03 Sep se 14 Sep, Step 2 18 Oct se 29 Oct, Step 3 13 Nov se 24 Nov.",
     "3 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 1 mila.",
-    "39/93 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 14 Nov GB par dikhaya",
-    "15/51 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 21 Nov FB par dikhaya",
+    "39/93 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); (wo din beet chuka, '?' nahi, asli number dikh raha hai)",
+    "15/51 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); (wo din beet chuka, '?' nahi, asli number dikh raha hai)",
     "Indicator (laal): 05/50 har boundary me aaya (ek hi cell mark).",
     "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
    ],
@@ -1075,7 +1075,7 @@
    "lines": [
     "Boundary 8 box: Step 1 03 Sep se 10 Sep, Step 2 20 Oct se 27 Oct, Step 3 17 Nov se 24 Nov.",
     "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 1 mila.",
-    "37/73 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 23 Nov DS par dikhaya",
+    "37/73 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); (wo din beet chuka, '?' nahi, asli number dikh raha hai)",
     "Indicator (laal): 08/80 har boundary me aaya (ek hi cell mark).",
     "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
    ],
@@ -1105,8 +1105,8 @@
    "lines": [
     "Boundary 8 box: Step 1 04 Sep se 11 Sep, Step 2 02 Oct se 09 Oct, Step 3 17 Nov se 24 Nov.",
     "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 0 mila.",
-    "33 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 17 Nov DS par dikhaya",
-    "25/52 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 23 Nov DS par dikhaya",
+    "33 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); (wo din beet chuka, '?' nahi, asli number dikh raha hai)",
+    "25/52 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); (wo din beet chuka, '?' nahi, asli number dikh raha hai)",
     "Indicator (laal): 15/51 har boundary me aaya (ek hi cell mark).",
     "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
    ],
@@ -1137,7 +1137,7 @@
    "lines": [
     "Boundary 8 box: Step 1 07 Sep se 14 Sep, Step 2 23 Oct se 30 Oct, Step 3 17 Nov se 24 Nov.",
     "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 0 mila.",
-    "47/74 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 20 Nov DS par dikhaya",
+    "47/74 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); (wo din beet chuka, '?' nahi, asli number dikh raha hai)",
     "49/94 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 24 Nov DS par dikhaya",
     "Indicator (laal): 05/50 har boundary me aaya (ek hi cell mark).",
     "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
@@ -1170,7 +1170,7 @@
    "lines": [
     "Boundary 8 box: Step 1 16 Sep se 23 Sep, Step 2 01 Oct se 08 Oct, Step 3 17 Nov se 24 Nov.",
     "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 0 mila.",
-    "49/94 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 23 Nov FB par dikhaya",
+    "49/94 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); (wo din beet chuka, '?' nahi, asli number dikh raha hai)",
     "25/52 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 24 Nov FB par dikhaya",
     "Indicator (laal): 09/90 har boundary me aaya (ek hi cell mark).",
     "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
@@ -1203,8 +1203,8 @@
    "lines": [
     "Boundary 8 box: Step 1 20 Sep se 27 Sep, Step 2 05 Oct se 12 Oct, Step 3 17 Nov se 24 Nov.",
     "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 0 mila.",
-    "33 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 19 Nov FB par dikhaya",
-    "58/85 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 20 Nov FB par dikhaya",
+    "33 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); (wo din beet chuka, '?' nahi, asli number dikh raha hai)",
+    "58/85 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); (wo din beet chuka, '?' nahi, asli number dikh raha hai)",
     "Indicator (laal): 08/80 har boundary me aaya (ek hi cell mark).",
     "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
    ],
@@ -1235,7 +1235,7 @@
    "lines": [
     "Boundary 10 box: Step 1 01 Sep se 10 Sep, Step 2 18 Oct se 27 Oct, Step 3 15 Nov se 24 Nov.",
     "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 1 mila.",
-    "37/73 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 23 Nov DS par dikhaya",
+    "37/73 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); (wo din beet chuka, '?' nahi, asli number dikh raha hai)",
     "Indicator (laal): 08/80 har boundary me aaya (ek hi cell mark).",
     "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
    ],
@@ -1265,7 +1265,7 @@
    "lines": [
     "Boundary 10 box: Step 1 03 Sep se 12 Sep, Step 2 01 Oct se 10 Oct, Step 3 15 Nov se 24 Nov.",
     "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 1 mila.",
-    "55 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box 22 Nov DS par dikhaya",
+    "55 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); (wo din beet chuka, '?' nahi, asli number dikh raha hai)",
     "Indicator (laal): 17/71 har boundary me aaya (ek hi cell mark).",
     "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
    ],
@@ -1380,7 +1380,7 @@
   },
   "dana:farak:2026-11-20-1:2026-11-23-2": {
    "id": "dana:farak:2026-11-20-1:2026-11-23-2",
-   "first_seen": "2026-11-24",
+   "first_seen": "2026-11-23",
    "resolved_on": "2026-11-23",
    "status": "fail",
    "pattern": {
@@ -1421,6 +1421,11 @@
   },
   {
    "time": "2026-11-24T09:37:17",
+   "source": "auto",
+   "asof": "2026-11-23"
+  },
+  {
+   "time": "2026-11-24T16:56:59",
    "source": "auto",
    "asof": "2026-11-23"
   }
@@ -1723,6 +1728,27 @@
   "naksha2:10:2015-04-11": "2026-11-24",
   "naksha2:10:2020-06-19": "2026-11-24",
   "naksha2:15:2022-10-27": "2026-11-24",
-  "naksha2:18:2017-10-08": "2026-11-24"
+  "naksha2:18:2017-10-08": "2026-11-24",
+  "naksha:10:2017-07-17": "2026-11-24",
+  "naksha:10:2016-03-09": "2026-11-24",
+  "naksha:10:2016-01-04": "2026-11-24",
+  "naksha:12:2019-01-26": "2026-11-24",
+  "naksha:12:2013-05-13": "2026-11-24",
+  "naksha:12:2023-08-01": "2026-11-24",
+  "naksha:12:2024-01-26": "2026-11-24",
+  "naksha:15:2016-03-02": "2026-11-24",
+  "naksha:15:2013-05-30": "2026-11-24",
+  "naksha:15:2023-02-14": "2026-11-24",
+  "naksha:18:2018-11-19": "2026-11-24",
+  "naksha:18:2016-04-16": "2026-11-24",
+  "naksha:18:2018-07-19": "2026-11-24",
+  "naksha2:10:2018-06-05": "2026-11-24",
+  "naksha2:12:2014-10-24": "2026-11-24",
+  "naksha2:18:2018-11-26": "2026-11-24",
+  "naksha2:18:2023-11-24": "2026-11-24",
+  "naksha2:18:2017-06-24": "2026-11-24",
+  "ank:DS:andar": "2026-11-24",
+  "ank:DS:bahar": "2026-11-24",
+  "ank:FB:andar": "2026-11-24"
  }
 }
