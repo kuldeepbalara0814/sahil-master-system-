@@ -1,5 +1,6 @@
 /* Sahil Lab — animations (25 Nov 2026).
-   Teeno animation: (1) thinking dots, (2) PASS/excited pop, (3) hero zigzag line.
+   Chaar jagah: (1) thinking dots, (2) PASS/excited pop, (3) hero zigzag line,
+   (4) header zigzag bar — loading ke time se, har tab par (static HTML, pehle paint se dikhe).
    Sirf animation hai: koi rang, layout, data, ya logic nahi badalti.
    Rang theme.css ke variables se (magenta --mg, peacock-blue --cy) — NEON theme se mel khata hai.
    Wapas hatana ho to index.html se animations.css wali line hata do (ya git revert). */
@@ -30,7 +31,17 @@
 @keyframes zigDraw{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
 @keyframes zigFlow{from{background-position-x:0}to{background-position-x:60px}}
 
+/* 4) HEADER ZIGZAG BAR — header ke neeche, poori chaudaai par zigzag line.
+   Static HTML hai (index.html me <div class="zigzag-bar">), isliye pehle paint se
+   dikhti hai — loading ke 10-20 sec (Render cold start) me bhi, aur har tab par.
+   Wahi SVG tile + behti dashes, jaise hero wali line. */
+.zigzag-bar{height:14px;
+ background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='14' viewBox='0 0 60 14'><path d='M0 12 L10 2 L20 12 L30 2 L40 12 L50 2 L60 12' fill='none' stroke='%23f046e0' stroke-width='2' stroke-dasharray='6 4' stroke-linejoin='round' stroke-linecap='round'/></svg>");
+ background-repeat:repeat-x;background-size:60px 14px;
+ filter:drop-shadow(0 0 4px rgba(240,70,224,.55));
+ animation:zigDraw 1s ease-out,zigFlow 1.2s linear infinite}
+
 /* Kam motion chahne wale user ke liye: animation band, zigzag line phir bhi dikhegi. */
 @media (prefers-reduced-motion:reduce){
- .think i,.act-card.pass,.act-card.pass .act-tag.ok,.hero::after{animation:none}
+ .think i,.act-card.pass,.act-card.pass .act-tag.ok,.hero::after,.zigzag-bar{animation:none}
 }

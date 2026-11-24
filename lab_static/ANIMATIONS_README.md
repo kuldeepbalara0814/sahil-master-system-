@@ -1,6 +1,6 @@
 # Sahil Lab — Animations (25 Nov 2026)
 
-Teeno animation, halki aur professional. Sirf animation hai — koi rang, layout,
+Chaar jagah, halki aur professional. Sirf animation hai — koi rang, layout,
 data, ya logic nahi badalti. Rang theme.css ke variables se (magenta `--mg`,
 peacock-blue `--cy`), NEON theme se mel khata hai.
 
@@ -16,13 +16,16 @@ peacock-blue `--cy`), NEON theme se mel khata hai.
 3. **Zigzag line** — Active tab ke "AAJ KA SAAR" hero ke neeche zigzag line:
    pehle left se right draw hokar aati hai, phir dashes zigzag par behti
    rehti hain. Logo wali zigzag (M3 17l6-6 4 4 8-8) se mel khata motif hai.
+4. **Header zigzag bar** — header ke neeche, poori chaudaai par wahi zigzag
+   line. Static HTML hai, isliye pehle paint se dikhti hai — loading ke
+   time (Render cold start, 10-20 sec) me bhi, aur har tab par.
 
 ## Files
 
-- `lab_static/animations.css` (NAYI) — teeno animation + keyframes.
+- `lab_static/animations.css` (NAYI) — chaaro animation + keyframes.
   Alag file hai, taaki hatana aasan ho.
-- `lab_static/index.html` (1 line) — `animations.css` ka `<link>` theme.css
-  ke baad.
+- `lab_static/index.html` (2 lines) — `animations.css` ka `<link>` theme.css
+  ke baad, aur header ke neeche `<div class="zigzag-bar"></div>`.
 - `lab_static/tabs_active.js` (2 lines) — do jagah `.spin` ki jagah
   `.think` (3 x `<i>` ke saath): hit-load line aur scan button ka busy state.
   Baaki `.spin` jagah (dusri "Load..." line) jaise the waise hi hain.
@@ -38,6 +41,8 @@ peacock-blue `--cy`), NEON theme se mel khata hai.
 ## Test
 
 - 13 tab kholo — 0 JS error.
+- Page khulte hi, loading ke time se, header ke neeche zigzag behti dikhni
+  chahiye — har tab par.
 - Active tab: hero ke neeche zigzag draw hokar behti dikhni chahiye.
 - "Abhi scan karo" dabao — button me teen dot uchhalte dikhne chahiye.
 - PASS card aane par ek halka pop + glow dikhna chahiye.
