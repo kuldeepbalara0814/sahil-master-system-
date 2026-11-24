@@ -350,7 +350,7 @@ class ScannerTests(unittest.TestCase):
 
     def test_run_report_shape_and_error_isolation(self):
         rep = scanner.run(ROWS)
-        self.assertEqual((rep["asof"], len(rep["patterns"]), rep["errors"]), (ROWS[-1][0].isoformat(), 6, []))
+        self.assertEqual((rep["asof"], len(rep["patterns"]), rep["errors"]), (ROWS[-1][0].isoformat(), 7, []))
         nak = [p for p in rep["patterns"] if p["key"] == "naksha"][0]
         self.assertTrue(nak["items"])
         for it in nak["items"]:
@@ -380,6 +380,10 @@ class ScannerTests(unittest.TestCase):
         g = c.get("/api/scanner").get_json()
         self.assertEqual(g["asof"], ROWS[-1][0].isoformat())
         for p in g["patterns"]:
+            if p["key"] == "ank":                                  # 009: ank (0-9) wala pattern, rang/Excel view nahi; saaf 400, 500 nahi
+                for it in p["items"]:
+                    self.assertEqual(c.get("/api/scanner/view?id=" + it["id"]).status_code, 400)
+                continue
             for it in p["items"][:2]:
                 v = c.get("/api/scanner/view?id=" + it["id"]).get_json()
                 self.assertTrue(v["blocks"])
@@ -570,6 +574,54 @@ class StaleBannerTests(unittest.TestCase):
         self.assertIn("behind_days", j)
         self.assertIn("expected_last", j)
         self.assertGreaterEqual(j["behind_days"], 0)
+
+
+class AnkChalTests(unittest.TestCase):
+    def _rows(self, n=30):
+        base = dt.date(2026, 11, 1)
+        out = []
+        for i in range(n):
+            out.append((base + dt.timedelta(days=i), [(i * 7) % 100, (i * 3) % 100, (i * 11) % 100, (i * 13) % 100], "t"))
+        return out
+
+    def test_ank_and_lines(self):
+        from lab import ank_chal
+        self.assertEqual((ank_chal.ank(41, "andar"), ank_chal.ank(41, "bahar")), (4, 1))
+        rows = self._rows()
+        s = ank_chal.line_stats(rows, 3, "andar")
+        self.assertEqual(s["n"], len(rows) - 2)
+        self.assertAlmostEqual(s["roi"], 9.5 * s["rate"] - 1)
+
+    def test_item_uses_ank_targets_not_targets(self):
+        from lab import ank_chal
+        out = ank_chal.scan(self._rows())
+        self.assertEqual(out["key"], "ank")
+        self.assertEqual(len(out["items"]), 3)
+        for it in out["items"]:
+            self.assertNotIn("targets", it)                       # hit-log / Number Rank me ank ko number na ginna
+            self.assertEqual(it["ank_targets"][0]["game"] in ("DS", "FB"), True)
+            self.assertTrue(0 <= it["ank_targets"][0]["ank"] <= 9)
+
+    def test_runs_in_scanner_and_does_not_touch_hits_or_active(self):
+        from lab import active, hits, scanner
+        rows = data.load()
+        rep = scanner.run(rows, only="ank")
+        self.assertFalse(rep["errors"])
+        ank = [p for p in rep["patterns"] if p["key"] == "ank"][0]
+        self.assertEqual(len(ank["items"]), 3)
+        st = hits.new_state()
+        hits.archive(st, rep)
+        self.assertEqual(st["archive"].get(rep["play_date"], {"items": []})["items"], [])   # ank item hit-log me nahi aata
+        full = scanner.run(rows)
+        self.assertIn("ank", [p["key"] for p in full["patterns"]])
+        self.assertIn("ank", active.NOT_STORED)
+
+    def test_forward_starts_at_start_date(self):
+        from lab import ank_chal
+        rows = self._rows(40)
+        fw = ank_chal.forward(rows)
+        self.assertEqual(fw["since"], "2026-11-24")
+        self.assertEqual(fw["bets"], 3 * len([r for r in rows if r[0] >= ank_chal.START]))
 
 
 if __name__ == "__main__":

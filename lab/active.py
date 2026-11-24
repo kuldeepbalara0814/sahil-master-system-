@@ -6,7 +6,7 @@ Koi naya pattern jiske items ka status aaj/pass/fail ho, apne aap shamil ho jaat
 """
 import datetime as dt
 
-NOT_STORED = ("naksha", "naksha2")        # inka koi pass/fail nahi
+NOT_STORED = ("naksha", "naksha2", "ank")        # inka koi pass/fail nahi
 STATUSES = ("aaj", "pass", "fail")
 MAX_ITEMS = 4000
 KEEP_SCANS = 60

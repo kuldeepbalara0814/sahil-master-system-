@@ -131,6 +131,7 @@ tabs.scan=async function(m){
   finally{runBtn.disabled=false;runBtn.textContent="Script abhi chalao (manual)"}}
  runBtn.onclick=run;
  function card(it,ix0){
+  const ANK=it.kind==="ank";                       // 009 Ank-Chal: ank (0-9) wala pattern, rang/Excel/bulk download number-patterns ke liye hain
   const num=ix0==null?null:"Pattern "+String(ix0+1).padStart(2,"0");
   const view=el("div"),st=ST[it.status]||ST.dekho,sr=SR[it.strength]||SR.info;
   const open=el("button",{class:"b g sm"},"Kholo (rang me dekho)");let on=false;
@@ -160,7 +161,7 @@ tabs.scan=async function(m){
    el("div",{class:"row",style:"justify-content:space-between"},el("h3",{style:"margin:0"},num?el("span",{class:"pill m",style:"margin-right:8px"},num):null,it.name,it.new?el("span",{class:"pill g",style:"margin-left:8px"},"NAYA"):null),el("span",{},el("span",{class:"pill "+st[0]},st[1])," ",el("span",{class:"pill "+sr[0]},sr[1]))),
    el("div",{class:"b"},it.title),it.lines.map(l=>el("p",{class:"mut small",style:"margin:3px 0"},l)),
    it.target?el("p",{class:"tgt"},`Aaj ${dm(it.target.date)}: ${it.target.games} me `,el("b",{},it.target.numbers.map(p2).join(" ")),it.kind==="copy"?" (set ka koi bhi)":" (andaza)"):null,
-   el("div",{class:"row"},seen,SX.editUI(it.id),open,pb,el("a",{href:"/api/scanner/xlsx?id="+encodeURIComponent(it.id)},el("button",{class:"b g sm"},"Excel download"))),saved,panel,view)}
+   ANK?el("div",{class:"row"},seen,SX.editUI(it.id)):el("div",{class:"row"},seen,SX.editUI(it.id),open,pb,el("a",{href:"/api/scanner/xlsx?id="+encodeURIComponent(it.id)},el("button",{class:"b g sm"},"Excel download"))),saved,panel,view)}
  const idxBox=el("div"),detail=el("div");
  const lighten=h=>{const n=parseInt(h,16),r=(n>>16)&255,g=(n>>8)&255,b=n&255,f=c=>Math.round(c+(255-c)*.6);return "#"+[f(r),f(g),f(b)].map(x=>x.toString(16).padStart(2,"0")).join("")};
  /* ---- ek mahine ki sheet ki kai copy: har copy me ek pattern, alag rang ---- */
@@ -225,7 +226,7 @@ tabs.scan=async function(m){
    el("div",{class:"row"},
     el("button",{class:"b g sm"+(unseen[key]?" on":""),on:{click:()=>{unseen[key]=!unseen[key];draw()}}},unseen[key]?"Sab dikhao":"Sirf bina dekhe"),
     el("button",{class:"b sm",on:{click:async()=>{if(!n)return;try{await SX.mark(all.map(i=>i.id),true);toast("Sab dekh liya");draw()}catch(e){toast(e.message)}}}},"Sab dekh liya")),
-   el("div",{class:"row"},el("span",{class:"small"},"Sab download:"),[["pdf","PDF"],["jpg","JPG"],["xlsx","Excel"]].map(dl)))}
+   key==="ank"?null:el("div",{class:"row"},el("span",{class:"small"},"Sab download:"),[["pdf","PDF"],["jpg","JPG"],["xlsx","Excel"]].map(dl)))}
  function showDetail(){
   if(!sel){detail.replaceChildren();return}
   const p=rep.patterns.find(x=>x.key===sel),ix=idx.find(x=>x.key===sel)||{};
