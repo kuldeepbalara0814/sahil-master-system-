@@ -38,5 +38,30 @@ Sab ginti 24 Nov 2026 ke data (4909 din) par, `data/results.csv`.
 - "Martingale kabhi nahi", "flat stake" - **sahi** (hamara loss-cover test bhi yahi dikhata hai).
 - Sujhav (user ki haan par): paper khate me teesra mode "A pool" jodna **sirf side-by-side tulna** ke liye, DS-apna 4-number mode ke saath. Tulna ek jaisi shart par hogi.
 
-## 3. Muse AI - report aane par yahan judegi
-(pending: user copy-paste karega)
+## 3. Muse AI (24 Nov 2026, PDF "sahil_lab_audit_and_ds_report_24nov2026.pdf") - live app khol kar dekha
+
+### Part 1: App audit (19 baatein). Jaanch ke baad:
+| # | Daava | Nateeja |
+|---|---|---|
+| 1 | Paper Trading me pending bet ko loss gin liya | **Galat padha.** `paper.summary()` sirf poori hui bet ginta hai (list10: 30 poori, Net -150 = 30x5; 10 pending alag). Par card ka likha "Bet 30 (baaki 10)" aisa lagta hai jaise 30 me se 10 baaki. **Label sudhar** ("30 poori + 10 baaki") |
+| 2 | 24 Nov ko 53 bet duplicate / List se match nahi | **Duplicate nahi.** (date, game, number, strategy) par koi repeat nahi. 3 strategy (list10, list10s, single) alag-alag khate hain, isliye ek hi number kayi me aata hai; "game se pehle" list baad wali List se alag hoti hai. Par label saaf nahi: **label sudhar** |
+| 3 | Manual scan ke baad Active batch 0 -> 21 | Dekha nahi, scan ke saath count judna normal; "kya ginta hai" likhna achha rahega |
+| 4 | Dost Khojo: 73 is mahine 0 baar, Record me GB 73 on 23 Nov | **SAHI (asli kamzori).** `friends.counts()` aakhri din ko ginta hi nahi (uska agle din ka window poora nahi). Isliye 23 Nov ka 73 nahi gina. Fix: card par likho "aakhri din ginti me nahi" ya aakhri din alag dikhao |
+| 5 | Monitor header "koi chetavani nahi" par 30-din table laal | **SAHI (label).** `alerts` sirf pichle 3 mahine dekhta hai (30 din ka sample bahut chhota). Header me likhna: "3 mahine ke hisaab se koi chetavani nahi" |
+| 6 | Dost Khojo drift "72 -> 87" aur "Dost Drift: badlaav nahi" | Do alag paimane (periods ka milan vs roz ka drift log). Label alag-alag karna |
+| 7 | "Hit hue map (1 din)" 0 par "PASS hue (1 din)" 1 | Alag cheez (map ka number aaya vs pattern poora hua). Label saaf karna |
+| 8 | Time zone IST/UTC ka mel nahi | **SAHI.** Active scan IST dikhata hai, Pattern Scan ka "chali" time UTC (naive). Sab IST me dikhana |
+| 9-19 | kat-te jumle, Naksha Active me nahi, Puzzle-Steps scoreboard nahi, bade kale khaali hisse, clipping, "1vi jagah", raw JSON dump (Data tab), bina label rang button, chhote sample par bada x4.85 | Zyadatar UI. Naksha/Puzzle-Steps scoreboard me **jaan-boojh kar nahi** (pass/fail rule user sikha raha hai: HANDOFF 20). Date "MM/DD/YYYY" phone ke date picker ki wajah se (app nahi). "Chhote sample par bada multiplier" achha sujhav: kam data par headline na dikhao |
+
+Fix list jo "haan" par karunga (sab chhote, paise ka hisaab nahi badalta): 1,2 label; 4 aakhri din ka note; 5 header; 8 IST; 007 ke "?" aur flat link (Gemini wali baat); 19 kam sample par chetavani.
+
+### Part 2: DS research (1966-2026, 21,431 din, 62 test, Bonferroni 0.0008)
+- C5 = DS 2 din + 3 din pehle wale number: 2.83% (2 number, **1.42%/number**), lift 1.42, z 6.83 (1990-2026). **Hamare khate se mel khata hai** (hamara ek number 1.47%).
+- Lag-2 1.44%, Lag-3 1.39%, GB->DS 1.57% (2013+), FB+GB+GL->DS 1.36x, hot-10 11.09% (sirf 95x par layak; 90x par -0.19/day): **sab hamari randomness/recency report se mel khate hain.**
+- **Ulte (bure) nateeje:** longest-unseen number 0.48% (lift 0.48, z -6.0): "kab se nahi aaya wo ab aayega" DS me ulta hai (band number aadhe chance par); 1-saal ka hot-10 7.5% (regression to mean); lag-1 repeat 0.92%; cold-10 7.54%; Naksha-DS link random se kam (1.59-1.68% vs shuffle 1.82-1.89%), predict 1.52% vs 1.91%; weekday/baar tokri DS par nahi chalti. **Ye hamare recycling-pool findings ko pakka karte hain** (pichle 2-5 result ke number dobara aate hain, purane gayab number kam).
+- Aaj ke number (24 Nov): C5 = 59 + 67, hamare khate ka aaj ka number 59 (lag-2) **same**.
+- Imaandari: C5 par 1 saal ka expected +Rs 2,515 par SD +-Rs 3,010: 1-2 saal paper edge sabit nahi karega. **Hamare power-analysis se same.**
+- Muse AI ki ek hi ulti baat Gemini se: "forward 90 din se faisla" nahi likha, "sirf nigrani" likha - sahi.
+
+### Gemini + Muse milakar
+Dono ke DS ke nateeje hamare apne nateejon se **alag-alag raste se mil gaye** (lag-2/3 repeat, GB->DS, hot-10 sirf 95x par). Ye bharosa badhata hai ki ye meri ginti ki galti nahi, par ye ab bhi "purane data par mila signal" hai; kamai ka vaada nahi. App ke bug (label, IST, Dost Khojo last day) Muse AI ne asli pakde, Gemini ne nahi (usne live app dekha hi nahi).
