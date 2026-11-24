@@ -13,7 +13,7 @@ async dost(m){
   if(!f.length)c.append(el("p",{class:"mut"},"Is samay me abhi koi dost nahi mila."));
   f.forEach((x,i)=>{const r=el("div",{class:"fr"},chip(x.n,x.tier),el("div",{style:"flex:1"},el("b",{},x.together+" baar"),el("span",{class:"mut"},"  "+pct(x.pct)+" (random "+pct(x.random_pct)+")")));
    if(name!=="poora"){const tag=x.change==="naya"?el("span",{class:"tag new"},"naya"):x.change==="upar"?el("span",{class:"tag up"},"▲ upar"):x.change==="neeche"?el("span",{class:"tag down"},"▼ neeche"):el("span",{class:"tag"},"wahi");r.append(tag);
-    if(x.boost)r.append(el("span",{class:"tag"},"x"+x.boost));if(x.few)r.append(el("span",{class:"tag few"},"kam data"))}
+    if(x.few)r.append(el("span",{class:"tag few",title:"Number is samay me bahut kam baar aaya; multiplier pakka nahi"},"kam data - pakka nahi"));else if(x.boost)r.append(el("span",{class:"tag"},"x"+x.boost))}
    c.append(r)});return c}
  function render(t,drift){
   out.replaceChildren();
@@ -24,6 +24,7 @@ async dost(m){
     el("div",{},el("div",{class:"mut"},"Is mahina"),t.friends.month[0]?chip(t.friends.month[0].n,"orange","big"):el("span",{class:"mut"},"-"))),
    (tp("poora")!==tp("last3m")||tp("poora")!==tp("month"))?el("p",{},"⚠ Sabse bada dost badal raha hai: pehle ",el("b",{},tp("poora")),", ab (3 mahine) ",el("b",{},tp("last3m")),", is mahine ",el("b",{},tp("month")),". Recent samay me data kam hota hai, isliye ise pakka mat maano."):el("p",{},"✔ Sabse bada dost teeno samay me wahi hai."),
    LEGEND()));
+  if(t.last_has)out.append(el("p",{class:"mut small"},`Dhyan: ${p2(t.number)} aakhri line (${t.last_date}) me aaya hai, par uska "agla din" abhi nahi aaya, isliye wo is ginti me abhi shamil nahi.`));
   out.append(el("div",{class:"grid3"},col("poora","Poora (sab saal)",t),col("last3m","Pichle 3 mahine (is mahine samet)",t),col("month","Is mahina (chal raha)",t)));
   const mine=[];for(const e of drift)for(const c of e.changes)if(c.number===t.number)mine.push([e.asof,c]);
   const pn={poora:"poora",last3m:"3 mahine",month:"is mahine"};

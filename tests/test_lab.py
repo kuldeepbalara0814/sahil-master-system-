@@ -466,6 +466,20 @@ class Roi90Tests(unittest.TestCase):
         self.assertLess(s["roi_90x"], s["roi"])
 
 
+class FriendsLastDayTests(unittest.TestCase):
+    def test_last_row_flagged_not_counted(self):
+        from lab import friends
+        base = dt.date(2026, 11, 1)
+        rows = [(base + dt.timedelta(days=i), [10 + i, 20, 30, 40], "t") for i in range(4)]
+        rows[-1] = (rows[-1][0], [73, 21, 31, 41], "t")
+        f = friends.Friends(rows)
+        t = f.table(73)
+        self.assertTrue(t["last_has"])
+        self.assertEqual(t["last_date"], rows[-1][0].isoformat())
+        self.assertEqual(t["seen"]["month"], 0)                       # aakhri din ginti me nahi: yahi note dikhana hai
+        self.assertFalse(f.table(11)["last_has"])
+
+
 if __name__ == "__main__":
     unittest.main()
 

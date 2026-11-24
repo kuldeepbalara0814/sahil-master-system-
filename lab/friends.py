@@ -108,7 +108,9 @@ class Friends:
                 f["few"] = few                                              # bahut kam data ka nishaan
         for f in res["poora"]:
             f["change"] = "-"
+        last = self.rows[-1]
         return {"number": x, "seen": {n: int(self.cnt[n][2][x]) for n in self.per},
+                "last_date": last[0].isoformat(), "last_has": x in last[1],        # aakhri din ginti me nahi (uska agla din nahi aaya)
                 "since": {n: (s.isoformat() if s else None) for n, s in self.per.items()}, "friends": res}
 
     def snapshot(self, k=3):
