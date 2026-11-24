@@ -855,15 +855,17 @@ def api_help():
 @app.get("/api/window")
 def api_window():
     """Meri Window: naye Naksha pattern ki jodi, top 30 jodi, do pocket ki paper trading (patterns/010_meri_window/README.md)."""
-    rows, _ = state()
+    rows, fr = state()
     rep = scan_today(rows)                                       # aaj ka scan (tokri isi se lock hoti hai)
     wl = jload("window_log.json", None) or window.new_state()
     out = window.view(wl, rows, jload("manual_results.json", {}) or {})
     try:                                                         # top 30 ke har number ke saath: kaun-kaun se pattern ('Pattern 03 (Family)') se aaya
-        allg = next(g for g in rank.build(rep, rows)["groups"] if g["key"] == "all")
+        rk = rank.build(rep, rows, fr)
+        allg = next(g for g in rk["groups"] if g["key"] == "all")
         mp = {r["n"]: r["maps"] for r in allg["lists"]["ALL"]}
         for x in out["top30"]:
             x["maps"] = mp.get(x["n"], [])
+        out["naksha_all"] = window.naksha_all(rk)                # aaj ke SAB Naksha (purane + naye, Rashi samet) number, sirf dikhane ke liye
     except Exception:
         app.logger.exception("window top30 maps")
     return jsonify(out)
@@ -886,8 +888,8 @@ def api_dsrule():
 @app.get("/api/rank")
 def api_rank():
     """Number Rank: aaj ke saare map ke vote, score ke hisab se (HANDOFF item 22)."""
-    rows, _ = state()
-    return jsonify(rank.build(scan_today(rows), rows))
+    rows, fr = state()
+    return jsonify(rank.build(scan_today(rows), rows, fr))
 
 
 @app.get("/api/review")

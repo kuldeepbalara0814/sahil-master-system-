@@ -48,6 +48,26 @@ def baskets(rep, rows):
     return play, naksha, top
 
 
+def naksha_all(rk):
+    """Aaj ke SAB active Naksha number (Naksha 1 + Naksha-Rashi, purane aur naye) - sirf dikhane ke liye, paper basket nahi.
+    Dono Naksha milke lagbhag poora 100 chhoo lete hain, isliye basket nahi banate; vote ke hisab se sajate hain.
+    -> [{n, votes, baar, dost, top30}] (votes zyada pehle)."""
+    g = {x["key"]: x for x in rk["groups"]}
+    allg = {r["n"]: r for r in g["all"]["lists"]["ALL"]}
+    top = {r["n"] for r in g["all"]["lists"]["ALL"][:TOP_N]}
+    votes = {}
+    for key in ("naksha", "naksha2"):
+        for r in g[key]["lists"]["ALL"]:
+            votes[r["n"]] = votes.get(r["n"], 0) + r["votes"]
+    out = []
+    for n, v in votes.items():
+        a = allg.get(n, {})
+        dost = sum(1 for lb in a.get("maps", []) if lb.startswith("Dost "))
+        out.append({"n": n, "votes": v, "baar": a.get("baar", 0), "dost": dost, "top30": n in top})
+    out.sort(key=lambda r: (-r["votes"], r["n"]))
+    return out
+
+
 def record(state, rep, rows):
     """Is play_date ki tokri abhi tak nahi bani to LOCK karo. -> True agar nayi bani."""
     play, naksha, top = baskets(rep, rows)

@@ -4,7 +4,7 @@
 
 ## Do tokri (jodi)
 1. **Naksha ki jodi:** aaj ke NAYE Naksha pattern jinke andaze (targets) hain. Source: `patterns_today` ke key `naksha` ke items jinme `new` aur `targets` dono hon (lab/window.py `baskets`). Har pattern ka alag Copy, aur "Sab jodi copy" (unique, sorted).
-2. **Top 30 jodi:** Number Rank ka ALL list, upar ke 30 (lab/rank.py). Score = kitne alag pattern ne wo jodi di (+1 agar aaj ke din (baar) ki tokri me).
+2. **Top 30 jodi:** Number Rank ka ALL list, upar ke 30 (lab/rank.py). Score = kitne alag pattern ne wo jodi di + dost ke point (har dost-list hazri 1) + 2 agar aaj ke din (baar) ki tokri me (24 Nov 2026 se; pehle +1 tha, dost nahi the).
 
 ## Tokri lock ka niyam
 Us din (play_date) ka **pehla scan** tokri bana kar lock kar deta hai. Baad ke scan (jab result aa jaye) tokri nahi badalte, taaki result dekh kar tokri na badle. Tokri `window_log.json` me jati hai (sirf yahi state).
@@ -39,3 +39,5 @@ Ye paper research hai; 25 Nov se pehle ka koi record nahi, isliye abhi kuch sabi
 - Top 30 ke har number ke neeche "kaun se pattern se aayi": label (jaise "Pattern 01 (Naksha-Rashi)") par dabao to wo pattern khul jata hai. (`/api/window` ke top30 me `maps`.)
 - Naye Naksha pattern ke card me bhi "Kholo (No. NN)" button.
 - Code: `lab_static/tabs_window.js` (`openCard`, `openItem`, `parseLabel`), `lab_server.py api_window` (maps). Chart/Excel ka purana code reuse (`window.SCANX.chart/famMonth`, `/api/scanner/view`, `/api/scanner/month_view`, `/api/scanner/xlsx`).
+- **Aaj ke sab Naksha number (24 Nov 2026):** Window me ek card: Naksha 1 + Naksha-Rashi ke saare aaj-wale items (purane aur naye) ke number, vote ke hisab se; hara = Top 30 me bhi, peela = 5+ Naksha vote. **Sirf dikhane ke liye, paper basket nahi:** dono Naksha milke 24 Nov ko 92/100 jodi chhoote the, itne bade basket ka matlab nahi. Naksha pocket ab bhi sirf naye Naksha 1 ki jodi (12) leti hai.
+- **Kyun chhoota (24 Nov, FD 53 / GB 93):** 53 sirf 2 kamzor Naksha-Rashi items me tha (old, Window me nahi aate the) aur Mangalwar ki 12 jodi me; 93 Puzzle-Steps me aur dost list me (52 ke 3m/month me #1) tha. Rank me 65wa/70wa the (30wi jodi ka score 14). Naye niyam (baar 2 + dost) se bhi ~54wa/60wa, yaani Top 30 ke bahar; ek din se niyam nahi badalte.

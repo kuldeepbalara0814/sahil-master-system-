@@ -1597,6 +1597,20 @@ class RankDostBaarTests(unittest.TestCase):
             self.assertEqual(r["score"], r["votes"] + (2 if r["n"] in tk else 0))
             self.assertEqual(r["baar"], 1 if r["n"] in tk else 0)
 
+    def test_window_naksha_all_shows_old_and_rashi(self):
+        from lab import window, rank
+        rep = {"patterns": [
+            {"key": "naksha", "naam": "Naksha", "items": [{"targets": [{"game": "FB", "numbers": [11, 22]}]}]},
+            {"key": "naksha2", "naam": "Naksha-Rashi", "items": [{"targets": [{"game": "FB", "numbers": [22, 53]}]}]}]}   # 'new' nishan ki zarurat nahi
+        na = window.naksha_all(rank.build(rep, ROWS))
+        by = {r["n"]: r for r in na}
+        self.assertEqual({11, 22, 53}, set(by))
+        self.assertEqual(by[22]["votes"], 2)                                   # dono Naksha me
+        self.assertEqual(na[0]["n"], 22)                                       # vote zyada pehle
+        j = lab_server.app.test_client().get("/api/window").get_json()
+        self.assertIn("naksha_all", j)
+
+
 
 class StaleScanTests(unittest.TestCase):
     def test_old_schema_scan_is_rerun(self):

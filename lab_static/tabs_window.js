@@ -148,10 +148,17 @@ tabs.meri=async function(root){
   el("h2",{style:"margin:0 0 6px"},"Top 30 jodi ",el("span",{class:"sub"},"(sab pattern me jo sabse zyada baar aayi)")),
   el("div",{class:"row"},copyBtn("Copy",t30.map(r=>r.n),"sm")),
   el("div",{class:"act-nums"},t30.map((r,i)=>el("span",{class:"chip "+(i<3?"green":i<6?"yellow":"grey"),title:`score ${r.score}, ${r.votes} pattern${r.baar?", aaj ke din (baar) ki tokri me":""}`},p2(r.n)))),
-  el("p",{class:"mut small",style:"margin:6px 0 0"},"score = kitne alag pattern ne wo jodi di (+1 agar aaj ke din (baar) ki tokri me)"),
+  el("p",{class:"mut small",style:"margin:6px 0 0"},"score = kitne alag pattern ne wo jodi di + dost ke point (har dost-list me aane par 1) + baar ki tokri me ho to 2"),
   REP&&t30.some(r=>(r.maps||[]).length)?el("details",{style:"margin-top:8px"},el("summary",{class:"mut small"},"Kaun se pattern se aayi (label par dabao to wo pattern khulega)"),
    t30.map(r=>el("div",{class:"wn-pat"},el("div",{class:"row",style:"gap:6px"},chip(r.n,"blue","sm"),(r.maps||[]).map(lb=>{const pl2=parseLabel(lb);
     return pl2?el("button",{type:"button",class:"b g sm",on:{click:()=>openItem(pl2.key,pl2.no)}},lb):el("span",{class:"pill m"},lb)}))))):null));
+ /* aaj ke SAB Naksha number (purane + naye) - sirf dikhane ke liye */
+ const na=w.naksha_all||[];
+ if(na.length)root.append(el("div",{class:"card wn-nkall"},
+  el("h2",{style:"margin:0 0 6px"},"Aaj ke sab Naksha number ",el("span",{class:"sub"},"(purane + naye, Rashi samet)")),
+  el("div",{class:"row"},copyBtn("Sab copy",na.map(r=>r.n),"sm")),
+  el("div",{class:"act-nums"},na.map(r=>el("span",{class:"chip "+(r.top30?"green":r.votes>=5?"yellow":"grey"),title:`${r.votes} Naksha vote${r.baar?", baar":""}${r.dost?", dost x"+r.dost:""}${r.top30?", Top 30 me":""}`},p2(r.n)))),
+  el("p",{class:"mut small",style:"margin:6px 0 0"},`${na.length} number. Hara = Top 30 me bhi hai; peela = 5+ Naksha vote; baaki halka. Ye sirf dikhane ke liye hai, paper basket nahi (itne zyada number ka basket random ke barabar ho jata hai).`)));
  /* 2 pocket */
  for(const k of ["naksha","top30"])if(w.pockets&&w.pockets[k])root.append(pocketCard(k,w.pockets[k],pl[k],nm,w.play_date));
  /* tarika */
