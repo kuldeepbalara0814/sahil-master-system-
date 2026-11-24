@@ -41,3 +41,8 @@ Neeche ki bar: **Active | Aaj ki List | Pattern Scan | Paper Trading | Aur**. "A
 **Scan:** din me 3 baar auto (subah 7:00, shaam 19:00, raat 00:30 IST) + manual button. Roz naya "batch" (dekh liya nishan roz 0 se). Pattern kabhi gayab nahi hote (data/active_log.json).
 **Approved naksha version:** git tag `naksha-approved-2026-11-23`. **Abhi live nahi (user sikha raha hai):** current 3 mahine ka Naksha mapping, Naksha ka pass/fail niyam.
 Poori detail: HANDOFF.md (items 1-24).
+
+## 24 Nov 2026: review ke baad badlav + wapas jane ka tarika
+- Naya: **009 Ank-Chal** (patterns/009_ank_chal/README.md), sirf paper. Baaki chhote sudhar: patterns/HANDOFF.md item 53 (har ek ka commit hash).
+- Is kaam se pehle ka live code: git tag **`pehle-review-fix-24nov`**. Ek cheez wapas: `git revert <hash>` (hash item 53 me). Sab wapas: `git checkout pehle-review-fix-24nov`.
+- Teen alag AI ki reports aur hamari jaanch: research/reviews/README.md.
