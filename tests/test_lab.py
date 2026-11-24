@@ -103,13 +103,16 @@ class BacktestTests(unittest.TestCase):
 
     def test_random_is_not_great(self):
         """Mix kiya hua (shuffle) data par koi idea ka asar nahi hona chahiye: hit % random (1%) ke aas-paas."""
-        rng = np.random.default_rng(7)
-        R = np.array([r[1] for r in ROWS])
-        for g in range(4):
-            R[:, g] = rng.permutation(R[:, g])
-        fake = [(r[0], [int(x) for x in R[i]], "") for i, r in enumerate(ROWS)]
-        s = bt.run(fake, idea.clean(self.SPECS[0]))["summary"]
-        self.assertLess(abs(s["hit_pct"] - 0.01), 0.002)
+        R0 = np.array([r[1] for r in ROWS])
+        pcts = []
+        for seed in range(5):                      # ek seed par tika test naya data judte hi tut jata tha (ek shuffle halka unlucky); 5 ka average
+            rng = np.random.default_rng(seed)
+            R = R0.copy()
+            for g in range(4):
+                R[:, g] = rng.permutation(R[:, g])
+            fake = [(r[0], [int(x) for x in R[i]], "") for i, r in enumerate(ROWS)]
+            pcts.append(bt.run(fake, idea.clean(self.SPECS[0]))["summary"]["hit_pct"])
+        self.assertLess(abs(sum(pcts) / len(pcts) - 0.01), 0.002)
 
     def test_lag0_not_in_today(self):
         r = bt.run(ROWS, idea.clean(self.SPECS[1]))
