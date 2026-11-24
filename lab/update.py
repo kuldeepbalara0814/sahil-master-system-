@@ -109,6 +109,14 @@ def run(fetch=True, today=None, stake=5, auto_bets=True, data_dir=None, fetch_fn
             _save_json(hp, hs)
         except Exception as e:
             rep.setdefault("scan_errors", []).append(f"hit log nahi bana: {type(e).__name__}: {e}")
+        try:                                                          # Meri Window: us din ki tokri (naye Naksha + top 30) ek baar lock
+            from . import window
+            wp = _path(data_dir, "window_log.json")
+            wl = _load_json(wp, None) or window.new_state()
+            if window.record(wl, srep, rows):
+                _save_json(wp, wl)
+        except Exception as e:
+            rep.setdefault("scan_errors", []).append(f"window log nahi bana: {type(e).__name__}: {e}")
         _save_json(_path(data_dir, "patterns_today.json"), srep)      # merge ke baad: items par "new" nishan
         rep.setdefault("scan_errors", [])
         rep["scan_errors"] += [f"{e['pattern']}: {e['error']}" for e in srep["errors"]]

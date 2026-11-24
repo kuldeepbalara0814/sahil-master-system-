@@ -689,6 +689,73 @@ class ReviewRound2Tests(unittest.TestCase):
         self.assertIn("Active tab", r.get_json()["error"])
 
 
+class WindowTests(unittest.TestCase):
+    def test_ladder_stops_at_first_hit_and_pays(self):
+        from lab import window
+        nums = [10, 20, 30]
+        d = window.ladder_day(nums, {"FB": 1, "GB": 20, "GL": 2, "DS": 3}, 10000)       # FB haar, GB me hit -> yahin ruk jao
+        self.assertEqual(d["status"], "hit")
+        self.assertEqual(d["stop"], "GB")
+        self.assertEqual(len(d["steps"]), 2)                                              # GL/DS par bet nahi lagi
+        # FB 10*3=30 haar; GB 15*3=45, jeet 15*95=1425 -> net = -30 + (1425-45)
+        self.assertEqual(d["net"], -30 + (15 * 95 - 45))
+        self.assertEqual(d["hit"], {"game": "GB", "n": 20})
+
+    def test_ladder_no_hit_all_four_and_pending(self):
+        from lab import window
+        nums = [10, 20]
+        d = window.ladder_day(nums, {"FB": 1, "GB": 2, "GL": 3, "DS": 4}, 10000)
+        self.assertEqual((d["status"], d["net"]), ("no_hit", -(10 + 15 + 20 + 25) * 2))
+        p = window.ladder_day(nums, {"FB": 1}, 10000)                                      # GB ka result abhi nahi
+        self.assertEqual((p["status"], p["net"], p["next"]["game"]), ("pending", -20, "GB"))
+        self.assertEqual(window.ladder_day([], {"FB": 1}, 10000)["status"], "nothing")
+        self.assertEqual(window.ladder_day(list(range(40)), {"FB": 0}, 10000)["mult"], 90)  # 40 ya zyada jodi par 90x (paper jaisa)
+
+    def test_ladder_low_balance_stops(self):
+        from lab import window
+        d = window.ladder_day(list(range(30)), {"FB": 99, "GB": 99, "GL": 99, "DS": 99}, 400)   # FB 300 ho jata hai, GB 450 par raqam kam
+        self.assertEqual(d["status"], "low")
+        self.assertEqual(d["net"], -300)
+
+    def test_record_locks_once_and_pocket_counts_from_start(self):
+        from lab import window
+        rows = data.load()
+        rep = {"asof": rows[-1][0].isoformat(), "time": "t", "patterns": [{"key": "naksha", "items": [
+            {"id": "n1", "name": "N1", "new": True, "targets": [{"game": "FB", "numbers": [5, 6]}, {"game": "GB", "numbers": [6, 7]}]},
+            {"id": "n2", "name": "N2", "new": False, "targets": [{"game": "FB", "numbers": [88]}]},         # naya nahi -> tokri me nahi
+            {"id": "n3", "name": "N3", "new": True, "targets": []}]}]}
+        st = window.new_state()
+        self.assertTrue(window.record(st, rep, rows))
+        self.assertFalse(window.record(st, rep, rows))                                    # dobara scan: tokri badalti nahi (lock)
+        day = st["days"][data.play_date(rows).isoformat()]
+        self.assertEqual(window.numbers_of(day, "naksha"), [5, 6, 7])
+        self.assertEqual(len(day["top30"]) <= window.TOP_N, True)
+        # pocket: START se pehle ka din nahi ginta
+        st["days"]["2026-11-20"] = {"naksha": [{"id": "x", "numbers": [1]}], "top30": []}
+        st["days"]["2026-11-25"] = {"naksha": [{"id": "y", "numbers": [31, 32]}], "top30": [{"n": 31}, {"n": 32}]}
+        rws = rows + [(dt.date(2026, 11, 25), [31, 0, 0, 0], "t")]                       # FB me 31 aaya -> hit
+        p = window.pocket(st, rws, {}, "naksha")
+        self.assertEqual([d["date"] for d in p["days"]], ["2026-11-25"])
+        self.assertEqual(p["totals"]["hit_days"], 1)
+        self.assertEqual(p["balance"], window.CAPITAL + 10 * 95 - 20)
+        self.assertEqual(p["curve"][-1]["balance"], p["balance"])
+        # hath ka result (manual) se bhi pending din aage badhta hai
+        st2 = {"days": {"2026-11-26": {"naksha": [{"id": "z", "numbers": [9]}], "top30": []}}}
+        p2 = window.pocket(st2, rows, {"2026-11-26": {"FB": 1, "GB": 9}}, "naksha")
+        self.assertEqual(p2["days"][0]["stop"], "GB")
+
+    def test_api_window_and_gh_file(self):
+        import lab_server
+        from lab import gh
+        self.assertIn("window_log.json", gh.FILES)
+        j = lab_server.app.test_client().get("/api/window").get_json()
+        self.assertEqual(j["start"], "2026-11-25")
+        self.assertEqual(set(j["pockets"]), {"naksha", "top30"})
+        self.assertTrue(j["locked"])
+        self.assertLessEqual(len(j["top30"]), 30)
+        self.assertEqual([x["stake"] for x in j["ladder"]], [10, 15, 20, 25])
+
+
 if __name__ == "__main__":
     unittest.main()
 

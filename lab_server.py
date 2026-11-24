@@ -27,7 +27,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import active, ank_chal, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
+from lab import active, ank_chal, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -497,6 +497,14 @@ def _save_scan(rep, source, push):
         names.append("hit_log.json")
     except Exception:
         app.logger.exception("hit log fail")
+    try:                                                       # Meri Window: us din ki tokri (naye Naksha + top 30) ek baar lock
+        rws, _ = state()
+        wl = jload("window_log.json", None) or window.new_state()
+        if window.record(wl, rep, rws):
+            jsave("window_log.json", wl)
+            names.append("window_log.json")
+    except Exception:
+        app.logger.exception("window log fail")
     jsave("patterns_today.json", rep)
     if push:
         try:
@@ -770,6 +778,15 @@ def api_result_manual_delete():
     except Exception as e:
         app.logger.warning("manual persist: %s", e)
     return jsonify({"ok": True, "removed": gone})
+
+
+@app.get("/api/window")
+def api_window():
+    """Meri Window: naye Naksha pattern ki jodi, top 30 jodi, do pocket ki paper trading (patterns/010_meri_window/README.md)."""
+    rows, _ = state()
+    scan_today(rows)                                             # aaj ka scan (tokri isi se lock hoti hai)
+    wl = jload("window_log.json", None) or window.new_state()
+    return jsonify(window.view(wl, rows, jload("manual_results.json", {}) or {}))
 
 
 @app.get("/api/ank")
