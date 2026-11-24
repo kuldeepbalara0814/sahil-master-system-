@@ -1,0 +1,48 @@
+data: 2013-01-01 -> 2026-11-23 (4909 din, 19636 draw)
+random: har draw 36%, 4 draw me pass = 83.2%; har step 36 jodi par 95x => expected ROI = -5.0%
+
+PAAS-ANK trigger (sab)             trigger  3314  pass  2798 = 84.43%  (95% 83.16-85.62)  random 83.2%  z +1.86  ROI   -1.6%
+  circular (09,90 bhi)             trigger  3717  pass  3148 = 84.69%  (95% 83.50-85.81)  random 83.2%  z +2.40  ROI   -1.4%
+CONTROL (ank paas nahi, tokri 36)  trigger 14044  pass 11657 = 83.00%  (95% 82.37-83.62)  random 83.2%  z -0.70  ROI   -5.0%
+PAAS-ANK, window overlap nahi      trigger  1983  pass  1673 = 84.37%  (95% 82.70-85.90)  random 83.2%  z +1.36  ROI   -1.6%
+
+-- pehle kis step me pass (paas-ank): {0: 516, 1: 1237, 2: 780, 3: 479, 4: 302} (0 = fail)
+   random ke hisaab se step 1/2/3/4 par pehla pass %: [36.0, 23.0, 14.7, 9.4] fail 16.8
+   asli %: [np.float64(37.3), np.float64(23.5), np.float64(14.5), np.float64(9.1)] fail 15.6
+
+-- hisse (discovery 2013-19 / holdout 2020-26):
+PAAS-ANK 2013-19                   trigger  1648  pass  1407 = 85.38%  (95% 83.59-87.00)  random 83.2%  z +2.34  ROI   -0.7%
+CONTROL  2013-19                   trigger  7099  pass  5936 = 83.62%  (95% 82.74-84.46)  random 83.2%  z +0.89  ROI   -4.0%
+PAAS-ANK 2020-26                   trigger  1666  pass  1391 = 83.49%  (95% 81.63-85.20)  random 83.2%  z +0.30  ROI   -2.5%
+CONTROL  2020-26                   trigger  6945  pass  5721 = 82.38%  (95% 81.46-83.25)  random 83.2%  z -1.89  ROI   -6.0%
+
+-- saal-dar-saal (paas-ank pass%, control pass%, ROI%):
+  2013: paas-ank  218 trig  86.2% ROI  +6.0% | control  84.2% ROI  -4.3%
+  2014: paas-ank  241 trig  88.0% ROI  +1.9% | control  83.5% ROI  -3.8%
+  2015: paas-ank  239 trig  84.9% ROI  -0.1% | control  84.7% ROI  -2.5%
+  2016: paas-ank  229 trig  79.5% ROI -10.7% | control  83.6% ROI  -3.6%
+  2017: paas-ank  242 trig  84.7% ROI  -2.9% | control  82.6% ROI  -6.8%
+  2018: paas-ank  237 trig  89.5% ROI  +1.5% | control  83.5% ROI  -3.8%
+  2019: paas-ank  242 trig  84.7% ROI  -0.0% | control  83.2% ROI  -3.3%
+  2020: paas-ank  234 trig  82.9% ROI  -4.7% | control  82.2% ROI  -5.7%
+  2021: paas-ank  231 trig  83.1% ROI  -4.0% | control  81.7% ROI  -6.6%
+  2022: paas-ank  250 trig  86.4% ROI  +7.5% | control  83.1% ROI  -5.0%
+  2023: paas-ank  251 trig  82.9% ROI  -8.4% | control  83.0% ROI  -3.7%
+  2024: paas-ank  247 trig  78.5% ROI  -9.7% | control  82.8% ROI  -5.8%
+  2025: paas-ank  237 trig  88.2% ROI  +7.7% | control  81.7% ROI  -9.1%
+  2026: paas-ank  216 trig  82.4% ROI  -4.7% | control  82.3% ROI  -6.3%
+
+-- trigger kis game me aaya (paas-ank):
+  FB: trigger  819  pass 86.08%
+  GB: trigger  808  pass 85.52%
+  GL: trigger  844  pass 84.36%
+  DS: trigger  843  pass 81.85%
+
+-- 300 shuffle (saal-ke-andar): pass% mean 83.36 (min 81.58, max 84.96) | ROI% mean -4.7 (max -0.8)
+   asli pass 84.43%  -> shuffle se zyada wale: 10/300 ; asli ROI -1.6% -> shuffle se zyada: 3/300
+
+-- sirf A (andar, 20 jodi): pass 60.08% (random 59.0%) | sirf B (bahar, 20 jodi): pass 59.38% (random 59.0%)
+
+-- paise (Rs 1 har jodi, pehla hit par ruk jao): avg 2.26 step/trigger, kharcha Rs 81.5/trigger, net Rs -1.33/trigger
+   trigger/saal 247 -> net/saal Rs -328 (Rs 1/jodi); Rs 10/jodi par -3278
+   random me wahi: net/trigger Rs -4.08 (ROI -5%) -> saal me Rs -1005 (Rs 1/jodi)
