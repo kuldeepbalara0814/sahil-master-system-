@@ -8,7 +8,8 @@ User ne site ka data kayi AI ko dikhaya. Har report yahan **poori** rakhi hai (k
 | 02 | Muse AI | `full/02_muse_ai_app_audit_and_ds_report.pdf` | Live app khol kar 19 baat + DS research (62 test, Bonferroni) | sec 3: Dost Khojo last-day, Monitor header, IST, 007 **sahi**; "pending ko loss ginna" aur "duplicate bet" **galat padha** |
 | 03 | Gemini (deep blueprint) | `full/03_gemini_blueprint_drive_link.md` (poori file Drive me) | Poora rebuild: Neon DB, Bayesian engine, 4-tab UI | sec 4: achhe vichar (decay + shrinkage, drawdown breaker), par poora rebuild aur "signal jodna" kamzor; sirf note |
 | 04 | Teesri report (code padh kar) | `full/04_third_report_bugs_and_ds_haruf.pdf` | 12 naye bug + DS aakhri-ank (haruf) naya finding | sec 5: haruf 12.71% / 11.71% (2013+) dobara ginkar **mila**; bug 1 (list me DS lag-2..5 nahi) **sahi** |
-| 05 | Sarvam/Indus AI | (intezaar) | - | - |
+| 05-07 | Chauthi file-set (wahi report-lekhak ka agla hissa) | `full/05_..pdf` (Deep Pattern Report), `full/06_..zip` (009 ank-chal code), `full/07_..html` (Control Room mockup) | 2040 test, naya pattern 009 Ank-Chal, baki-ki-chal, single sheet, design mockup | sec 6: ank-chal dobara ginkar **mila** (DS andar 12.31%, 3 line 11.95%); mockup ke "KHELO" shabd hamare niyam se alag |
+| 08 | Sarvam/Indus AI | (intezaar) | - | - |
 
 ## Teeno me jo cheez common nikli (sabse bharose layak)
 - DS apna 2-5 draw pehle wala number dobara aata hai (~1.4-1.55% vs 1%), 60 saal me toota nahi, dheere kamzor.

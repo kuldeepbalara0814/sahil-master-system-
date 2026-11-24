@@ -103,3 +103,21 @@ Status: **sirf note, kuch badla nahi.** Is report ke daave maine apne data par d
 (Inme se 2-3 pehle wali reports ke saath milte hain; jaanch pending: kaun sa pehle ho sakta hai user tay karega.)
 
 **Report ke sujhav:** pehle bug 1+2 (DS ke liye lag number list me), payout setting (95/90/9.5), haruf paper mode alag, purani list par banner, first_seen sahi, weights walk-forward, forward-test ka niyam likh dena ("90 din = chalu hai ya toota; faisla ~5 saal").
+
+## 6. Chauthi file-set (24 Nov, 11:34): "Deep Pattern Report" PDF + ank_chal_pattern_009.zip + Control Room mockup HTML
+Status: **sirf note. 009 app me NAHI joda** (user ki "haan" ke baad hi). Zip padha, chalaya nahi (andar: lab/ank_chal.py, patterns/009_ank_chal/README.md, WIRING.md; code saaf: network/file-write nahi). HTML me script/external link nahi (static). Copies: `full/05_..pdf`, `full/06_..zip`, `full/07_..html`.
+
+**Mere khud ke data par dobara ginti (sab mel khaye):**
+- Ank-chal (2 draw pehle wale number ka aaj usi game me usi jagah wahi ank): DS andar 12.31% (ROI@9.5x +16.9%), DS bahar 11.72% (+11.3%), FB andar 11.82% (+12.3%); baaki 5 line kamzor (GB andar 10.94, GB bahar 11.39, GL andar 10.94, GL bahar 10.37, FB bahar 10.15). 3 chuni line 1759/14721 = **11.95%**, +13.5% @9.5x.
+- Discovery 2013-19 -> holdout 2020-26: DS andar 12.35 -> 12.27 (z +3.7), DS bahar 11.86 -> 11.57 (z +2.6), FB andar 12.19 -> 11.45 (z +2.4). Teeno 2013-19 me top-3 the, holdout me bhi 10.53% se upar: chunav ka tareeka imaandar.
+- Saal-dar-saal (3 line, @9.5x) 2013-2026: +12, +17, +7, +23, +12, +26, +11, +9, +18, +22, +7, +14, **+1**, +11 (14/14 plus; 2025 me lagbhag 0).
+- Pichle 90 din: 24/270 = 8.9% (break-even 10.53% se neeche). 270 bet par sanyog (SD ~1.8%): kuch sabit nahi.
+- Aaj ke ank (22 Nov ka DS 59, FB 13 se): DS andar 5, DS bahar 9, FB andar 1. Mel khata hai.
+- Report ke ye daave bhi hamari pehle ki jaanch se mel: baki-ki-chal (41->59) random se KAM (6/6), "bahut din se nahi aaya" DS me ulta (0.923%, z -3.96), single-sheet jagah ka koi fayda nahi, GB/FB->DS asli par 2020+ halka (1.27%), 2040 test me holdout par sirf 25 tike (chance se ~5), 009 unhi me se.
+
+**Saavdhani (meri taraf se):**
+1. Ye wahi lag-2 repeat asar ka ank-level roop hai (DS andar/bahar aapas me correlated: ek hi number dono ko hit karta hai). Naya alag signal nahi, usi family ka doosra naap.
+2. Payout 9.5x maana gaya. 9x hota to break-even 11.11%: 3 line 11.95% par margin sirf ~+7.6%, FB andar 2020-26 (11.45%) par ~+3%.
+3. 3 line 8 me se chuni gayi (discovery me top-3): holdout theek hai, par ab bhi ek family ka hi test; forward hi asli faisla (~5 saal).
+4. **Mockup me "KHELO", "aaj ka faisla", "stake 10 unit (bank ka 1%)"** jaise shabd hain: ye hamare niyam ("software dikhata hai, insaan faisla karta hai", sirf paper) se alag hai. Rang CI se karna, break-even har card par, "30 poori + 10 baaki" label achhe sujhav; "KHELO" ki jagah "paper me chal raha" jaisa shabd hona chahiye.
+5. WIRING.md ke 3 edit (scanner.py me import/PATTERNS/SCANNERS, lab_server.py PATTERN_DIRS, paper.py payout) chhote hain, par paper.py ka payout badalna ledger ke hisaab badalta hai: alag, paper-only khata hi theek.

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sahil Lab - Aaj ka Control Room (design sujhav)</title>
+<style>
+  :root{
+    --ink:#12232e; --muted:#5d7381; --line:#dbe4ea; --bg:#f4f7f9; --card:#ffffff;
+    --go:#1b7f5f; --go-bg:#e7f5ef; --wait:#a86b12; --wait-bg:#fdf3e2; --stop:#a3312f; --stop-bg:#fbeaea;
+    --accent:#1f4e6b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans",Arial,sans-serif;
+    font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:520px;margin:0 auto;padding:14px 14px 40px}
+  header{display:flex;justify-content:space-between;align-items:baseline;margin:6px 2px 12px}
+  header h1{font-size:19px;margin:0;letter-spacing:-.2px}
+  header .date{font-size:13px;color:var(--muted)}
+  .verdict{background:var(--accent);color:#fff;border-radius:14px;padding:14px 16px;margin-bottom:14px}
+  .verdict .lbl{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;opacity:.8}
+  .verdict .big{font-size:17px;font-weight:600;margin-top:3px;line-height:1.35}
+  .verdict .sub{font-size:13px;opacity:.88;margin-top:6px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:12px}
+  .card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .tag{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .nums{font-size:30px;font-weight:700;letter-spacing:1px;margin:6px 0 2px}
+  .nums small{font-size:13px;font-weight:600;color:var(--muted);letter-spacing:0}
+  .meta{font-size:13.5px;color:var(--muted);margin-top:2px}
+  .badge{font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;white-space:nowrap}
+  .go{background:var(--go-bg);color:var(--go)} .wait{background:var(--wait-bg);color:var(--wait)}
+  .stop{background:var(--stop-bg);color:var(--stop)}
+  .bar{position:relative;height:9px;border-radius:6px;background:#e9eef2;margin:12px 0 6px}
+  .bar .fill{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:var(--go)}
+  .bar .be{position:absolute;top:-4px;bottom:-4px;width:2px;background:#a3312f}
+  .barlbl{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted)}
+  .row{display:flex;gap:10px;margin-top:12px}
+  .box{flex:1;background:#f8fafb;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+  .box .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+  .box .v{font-size:15px;font-weight:600;margin-top:2px}
+  h2{font-size:14px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:20px 2px 8px}
+  .strip{display:flex;gap:6px;margin-top:10px}
+  .cell{flex:1;border-radius:8px;border:1px solid var(--line);background:#fbfcfd;text-align:center;padding:7px 2px}
+  .cell .d{font-size:10.5px;color:var(--muted)} .cell .n{font-size:15px;font-weight:700}
+  .cell.hit{background:var(--go-bg);border-color:#bfe3d5}
+  .cell.today{border:1.5px dashed var(--accent);background:#fff}
+  .note{font-size:12.5px;color:var(--muted);margin:8px 2px}
+  .rules{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 18px}
+  .rules ol{margin:6px 0 0;padding-left:20px;font-size:14px}
+  .rules li{margin-bottom:7px}
+  .why{font-size:13px;color:var(--muted);border-left:3px solid var(--line);padding-left:10px;margin-top:12px}
+  .foot{font-size:12px;color:var(--muted);margin-top:18px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Sahil Lab</h1>
+    <div class="date">24 Nov 2026, 07:10 IST</div>
+  </header>
+
+  <div class="verdict">
+    <div class="lbl">Aaj ka faisla</div>
+    <div class="big">3 signal chal rahe hain &middot; kul 6 ank + 4 number</div>
+    <div class="sub">Sabse mazboot: DS andar+bahar ank (12.0%). DS ke 4 number 1.37% par.
+      Aaj ka total stake 10 unit (bank ka 1%) &mdash; isse zyada nahi.</div>
+  </div>
+
+  <div class="card">
+    <div class="top">
+      <div>
+        <div class="tag">DS &middot; 4 number (lag 2-5)</div>
+        <div class="nums">47 &nbsp;59 &nbsp;67 &nbsp;76</div>
+        <div class="meta">4 draw pehle ke number &middot; 95x par hit = 91 unit</div>
+      </div>
+      <span class="badge go">KHELO</span>
+    </div>
+    <div class="bar"><div class="fill" style="width:69%"></div><div class="be" style="left:53%"></div></div>
+    <div class="barlbl"><span>1.37% (2020-26)</span><span>break-even 1.05%</span></div>
+    <div class="row">
+      <div class="box"><div class="k">jeet wale din</div><div class="v">5.4%</div></div>
+      <div class="box"><div class="k">90 din ka P(profit)</div><div class="v">76%</div></div>
+      <div class="box"><div class="k">stake</div><div class="v">4 unit</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="top">
+      <div>
+        <div class="tag">DS &middot; ank (naya, 009)</div>
+        <div class="nums">5 <small>andar</small> &nbsp;&nbsp; 9 <small>bahar</small></div>
+        <div class="meta">2 draw pehle 59 &rarr; andar 5, bahar 9 &middot; 9.5x</div>
+      </div>
+      <span class="badge go">KHELO</span>
+    </div>
+    <div class="bar"><div class="fill" style="width:76%"></div><div class="be" style="left:66%"></div></div>
+    <div class="barlbl"><span>12.02% (2020-26)</span><span>break-even 10.53%</span></div>
+    <div class="row">
+      <div class="box"><div class="k">jeet wale din</div><div class="v">31.6%</div></div>
+      <div class="box"><div class="k">90 din ka P(profit)</div><div class="v">76%</div></div>
+      <div class="box"><div class="k">stake</div><div class="v">2 unit</div></div>
+    </div>
+    <div class="why">Naya pattern. 13 saal 11.95%, holdout 2020-26 me 11.76% (z +5.0).
+      Pichhle 90 din thanda raha (8.9%) &mdash; isliye badge peela ho jata hai jab 90-din ka CI break-even ko chhoo le.</div>
+  </div>
+
+  <div class="card">
+    <div class="top">
+      <div>
+        <div class="tag">FB &middot; ank (naya, 009)</div>
+        <div class="nums">1 <small>andar</small></div>
+        <div class="meta">2 draw pehle 13 &rarr; andar 1 &middot; 9.5x</div>
+      </div>
+      <span class="badge wait">HALKA</span>
+    </div>
+    <div class="bar"><div class="fill" style="width:72%"></div><div class="be" style="left:66%"></div></div>
+    <div class="barlbl"><span>11.45% (2020-26)</span><span>break-even 10.53%</span></div>
+    <div class="why">13 saal 11.82% par pichhle 2 saal me halka hua. Badge peela: 90 din ka data chhota hai.</div>
+  </div>
+
+  <h2>4 box &mdash; 005 aur 007 ke target</h2>
+  <div class="card">
+    <div class="tag">Dana-Farak 21 Nov se &middot; 24 Nov tak</div>
+    <div class="nums" style="font-size:24px">13 &nbsp;14 &nbsp;31 &nbsp;41</div>
+    <div class="meta">spot: 12 &nbsp;15 &nbsp;21 &nbsp;51</div>
+    <div class="strip">
+      <div class="cell"><div class="d">21 Nov</div><div class="n">41</div></div>
+      <div class="cell"><div class="d">22 Nov</div><div class="n">13</div></div>
+      <div class="cell"><div class="d">23 Nov</div><div class="n">44</div></div>
+      <div class="cell today"><div class="d">24 Nov</div><div class="n">?</div></div>
+    </div>
+    <div class="why">6 mahine ka record: 91/236 pass, random ~89. Yaani ye signal nahi, yaad-dilane wala tool hai.
+      Isliye card ke saath "random ke barabar" likha hai, hara badge nahi.</div>
+  </div>
+
+  <h2>Signal health (CI ke saath)</h2>
+  <div class="card">
+    <div class="row">
+      <div class="box"><div class="k">DS 4 number</div><div class="v" style="color:var(--go)">1.37%</div>
+        <div class="k" style="margin-top:2px">CI 1.15-1.62</div></div>
+      <div class="box"><div class="k">009 ank (3 line)</div><div class="v" style="color:var(--go)">11.95%</div>
+        <div class="k" style="margin-top:2px">CI 11.4-12.5</div></div>
+      <div class="box"><div class="k">list10</div><div class="v" style="color:var(--wait)">1.08%</div>
+        <div class="k" style="margin-top:2px">CI 0.92-1.27</div></div>
+    </div>
+    <div class="why">Rang sirf CI se: hara = CI ka neecha hissa bhi break-even se upar. peela = CI break-even ko
+      chhoo raha hai. laal = poora CI neeche. Isse "30 din me 3.45%" jaisa sanyog hara nahi dikhega.</div>
+  </div>
+
+  <div class="rules">
+    <h2 style="margin:0 0 4px;color:var(--accent)">Design ke 7 niyam jo is page me lage hain</h2>
+    <ol>
+      <li><b>Ek page, ek faisla.</b> Upar ek line: aaj kya khelna hai aur kitna. 13 tab ki zarurat nahi &mdash; detail neeche scroll me.</li>
+      <li><b>Rang CI se, point estimate se nahi.</b> 87 bet par 3.45% ko hara mat dikhao; CI dikhao.</li>
+      <li><b>Break-even har card par.</b> Rate ke saath break-even ki seedhi line aur "random 10%/1%" likha ho.</li>
+      <li><b>Number bada, shabd chhota.</b> 30px number, 13px meta. Phone par door se padhne layak.</li>
+      <li><b>Stake pehle se.</b> Har card me unit likha ho, aur upar kul stake. Bank ka 1% ka niyam.</li>
+      <li><b>Imaandari card me hi.</b> "Random ke barabar", "90 din me faisla nahi hota", "holdout 11.76%" &mdash; chhupa kar nahi.</li>
+      <li><b>Box strip 4 din ka.</b> 005/007 me "?" sirf aane wale din par; beet chuki tarikh par asli number.</li>
+    </ol>
+  </div>
+
+  <div class="foot">Ye design sujhav hai (mockup) &mdash; asli data 24 Nov 2026 ka. Paper trading; asli paisa nahi.</div>
+</div>
+</body>
+</html>
