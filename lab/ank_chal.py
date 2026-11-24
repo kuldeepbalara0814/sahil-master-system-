@@ -133,7 +133,7 @@ CAPITAL = 10000
 def view(rows):
     """Active tab ka card: aaj ke ank, 8 line ki table, 90 din, aur START se kagaz ka khata (stateless: rows se hi nikalta hai)."""
     play = data.play_date(rows)
-    today = [{"game": NAMES[gi], "pos": pos, "ank": next_ank(rows, gi, pos)} for gi, pos in PICKS]
+    today = [{"game": NAMES[gi], "pos": pos, "ank": next_ank(rows, gi, pos), "src": rows[-LAG][1][gi] if len(rows) >= LAG else None} for gi, pos in PICKS]
     lines = []
     for gi in range(4):
         for pos in ("andar", "bahar"):

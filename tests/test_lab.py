@@ -635,6 +635,7 @@ class AnkViewTests(unittest.TestCase):
         self.assertEqual((j["stake"], j["payout"], j["breakeven"]), (30, 9.5, 10.53))
         self.assertIn("forward", j)
         self.assertTrue(j["warning"])
+        self.assertTrue(all("src" in t and 0 <= t["src"] <= 99 for t in j["today"]))      # "2 draw pehle ka number" card me dikhta hai
 
     def test_ledger_starts_at_start_and_balance(self):
         from lab import ank_chal

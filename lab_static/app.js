@@ -5,6 +5,10 @@ function el(t,a,...k){if(a===null||typeof a!=="object"||a instanceof Node||Array
  const e=document.createElement(t);for(const[x,v]of Object.entries(a)){if(x==="class")e.className=v;else if(x==="on")for(const[ev,fn]of Object.entries(v))e.addEventListener(ev,fn);else if(v!==undefined&&v!==null&&v!==false)e.setAttribute(x,v===true?"":v)}
  for(const c of k.flat())if(c!==undefined&&c!==null&&c!==false)e.append(c instanceof Node?c:String(c));return e}
 const p2=n=>String(n).padStart(2,"0");
+// meter: rate ki bar, laal line = break-even (Sarvam mockup). val/be percent me; bar ki lambai be ke 1.7 guna tak.
+const meter=(val,be,left,right)=>{const mx=be*1.7,w=Math.max(2,Math.min(100,val/mx*100)),t=Math.min(100,be/mx*100);
+ return el("div",{class:"meter"},el("div",{class:"track"},el("div",{class:"fill",style:`width:${w}%`}),el("div",{class:"tick",style:`left:${t}%`})),el("div",{class:"lbl"},el("span",{},left),el("span",{},right)))};
+const badge=(cls,txt)=>el("span",{class:"badge "+cls},txt);
 // samay hamesha IST me: offset wala (+05:30) seedha, bina offset wala purana timestamp UTC maana jata hai (GitHub Action UTC me chalta tha)
 const istm=s=>{if(!s)return"";let t=String(s);if(!/[zZ]|[+-]\d\d:\d\d$/.test(t))t+="Z";const d=new Date(new Date(t).getTime()+19800000);if(isNaN(d.getTime()))return String(s).replace("T"," ");const M=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];return d.getUTCDate()+" "+M[d.getUTCMonth()]+" "+p2(d.getUTCHours())+":"+p2(d.getUTCMinutes())+" IST"};
 const pct=(x,d=1)=>(100*x).toFixed(d)+"%";
