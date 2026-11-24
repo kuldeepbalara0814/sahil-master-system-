@@ -17,6 +17,22 @@ function htMsg(r){
  if(r.has_archive===false)return"Is din ke andaze saved nahi the";
  return r.n_new>0?r.n_new+" map hit hue":"Koi map hit nahi hua"}
 function htHitLine(h){return el("p",{class:"ht-line"},el("b",{},"HIT: "),`${p2(h.n)} ${fb(h.game||"")} ${dm(h.date)}`,h.src==="manual"?el("span",{class:"mut small"}," (hath se)"):null)}
+function howCard(r,dsT,fbT){
+ // 009 ka Hinglish tarika + aaj ke ank ke 10 number (sirf samajhne ke liye)
+ const a=dsT.find(x=>x.pos==="andar"),b=dsT.find(x=>x.pos==="bahar"),f=fbT;
+ const ten=k=>[...Array(10).keys()].map(i=>k*10+i),one=k=>[...Array(10).keys()].map(i=>i*10+k);
+ const rows=[["DS andar "+a.ank,ten(a.ank)],["DS bahar "+b.ank,one(b.ank)],["FB andar "+f.ank,ten(f.ank)]];
+ const li=x=>el("li",{style:"margin:4px 0"},x);
+ return el("div",{class:"card flat how009"},el("h2",{style:"margin:0 0 6px"},"009 kaise samjho (Hinglish)"),
+  el("ul",{class:"small",style:"margin:0;padding-left:18px"},[
+   "Andar = number ka pehla ank (dahai), bahar = doosra ank (ikai). Udaharan: 59 me andar 5, bahar 9.",
+   "Niyam: 2 draw pehle wale number ka ank aaj usi game me usi jagah (andar/bahar) aaye to PASS.",
+   "Sirf 3 line chuni gayi: DS andar, DS bahar, FB andar. GB, GL aur FB bahar chune nahi gaye, kyunki wo random ke paas the.",
+   "Ye JODI ka khel nahi, ek ANK (0-9) ka hai. 'DS andar 5' = DS ke sirf 50-59; 'DS bahar 9' = sirf 09, 19, ..., 99; 'FB andar 1' = FB ke sirf 10-19. 36 ya 55 jodi ki tokri nahi: test me ~0 fayda mila.",
+   "Rupaye: har ank Rs 30; jeet par 9.5 guna = Rs 285 (net +Rs 255); haar par -Rs 30. Roz 3 ank = Rs 90. Jeet ka chance ~12%, break-even 10.53%.",
+   "Kagaz ka khata app apne aap rakhta hai."].map(li)),
+  el("p",{class:"mut small",style:"margin:8px 0 4px"},"sirf samajhne ke liye: is ank ke 10 number"),
+  rows.map(([l,ns])=>el("div",{style:"margin:4px 0"},el("span",{class:"small"},l+": "),el("span",{class:"act-nums",style:"display:inline-flex;flex-wrap:wrap;gap:4px"},ns.map(n=>el("span",{class:"chip grey",style:"font-size:12px;min-width:0;padding:1px 7px"},p2(n)))))))}
 function ankPanels(heroBox,ankBox){
  // Sarvam mockup jaisa: hero + DS ank card + FB ank card (bada number, break-even wali bar, 3 tile, badge). Rang theme.css se.
  const rs=n=>"Rs "+Math.round(n).toLocaleString("en-IN"),sg=n=>(n>0?"+":n<0?"-":"")+rs(Math.abs(n));
@@ -54,7 +70,8 @@ function ankPanels(heroBox,ankBox){
     r.ledger.length?el("details",{style:"margin-top:8px"},el("summary",{class:"mut small"},"Roz ka khata (24 Nov se)"),
      el("table",{class:"sheet",style:"width:100%;font-size:12px"},el("thead",{},el("tr",{},["Din","Natija","Net","Raqam"].map(h=>el("th",{},h)))),
       el("tbody",{},r.ledger.map(x=>el("tr",{},el("td",{},dm(x.date)),el("td",{},x.bets.map(b=>`${b.game}${b.pos==="andar"?"a":"b"} ${b.want}${b.hit?"✔":"✘"+b.got}`).join("  ")),el("td",{class:x.net>=0?"ok":"bad"},sg(x.net)),el("td",{},rs(x.balance))))))):el("p",{class:"mut small",style:"margin:6px 0 0"},"Khata aaj ki line aate hi shuru hoga."),
-    el("p",{class:"warn small",style:"margin:8px 0 0"},r.warning)))
+    el("p",{class:"warn small",style:"margin:8px 0 0"},r.warning)),
+   howCard(r,dsT,fbT))
  }).catch(e=>{ankBox.replaceChildren(el("div",{class:"warn"},e.message))})}
 function dsRuleCard(box){
  let r=null,mode="one";
