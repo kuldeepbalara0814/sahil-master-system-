@@ -784,9 +784,17 @@ def api_result_manual_delete():
 def api_window():
     """Meri Window: naye Naksha pattern ki jodi, top 30 jodi, do pocket ki paper trading (patterns/010_meri_window/README.md)."""
     rows, _ = state()
-    scan_today(rows)                                             # aaj ka scan (tokri isi se lock hoti hai)
+    rep = scan_today(rows)                                       # aaj ka scan (tokri isi se lock hoti hai)
     wl = jload("window_log.json", None) or window.new_state()
-    return jsonify(window.view(wl, rows, jload("manual_results.json", {}) or {}))
+    out = window.view(wl, rows, jload("manual_results.json", {}) or {})
+    try:                                                         # top 30 ke har number ke saath: kaun-kaun se pattern ('Pattern 03 (Family)') se aaya
+        allg = next(g for g in rank.build(rep, rows)["groups"] if g["key"] == "all")
+        mp = {r["n"]: r["maps"] for r in allg["lists"]["ALL"]}
+        for x in out["top30"]:
+            x["maps"] = mp.get(x["n"], [])
+    except Exception:
+        app.logger.exception("window top30 maps")
+    return jsonify(out)
 
 
 @app.get("/api/ank")

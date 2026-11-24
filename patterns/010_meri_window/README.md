@@ -30,3 +30,12 @@ Tab hatana ho: `git revert <hash>` (hash PROGRESS.md me). Backend commit 5d64b16
 
 ## Saaf sachchai
 Ye paper research hai; 25 Nov se pehle ka koi record nahi, isliye abhi kuch sabit nahi. Natija ke liye mahino ka data chahiye.
+
+
+## Pattern number se kholo (25 Nov 2026 jodha)
+- Meri Window me "Pattern number se kholo" card: kind chuno (Naksha, Naksha-Rashi, Puzzle-Steps, Family, Copy, Dana-Farak), number likho (jaise 03) ya list se "Kholo" dabao. Wahi rang wala chart khulta hai jo Pattern Scan me "Kholo (rang me dekho)" se khulta hai, aur "Excel me dekho (download)" button.
+- **Number** = wahi jo Pattern Scan aur Number Rank me "Pattern 03 (Family)" likha dikhta hai (us kind ki list me position). Naksha ka label bina bracket ka ("Pattern 04").
+- List sirf **aaj ke scan** ki hoti hai (aaj ki date). Filter: "Aaj ke andaze wale" (status aaj, jinka result abhi aana hai), "Sirf naye (aaj bane)", "Sab". Jo pattern chal raha hai wo har roz ke scan me tab tak aata rehta hai jab tak uska aakhri result nahi aa jata; uske baad apne aap hat jata hai (koi alag memory/store nahi, scan roz naya banta hai).
+- Top 30 ke har number ke neeche "kaun se pattern se aayi": label (jaise "Pattern 01 (Naksha-Rashi)") par dabao to wo pattern khul jata hai. (`/api/window` ke top30 me `maps`.)
+- Naye Naksha pattern ke card me bhi "Kholo (No. NN)" button.
+- Code: `lab_static/tabs_window.js` (`openCard`, `openItem`, `parseLabel`), `lab_server.py api_window` (maps). Chart/Excel ka purana code reuse (`window.SCANX.chart/famMonth`, `/api/scanner/view`, `/api/scanner/month_view`, `/api/scanner/xlsx`).

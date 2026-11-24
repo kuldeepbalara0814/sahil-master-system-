@@ -66,8 +66,63 @@ function pocketCard(key,pk,plan,names,tdy){
      el("td",{class:d.net>=0?"ok":"bad"},d.status==="pending"&&!d.net?"-":sg(d.net)),el("td",{},rs(d.balance))))))):el("p",{class:"mut small",style:"margin:6px 0 0"},"Roz ka hisaab pehle poore din ke baad shuru hoga."),
   el("p",{class:"small wn-plan",style:"margin:8px 0 0"},planLine(plan,key)))}
 
+/* ---- pattern number se kholo (Pattern Scan / Number Rank wale 'Pattern 03' number ke hisaab se) ---- */
+const KINDS=[["naksha","Naksha"],["naksha2","Naksha-Rashi"],["steps","Puzzle-Steps"],["family","Family"],["copy","Copy"],["dana","Dana-Farak"]];
+const NAAM2KEY={"Naksha-Rashi":"naksha2","Puzzle-Steps":"steps","Family":"family","Jodi-Copy":"copy","Dana-Farak":"dana"};
+const STX={aaj:["o","aaj ka andaza"],pass:["g","PASS"],fail:["r","FAIL"],dekho:["m","dekho"]};
+let REP=null,DETAIL=null,OPENCARD=null;
+const itemsOf=k=>{const p=REP&&REP.patterns.find(x=>x.key===k);return p?p.items:[]};
+const labelOf=(k,i)=>"Pattern "+p2(i+1)+(k==="naksha"?"":" ("+(KINDS.find(x=>x[0]===k)||[0,k])[1]+")");
+/* 'Pattern 04 (Puzzle-Steps)' jaisa label -> (kind, number) */
+function parseLabel(s){const m=/^Pattern\s+(\d+)(?:\s*\((.+)\))?\s*$/.exec(String(s).trim());if(!m)return null;
+ const naam=m[2]?m[2].trim():"Naksha",key=naam==="Naksha"?"naksha":(NAAM2KEY[naam]||(KINDS.find(x=>x[1]===naam)||[])[0]);return key?{key,no:+m[1]}:null}
+async function openItem(k,no){
+ const list=itemsOf(k),it=list[no-1];
+ if(!DETAIL)return;
+ if(!it){DETAIL.replaceChildren(el("div",{class:"warn"},`${(KINDS.find(x=>x[0]===k)||[0,k])[1]} me Pattern ${p2(no)} nahi hai (1 se ${list.length} tak hain).`));return}
+ const sx=window.SCANX;if(!sx||!sx.chart){DETAIL.replaceChildren(el("div",{class:"warn"},"Chart abhi load nahi hua, page dobara kholo"));return}
+ const body=el("div",{},el("p",{class:"mut"},el("span",{class:"spin"}),"Load..."));
+ const st=STX[it.status]||STX.dekho,tg=(it.targets||[]);
+ DETAIL.replaceChildren(el("div",{class:"card flat wn-detail"},
+  el("div",{class:"act-top"},el("h3",{style:"margin:0"},`${labelOf(k,no-1)} · ${it.name||""}`),el("span",{},el("span",{class:"pill "+st[0]},st[1]),it.new?el("span",{class:"pill g",style:"margin-left:6px"},"NAYA"):null)),
+  el("div",{class:"b"},it.title||""),(it.lines||[]).map(l=>el("p",{class:"mut small",style:"margin:3px 0"},l)),
+  tg.length?el("div",{},el("div",{class:"small"},el("b",{},"Aaj ke andaze (jodi): ")),tg.map(t=>el("div",{class:"row",style:"gap:6px;margin:4px 0"},el("span",{class:"small"},fb(t.game)+":"),(t.numbers||[]).map(n=>chip(n,"green","sm")),copyBtn("Copy",t.numbers||[],"g sm")))):null,
+  el("div",{class:"row",style:"margin:8px 0"},el("a",{href:"/api/scanner/xlsx?id="+encodeURIComponent(it.id)},el("button",{type:"button",class:"b sm"},"Excel me dekho (download)")),
+   el("button",{type:"button",class:"b g sm",on:{click:()=>DETAIL.replaceChildren()}},"Band karo")),body));
+ try{const v=it.kind==="family"?sx.famMonth(await api("GET","/scanner/month_view?id="+encodeURIComponent(it.id))):sx.chart(await api("GET","/scanner/view?id="+encodeURIComponent(it.id)));body.replaceChildren(v)}
+ catch(e){body.replaceChildren(el("div",{class:"warn"},e.message))}
+ if(OPENCARD&&OPENCARD.scrollIntoView)OPENCARD.scrollIntoView({behavior:"smooth",block:"start"})}
+function openCard(w){
+ let kind="naksha",flt="aaj";
+ const box=el("div"),num=el("input",{type:"text",inputmode:"numeric",placeholder:"number likho (jaise 03)",style:"width:170px","aria-label":"Pattern number"});
+ DETAIL=el("div");
+ const goNum=()=>{const n=parseInt(String(num.value).replace(/\D/g,""),10);if(!n){toast("Pattern ka number likho");return}openItem(kind,n)};
+ num.addEventListener("keydown",e=>{if(e.key==="Enter")goNum()});
+ const draw=()=>{
+  const all=itemsOf(kind),shown=all.map((it,i)=>[it,i+1]).filter(([it])=>flt==="all"||(flt==="aaj"?it.status==="aaj":it.new));
+  const cnt=k=>{const a=itemsOf(k);return a.filter(x=>x.status==="aaj").length+"/"+a.length};
+  box.replaceChildren(
+   el("div",{class:"row",style:"gap:6px;margin:8px 0"},KINDS.map(([k,l])=>el("button",{type:"button",class:"b sm"+(k===kind?"":" g"),on:{click:()=>{kind=k;draw()}}},`${l} ${cnt(k)}`))),
+   el("div",{class:"row",style:"gap:6px;margin:6px 0"},[["aaj","Aaj ke andaze wale"],["new","Sirf naye (aaj bane)"],["all","Sab"]].map(([k,l])=>el("button",{type:"button",class:"b sm"+(k===flt?"":" g"),on:{click:()=>{flt=k;draw()}}},l))),
+   el("div",{class:"row",style:"margin:8px 0"},num,el("button",{type:"button",class:"b",on:{click:goNum}},"Kholo")),
+   ...(shown.length?shown.map(([it,no])=>{const st=STX[it.status]||STX.dekho,tg=it.targets||[];
+    return el("div",{class:"wn-pat"},el("div",{class:"act-top"},el("b",{},`No. ${p2(no)} · ${it.name||""}`),el("span",{},el("span",{class:"pill "+st[0]},st[1]),it.new?el("span",{class:"pill g",style:"margin-left:6px"},"NAYA"):null)),
+     el("p",{class:"mut small",style:"margin:2px 0"},it.title||""),
+     tg.length?el("div",{class:"act-nums"},[...new Set(tg.flatMap(t=>t.numbers||[]))].sort((a,b)=>a-b).map(n=>chip(n,"green","sm"))):null,
+     el("div",{class:"row",style:"gap:6px"},el("button",{type:"button",class:"b sm",on:{click:()=>openItem(kind,no)}},"Kholo"),
+      el("a",{href:"/api/scanner/xlsx?id="+encodeURIComponent(it.id)},el("button",{type:"button",class:"b g sm"},"Excel"))))})
+   :[el("p",{class:"mut"},"Is filter me abhi koi pattern nahi. 'Sab' dabao ya number seedha likho.")]))};
+ draw();
+ OPENCARD=el("div",{class:"card wn-open"},
+  el("h2",{style:"margin:0 0 4px"},"Pattern number se kholo ",el("span",{class:"sub"},`(aaj ${dm(w.play_date)} ke pattern)`)),
+  el("p",{class:"mut small",style:"margin:0"},"Number wahi hai jo Pattern Scan aur Number Rank me 'Pattern 03' likha dikhta hai. Pehle kind chuno (Naksha, Family...), phir number likho, ya list se 'Kholo' dabao. Rang wala chart khulega aur Excel me bhi dekh sakte ho."),
+  el("p",{class:"mut small",style:"margin:4px 0 0"},"Pattern tab tak is list me rehta hai jab tak uska aakhri result nahi aa jata; uske baad apne aap hat jata hai (list roz naye scan se banti hai, purane chalte hue 'purane' bhi isi me hain)."),
+  box,DETAIL);
+ return OPENCARD}
+
 tabs.meri=async function(root){
  let w;try{w=await api("GET","/window")}catch(e){root.append(el("div",{class:"warn"},e.message));return}
+ try{REP=await api("GET","/scanner")}catch(e){REP=null}
  const nk=w.naksha_new||[],t30=w.top30||[],pl=w.plan||{},nm=w.pocket_names||{};
  const counted=!(pl.naksha&&pl.naksha.counted===false);
  root.append(el("div",{class:"hero"},
@@ -76,12 +131,13 @@ tabs.meri=async function(root){
   el("div",{class:"big"},"Ye meri apni window hai: sirf mere chune hue. Baaki sab main app me chalta rehta hai."),
   el("div",{class:"mut small",style:"margin-top:8px"},w.scan_time?`Tokri lock hui: ${istm(w.scan_time)}`:"Tokri abhi lock nahi hui",` | pocket ki ginti ${dm(w.start)} se`),
   counted?null:el("div",{class:"small",style:"margin-top:6px"},`Aaj (${dm(w.play_date)}) ki tokri sirf dikhane ke liye; pocket ki ginti start tarikh (${dm(w.start)}) se.`)));
+ if(REP)root.append(openCard(w));
  /* naye Naksha pattern */
  root.append(el("div",{class:"card wn-naksha"},
   el("h2",{style:"margin:0 0 6px"},"Aaj ke naye Naksha pattern aur unki jodi"),
   nk.length?[el("div",{class:"row"},copyBtn("Sab jodi copy",nk.flatMap(p=>p.numbers),"sm")),
    ...nk.map(p=>el("div",{class:"wn-pat"},
-    el("div",{class:"act-top"},el("b",{},p.title||p.name),copyBtn("Copy",p.numbers)),
+    el("div",{class:"act-top"},el("b",{},p.title||p.name),el("span",{class:"row",style:"gap:6px"},copyBtn("Copy",p.numbers),(()=>{const no=itemsOf("naksha").findIndex(x=>x.id===p.id)+1;return no?el("button",{type:"button",class:"b sm",on:{click:()=>openItem("naksha",no)}},"Kholo (No. "+p2(no)+")"):null})())),
     p.name&&p.title?el("p",{class:"mut small",style:"margin:2px 0"},p.name):null,
     el("p",{class:"mut small",style:"margin:2px 0"},"Game: "+(p.games||[]).map(fb).join(", ")),
     el("div",{class:"act-nums"},(p.numbers||[]).map(n=>chip(n,"green")))))]
@@ -91,7 +147,10 @@ tabs.meri=async function(root){
   el("h2",{style:"margin:0 0 6px"},"Top 30 jodi ",el("span",{class:"sub"},"(sab pattern me jo sabse zyada baar aayi)")),
   el("div",{class:"row"},copyBtn("Copy",t30.map(r=>r.n),"sm")),
   el("div",{class:"act-nums"},t30.map((r,i)=>el("span",{class:"chip "+(i<3?"green":i<6?"yellow":"grey"),title:`score ${r.score}, ${r.votes} pattern${r.baar?", aaj ke din (baar) ki tokri me":""}`},p2(r.n)))),
-  el("p",{class:"mut small",style:"margin:6px 0 0"},"score = kitne alag pattern ne wo jodi di (+1 agar aaj ke din (baar) ki tokri me)")));
+  el("p",{class:"mut small",style:"margin:6px 0 0"},"score = kitne alag pattern ne wo jodi di (+1 agar aaj ke din (baar) ki tokri me)"),
+  REP&&t30.some(r=>(r.maps||[]).length)?el("details",{style:"margin-top:8px"},el("summary",{class:"mut small"},"Kaun se pattern se aayi (label par dabao to wo pattern khulega)"),
+   t30.map(r=>el("div",{class:"wn-pat"},el("div",{class:"row",style:"gap:6px"},chip(r.n,"blue","sm"),(r.maps||[]).map(lb=>{const pl2=parseLabel(lb);
+    return pl2?el("button",{type:"button",class:"b g sm",on:{click:()=>openItem(pl2.key,pl2.no)}},lb):el("span",{class:"pill m"},lb)}))))):null));
  /* 2 pocket */
  for(const k of ["naksha","top30"])if(w.pockets&&w.pockets[k])root.append(pocketCard(k,w.pockets[k],pl[k],nm,w.play_date));
  /* tarika */

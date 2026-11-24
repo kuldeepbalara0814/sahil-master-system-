@@ -756,6 +756,36 @@ class WindowTests(unittest.TestCase):
         self.assertEqual([x["stake"] for x in j["ladder"]], [10, 15, 20, 25])
 
 
+class WindowOpenByNumberTests(unittest.TestCase):
+    def test_top30_has_maps_labels_that_map_to_scan_items(self):
+        import re
+        import lab_server
+        c = lab_server.app.test_client()
+        w = c.get("/api/window").get_json()
+        rep = c.get("/api/scanner").get_json()
+        keys = {"Naksha-Rashi": "naksha2", "Puzzle-Steps": "steps", "Family": "family", "Jodi-Copy": "copy", "Dana-Farak": "dana"}
+        self.assertTrue(w["top30"])
+        seen = 0
+        for x in w["top30"]:
+            self.assertIn("maps", x)
+            for lb in x["maps"]:
+                m = re.match(r"^Pattern (\d+)(?: \((.+)\))?$", lb)
+                self.assertIsNotNone(m, lb)
+                key = keys.get(m.group(2), "naksha") if m.group(2) else "naksha"
+                items = next(p for p in rep["patterns"] if p["key"] == key)["items"]
+                self.assertTrue(1 <= int(m.group(1)) <= len(items), lb)      # label ka number scan ki list me hai: UI isi se pattern kholta hai
+                seen += 1
+        self.assertGreater(seen, 0)
+
+    def test_scan_items_have_fields_the_open_card_uses(self):
+        import lab_server
+        rep = lab_server.app.test_client().get("/api/scanner").get_json()
+        for p in rep["patterns"]:
+            for it in p["items"][:3]:
+                for k in ("id", "name", "title", "status", "lines"):
+                    self.assertIn(k, it)
+
+
 if __name__ == "__main__":
     unittest.main()
 
