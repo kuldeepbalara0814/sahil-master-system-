@@ -1,6 +1,6 @@
 # Sahil Lab — Animations (25 Nov 2026)
 
-Chaar jagah, halki aur professional. Sirf animation hai — koi rang, layout,
+Chaar jagah nahi — paanch jagah, halki aur professional. Sirf animation hai — koi rang, layout,
 data, ya logic nahi badalti. Rang theme.css ke variables se (magenta `--mg`,
 peacock-blue `--cy`), NEON theme se mel khata hai.
 
@@ -19,10 +19,13 @@ peacock-blue `--cy`), NEON theme se mel khata hai.
 4. **Header zigzag bar** — header ke neeche, poori chaudaai par wahi zigzag
    line. Static HTML hai, isliye pehle paint se dikhti hai — loading ke
    time (Render cold start, 10-20 sec) me bhi, aur har tab par.
+5. **Logo loop** — header ke logo (zigzag nishan) par halki loop animation:
+   zigzag wali line ke dashes behti rehti hain + logo ki chamak halki saans
+   leti hai. Chhota aur halka, taaki professional look bana rahe.
 
 ## Files
 
-- `lab_static/animations.css` (NAYI) — chaaro animation + keyframes.
+- `lab_static/animations.css` (NAYI) — paancho animation + keyframes.
   Alag file hai, taaki hatana aasan ho.
 - `lab_static/index.html` (2 lines) — `animations.css` ka `<link>` theme.css
   ke baad, aur header ke neeche `<div class="zigzag-bar"></div>`.
@@ -43,6 +46,7 @@ peacock-blue `--cy`), NEON theme se mel khata hai.
 - 13 tab kholo — 0 JS error.
 - Page khulte hi, loading ke time se, header ke neeche zigzag behti dikhni
   chahiye — har tab par.
+- Header ka logo (zigzag nishan) halka sa hilta/chamakta rehna chahiye, loop me.
 - Active tab: hero ke neeche zigzag draw hokar behti dikhni chahiye.
 - "Abhi scan karo" dabao — button me teen dot uchhalte dikhne chahiye.
 - PASS card aane par ek halka pop + glow dikhna chahiye.

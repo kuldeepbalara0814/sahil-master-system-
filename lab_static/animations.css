@@ -1,6 +1,7 @@
 /* Sahil Lab — animations (25 Nov 2026).
-   Chaar jagah: (1) thinking dots, (2) PASS/excited pop, (3) hero zigzag line,
-   (4) header zigzag bar — loading ke time se, har tab par (static HTML, pehle paint se dikhe).
+   Paanch jagah: (1) thinking dots, (2) PASS/excited pop, (3) hero zigzag line,
+   (4) header zigzag bar — loading ke time se, har tab par (static HTML, pehle paint se dikhe),
+   (5) logo loop — header ke logo (zigzag nishan) par halki loop animation.
    Sirf animation hai: koi rang, layout, data, ya logic nahi badalti.
    Rang theme.css ke variables se (magenta --mg, peacock-blue --cy) — NEON theme se mel khata hai.
    Wapas hatana ho to index.html se animations.css wali line hata do (ya git revert). */
@@ -41,7 +42,17 @@
  filter:drop-shadow(0 0 4px rgba(240,70,224,.55));
  animation:zigDraw 1s ease-out,zigFlow 1.2s linear infinite}
 
+/* 5) LOGO LOOP — header ke logo (zigzag nishan) par halki loop animation:
+   zigzag wali line ke dashes behti rahen + logo ki chamak halki saans le.
+   Chhota aur halka, taaki professional look bana rahe. Sirf pehli path
+   (zigzag) march karti hai; teer wali path waisi hi rehti hai. */
+.logo{animation:logoGlow 2.4s ease-in-out infinite}
+@keyframes logoGlow{0%,100%{box-shadow:var(--glow-mg)}50%{box-shadow:0 0 18px rgba(240,70,224,.75),0 0 26px rgba(34,211,238,.35)}}
+.logo svg path:first-child{stroke-dasharray:6 4;animation:logoMarch 1.2s linear infinite}
+@keyframes logoMarch{from{stroke-dashoffset:0}to{stroke-dashoffset:-10}}
+
 /* Kam motion chahne wale user ke liye: animation band, zigzag line phir bhi dikhegi. */
 @media (prefers-reduced-motion:reduce){
- .think i,.act-card.pass,.act-card.pass .act-tag.ok,.hero::after,.zigzag-bar{animation:none}
+ .think i,.act-card.pass,.act-card.pass .act-tag.ok,.hero::after,.zigzag-bar,.logo,.logo svg path:first-child{animation:none}
+ .logo svg path:first-child{stroke-dasharray:none}
 }
