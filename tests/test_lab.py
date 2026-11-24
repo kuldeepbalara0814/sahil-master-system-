@@ -624,6 +624,31 @@ class AnkChalTests(unittest.TestCase):
         self.assertEqual(fw["bets"], 3 * len([r for r in rows if r[0] >= ank_chal.START]))
 
 
+class AnkViewTests(unittest.TestCase):
+    def test_view_and_route(self):
+        import lab_server
+        from lab import ank_chal
+        j = lab_server.app.test_client().get("/api/ank").get_json()
+        self.assertEqual(len(j["today"]), 3)
+        self.assertEqual(len(j["lines"]), 8)
+        self.assertEqual(sum(1 for x in j["lines"] if x["pick"]), 3)
+        self.assertEqual((j["stake"], j["payout"], j["breakeven"]), (30, 9.5, 10.53))
+        self.assertIn("forward", j)
+        self.assertTrue(j["warning"])
+
+    def test_ledger_starts_at_start_and_balance(self):
+        from lab import ank_chal
+        base = ank_chal.START
+        rows = [(base - dt.timedelta(days=2) + dt.timedelta(days=i), [10 + i % 3, 20, 30, 40 + i % 3], "t") for i in range(6)]
+        v = ank_chal.view(rows)
+        self.assertTrue(all(d["date"] >= base.isoformat() for d in v["ledger"]))
+        net = sum(d["net"] for d in v["ledger"])
+        self.assertAlmostEqual(v["balance"], ank_chal.CAPITAL + net)
+        for d in v["ledger"]:
+            for b in d["bets"]:
+                self.assertEqual(b["hit"], b["want"] == b["got"])
+
+
 if __name__ == "__main__":
     unittest.main()
 

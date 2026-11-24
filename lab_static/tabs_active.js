@@ -17,6 +17,29 @@ function htMsg(r){
  if(r.has_archive===false)return"Is din ke andaze saved nahi the";
  return r.n_new>0?r.n_new+" map hit hue":"Koi map hit nahi hua"}
 function htHitLine(h){return el("p",{class:"ht-line"},el("b",{},"HIT: "),`${p2(h.n)} ${fb(h.game||"")} ${dm(h.date)}`,h.src==="manual"?el("span",{class:"mut small"}," (hath se)"):null)}
+function ankCard(box){
+ const rs=n=>"Rs "+Math.round(n).toLocaleString("en-IN"),sg=n=>(n>0?"+":n<0?"-":"")+rs(Math.abs(n));
+ const POS={andar:"andar (dahai)",bahar:"bahar (ikayi)"};
+ api("GET","/ank").then(r=>{
+  const f=r.forward,l=r.last90,pos=r.balance>=r.capital;
+  box.replaceChildren(
+   el("h2",{style:"margin:0 0 4px"},"DS ank (009 Ank-Chal) ",el("span",{class:"sub"},"(naya, sirf kagaz)")),
+   el("p",{class:"mut small",style:"margin:0 0 8px"},`2 draw pehle wale number ka ank aaj usi jagah aaye to jeet. 9.5 guna, break-even ${r.breakeven}%. Shuru ${dm(r.start)}, Rs ${r.stake} har ank.`),
+   el("p",{style:"margin:6px 0"},el("b",{},`Aaj (${dm(r.play_date)}) ke ank:`)),
+   el("div",{class:"act-nums"},r.today.map(t=>el("span",{class:"chip green",title:t.game+" "+POS[t.pos]},`${t.game} ${t.pos==="andar"?"andar":"bahar"} ${t.ank}`))),
+   el("div",{class:"tiles",style:"margin-top:8px"},
+    el("div",{class:"tile"},el("div",{class:"k"},"Asli record (24 Nov se)"),el("div",{class:"v"},`${f.hits} / ${f.bets}`),el("div",{class:"s"},f.bets?`${(100*f.rate).toFixed(1)}% (break-even ${r.breakeven}%)`:"abhi koi din nahi")),
+    el("div",{class:"tile"},el("div",{class:"k"},"Kagaz ki raqam"),el("div",{class:"v "+(pos?"ok":"bad")},rs(r.balance)),el("div",{class:"s"},`shuru ${rs(r.capital)}`)),
+    el("div",{class:"tile"},el("div",{class:"k"},"Pichle 90 din"),el("div",{class:"v"},`${l.hits} / ${l.bets}`),el("div",{class:"s"},`${(100*l.rate).toFixed(1)}% (kam data, kuch sabit nahi)`)),
+    el("div",{class:"tile"},el("div",{class:"k"},"13 saal (purana data)"),el("div",{class:"v"},r.picks_rate+"%"),el("div",{class:"s"},"chuni 3 line, in-sample"))),
+   el("details",{style:"margin-top:8px"},el("summary",{class:"mut small"},"8 line ki table (13 saal, 2013-2026)"),
+    el("table",{class:"sheet",style:"width:100%;font-size:12px"},el("thead",{},el("tr",{},["Line","Hit %","2020-26","ROI 9.5x","z"].map(h=>el("th",{},h)))),
+     el("tbody",{},r.lines.map(x=>el("tr",{},el("td",{},(x.pick?"✔ ":"")+x.game+" "+x.pos),el("td",{class:x.rate>r.breakeven?"ok":"mut"},x.rate+"%"),el("td",{class:x.rate_2020>r.breakeven?"ok":"mut"},x.rate_2020+"%"),el("td",{class:x.roi>=0?"ok":"bad"},(x.roi>=0?"+":"")+x.roi+"%"),el("td",{},String(x.z)))))),
+    el("p",{class:"mut small",style:"margin:4px 0 0"},"✔ = chuni hui line (13 saal me break-even se upar, 2013-19 me chuni, 2020-26 me parakhi). Random 10%.")),
+   r.ledger.length?el("details",{style:"margin-top:8px"},el("summary",{class:"mut small"},"Roz ka khata (24 Nov se)"),
+    el("table",{class:"sheet",style:"width:100%;font-size:12px"},el("thead",{},el("tr",{},["Din","Natija","Net","Raqam"].map(h=>el("th",{},h)))),
+     el("tbody",{},r.ledger.map(d=>el("tr",{},el("td",{},dm(d.date)),el("td",{},d.bets.map(b=>`${b.game}${b.pos==="andar"?"a":"b"} ${b.want}${b.hit?"✔":"✘"+b.got}`).join("  ")),el("td",{class:d.net>=0?"ok":"bad"},sg(d.net)),el("td",{},rs(d.balance))))))):el("p",{class:"mut small",style:"margin:6px 0 0"},"Khata aaj ki line aate hi shuru hoga."),
+   el("p",{class:"warn small",style:"margin:8px 0 0"},r.warning))}).catch(e=>box.replaceChildren(el("div",{class:"warn"},e.message)))}
 function dsRuleCard(box){
  let r=null,mode="one";
  try{mode=localStorage.getItem("ds_mode")||"one"}catch(e){}
@@ -166,8 +189,8 @@ tabs.active=async function(root){
    pass.length?grouped(pass,true):el("p",{class:"mut"},`Pichle ${n} din me koi pass nahi hua.`),
    rep.recent_fail?el("p",{class:"mut small"},`Pichle ${n} din me ${rep.recent_fail} FAIL bhi hue.`):null,
    el("h2",{class:"act-h"},"Scoreboard (pichle 30 din)"),el("div",{class:"card flat"},board())].flat().filter(Boolean))}
- const dsBox=el("div",{class:"card"});dsRuleCard(dsBox);
- root.append(el("button",{type:"button",class:"card rk-link",on:{click:()=>go("rank")}},"Aaj ke number ranking dekho"),manBox,dsBox,el("div",{class:"card"},el("h2",{style:"margin:0 0 4px"},"Active ",el("span",{class:"sub"},"(jo pattern abhi chal rahe hain)")),
+ const dsBox=el("div",{class:"card"});dsRuleCard(dsBox);const ankBox=el("div",{class:"card"});ankCard(ankBox);
+ root.append(el("button",{type:"button",class:"card rk-link",on:{click:()=>go("rank")}},"Aaj ke number ranking dekho"),manBox,dsBox,ankBox,el("div",{class:"card"},el("h2",{style:"margin:0 0 4px"},"Active ",el("span",{class:"sub"},"(jo pattern abhi chal rahe hain)")),
   el("p",{class:"mut small",style:"margin:0"},"Ek baar bana pattern kabhi gayab nahi hota. Scan din me do baar apne aap hota hai.")),strip,hitBox,body);
  drawStrip();manInit();await load(false);
 };

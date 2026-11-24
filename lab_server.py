@@ -27,7 +27,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import active, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
+from lab import active, ank_chal, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -756,6 +756,13 @@ def api_result_manual_delete():
     except Exception as e:
         app.logger.warning("manual persist: %s", e)
     return jsonify({"ok": True, "removed": gone})
+
+
+@app.get("/api/ank")
+def api_ank():
+    """009 Ank-Chal card (Active tab): aaj ke ank, 8 line ki table, kagaz ka khata (patterns/009_ank_chal/README.md)."""
+    rows, _ = state()
+    return jsonify(ank_chal.view(rows))
 
 
 @app.get("/api/dsrule")

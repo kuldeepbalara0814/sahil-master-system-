@@ -126,6 +126,42 @@ def forward(rows, lag=LAG):
             "roi": PAYOUT * (hit / n) - 1 if n else 0.0, "breakeven": BREAKEVEN}
 
 
+STAKE = 30          # kagaz ka khata: har ank par Rs 30 (DS rule 008 jaisa)
+CAPITAL = 10000
+
+
+def view(rows):
+    """Active tab ka card: aaj ke ank, 8 line ki table, 90 din, aur START se kagaz ka khata (stateless: rows se hi nikalta hai)."""
+    play = data.play_date(rows)
+    today = [{"game": NAMES[gi], "pos": pos, "ank": next_ank(rows, gi, pos)} for gi, pos in PICKS]
+    lines = []
+    for gi in range(4):
+        for pos in ("andar", "bahar"):
+            s = line_stats(rows, gi, pos)
+            hold = line_stats(rows, gi, pos, start=next((i for i, r in enumerate(rows) if r[0].year >= 2020), len(rows)))
+            lines.append({"game": NAMES[gi], "pos": pos, "pick": (gi, pos) in PICKS, "hit": s["hit"], "n": s["n"], "rate": round(100 * s["rate"], 2),
+                          "roi": round(100 * s["roi"], 1), "z": round(s["z"], 1), "rate_2020": round(100 * hold["rate"], 2)})
+    led, bal = [], CAPITAL
+    first = next((i for i, r in enumerate(rows) if r[0] >= START), len(rows))
+    for i in range(max(first, LAG), len(rows)):
+        day = {"date": rows[i][0].isoformat(), "bets": [], "net": 0}
+        for gi, pos in PICKS:
+            want, got = ank(rows[i - LAG][1][gi], pos), ank(rows[i][1][gi], pos)
+            hit = want == got
+            net = STAKE * PAYOUT - STAKE if hit else -STAKE
+            day["bets"].append({"game": NAMES[gi], "pos": pos, "want": want, "got": got, "hit": hit})
+            day["net"] += net
+        bal += day["net"]
+        day["balance"] = round(bal, 1)
+        led.append(day)
+    fw = forward(rows)
+    return {"play_date": play.isoformat(), "start": START.isoformat(), "stake": STAKE, "capital": CAPITAL, "payout": PAYOUT,
+            "breakeven": round(100 * BREAKEVEN, 2), "today": today, "lines": lines, "last90": scoreboard(rows, 90), "forward": fw,
+            "balance": round(bal, 1), "ledger": led[-30:][::-1],
+            "picks_rate": round(100 * stats(rows)["PICKS"]["rate"], 2),
+            "warning": "Ye DS lag-2 number-repeat asar ka ank wala roop hai (alag naya signal nahi). Chuni hui line purane data par mili thi (2013-19 me chuni, 2020-26 me parakhi); asli sabut sirf 24 Nov 2026 se ka record. 9.5x par katauti/limit se asli fayda kam ho sakta hai; 9x par break-even 11.11%. 90 din me kuch sabit nahi hota."}
+
+
 def scan(rows, asof=None):
     """scanner.py ke liye: aaj ke 3 item + card ka summary."""
     play = data.play_date(rows)
