@@ -155,10 +155,10 @@ tabs.meri=async function(root){
  /* aaj ke SAB Naksha number (purane + naye) - sirf dikhane ke liye */
  const na=w.naksha_all||[];
  if(na.length)root.append(el("div",{class:"card wn-nkall"},
-  el("h2",{style:"margin:0 0 6px"},"Aaj ke sab Naksha number ",el("span",{class:"sub"},"(purane + naye, Rashi samet)")),
+  el("h2",{style:"margin:0 0 6px"},"Aaj ke sab Naksha + Steps number ",el("span",{class:"sub"},"(purane + naye)")),
   el("div",{class:"row"},copyBtn("Sab copy",na.map(r=>r.n),"sm")),
-  el("div",{class:"act-nums"},na.map(r=>el("span",{class:"chip "+(r.top30?"green":r.votes>=5?"yellow":"grey"),title:`${r.votes} Naksha vote${r.baar?", baar":""}${r.dost?", dost x"+r.dost:""}${r.top30?", Top 30 me":""}`},p2(r.n)))),
-  el("p",{class:"mut small",style:"margin:6px 0 0"},`${na.length} number. Hara = Top 30 me bhi hai; peela = 5+ Naksha vote; baaki halka. Ye sirf dikhane ke liye hai, paper basket nahi (itne zyada number ka basket random ke barabar ho jata hai).`)));
+  el("div",{class:"act-nums"},na.map(r=>el("span",{class:"chip "+(r.top30?"green":r.votes>=2?"yellow":"grey"),title:`${r.naksha?"Naksha "+r.naksha:""}${r.naksha&&r.steps?", ":""}${r.steps?"Steps "+r.steps:""}${r.baar?", baar":""}${r.dost?", dost x"+r.dost:""}${r.top30?", Top 30 me":""}`},p2(r.n)))),
+  el("p",{class:"mut small",style:"margin:6px 0 0"},`${na.length} number. Hara = Top 30 me bhi hai; peela = 2+ vote; baaki halka. Naksha 1 ke saare aaj-wale (purane+naye) aur Puzzle-Steps ke number. Naksha-Rashi isme nahi. Sirf dikhane ke liye, paper basket nahi.`)));
  /* 2 pocket */
  for(const k of ["naksha","top30"])if(w.pockets&&w.pockets[k])root.append(pocketCard(k,w.pockets[k],pl[k],nm,w.play_date));
  /* tarika */

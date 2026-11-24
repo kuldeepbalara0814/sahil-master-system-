@@ -1597,15 +1597,16 @@ class RankDostBaarTests(unittest.TestCase):
             self.assertEqual(r["score"], r["votes"] + (2 if r["n"] in tk else 0))
             self.assertEqual(r["baar"], 1 if r["n"] in tk else 0)
 
-    def test_window_naksha_all_shows_old_and_rashi(self):
+    def test_window_naksha_all_shows_old_naksha_and_steps_not_rashi(self):
         from lab import window, rank
         rep = {"patterns": [
             {"key": "naksha", "naam": "Naksha", "items": [{"targets": [{"game": "FB", "numbers": [11, 22]}]}]},
+            {"key": "steps", "naam": "Puzzle-Steps", "items": [{"targets": [{"game": "GB", "numbers": [22, 93]}]}]},
             {"key": "naksha2", "naam": "Naksha-Rashi", "items": [{"targets": [{"game": "FB", "numbers": [22, 53]}]}]}]}   # 'new' nishan ki zarurat nahi
         na = window.naksha_all(rank.build(rep, ROWS))
         by = {r["n"]: r for r in na}
-        self.assertEqual({11, 22, 53}, set(by))
-        self.assertEqual(by[22]["votes"], 2)                                   # dono Naksha me
+        self.assertEqual({11, 22, 93}, set(by))                                # 2b (Rashi) ka 53 nahi
+        self.assertEqual((by[22]["naksha"], by[22]["steps"], by[22]["votes"]), (1, 1, 2))
         self.assertEqual(na[0]["n"], 22)                                       # vote zyada pehle
         j = lab_server.app.test_client().get("/api/window").get_json()
         self.assertIn("naksha_all", j)
