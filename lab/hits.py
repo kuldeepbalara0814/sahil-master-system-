@@ -8,6 +8,14 @@ Sirf wahi pattern jinke items me 'targets' [{game, numbers}] ho (naksha, naksha2
 """
 import datetime as dt
 
+IST = dt.timezone(dt.timedelta(hours=5, minutes=30))
+
+
+def _today():
+    """Aaj ki tarikh IST me (server/Action UTC me chalte hain, 00:00-05:30 IST ke beech ek din ka farak aa jata tha)."""
+    return dt.datetime.now(IST).date()
+
+
 GAMES = ("FB", "GB", "GL", "DS")
 KEEP_DAYS = 6
 KEEP_HITS_DAYS = 45
@@ -47,7 +55,7 @@ KEEP_DONE_DAYS = 60
 
 def _trim_done(state, today=None):
     """'done' (kaun si tarikh:game ka hisaab ho chuka) bina hadd badhta tha: 60 din se purane hatao."""
-    cut = ((today or dt.date.today()) - dt.timedelta(days=KEEP_DONE_DAYS)).isoformat()
+    cut = ((today or _today()) - dt.timedelta(days=KEEP_DONE_DAYS)).isoformat()
     done = state.get("done", {})
     for k in [k for k in done if k.split(":")[0] < cut]:
         del done[k]
@@ -71,7 +79,7 @@ def evaluate(state, date, game, number, source="auto", today=None):
             h["hits"].append({"date": date, "game": game, "n": int(number), "src": source})
             h["last_hit"] = date
             out.append(it)
-    cut = ((today or dt.date.today()) - dt.timedelta(days=KEEP_HITS_DAYS)).isoformat()
+    cut = ((today or _today()) - dt.timedelta(days=KEEP_HITS_DAYS)).isoformat()
     for k in [k for k, v in hits.items() if v.get("last_hit", "") < cut]:
         del hits[k]
     return out
@@ -118,7 +126,7 @@ def settle(state, rows, manual=None, today=None):
 
 def view(state, days=3, today=None):
     days = max(1, min(int(days or 3), 3))
-    cut = ((today or dt.date.today()) - dt.timedelta(days=days - 1)).isoformat()
+    cut = ((today or _today()) - dt.timedelta(days=days - 1)).isoformat()
     groups = {}
     for h in state.get("hits", {}).values():
         recent = [x for x in h["hits"] if x["date"] >= cut]

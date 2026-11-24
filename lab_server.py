@@ -61,6 +61,20 @@ def jsave(name, obj):
     update._save_json(jpath(name), obj)
 
 
+SCAN_COOLDOWN = 30        # second (dono manual scan route ke liye ek hi ghadi)
+_cool_t = {}
+
+
+def cooldown(name, seconds):
+    """Bina PIN wale bhari route par spam roko: hal hi me chala ho to 429. -> None (chalao) ya (jawab)."""
+    now = time.time()
+    last = _cool_t.get(name, 0)
+    if now - last < seconds:
+        return err(f"Abhi abhi hi scan hua hai. {int(seconds - (now - last)) + 1} second baad dobara dabao.", 429)
+    _cool_t[name] = now
+    return None
+
+
 def locked(fn):
     """Write route: padhna-badalna-likhna ek ke baad ek (do click ek saath aayen to ek ka badlav na khoye)."""
     def wrap(*a, **k):
@@ -504,6 +518,9 @@ def api_active():
 @app.post("/api/active/scan")
 def api_active_scan():
     """Manual scan: chalao, active log me milao, GitHub par save, wahi jawab."""
+    c = cooldown("scan", SCAN_COOLDOWN)
+    if c:
+        return c
     rows, _ = state()
     try:
         rep = scanner.run(rows)
@@ -523,6 +540,9 @@ def api_scanner():
 @app.post("/api/scanner/run")
 def api_scanner_run():
     """Manual: script abhi chalao. Galti aaye to 'errors' me dikhegi."""
+    c = cooldown("scan", SCAN_COOLDOWN)
+    if c:
+        return c
     rows, _ = state()
     try:
         rep = scanner.run(rows)
@@ -1016,8 +1036,13 @@ def ledger():
 @app.get("/api/paper")
 def api_paper():
     rows, _ = state()
-    L = ledger()
-    paper.settle(L, rows)
+    with _wlock:                                       # settle badle to file me bhi likho (pehle sirf dikhta tha, save nahi hota tha)
+        L = ledger()
+        if paper.settle(L, rows):
+            try:
+                _save_ledger(L, "paper: bet settle (page kholne par)")
+            except Exception:                           # GitHub na mile to bhi page khule (file local me save ho chuki)
+                app.logger.exception("paper settle save")
     recent = sorted(L["bets"], key=lambda b: (b["date"], b["game"]), reverse=True)[:60]
     return jsonify({"capital": L["capital"], "strategies": paper.STRATEGIES, "summary": paper.summary_all(L), "recent": recent})
 
@@ -1070,7 +1095,8 @@ def api_monitor():
     m = jload("monitor.json", None)
     if not m or m.get("asof") != rows[-1][0].isoformat():
         m = monitor.health(rows)
-        jsave("monitor.json", m)
+        with _wlock:
+            jsave("monitor.json", m)
     return jsonify(m)
 
 

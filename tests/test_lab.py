@@ -531,6 +531,26 @@ class StepsFlatAndPastTests(unittest.TestCase):
         self.assertNotIn((10, 3), pzl.paint(r11, vals11)[2])
 
 
+class ScanCooldownTests(unittest.TestCase):
+    def test_second_manual_scan_within_cooldown_is_429(self):
+        import lab_server
+        lab_server._cool_t.clear()
+        c = lab_server.app.test_client()
+        r1 = c.post("/api/active/scan")
+        self.assertEqual(r1.status_code, 200)
+        r2 = c.post("/api/active/scan")
+        self.assertEqual(r2.status_code, 429)
+        self.assertIn("second baad", r2.get_json()["error"])
+        r3 = c.post("/api/scanner/run")                         # dono route ek hi ghadi
+        self.assertEqual(r3.status_code, 429)
+        lab_server._cool_t.clear()
+
+    def test_hits_today_is_ist(self):
+        from lab import hits
+        d = hits._today()
+        self.assertEqual(d, dt.datetime.now(dt.timezone(dt.timedelta(hours=5, minutes=30))).date())
+
+
 if __name__ == "__main__":
     unittest.main()
 
