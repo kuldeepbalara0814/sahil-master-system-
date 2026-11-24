@@ -1669,6 +1669,22 @@ class AutoFetchPartialTests(unittest.TestCase):
         self.assertNotIn("partial", base)
         self.assertEqual([i["id"] for i in steps.scan(rows, "x")["items"]], [i["id"] for i in steps.scan(rows, "x", None)["items"]])
 
+    def test_steps_boundary_crosses_month_and_old_window_is_carried(self):
+        from lab import steps
+        rows = [r for r in data.load() if r[0] <= dt.date(2026, 11, 1)]
+        self.assertEqual(rows[-1][0], dt.date(2026, 11, 1))
+        its = steps.scan(rows, "x")["items"]
+        self.assertTrue(its)
+        names = [i["id"] for i in its]
+        cur = [i for i in names if i.split(":")[2] >= "2026-09-01"]                       # Sep/Oct/Nov window
+        old = [i for i in names if i.split(":")[2] < "2026-09-01"]                        # Aug/Sep/Oct window: boundary Nov me chal rahi
+        self.assertTrue(cur and old)
+        self.assertLessEqual(len(old), steps.CARRY)
+        self.assertTrue(all(i["status"] == "aaj" for i in its if i["id"] in old))         # carry sirf wahi jo abhi khule hain
+        r30 = [r for r in data.load() if r[0] <= dt.date(2026, 10, 30)]
+        it30 = steps.scan(r30, "x")["items"]
+        self.assertTrue(any("Nov" in i["lines"][0].split("Step 3")[1] for i in it30))      # 30 Oct ko Step 3 ki boundary 1 Nov tak chal rahi
+
     def test_update_saves_partial_and_reports_new_game(self):
         import shutil
         import tempfile

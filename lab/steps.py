@@ -58,13 +58,24 @@ def _month_end(d):
     return (d.replace(day=28) + dt.timedelta(days=4)).replace(day=1) - dt.timedelta(days=1)
 
 
-def _months(D):
-    last = D[-1]
-    cur = (last.year, last.month)
-    prev1 = (cur[0] - (cur[1] == 1), 12 if cur[1] == 1 else cur[1] - 1)
-    prev2 = (prev1[0] - (prev1[1] == 1), 12 if prev1[1] == 1 else prev1[1] - 1)
-    idx = lambda ym: [i for i, d in enumerate(D) if (d.year, d.month) == ym]
+def _prev_ym(ym):
+    return (ym[0] - (ym[1] == 1), 12 if ym[1] == 1 else ym[1] - 1)
+
+
+def _months(D, ym=None):
+    cur = ym or (D[-1].year, D[-1].month)
+    prev1 = _prev_ym(cur)
+    prev2 = _prev_ym(prev1)
+    idx = lambda m: [i for i, d in enumerate(D) if (d.year, d.month) == m]
     return idx(prev2), idx(prev1), idx(cur)
+
+
+FUT_EXTRA = 16      # din: Step 3 ki boundary mahine ke aakhir ke baad agle mahine tak bhi chal sakti hai (12 box ~ 14 din)
+
+
+def _fut(last):
+    """last ke baad ke kaam ke din: mahine ke aakhir ke baad agle mahine me bhi (boundary aage chalti rahe)."""
+    return future_days(last, _month_end(last) + dt.timedelta(days=FUT_EXTRA))
 
 
 def _indicator(vals, a, b, c, L, N, avoid):
@@ -151,13 +162,11 @@ def _windows(rows):
     return D, vals, i2, i1, i0
 
 
-def find(rows, Ls=LS, top=8, only=None, part=False):
-    """-> list of analyse() dict (sabse achhe), har (L, a, b) ka ek, Step 3 ki boundary jo aaj ko dhake (adhuri) ya abhi poori hui."""
-    D, vals, i2, i1, i0 = _windows(rows)
-    N = len(vals)
+def _search(vals, D, N, rem, ym, Ls, only, part):
+    """Ek window (Step 1/2/3 = ym ke pichle se pichla, pichla, ym) ke saare design: {(L, x, y): (score, r)}."""
+    i2, i1, i0 = _months(D, ym)
     if len(i2) < 12 or len(i1) < 12 or len(i0) < 1:
-        return []
-    rem = future_days(D[-1], _month_end(D[-1]))
+        return {}
     best = {}
     for L in Ls:
         if only and only[0] != L:
@@ -174,7 +183,7 @@ def find(rows, Ls=LS, top=8, only=None, part=False):
                     continue
                 if len(set(lx) & set(lk_b[y])) < 2:
                     continue
-                for c in range(i0[0], N):
+                for c in range(i0[0], i0[-1] + 1):                       # Step 3 ki shuruat usi window ke 'current' mahine ke andar
                     if c + L - 1 < N - 1 or c + L - 1 > N - 1 + len(rem):
                         continue
                     r = analyse(vals, D, x, y, c, L, part)
@@ -185,6 +194,10 @@ def find(rows, Ls=LS, top=8, only=None, part=False):
                     key = (L, x, y)
                     if key not in best or sc > best[key][0]:
                         best[key] = (sc, r)
+    return best
+
+
+def _pick(best, top, only):
     out = []
     for sc, r in sorted(best.values(), key=lambda t: t[0], reverse=True):
         if only:
@@ -194,6 +207,22 @@ def find(rows, Ls=LS, top=8, only=None, part=False):
         if len(out) >= top:
             break
     return out
+
+
+CARRY = 4           # mahina badalne par purani window ke (abhi khule) design jo naye mahine me bhi chal rahe hain
+
+
+def find(rows, Ls=LS, top=8, only=None, part=False):
+    """-> list of analyse() dict (sabse achhe). Current window ke `top` design + purani window (pichhla mahina 'current' tha) ke wo design
+    jinki Step 3 boundary abhi khuli hai aur naye mahine me chal rahi hai (CARRY tak) - taaki PASS/FAIL ka pata lagta rahe."""
+    D, vals, i2, i1, i0 = _windows(rows)
+    N = len(vals)
+    rem = _fut(D[-1])
+    cur = (D[-1].year, D[-1].month)
+    out = _pick(_search(vals, D, N, rem, cur, Ls, only, part), top, only)
+    if only and out:
+        return out
+    return out + _pick(_search(vals, D, N, rem, _prev_ym(cur), Ls, only, part), CARRY, only)
 
 
 def pid(r, D):
@@ -222,7 +251,7 @@ def item(r, rows, today, part=False):
     vals = [list(x[1]) for x in rows]
     N = len(vals)
     L = r["L"]
-    fut = future_days(D[-1], _month_end(D[-1]))
+    fut = _fut(D[-1])
     st = status_of(r, N, part)
     end_d = _cd(D, r["end_idx"], N, fut)
     lines = [f"Boundary {L} box: Step 1 {D[r['a']]:%d %b} se {D[r['a'] + L - 1]:%d %b}, Step 2 {D[r['b']]:%d %b} se {D[r['b'] + L - 1]:%d %b}, Step 3 {D[r['c']]:%d %b} se {end_d:%d %b}.",
@@ -292,7 +321,7 @@ def _view(rows, p, part):
     D = [x[0] for x in rows]
     vals = [list(x[1]) for x in rows]
     N = len(vals)
-    fut = future_days(D[-1], _month_end(D[-1]))
+    fut = _fut(D[-1])
     starts = [r["a"], r["b"], r["c"]]
     colour = [{}, {}, {}]
     for n, k in enumerate(r["common"]):
@@ -368,7 +397,7 @@ def _view(rows, p, part):
             edge = "startend" if L == 1 else ("start" if w[1] == 0 else ("end" if w[1] == L - 1 else ""))
         srows.append({"date": dd.isoformat(), "v": v, "c": c, "kind": kind, "txt": txt, "step": w[0] if w else 0, "edge": edge, "ind": ind})
     # baaki mahine ke baache hue future din (mahine ke aakhir tak)
-    for dd in fut[max(0, last_idx - (N - 1)):]:
+    for dd in [d for d in fut[max(0, last_idx - (N - 1)):] if d <= _month_end(D[-1])]:         # baaki mahine ke din (agle mahine ke sirf utne jo boundary ko chahiye)
         srows.append({"date": dd.isoformat(), "v": None, "c": [None] * 4, "kind": [None] * 4, "txt": [None] * 4, "step": 0, "edge": "", "ind": [False] * 4})
     legend = [{"color": COLS[n % len(COLS)], "text": f"Link {n + 1}: boundary ke {k[0] + 1}-ve box ki {GAMES[k[1]]} -> {k[2] - k[0]} box baad {GAMES[k[3]]} (wahi number/palat)"} for n, k in enumerate(r["common"])]
     if r["ind"]:
