@@ -65,3 +65,20 @@ Fix list jo "haan" par karunga (sab chhote, paise ka hisaab nahi badalta): 1,2 l
 
 ### Gemini + Muse milakar
 Dono ke DS ke nateeje hamare apne nateejon se **alag-alag raste se mil gaye** (lag-2/3 repeat, GB->DS, hot-10 sirf 95x par). Ye bharosa badhata hai ki ye meri ginti ki galti nahi, par ye ab bhi "purane data par mila signal" hai; kamai ka vaada nahi. App ke bug (label, IST, Dost Khojo last day) Muse AI ne asli pakde, Gemini ne nahi (usne live app dekha hi nahi).
+
+## 4. Gemini "Deep Research Report + RooFlow Blueprint" (Drive doc 1ryGZHx5AMnsP4s_de-1yRdIq-lnZcACT, 24 Nov 2026)
+Status: **sirf note. Kuch banaya/push nahi kiya** (user: "abhi kuch mat karo").
+
+**Achha / rakhne layak (user ke go par):**
+- Online empirical-Bayes weight with decay (half-life ~460 din) + shrinkage: signal toote to apne aap 0 ke paas. Samajhdari ka vichar, hamare "DS rule" ke saath ek **paper-only side-by-side mode** ban sakta hai.
+- Walk-forward leakage test (kal ka result aaj ke weight par asar na kare), year-by-year audit (hamne 2013-26 par kar liya: A pool 12/14 saal plus), 90-din drawdown circuit breaker, Nov-Dec "saal bhar 0 baar aaye number" ka test (naya, jaanch layak: FB/GB/GL ka saalana spread random se ~12-15% kam hai).
+- Flat stake, no martingale: sahi.
+
+**Dikkat / kyun abhi nahi:**
+1. **Poora rebuild** (Neon Postgres, 4-tab redesign): zaroorat nahi. State pehle se GitHub sync me hai (gh.py FILES), workers 1, timeout 120. Approved cheezein toot sakti hain.
+2. **Signal ko exp(sum of weights) se milana** maanta hai ki signal alag-alag aur jodne layak hain. Muse AI ne khud dikhaya ki combos stack nahi hote (C2, C3 random/fail). Isse "Pool lift" aur confidence badha-chadha dikhega.
+3. **HIGH_EDGE gate model ke apne andaze (pool lift >= 1.2) par**: ghoomta tark. Asli gate sirf **asli hit-rate (realised) vs random** hona chahiye.
+4. Cross-game (GB/FB/GL->DS) hissa 2020+ me kamzor (1.51% -> 1.22%); decay se kuch sambhalta hai par poora nahi.
+5. Dahai-bias, hot/cold-10 jaise kamzor signal jod kar zyada shor, 90x par hot-10 -0.2%.
+6. 007 ke bug 5-8 wahi jo pehle note kiye; baaki doc ke bug (disk wipe, workers, timeout) pehle jaise **purani/galat baat**.
+7. Doc me emoji kharab encode (kuch jagah): sirf dikhawat.
