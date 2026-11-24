@@ -110,7 +110,12 @@ def analyse(vals, D, a, b, c, L):
             continue
         first = cls(vals[c + i][aa])
         hit = None                                               # Step 3: wahi number boundary ke andar KISI BHI location me aa jaye (user ne tay kiya)
-        for rr in range(c + i + 1, min(N - 1, c + L - 1) + 1):
+        if i == j:                                               # flat link (usi din doosri location): usi row me aage ki location bhi boundary ke andar hai
+            for g in range(aa + 1, 4):
+                if cls(vals[c + i][g]) == first:
+                    hit = (c + i, g)
+                    break
+        for rr in ([] if hit else range(c + i + 1, min(N - 1, c + L - 1) + 1)):
             for g in range(4):
                 if cls(vals[rr][g]) == first:
                     hit = (rr, g)
@@ -223,7 +228,8 @@ def item(r, rows, today):
         dd = _cd(D, r["c"] + j, N, fut)
         nums = sorted({cl, pal(cl)})
         tg.append({"game": GAMES[bb], "numbers": nums})
-        hint.append(f"{'/'.join(f'{x:02d}' for x in nums)} kisi bhi location me boundary ({end_d:%d %b}) tak aana chahiye (andar = PASS, bahar = FAIL); '?' box {dd:%d %b} {GAMES[bb]} par dikhaya")
+        qtxt = f"; '?' box {dd:%d %b} {GAMES[bb]} par dikhaya" if r["c"] + j >= N else "; (wo din beet chuka, '?' nahi, asli number dikh raha hai)"
+        hint.append(f"{'/'.join(f'{x:02d}' for x in nums)} kisi bhi location me boundary ({end_d:%d %b}) tak aana chahiye (andar = PASS, bahar = FAIL)" + qtxt)
     if r["pend2"]:
         hint.append(f"{len(r['pend2'])} link ke dono cell abhi aage ki tarikh me (jamuni '?' box); jab pehla aaye to uska number aur palat agle box ki location me single khelne layak")
     lines += hint
@@ -281,7 +287,8 @@ def view(rows, p):
         col = COLS[r["common"].index(k) % len(COLS)]
         i, aa, j, bb = k
         colour[2][(r["c"] + i, aa)] = col
-        pend[(r["c"] + j, bb)] = (col, "%02d?" % cl if cl == pal(cl) else "%02d/%02d?" % (cl, pal(cl)))
+        if r["c"] + j >= N:                                  # beet chuki tarikh par asli number ke upar '?' nahi likhna
+            pend[(r["c"] + j, bb)] = (col, "%02d?" % cl if cl == pal(cl) else "%02d/%02d?" % (cl, pal(cl)))
     for k in r["pend2"]:
         col = COLS[r["common"].index(k) % len(COLS)]
         i, aa, j, bb = k

@@ -115,7 +115,12 @@ def analyse(vals, a, b, c, L):
             continue
         first = cls(vals[c + i][aa])
         hit = None                      # Step 3: wahi number boundary ke andar KISI BHI location me aa jaye
-        for rr in range(c + i + 1, min(N - 1, c + L - 1) + 1):
+        if i == j:                      # flat link (usi din doosri location): usi row me aage ki location bhi boundary ke andar hai
+            for g in range(aa + 1, 4):
+                if cls(vals[c + i][g]) == first:
+                    hit = (c + i, g)
+                    break
+        for rr in ([] if hit else range(c + i + 1, min(N - 1, c + L - 1) + 1)):
             for g in range(4):
                 if cls(vals[rr][g]) == first:
                     hit = (rr, g)
@@ -201,7 +206,8 @@ def paint(r, vals):
         col = COLS[r["common"].index(k) % len(COLS)]
         i, aa, j, bb = k
         colour[2][(r["c"] + i, aa)] = col
-        pend[(r["c"] + j, bb)] = (col, "%02d?" % cl if cl == pal(cl) else "%02d/%02d?" % (cl, pal(cl)))
+        if r["c"] + j >= len(vals):     # beet chuki tarikh par asli number ke upar '?' nahi likhna
+            pend[(r["c"] + j, bb)] = (col, "%02d?" % cl if cl == pal(cl) else "%02d/%02d?" % (cl, pal(cl)))
     for k in r["pend2"]:
         col = COLS[r["common"].index(k) % len(COLS)]
         i, aa, j, bb = k

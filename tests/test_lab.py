@@ -480,6 +480,57 @@ class FriendsLastDayTests(unittest.TestCase):
         self.assertFalse(f.table(11)["last_has"])
 
 
+class StepsFlatAndPastTests(unittest.TestCase):
+    """Muse/Gemini review: (1) flat link ka doosra cell usi row me hota hai, (2) beet chuki tarikh par '?' nahi."""
+
+    def _vals(self, n_known):
+        import importlib.util
+        from lab import steps
+        used = {steps.cls(x) for x in (12, 21, 34, 43, 55, 66, 77, 88)}
+        pool = [x for x in range(100) if steps.cls(x) not in used and x == steps.cls(x)]
+        it = iter(pool)
+        vals = [[next(it) for _ in range(4)] for _ in range(12)]
+        # Step 1 (rows 0-3) aur Step 2 (rows 4-7): flat link (i=1: loc0 & loc1) + doosra link (i=0 loc2 -> j=2 loc3)
+        vals[1][0], vals[1][1] = 12, 21
+        vals[5][0], vals[5][1] = 34, 43
+        vals[0][2], vals[2][3] = 55, 55
+        vals[4][2], vals[6][3] = 66, 66
+        # Step 3 (rows 8-11): flat link ka pehla cell (9, loc0) aur doosra usi row ki loc1 me palat
+        vals[9][0], vals[9][1] = 77, 77
+        vals[8][2] = 88                                           # doosre link ka pehla cell; 88 aage nahi aata -> pending
+        spec = importlib.util.spec_from_file_location("pzl", os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts", "puzzle_pattern.py"))
+        pzl = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(pzl)
+        return vals[:n_known], pzl
+
+    def test_flat_link_same_row(self):
+        from lab import steps
+        vals, pzl = self._vals(10)                                # rows 0-9 maloom
+        D = [dt.date(2026, 11, 1) + dt.timedelta(days=i) for i in range(len(vals))]
+        r1 = steps.analyse(vals, D, 0, 4, 8, 4)
+        r2 = pzl.analyse(vals, 0, 4, 8, 4)
+        for r in (r1, r2):
+            self.assertIsNotNone(r)
+            flat = (1, 0, 1, 1)
+            self.assertIn(flat, r["common"])
+            self.assertIn(flat, r["present"])                       # pehle ye 'pending' reh jata tha
+            self.assertEqual(r["found"][flat], (9, 1))
+
+    def test_no_question_mark_on_past_cell(self):
+        from lab import steps
+        link = (0, 2, 2, 3)
+        # 10 row maloom: dusre link ka expected cell row 10 (c+2) abhi aage -> '?' dikhna chahiye
+        vals, pzl = self._vals(10)
+        r = pzl.analyse(vals, 0, 4, 8, 4)
+        self.assertIn(link, [k for k, _ in r["pend"]])
+        self.assertIn((10, 3), pzl.paint(r, vals)[2])
+        # 11 row maloom: wo cell beet chuka -> asli number ke upar '?' nahi
+        vals11, _ = self._vals(11)
+        r11 = pzl.analyse(vals11, 0, 4, 8, 4)
+        self.assertIn(link, [k for k, _ in r11["pend"]])
+        self.assertNotIn((10, 3), pzl.paint(r11, vals11)[2])
+
+
 if __name__ == "__main__":
     unittest.main()
 
