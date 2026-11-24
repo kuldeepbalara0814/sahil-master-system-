@@ -27,7 +27,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import active, ank_chal, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
+from lab import active, ank_chal, help_bot, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -778,6 +778,48 @@ def api_result_manual_delete():
     except Exception as e:
         app.logger.warning("manual persist: %s", e)
     return jsonify({"ok": True, "removed": gone})
+
+
+# ---------------- Sahil Lab Help (chatbot, Phase 1: sirf sawaal-jawaab) ----------------
+def _help_live(rows):
+    """Bot ko aaj ki sahi sthiti (galat number na bataye): tarikh, aakhri line, DS rule aur 009 ke aaj ke number."""
+    now = dt.datetime.now(IST)
+    play = data.play_date(rows)
+    four = ds_rule.numbers_for(rows, len(rows), ds_rule.MODES["four"])
+    one = ds_rule.numbers_for(rows, len(rows), ds_rule.MODES["one"])
+    ank = [f"{g} {pos} {ank_chal.next_ank(rows, gi, pos)}" for gi, pos in ank_chal.PICKS for g in [ank_chal.NAMES[gi]]]
+    return (f"Aaj ki tarikh (IST): {now:%Y-%m-%d %H:%M}. Record me aakhri line: {rows[-1][0].isoformat()} (kul {len(rows)} din). Khelne (agli) tarikh: {play.isoformat()}.\n"
+            f"DS rule (008) ke aaj ke number: roz-4 mode {', '.join(f'{n:02d}' for n in four)}; roz-1 mode {', '.join(f'{n:02d}' for n in one)}.\n"
+            f"009 Ank-Chal ke aaj ke ank: {'; '.join(ank)}.")
+
+
+@app.get("/api/help/status")
+def api_help_status():
+    return jsonify(help_bot.config())                           # sirf set hai/nahi (value kabhi nahi)
+
+
+@app.post("/api/help/unlock")
+def api_help_unlock():
+    b = request.get_json(silent=True) or {}
+    ok, msg, code = help_bot.check_pin(b.get("pin"))
+    return jsonify({"ok": True}) if ok else err(msg, code)
+
+
+@app.post("/api/help")
+def api_help():
+    if len(request.get_data(cache=True) or b"") > 8000:
+        return err("Sawaal bahut bada hai.", 413)
+    b = request.get_json(silent=True) or {}
+    if not help_bot.config()["key_set"]:                         # key na ho to PIN ki zaroorat nahi: kuch kharcha hota hi nahi
+        return err(help_bot.NO_KEY_MSG, 503)
+    ok, msg, code = help_bot.check_pin(request.headers.get("X-Help-Pin") or b.get("pin"))
+    if not ok:
+        return err(msg, code)
+    rows, _ = state()
+    ans, e, code, via = help_bot.ask(b.get("question"), b.get("history"), _help_live(rows))
+    if e:
+        return err(e, code)
+    return jsonify({"answer": ans, "via": via})                  # via: faq (taiyar) | cache | ai
 
 
 @app.get("/api/window")

@@ -47,3 +47,4 @@ Poori detail: HANDOFF.md (items 1-24).
 - Naya: **009 Ank-Chal** (patterns/009_ank_chal/README.md), sirf paper. Baaki chhote sudhar: patterns/HANDOFF.md item 53 (har ek ka commit hash).
 - Is kaam se pehle ka live code: git tag **`pehle-review-fix-24nov`**. Ek cheez wapas: `git revert <hash>` (hash item 53 me). Sab wapas: `git checkout pehle-review-fix-24nov`.
 - Teen alag AI ki reports aur hamari jaanch: research/reviews/README.md.
+- 011 Sahil Lab Help (chat robot): patterns/011_help_bot/README.md (Render me SARVAM_API_KEY aur HELP_PIN set karne ke steps, model, token bachat, Phase 2 design).

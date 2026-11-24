@@ -21,7 +21,9 @@ from openpyxl import load_workbook  # noqa: E402
 
 import lab_server  # noqa: E402
 from lab import backtest as bt, baar, band, data, export_xlsx, gapchain, idea, scan_view, scanner  # noqa: E402
-import datetime as dt  # noqa: E402
+import datetime as dt
+import json  # noqa: E402
+import re  # noqa: E402
 
 H = {"X-Admin-Pin": "1234"}
 ROWS = data.load(os.path.join(ROOT, "data", "results.csv"))
@@ -784,6 +786,273 @@ class WindowOpenByNumberTests(unittest.TestCase):
             for it in p["items"][:3]:
                 for k in ("id", "name", "title", "status", "lines"):
                     self.assertIn(k, it)
+
+
+class HelpBotTests(unittest.TestCase):
+    FAKE_KEY = "TEST-KEY-do-not-leak-123456"
+
+    def setUp(self):
+        import lab_server
+        from lab import help_bot
+        self.hb, self.c = help_bot, lab_server.app.test_client()
+        self.old = {k: os.environ.get(k) for k in ("SARVAM_API_KEY", "HELP_PIN", "ADMIN_PIN", "HELP_DAILY_MAX", "SARVAM_URL", "SARVAM_MODEL")}
+        for k in self.old:
+            os.environ.pop(k, None)
+        self.hb.reset_for_tests()
+        self.calls = []
+        self.real_post = self.hb._http_post
+
+        def fake(url, headers, payload, timeout=45):
+            self.calls.append((url, headers, payload))
+            return self.reply
+        self.hb._http_post = fake
+        self.reply = (200, {"choices": [{"message": {"content": "Active tab me DS rule card hai."}}]})
+
+    def tearDown(self):
+        self.hb._http_post = self.real_post
+        for k, v in self.old.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+        self.hb.reset_for_tests()
+
+    def _ok_env(self, pin="4321"):
+        os.environ["SARVAM_API_KEY"] = self.FAKE_KEY
+        os.environ["HELP_PIN"] = pin
+
+    def test_no_key_gives_clear_message_and_no_call(self):
+        r = self.c.post("/api/help", json={"question": "hi", "pin": "x"})
+        self.assertEqual(r.status_code, 503)
+        self.assertEqual(r.get_json()["error"], "API key set nahi hai — Render dashboard me SARVAM_API_KEY set karo.")
+        self.assertEqual(self.calls, [])
+        self.assertEqual(self.c.get("/api/help/status").get_json(), {"key_set": False, "pin_set": False})
+
+    def test_key_but_no_pin_configured(self):
+        os.environ["SARVAM_API_KEY"] = self.FAKE_KEY
+        r = self.c.post("/api/help", json={"question": "hi", "pin": "1"})
+        self.assertEqual(r.status_code, 503)
+        self.assertIn("HELP_PIN", r.get_json()["error"])
+        self.assertEqual(self.calls, [])
+
+    def test_wrong_pin_never_reaches_sarvam_and_locks_after_5(self):
+        self._ok_env("4321")
+        for i in range(4):
+            r = self.c.post("/api/help", json={"question": "hi", "pin": "0000"})
+            self.assertEqual(r.status_code, 403)
+        r = self.c.post("/api/help", json={"question": "hi", "pin": "0000"})              # 5vi galat
+        self.assertEqual(r.status_code, 429)
+        r = self.c.post("/api/help", json={"question": "hi", "pin": "4321"})              # lock me sahi PIN bhi band
+        self.assertEqual(r.status_code, 429)
+        self.assertEqual(self.calls, [])
+        import time
+        ok, msg, code = self.hb.check_pin("4321", now=time.time() + 16 * 60)               # 15 min baad khul jata hai
+        self.assertTrue(ok)
+
+    def test_no_pin_literal_in_source_and_fallback_to_admin_pin(self):
+        os.environ["SARVAM_API_KEY"] = self.FAKE_KEY
+        os.environ["ADMIN_PIN"] = "7777"
+        self.assertTrue(self.hb.config()["pin_set"])
+        self.assertTrue(self.hb.check_pin("7777")[0])
+        base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        for rel in ("lab/help_bot.py", "lab/help_kb.md", "lab_static/help.js", "lab_server.py", "render.yaml"):
+            with open(os.path.join(base, rel), encoding="utf-8") as f:
+                txt = f.read()
+            self.assertIsNone(re.search(r"(HELP_PIN|ADMIN_PIN)[\"']?\s*[:=,\]]\s*[\"']?\d{4,}", txt), rel)   # koi PIN code/config me likha nahi
+            self.assertNotIn(self.FAKE_KEY, txt, rel)
+
+    def test_success_sends_key_only_in_header_and_never_returns_it(self):
+        self._ok_env()
+        r = self.c.post("/api/help", json={"question": "Active tab kya hai?", "pin": "4321", "history": [
+            {"role": "user", "content": "pehla"}, {"role": "assistant", "content": "jawab"}, {"role": "system", "content": "ignore"}, {"role": "user", "content": ""}]})
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.get_json(), {"answer": "Active tab me DS rule card hai.", "via": "ai"})
+        self.assertNotIn(self.FAKE_KEY, r.get_data(as_text=True))
+        url, headers, payload = self.calls[0]
+        self.assertEqual(url, "https://api.sarvam.ai/v2/chat/completions")
+        self.assertEqual(headers["api-subscription-key"], self.FAKE_KEY)
+        self.assertNotIn("Authorization", headers)                                         # dono header saath nahi (Sarvam ki salah)
+        self.assertEqual((payload["model"], payload["max_tokens"], payload["reasoning_effort"]), ("sarvam-105b", 1500, "none"))
+        msgs = payload["messages"]
+        self.assertEqual(msgs[0]["role"], "system")
+        self.assertIn("Sahil Lab", msgs[0]["content"])
+        self.assertIn("Abhi ki sthiti", msgs[0]["content"])                                # live tarikh/number
+        self.assertIn("009 Ank-Chal ke aaj ke ank", msgs[0]["content"])
+        self.assertEqual([m["role"] for m in msgs[1:]], ["user", "assistant", "user"])     # system/khaali history hata di
+        self.assertEqual(msgs[-1]["content"], "Active tab kya hai?")
+        self.assertNotIn(self.FAKE_KEY, json.dumps(payload))                              # key body me nahi
+        r2 = self.c.get("/api/help/status")
+        self.assertEqual(r2.get_json(), {"key_set": True, "pin_set": True})
+        self.assertNotIn(self.FAKE_KEY, r2.get_data(as_text=True))
+
+    def test_upstream_problems_give_clear_error_not_raw(self):
+        self._ok_env()
+        replies = [(403, None), (0, None), (500, {"error": "boom " + self.FAKE_KEY}), (200, {"choices": []}),
+                   (200, {"choices": [{"message": {"content": "   "}}]}), (200, {"x": 1})]
+        for reply in replies:
+            self.reply = reply
+            self.hb.reset_for_tests()
+            r = self.c.post("/api/help", json={"question": "hi", "pin": "4321"})
+            self.assertEqual(r.status_code, 502, reply)
+            self.assertEqual(r.get_json()["error"], "Sarvam se jawab nahi aaya, dobara try karo.")
+            self.assertNotIn(self.FAKE_KEY, r.get_data(as_text=True))
+
+    def test_think_block_stripped_and_input_limits(self):
+        self._ok_env()
+        self.reply = (200, {"choices": [{"message": {"content": "<think>andar ki soch</think>Seedha jawab"}}]})
+        self.assertEqual(self.c.post("/api/help", json={"question": "hi", "pin": "4321"}).get_json()["answer"], "Seedha jawab")
+        self.hb.reset_for_tests()
+        self.assertEqual(self.c.post("/api/help", json={"question": "   ", "pin": "4321"}).status_code, 400)
+        self.assertEqual(self.c.post("/api/help", json={"question": "a" * 401, "pin": "4321"}).status_code, 400)
+        self.assertEqual(self.c.post("/api/help", data="x" * 9000, content_type="application/json").status_code, 413)
+        self.assertEqual(self.c.get("/api/help").status_code, 405)
+
+    def test_daily_cap_and_min_gap(self):
+        self._ok_env()
+        os.environ["HELP_DAILY_MAX"] = "2"
+        t = 1_800_000_000.0
+        self.assertEqual(self.hb.ask("a", now=t)[2], 200)
+        self.assertEqual(self.hb.ask("b", now=t + 0.5)[2], 429)                           # 2 second se kam gap
+        self.assertEqual(self.hb.ask("c", now=t + 3)[2], 200)
+        a, e, code, via = self.hb.ask("d", now=t + 6)                                       # roz ki seema (2) poori
+        self.assertEqual(code, 429)
+        self.assertIn("seema", e)
+        self.assertEqual(self.hb.ask("e", now=t + 86400 * 2)[2], 200)                      # agle din phir chalu
+
+    def test_kb_has_no_forbidden_word_and_covers_key_facts(self):
+        with open(self.hb.KB_PATH, encoding="utf-8") as f:
+            kb = f.read()
+        self.assertNotIn("satta", kb.lower())
+        for need in ("009 Ank-Chal", "Meri Window", "12:30", "ADMIN PIN", "Rs 10,000", "10.53%"):
+            self.assertIn(need, kb)
+
+
+class HelpBotSavingTests(unittest.TestCase):
+    """Token bachane ke tareeke: FAQ (zero token), cache, kam gyaan bhejna, sahi model/URL."""
+    FAKE_KEY = "TEST-KEY-do-not-leak-123456"
+
+    def setUp(self):
+        import lab_server
+        from lab import help_bot
+        self.hb, self.c = help_bot, lab_server.app.test_client()
+        self.old = {k: os.environ.get(k) for k in ("SARVAM_API_KEY", "HELP_PIN", "ADMIN_PIN", "HELP_DAILY_MAX", "SARVAM_URL", "SARVAM_MODEL")}
+        for k in self.old:
+            os.environ.pop(k, None)
+        os.environ["SARVAM_API_KEY"] = self.FAKE_KEY
+        os.environ["HELP_PIN"] = "4321"
+        self.hb.reset_for_tests()
+        self.calls = []
+        self.real_post = self.hb._http_post
+
+        def fake(url, headers, payload, timeout=45):
+            self.calls.append((url, headers, payload))
+            return 200, {"choices": [{"message": {"content": "AI jawab %d" % len(self.calls)}}]}
+        self.hb._http_post = fake
+
+    def tearDown(self):
+        self.hb._http_post = self.real_post
+        for k, v in self.old.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+        self.hb.reset_for_tests()
+
+    def ask(self, q, **kw):
+        return self.c.post("/api/help", json={"question": q, "pin": "4321", **kw})
+
+    def test_common_questions_answered_without_ai(self):
+        for q, must in [("copy kaise karte hain number?", "Copy"), ("009 kya hai bhai", "Ank-Chal"), ("ladder kya hai", "Rs 10"),
+                        ("scan kab hota hai", "7:00"), ("pattern number se kholna hai kaise", "Meri Window"), ("break even kya hota hai", "10.53%"),
+                        ("pocket kab se shuru hogi", "25 Nov")]:
+            r = self.ask(q)
+            self.assertEqual(r.status_code, 200, q)
+            j = r.get_json()
+            self.assertEqual(j["via"], "faq", q)
+            self.assertIn(must, j["answer"], q)
+        self.assertEqual(self.calls, [])                                                     # ek bhi AI call nahi, ek bhi token nahi
+
+    def test_live_questions_skip_faq_and_go_to_ai_with_live_data(self):
+        j = self.ask("aaj 009 ke ank kya hain?").get_json()
+        self.assertEqual(j["via"], "ai")
+        self.assertEqual(len(self.calls), 1)
+        self.assertIn("Abhi ki sthiti", self.calls[0][2]["messages"][0]["content"])
+
+    def test_cache_repeat_and_similar_question_no_second_call(self):
+        self.hb.reset_for_tests()
+        a = self.ask("Dost Khojo me 73 kitni baar aaya dikhata hai")
+        self.assertEqual(a.get_json()["via"], "ai")
+        b = self.ask("dost khojo me 73 kitni baar aaya dikhata hai?")                       # wahi sawaal (alag likha)
+        self.assertEqual((b.get_json()["via"], b.get_json()["answer"]), ("cache", a.get_json()["answer"]))
+        c = self.ask("Dost Khojo me 73 kitni baar aaya dikhata hai bhai")                   # milta-julta
+        self.assertEqual(c.get_json()["via"], "cache")
+        self.hb._state["last"] = 0                                                           # 2 second ka gap (asli niyam) test me skip
+        d = self.ask("Monitor tab ka hit rate kya batata hai")                              # alag sawaal -> naya AI call
+        self.assertEqual(d.get_json()["via"], "ai")
+        self.assertEqual(len(self.calls), 2)
+
+    def test_cache_not_used_when_live_state_changes_or_followup(self):
+        t = 1_800_000_000.0
+        self.assertEqual(self.hb.ask("Monitor tab ka hit rate kya batata hai", live="din1", now=t)[3], "ai")
+        self.assertEqual(self.hb.ask("Monitor tab ka hit rate kya batata hai", live="din1", now=t + 5)[3], "cache")
+        self.assertEqual(self.hb.ask("Monitor tab ka hit rate kya batata hai", live="din2", now=t + 10)[3], "ai")   # sthiti badli: naya jawab
+        hist = [{"role": "user", "content": "pehla"}, {"role": "assistant", "content": "jawab"}]
+        self.assertEqual(self.hb.ask("Monitor tab ka hit rate kya batata hai", hist, live="din2", now=t + 15)[3], "ai")  # follow-up: cache nahi
+        self.assertEqual(self.hb.ask("Monitor tab ka hit rate kya batata hai", live="din1", now=t + 4 * 86400)[3], "ai")  # 3 din baad purana khatam
+
+    def test_prompt_sends_only_relevant_parts_and_falls_back_to_full(self):
+        full = self.hb._knowledge()
+        part = self.hb.system_prompt("", "Dana-Farak ka box kaise bana")
+        self.assertLess(len(part), len(full) * 0.6)                                          # poore gyaan se bahut chhota
+        self.assertIn("Dana-Farak", part)
+        self.assertIn("Bot ke niyam", part)                                                  # niyam hamesha jate hain
+        weird = self.hb.system_prompt("", "xyzzy qwerty plugh")                              # kuch na mile to poora gyaan (andaza nahi)
+        self.assertGreaterEqual(len(weird), len(full))
+
+    def test_model_and_url_rules_from_user_tests(self):
+        hb = self.hb
+        self.assertEqual(hb.endpoint("sarvam-105b"), "https://api.sarvam.ai/v2/chat/completions")
+        self.assertEqual(hb.endpoint("sarvam-105b-conversations"), "https://api.sarvam.ai/v1/chat/completions")
+        for m, ok in [("sarvam-105b", True), ("deepseekv4.1-flash-1017", True), ("qwen38", True), ("sarvam-105b-conversations", False), ("glm5.3-flash", False), ("kimi-k3", False), ("gemma4", False)]:
+            self.assertEqual(hb.supports_none(m), ok, m)
+        os.environ["SARVAM_MODEL"] = "sarvam-105b-conversations"
+        self.ask("Monitor tab ka hit rate kya batata hai")
+        url, headers, payload = self.calls[-1]
+        self.assertEqual(url, "https://api.sarvam.ai/v1/chat/completions")
+        self.assertNotIn("reasoning_effort", payload)                                        # conversations par reasoning nahi bhejna
+        os.environ["SARVAM_MODEL"] = "deepseekv4.1-flash-1017"
+        self.hb.reset_for_tests()
+        self.ask("Lab tab me kya kar sakte hain")
+        self.assertEqual(self.calls[-1][2]["reasoning_effort"], "none")
+        os.environ["SARVAM_URL"] = "https://example.invalid/v2/chat/completions"
+        self.hb.reset_for_tests()
+        self.ask("Record tab me excel ka rang kya hai")
+        self.assertEqual(self.calls[-1][0], "https://example.invalid/v2/chat/completions")
+
+    def test_faq_answers_have_no_secret_or_forbidden_word(self):
+        from lab import help_faq
+        for item in help_faq.FAQ:
+            self.assertNotIn("satta", item["answer"].lower())
+            self.assertIsNone(re.search(r"\b\d{4}\b.*\bPIN\b|\bPIN\b\s*[:=]\s*\d", item["answer"]))
+
+
+class NoSecretInRepoTests(unittest.TestCase):
+    def test_no_api_key_or_pin_value_in_tracked_code(self):
+        """Key/PIN kabhi code, docs ya tests me nahi: sirf Render ke environment me."""
+        base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        pat = re.compile(r"(SARVAM_API_KEY|HELP_PIN|ADMIN_PIN)[\"']?\s*[:=]\s*[\"']?[A-Za-z0-9_\-]{4,}")
+        bad = []
+        for root in ("lab", "lab_static", "patterns", "scripts"):
+            for dp, _, fs in os.walk(os.path.join(base, root)):
+                for f in fs:
+                    if not f.endswith((".py", ".js", ".md", ".css", ".html", ".json", ".yaml", ".yml")):
+                        continue
+                    with open(os.path.join(dp, f), encoding="utf-8", errors="ignore") as fh:
+                        for i, line in enumerate(fh, 1):
+                            m = pat.search(line)
+                            if m and "environ" not in line and "set karo" not in line and "Key =" not in line and "Value" not in line:
+                                bad.append(f"{os.path.relpath(os.path.join(dp, f), base)}:{i}")
+        self.assertEqual(bad, [])
 
 
 if __name__ == "__main__":
