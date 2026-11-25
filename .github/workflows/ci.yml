@@ -1,10 +1,12 @@
 name: code-tests
 
-# Code badalne par saare tests. (Roz wali data Action me tests nahi chalte: koi purana test data update na roke.)
+# Code badalne par pehredaar + saare tests + asli browser me jaanch. Render sirf tab deploy karta hai jab ye pass ho (render.yaml).
+# (Roz wali data Action me tests nahi chalte: koi purana test data update na roke.)
 on:
   push:
     branches: [main]
     paths-ignore: ["data/**"]
+  pull_request:
   workflow_dispatch: {}
 
 permissions:
@@ -15,10 +17,46 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
-      - run: pip install -r requirements.txt
-      - run: python -m unittest tests.test_lab tests.test_core tests.test_fetcher tests.test_paper tests.test_server
-      - run: python scripts/selfcheck.py --data --no-file
+      - run: pip install -r requirements.txt ruff==0.17.6 pyyaml
+      - name: Pehredaar (record, secret, tuti file, ruff)
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          BASE="$BEFORE"
+          git cat-file -e "$BASE^{commit}" 2>/dev/null || BASE=$(git rev-parse HEAD~1)
+          python scripts/safeguard.py --base "$BASE"
+      - name: Gitleaks (poori history me key/password)
+        run: |
+          V=8.28.0
+          curl -sSfL -o gl.tgz https://github.com/gitleaks/gitleaks/releases/download/v$V/gitleaks_${V}_linux_x64.tar.gz
+          echo "a65b5253807a68ac0cafa4414031fd740aeb55f54fb7e55f386acb52e6a840eb  gl.tgz" | sha256sum -c -
+          tar -xzf gl.tgz gitleaks
+          ./gitleaks git --redact --no-banner .
+          rm -f gitleaks gl.tgz
+      - name: Tests
+        run: python -m unittest tests.test_lab tests.test_core tests.test_fetcher tests.test_paper tests.test_server
+
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt playwright==1.55.0
+      - run: python -m playwright install --with-deps chromium
+      - run: python tests/ui_smoke.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ui-shots
+          path: ui_shots
+          if-no-files-found: ignore
+          retention-days: 7

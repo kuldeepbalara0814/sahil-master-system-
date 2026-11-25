@@ -12,7 +12,7 @@ import os
 import sys
 import threading
 
-from . import alerts, data, fetcher, friends, monitor, paper, partial
+from . import alerts, data, fetcher, friends, health, monitor, paper, partial, tick
 
 KEEP_LOG = 90
 
@@ -150,6 +150,9 @@ def run(fetch=True, today=None, stake=5, auto_bets=True, data_dir=None, fetch_fn
     flog = _load_json(_path(data_dir, "fetch_log.json"), [])
     flog.append({k: rep[k] for k in ("time", "added", "errors", "settled", "new_bets", "last_date")})
     _save_json(_path(data_dir, "fetch_log.json"), flog[-KEEP_LOG:])
+    if fetch:                                                         # ghanti (HEALTHCHECK_URL ho to): der se result ya kharab data = /fail
+        ist = dt.datetime.now(dt.timezone(dt.timedelta(hours=5, minutes=30)))
+        health.ping(not rep["problems"] and not tick.overdue(ist, rows, rep.get("partial")))
     return rep
 
 

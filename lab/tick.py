@@ -10,6 +10,11 @@ GAP = 600                      # do koshish ke beech kam se kam 10 minute
 TIMES = (("FB", 0, 18, 35), ("GB", 0, 22, 35), ("GL", 1, 0, 20), ("DS", 1, 5, 40))
 
 
+def overdue(now, rows, part=None, hours=2):
+    """Itne ghante baad bhi jo result nahi aaya (ghanti / email ke liye)."""
+    return due(now - dt.timedelta(hours=hours), rows, part)
+
+
 def due(now, rows, part=None):
     """now = IST datetime. rows = poori lines, part = aadhi line (lab.partial) ya None. -> baaki results ['FB', ...]."""
     d = data.play_date(rows)

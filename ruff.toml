@@ -1,0 +1,5 @@
+# Sirf asli bug wale niyam (syntax tuta, bina bane naam, galat tulna) - style ki shor nahi.
+exclude = ["research", "sahil_system", "artifacts"]
+
+[lint]
+select = ["E9", "F63", "F7", "F82"]

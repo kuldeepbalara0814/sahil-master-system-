@@ -1869,6 +1869,62 @@ class FetchGapAndSelfcheckTests(unittest.TestCase):
             shutil.rmtree(tmp)
 
 
+class SafeguardTests(unittest.TestCase):
+    """Pehredaar: record badlega/mitega, secret ya tuti file jayegi to roke; theek badlav jane de."""
+
+    def _repo(self):
+        import shutil
+        import subprocess
+        import tempfile
+        tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmp)
+        os.makedirs(os.path.join(tmp, "scripts"))
+        os.makedirs(os.path.join(tmp, "data"))
+        shutil.copy(os.path.join(ROOT, "scripts", "safeguard.py"), os.path.join(tmp, "scripts"))
+        g = lambda *a: subprocess.run(["git", "-C", tmp, "-c", "user.name=t", "-c", "user.email=t@t", *a], capture_output=True, check=True)
+
+        def put(path, text):
+            with open(os.path.join(tmp, path), "w") as f:
+                f.write(text)
+        g("init", "-q")
+        put("data/results.csv", "date,fd\n2026-01-01,1\n2026-01-02,2\n")
+        g("add", "-A")
+        g("commit", "-qm", "base")
+
+        def run(*extra):
+            return subprocess.run([sys.executable, os.path.join(tmp, "scripts", "safeguard.py"), "--base", "HEAD", "--head", "WORKTREE", *extra],
+                                  capture_output=True, text=True)
+        return tmp, put, g, run
+
+    def test_records_may_grow_but_never_change(self):
+        tmp, put, g, run = self._repo()
+        put("data/results.csv", "date,fd\n2026-01-01,1\n2026-01-02,2\n2026-01-03,3\n")
+        self.assertEqual(run("--records-only").returncode, 0)
+        put("data/results.csv", "date,fd\n2026-01-01,9\n2026-01-02,2\n")
+        r = run("--records-only")
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("RECORD", r.stdout)
+        os.remove(os.path.join(tmp, "data", "results.csv"))
+        self.assertEqual(run("--records-only").returncode, 1)
+
+    def test_secret_and_broken_file_blocked(self):
+        tmp, put, g, run = self._repo()
+        put("a.py", "x = (\n")
+        put("b.txt", "GITHUB_TOKEN=" + "ghp_" + "a" * 36 + "\n")
+        g("add", "-A")
+        r = run()
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("tuti hai: a.py", r.stdout)
+        self.assertIn("chhupi cheez", r.stdout)
+        self.assertNotIn("a" * 36, r.stdout)                                   # value kabhi print nahi
+
+    def test_health_ping_without_url_does_nothing(self):
+        from unittest import mock
+        from lab import health
+        with mock.patch.dict(os.environ, {"HEALTHCHECK_URL": ""}):
+            self.assertFalse(health.ping())
+
+
 class StaleScanTests(unittest.TestCase):
     def test_old_schema_scan_is_rerun(self):
         old = scanner.run(ROWS)

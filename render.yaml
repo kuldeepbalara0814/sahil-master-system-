@@ -7,7 +7,7 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn lab_server:app --workers 1 --threads 4 --timeout 120 --bind 0.0.0.0:$PORT
     healthCheckPath: /api/healthz
-    autoDeployTrigger: commit
+    autoDeployTrigger: checksPass       # GitHub ke code-tests pass hon tabhi deploy (tuta code live na jaye)
     # Roz ke data commits (GitHub Action) par dobara deploy nahi hona chahiye
     buildFilter:
       ignoredPaths:
@@ -26,6 +26,8 @@ services:
       - key: ADMIN_PIN      # likhne wale kaam (fetch, paper bet) ka PIN - apna chuno
         sync: false
       - key: SARVAM_API_KEY # Sarvam (Indus) API key: SIRF Render dashboard me daalo, repo/chat/browser me kabhi nahi (help chat ke liye)
+        sync: false
+      - key: HEALTHCHECK_URL # (marzi) healthchecks.io ka ping URL: auto-fetch ruke to email
         sync: false
       - key: HELP_PIN       # Sahil Lab Help chat ka password; na ho to ADMIN_PIN use hota hai
         sync: false

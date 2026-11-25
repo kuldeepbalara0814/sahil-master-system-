@@ -34,9 +34,13 @@ jobs:
           cache: pip
       - run: pip install -r requirements.txt
       - name: Update (fetch + paper trading + monitor)
+        env:
+          HEALTHCHECK_URL: ${{ secrets.HEALTHCHECK_URL }}
         run: python -m lab.update
-      - name: Data jaanch (kharab data commit na ho)
-        run: python scripts/selfcheck.py --data --no-file
+      - name: Data jaanch (kharab data commit na ho, purana record na badle)
+        run: |
+          python scripts/selfcheck.py --data --no-file
+          python scripts/safeguard.py --base HEAD --head WORKTREE --records-only
       - name: Commit data
         run: |
           git config user.name "sahil-lab-bot"
@@ -54,6 +58,7 @@ jobs:
             git reset --hard "origin/${GITHUB_REF_NAME}"
             python -m lab.update
             python scripts/selfcheck.py --data --no-file
+            python scripts/safeguard.py --base HEAD --head WORKTREE --records-only
             git add data
             git diff --cached --quiet && exit 0
             git commit -m "auto: daily update $(date -u +%F) (retry $try)"
