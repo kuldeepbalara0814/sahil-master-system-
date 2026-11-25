@@ -4,3 +4,4 @@ __pycache__/
 node_modules/
 research/backtest/cache/
 research/**/*.npz
+selfcheck_report.json
