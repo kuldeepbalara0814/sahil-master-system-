@@ -1,0 +1,249 @@
+{
+ "items": [
+  {
+   "id": "2026-11-25T08:25:14+05:30",
+   "time": "2026-11-25T08:25:14+05:30",
+   "label": "Subah ka final scan (DS aaya, line poori): sab pattern naye sire se",
+   "total": 70,
+   "groups": [
+    {
+     "key": "dana",
+     "naam": "Dana-Farak",
+     "count": 9,
+     "items": [
+      {
+       "id": "dana:gap:2026-11-24-0:2026-11-24-3",
+       "name": "Dana-gap-24Nov",
+       "numbers": [
+        25,
+        52
+       ],
+       "games": [
+        "ALL"
+       ]
+      },
+      {
+       "id": "dana:gap:2026-11-22-1:2026-11-24-0",
+       "name": "Dana-gap-22Nov",
+       "numbers": [
+        36,
+        63
+       ],
+       "games": [
+        "ALL"
+       ]
+      },
+      {
+       "id": "dana:gap:2026-11-22-2:2026-11-24-0",
+       "name": "Dana-gap-22Nov",
+       "numbers": [
+        45,
+        54
+       ],
+       "games": [
+        "ALL"
+       ]
+      },
+      {
+       "id": "dana:gap:2026-11-23-1:2026-11-24-0",
+       "name": "Dana-gap-23Nov",
+       "numbers": [
+        36,
+        63
+       ],
+       "games": [
+        "ALL"
+       ]
+      },
+      {
+       "id": "dana:gap:2026-11-22-1:2026-11-24-1",
+       "name": "Dana-gap-22Nov",
+       "numbers": [
+        38,
+        83
+       ],
+       "games": [
+        "ALL"
+       ]
+      },
+      {
+       "id": "dana:gap:2026-11-22-3:2026-11-24-1",
+       "name": "Dana-gap-22Nov",
+       "numbers": [
+        49,
+        94
+       ],
+       "games": [
+        "ALL"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "family",
+     "naam": "Family",
+     "count": 3,
+     "items": [
+      {
+       "id": "family:4:ulta:2026-11-22",
+       "name": "Family-Hathi-83",
+       "numbers": [
+        4,
+        9,
+        40,
+        45,
+        54,
+        59,
+        90,
+        95
+       ],
+       "games": [
+        "DS",
+        "GL"
+       ]
+      },
+      {
+       "id": "family:13:seedha:2026-11-22",
+       "name": "Family-Bagula-25",
+       "numbers": [
+        13,
+        18,
+        31,
+        36,
+        63,
+        68,
+        81,
+        86
+       ],
+       "games": [
+        "FB"
+       ]
+      },
+      {
+       "id": "family:23:seedha:2026-11-22",
+       "name": "Family-Chakor-38",
+       "numbers": [
+        23,
+        28,
+        32,
+        37,
+        73,
+        78,
+        82,
+        87
+       ],
+       "games": [
+        "GB"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "naksha",
+     "naam": "Naksha",
+     "count": 13,
+     "items": [
+      {
+       "id": "naksha:10:2015-10-07",
+       "name": "Naksha-Gainda-95",
+       "numbers": [
+        15,
+        51
+       ],
+       "games": [
+        "GL"
+       ]
+      },
+      {
+       "id": "naksha:10:2025-09-07",
+       "name": "Naksha-Kabutar-50",
+       "numbers": [
+        9,
+        90
+       ],
+       "games": [
+        "FB",
+        "GB"
+       ]
+      },
+      {
+       "id": "naksha:10:2019-07-17",
+       "name": "Naksha-Badal-47",
+       "numbers": [
+        15,
+        51
+       ],
+       "games": [
+        "FB"
+       ]
+      },
+      {
+       "id": "naksha:12:2015-10-05",
+       "name": "Naksha-Sagar-16",
+       "numbers": [
+        15,
+        51
+       ],
+       "games": [
+        "GL"
+       ]
+      },
+      {
+       "id": "naksha:12:2016-09-24",
+       "name": "Naksha-Ghariyal-18",
+       "numbers": [
+        15,
+        39,
+        51,
+        93
+       ],
+       "games": [
+        "FB",
+        "GL"
+       ]
+      },
+      {
+       "id": "naksha:12:2025-09-05",
+       "name": "Naksha-Chanda-79",
+       "numbers": [
+        9,
+        90
+       ],
+       "games": [
+        "FB",
+        "GB"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "steps",
+     "naam": "Puzzle-Steps",
+     "count": 1,
+     "items": [
+      {
+       "id": "steps:10:2026-09-05:2026-10-20",
+       "name": "Steps-05Sep-20Oct-10box",
+       "numbers": [
+        23,
+        32,
+        49,
+        94
+       ],
+       "games": [
+        "FB",
+        "GL"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "naksha2",
+     "naam": "Naksha-Rashi",
+     "count": 44,
+     "items": []
+    }
+   ]
+  }
+ ]
+}

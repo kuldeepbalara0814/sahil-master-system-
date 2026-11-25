@@ -133,5 +133,52 @@
     "new": 59
    }
   ]
+ },
+ {
+  "asof": "2026-11-24",
+  "changes": [
+   {
+    "number": 13,
+    "period": "month",
+    "old": 73,
+    "new": 59
+   },
+   {
+    "number": 44,
+    "period": "last3m",
+    "old": 78,
+    "new": 73
+   },
+   {
+    "number": 44,
+    "period": "month",
+    "old": 59,
+    "new": 53
+   },
+   {
+    "number": 59,
+    "period": "month",
+    "old": 73,
+    "new": 67
+   },
+   {
+    "number": 73,
+    "period": "last3m",
+    "old": 50,
+    "new": 44
+   },
+   {
+    "number": 73,
+    "period": "month",
+    "old": 59,
+    "new": 53
+   },
+   {
+    "number": 93,
+    "period": "month",
+    "old": 10,
+    "new": 52
+   }
+  ]
  }
 ]
