@@ -133,6 +133,25 @@ tabs.meri=async function(root){
   el("div",{class:"mut small",style:"margin-top:8px"},w.scan_time?`Tokri lock hui: ${istm(w.scan_time)}`:"Tokri abhi lock nahi hui",` | pocket ki ginti ${dm(w.start)} se`),
   counted?null:el("div",{class:"small",style:"margin-top:6px"},`Aaj (${dm(w.play_date)}) ki tokri sirf dikhane ke liye; pocket ki ginti start tarikh (${dm(w.start)}) se.`)));
  if(REP)root.append(openCard(w));
+ /* NAKSHA KE NUMBER: aaj aur kal - pehle bane naksha ke aage wale '?' box samet */
+ const GM=["FB","GB","GL","DS"],ydBox=el("div",{class:"wn-yaadbox"},el("p",{class:"load"},el("span",{class:"spin"}),"Naksha ke number gine ja rahe hain..."));
+ const ydCard=(v,kal)=>{
+  if(!v||!(v.items||[]).length)return null;
+  const hits=v.items.filter(e=>e.hit);
+  return el("div",{class:"card wn-yaad"},
+   el("h2",{style:"margin:0 0 6px"},kal?`Kal ka natija: Naksha (${dm(v.date)})`:`Naksha ke sab number: ${dm(v.date)}`," ",el("span",{class:"sub"},"(naye + pehle bane)")),
+   kal?el("p",{class:"small",style:"margin:2px 0"},hits.length?`${hits.length} naksha box me asli number aaya (hara).`:"Kisi naksha box me asli number nahi aaya."):el("div",{class:"row"},copyBtn("Sab naksha number copy",v.all,"sm")),
+   GM.filter(g=>(v.games[g]||[]).length).map(g=>{const r=(v.result||{})[g];
+    return el("div",{class:"wn-pat"},
+     el("div",{class:"act-top"},el("b",{},fb(g)+(r!==undefined?` : aaya ${p2(r)}`:"")),copyBtn("Copy",v.games[g])),
+     el("div",{class:"act-nums"},v.games[g].map(n=>chip(n,n===r?"green":"grey","sm"))),
+     el("details",kal&&hits.some(e=>e.game===g)?{open:"open"}:{},el("summary",{class:"mut small"},"Kaun se naksha me kya ban raha hai"),
+      v.items.filter(e=>e.game===g).map(e=>el("div",{class:"small",style:"margin:4px 0"},
+       el("b",{},e.name)," ",e.numbers.map(n=>chip(n,e.hit&&n===r?"green":"blue","sm")),
+       el("span",{class:"mut"},` ${e.title}${e.pehle>1?` | ${e.pehle} din pehle se dikh raha`:""}`)))))}),
+   el("p",{class:"mut small",style:"margin:6px 0 0"},"Naksha chart ke aage wale '?' box, pichle 8 din ke scan se (sirf Naksha 1). 900 din ki jaanch me inka hit random jitna hi nikla; faisla aapka."))};
+ root.append(ydBox);
+ api("GET","/yaad").then(yd=>{const cs=[ydCard(yd.aaj,false),ydCard(yd.kal,true)].filter(Boolean);ydBox.replaceChildren(...cs)}).catch(e=>ydBox.replaceChildren(el("div",{class:"warn"},"Naksha ke number nahi aaye: "+e.message)));
  /* naye Naksha pattern */
  root.append(el("div",{class:"card wn-naksha"},
   el("h2",{style:"margin:0 0 6px"},"Aaj ke naye Naksha pattern aur unki jodi"),

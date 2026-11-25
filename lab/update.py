@@ -137,7 +137,7 @@ def run(fetch=True, today=None, stake=5, auto_bets=True, data_dir=None, fetch_fn
             from . import window
             wp = _path(data_dir, "window_log.json")
             wl = _load_json(wp, None) or window.new_state()
-            if window.record(wl, srep, rows):
+            if window.record(wl, srep, rows, partial.merged_results(_load_json(_path(data_dir, "manual_results.json"), {}), cur_partial)):
                 _save_json(wp, wl)
         except Exception as e:
             rep.setdefault("scan_errors", []).append(f"window log nahi bana: {type(e).__name__}: {e}")

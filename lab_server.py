@@ -27,7 +27,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import active, alerts, ank_chal, help_bot, partial, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
+from lab import active, alerts, ank_chal, help_bot, partial, tick, yaad, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -38,6 +38,7 @@ _lock = threading.RLock()                                       # sirf rows ka c
 _run_lock = threading.RLock()                                   # lambi cheez (fetch/update): cache wali lock nahi rokti
 _wlock = threading.RLock()                                      # JSON files ka padho-badlo-likho ek saath ek hi thread
 _cache = {"key": None, "rows": None, "friends": None}
+_yaad_lock = threading.Lock()
 _fail, MAX_FAILS, WINDOW = {}, 8, 600
 
 
@@ -98,9 +99,12 @@ def locked(fn):
     return wrap
 
 
+_updating = [0]                                                  # fetch/update chal raha ho to beech me pull nahi (files na dabein)
+
+
 def refresh():
     """GitHub se taaza files (agar sync on ho)."""
-    if SYNC:
+    if SYNC and not _updating[0]:
         try:
             SYNC.pull()
         except gh.SyncError as e:
@@ -198,7 +202,8 @@ def api_health():
                     "days": len(rows), "play_date": data.play_date(rows).isoformat(),
                     "last_scan": scans[-1] if scans else None, "scan_asof": rep.get("asof"), "scan_errors": rep.get("errors") or [],
                     "last_fetch": last_fetch(flog), "github": bool(SYNC), "can_write": bool(SYNC and SYNC.can_write) or not SYNC_ON,
-                    "data_problems": data.validate(rows)[:10], "file_bytes": sizes})
+                    "data_problems": data.validate(rows)[:10], "file_bytes": sizes,
+                    "partial": cur_partial(rows), "due": tick.due(now, rows, cur_partial(rows)), "auto_last": _auto.get("last")})
 
 
 _auto = {"t": 0.0, "running": False}
@@ -212,29 +217,56 @@ def expected_last(now):
     return d
 
 
+def _run_update(stake=5):
+    """Site se result lao aur sab hisaab (pull -> update). Is dauran doosra pull ya likhna beech me nahi aata. -> (rep, kuch badla?)"""
+    with _run_lock:
+        if SYNC:
+            SYNC.pull(force=True)
+        _updating[0] += 1
+        try:
+            with _wlock:
+                rep = update.run(fetch=True, stake=stake, data_dir=DATA_DIR, pause=1.0)
+        finally:
+            _updating[0] -= 1
+            _cache["key"] = None
+        changed = bool(rep["added"] or rep["settled"] or rep["new_bets"] or rep.get("partial_new") or rep.get("alert"))
+        return rep, changed
+
+
 def _auto_run():
     try:
-        with _run_lock:
-            SYNC.pull(force=True)
-            rep = update.run(fetch=True, stake=5, data_dir=DATA_DIR, pause=1.0)
-            if rep["added"] or rep["settled"] or rep["new_bets"]:
-                persist(gh.FILES, f"auto fetch {rep['last_date']}")
-    except Exception:
+        rep, changed = _run_update()
+        _auto["last"] = {"time": rep["time"], "added": rep["added"], "new": rep.get("partial_new") or [], "errors": [str(e)[:160] for e in rep["errors"]][:3]}
+        if changed:
+            with _run_lock:
+                persist(gh.FILES, f"auto fetch {rep['last_date']} {' '.join(rep.get('partial_new') or [])}".strip())
+    except Exception as e:
         app.logger.exception("auto fetch fail")
+        _auto["last"] = {"time": dt.datetime.now(IST).isoformat(timespec="seconds"), "errors": [f"{type(e).__name__}: {str(e)[:160]}"]}
     finally:
         _auto["running"] = False
-        _cache["key"] = None
 
 
 def maybe_auto_fetch(rows):
-    """GitHub ka roz wala schedule der se chalta hai. Isliye jab koi app kholta hai aur naya din baaki ho to server khud le aata hai (20 min me ek baar)."""
-    if not (SYNC and SYNC.can_write) or _auto["running"] or time.time() - _auto["t"] < 1200:
+    """App ki apni ghadi: koi result aa jana chahiye tha aur nahi hai to server khud le aata hai (10 min me ek baar).
+    GitHub ka schedule der karta hai/chhod deta hai, isliye uske bharose nahi. -> True agar abhi koshish shuru hui."""
+    if not (SYNC and SYNC.can_write) or _auto["running"] or time.time() - _auto["t"] < tick.GAP:
         return False
-    if rows[-1][0] >= expected_last(dt.datetime.now(IST)):
+    if not tick.due(dt.datetime.now(IST), rows, cur_partial(rows)):
         return False
     _auto["t"], _auto["running"] = time.time(), True
     threading.Thread(target=_auto_run, daemon=True).start()
     return True
+
+
+@app.get("/api/tick")
+def api_tick():
+    """Bahar ki ghadi (jaise cron-job.org) yahan ping kare to app jaagta hai aur baaki result le aata hai. Koi PIN/data nahi;
+    andar 10 minute ki rok hai, isliye zyada ping se kuch nahi hota."""
+    rows, _ = state()
+    started = maybe_auto_fetch(rows)
+    return jsonify({"started": started, "running": _auto["running"], "due": tick.due(dt.datetime.now(IST), rows, cur_partial(rows)),
+                    "last": _auto.get("last")})
 
 
 @app.get("/api/status")
@@ -500,7 +532,7 @@ def _save_scan(rep, source, push):
     try:                                                       # Meri Window: us din ki tokri (naye Naksha + top 30) ek baar lock
         rws, _ = state()
         wl = jload("window_log.json", None) or window.new_state()
-        if window.record(wl, rep, rws):
+        if window.record(wl, rep, rws, partial.merged_results(jload("manual_results.json", {}), cur_partial(rws))):
             jsave("window_log.json", wl)
             names.append("window_log.json")
     except Exception:
@@ -770,6 +802,7 @@ def api_result_manual_set():
 
 @app.post("/api/result/manual/delete")
 @guarded
+@locked
 def api_result_manual_delete():
     """Galat dala hua hath ka result hatao (site wala nahi hatta)."""
     b = request.get_json(silent=True) or {}
@@ -888,8 +921,17 @@ def api_window():
 def api_alerts():
     """Upar ki banner khabar: result ke baad kaun se current pattern naye active hue + aadhi line (aaj ke aa chuke game)."""
     rows, _ = state()
+    maybe_auto_fetch(rows)                                       # app khuli ho to har minute yahi ghadi
     log = jload("alerts.json", None) or {"items": []}
     return jsonify({"items": log.get("items", [])[:5], "partial": cur_partial(rows)})
+
+
+@app.get("/api/yaad")
+def api_yaad():
+    """Naksha ke aaj / kal ke box (pehle bane naksha samet). Ginti bhari hai, isliye Meri Window se alag mangi jati hai."""
+    rows, _ = state()
+    with _yaad_lock:                                             # ek hi baar ginein, baaki cache se
+        return jsonify(yaad.view(rows, partial.merged_results(jload("manual_results.json", {}) or {}, cur_partial(rows))))
 
 
 @app.get("/api/ank")
@@ -1252,10 +1294,8 @@ def api_fetch():
     try:
         paper.check_stake(stake)
         with _run_lock:
-            if SYNC:
-                SYNC.pull(force=True)
-            rep = update.run(fetch=True, stake=stake, data_dir=DATA_DIR, pause=1.0)
-            rep["saved_to_github"] = persist(gh.FILES, f"manual fetch {rep['last_date']}") if rep["added"] or rep["settled"] or rep["new_bets"] else False
+            rep, changed = _run_update(stake)
+            rep["saved_to_github"] = persist(gh.FILES, f"manual fetch {rep['last_date']}") if changed else False
         if rep["errors"] and not rep["added"] and SYNC and rep["last_date"] < expected_last(dt.datetime.now(IST)).isoformat():
             code, body = SYNC.dispatch()                 # site se seedha nahi aaya: GitHub Action se mangao
             rep["errors"].append("Server se seedha fetch nahi hua, isliye GitHub Action chalane ki koshish: " +

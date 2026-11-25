@@ -21,6 +21,7 @@ from openpyxl import load_workbook  # noqa: E402
 
 import lab_server  # noqa: E402
 from lab import backtest as bt, baar, band, data, export_xlsx, gapchain, idea, scan_view, scanner  # noqa: E402
+import base64
 import datetime as dt
 import json  # noqa: E402
 import re  # noqa: E402
@@ -215,7 +216,7 @@ class GapFilterTests(unittest.TestCase):
         g = c.get("/api/gaps?gaps=3,4,5,6,7&days=15").get_json()
         self.assertTrue(g["chains"] and g["marks"])
         self.assertEqual(c.get("/api/gaps?gaps=&days=15").status_code, 400)
-        x = c.get("/api/export/record.xlsx?from=2026-09-01&to=2026-11-20&gaps=3,4,5,6,7&days=15")
+        x = c.get(f"/api/export/record.xlsx?from=2026-09-01&to={data.load()[-1][0].isoformat()}&gaps=3,4,5,6,7&days=15")       # aaj tak: "?" wale aage ke khane
         self.assertEqual(x.status_code, 200)
         wb = load_workbook(io.BytesIO(x.data))
         self.assertIn("Gap Filter", wb.sheetnames)
@@ -258,7 +259,8 @@ class PatternWindowTests(unittest.TestCase):
         self.assertEqual([x for x in r["days"] if x[0] == "2026-11-30"][0][1], None)       # aakhri din / aage ka din khaali
         self.assertTrue(r["marks"] and r["gap"]["legend"]["3"] == gapchain.GAP_COLORS[3])
         auto = c.get("/api/pattern/sheet?months=2").get_json()               # pichle 2 mahine
-        self.assertEqual(auto["from"][5:], "10")
+        last = data.load()[-1][0]
+        self.assertEqual(auto["from"][5:], f"{(last.month - 2) % 12 + 1:02d}")                # pichla mahina (data roz badhta hai)
         self.assertEqual(c.get("/api/pattern/sheet?from=x").status_code, 400)
         cells = {"2026-11-12|2": "FF9800", "2026-11-16|2": "E040FB"}
         self.assertEqual(c.post("/api/pattern/save", json={"cells": cells}).status_code, 401)         # PIN chahiye
@@ -673,7 +675,7 @@ class ReviewRound2Tests(unittest.TestCase):
 
     def test_ank_view_has_per_line_90_and_forward(self):
         from lab import ank_chal
-        rows = data.load()
+        rows = [r for r in data.load() if r[0] < ank_chal.START]      # asli data roz badhta hai: forward se pehle tak kaato
         v = ank_chal.view(rows)
         for x in v["lines"]:
             self.assertEqual(x["n90"], 90)
@@ -721,7 +723,7 @@ class WindowTests(unittest.TestCase):
 
     def test_record_locks_once_and_pocket_counts_from_start(self):
         from lab import window
-        rows = data.load()
+        rows = [r for r in data.load() if r[0] <= dt.date(2026, 11, 23)]                 # asli data roz badhta hai
         rep = {"asof": rows[-1][0].isoformat(), "time": "t", "patterns": [{"key": "naksha", "items": [
             {"id": "n1", "name": "N1", "new": True, "targets": [{"game": "FB", "numbers": [5, 6]}, {"game": "GB", "numbers": [6, 7]}]},
             {"id": "n2", "name": "N2", "new": False, "targets": [{"game": "FB", "numbers": [88]}]},         # naya nahi -> tokri me nahi
@@ -1725,6 +1727,146 @@ class AutoFetchPartialTests(unittest.TestCase):
         db = w["dost_baar"]
         self.assertTrue(all(db[i]["score"] >= db[i + 1]["score"] for i in range(len(db) - 1)))
         self.assertTrue(all(r["score"] == r["dost"] + 2 * r["baar"] for r in db))
+
+
+class SyncSafetyTests(unittest.TestCase):
+    """25 Nov 2026 jaanch: GitHub sync purane se local kaam na dabaye, badli file hi push ho, ghadi (tick) sahi."""
+
+    def _sync(self, remote):
+        import tempfile
+        from lab import gh
+        tmp = tempfile.mkdtemp()
+        sy = gh.Sync(tmp, "o/r", "main", "tok")
+        log = []
+
+        def req(method, url, body=None, accept=""):
+            name = url.split("/data/")[1].split("?")[0] if "/data/" in url else ""
+            if method == "GET":
+                if name not in remote:
+                    return 404, b"{}"
+                c = remote[name]
+                return 200, json.dumps({"content": base64.b64encode(c).decode(), "sha": gh.blob_sha(c)}).encode()
+            if name in remote and body.get("sha") != gh.blob_sha(remote[name]):
+                return 409, b"{}"
+            remote[name] = base64.b64decode(body["content"])
+            log.append(name)
+            return 200, json.dumps({"content": {"sha": gh.blob_sha(remote[name])}}).encode()
+        sy._req = req
+        return sy, tmp, log
+
+    def _read(self, tmp, name):
+        with open(os.path.join(tmp, name), "rb") as f:
+            return f.read()
+
+    def _put(self, tmp, name, content):
+        with open(os.path.join(tmp, name), "wb") as f:
+            f.write(content)
+
+    def test_pull_keeps_unpushed_local_work_and_takes_real_remote_change(self):
+        remote = {"window_log.json": b"A", "alerts.json": b"A"}
+        sy, tmp, log = self._sync(remote)
+        sy.pull(force=True)
+        self._put(tmp, "window_log.json", b"local-lock")
+        sy.pull(force=True)
+        self.assertEqual(self._read(tmp, "window_log.json"), b"local-lock")      # GitHub nahi badla: local bacha
+        remote["alerts.json"] = b"from-action"
+        sy.pull(force=True)
+        self.assertEqual(self._read(tmp, "alerts.json"), b"from-action")
+
+    def test_push_only_changed_and_conflict_rule(self):
+        remote = {"alerts.json": b"A", "manual_results.json": b"A", "monitor.json": b"A"}
+        sy, tmp, log = self._sync(remote)
+        sy.pull(force=True)
+        sy.push(["alerts.json", "manual_results.json", "monitor.json"], "m")
+        self.assertEqual(log, [])                                               # kuch nahi badla: koi commit nahi
+        self._put(tmp, "alerts.json", b"server")
+        self._put(tmp, "manual_results.json", b"user")
+        remote["alerts.json"] = b"action"
+        remote["manual_results.json"] = b"other"
+        sy.push(["alerts.json", "manual_results.json"], "m")
+        self.assertEqual(remote["alerts.json"], b"action")                      # apne aap wali: GitHub wali bachi
+        self.assertEqual(self._read(tmp, "alerts.json"), b"action")
+        self.assertEqual(remote["manual_results.json"], b"user")                # hath se dali: aap ki bachi
+
+    def test_tick_due(self):
+        from lab import tick
+        rows = [r for r in data.load() if r[0] <= dt.date(2026, 11, 24)]
+        at = lambda d, h, m: dt.datetime(2026, 11, d, h, m)
+        self.assertEqual(tick.due(at(25, 18, 0), rows), [])
+        self.assertEqual(tick.due(at(25, 18, 40), rows), ["FB"])
+        part = {"date": "2026-11-25", "results": {"FB": 1}}
+        self.assertEqual(tick.due(at(25, 19, 0), rows, part), [])
+        self.assertEqual(tick.due(at(25, 22, 40), rows, part), ["GB"])
+        self.assertEqual(tick.due(at(26, 6, 0), rows, part), ["GB", "GL", "DS"])
+
+    def test_window_late_and_broken_scan_not_counted(self):
+        from lab import window, scanner
+        rows = data.load()
+        rep = scanner.run(rows)
+        play = data.play_date(rows).isoformat()
+        st = window.new_state()
+        bad = dict(rep, errors=[{"pattern": "Naksha", "error": "x"}])
+        self.assertFalse(window.record(st, bad, rows))
+        self.assertFalse(window.record(st, dict(rep, play_date="2000-01-01"), rows))
+        self.assertTrue(window.record(st, rep, rows, {play: {"FB": 1}}))
+        self.assertTrue(st["days"][play]["late"])
+
+    def test_tick_endpoint(self):
+        r = lab_server.app.test_client().get("/api/tick")
+        self.assertEqual(r.status_code, 200)
+        self.assertFalse(r.get_json()["started"])                               # test me sync band: kuch nahi chalta
+
+
+class NakshaYaadTests(unittest.TestCase):
+    """User (25 Nov): 24 ko DS me 15 wala naksha dikhna chahiye tha. Pehle bane naksha ke aage ke box bhi apni tarikh par."""
+
+    def test_24_nov_ds_15_and_no_lookahead(self):
+        from lab import yaad
+        rows = [r for r in data.load() if r[0] <= dt.date(2026, 11, 24)]
+        v = yaad.view(rows)
+        kal = v["kal"]
+        self.assertEqual((kal["date"], kal["result"]["DS"]), ("2026-11-24", 15))
+        self.assertIn(15, kal["games"]["DS"])
+        self.assertTrue(any(e["hit"] and e["game"] == "DS" and 15 in e["numbers"] for e in kal["items"]))
+        before = yaad.view([r for r in rows if r[0] < dt.date(2026, 11, 24)])["aaj"]        # us din subah ka view
+        self.assertEqual([(e["game"], e["numbers"], e["purana"]) for e in before["items"]],
+                         [(e["game"], e["numbers"], e["purana"]) for e in kal["items"]])    # baad ka data dekh kar kuch nahi badla
+        self.assertEqual(v["aaj"]["date"], data.play_date(rows).isoformat())
+        self.assertEqual(v["aaj"]["result"], {})
+
+    def test_yaad_api(self):
+        j = lab_server.app.test_client().get("/api/yaad").get_json()
+        self.assertTrue(j["aaj"]["all"])
+
+
+class FetchGapAndSelfcheckTests(unittest.TestCase):
+    def test_late_filled_day_is_not_skipped_forever(self):
+        from lab import fetcher
+        D = dt.date
+        ln = lambda d: (D(2026, 11, d), [1, 2, 3, 4], "site")
+        self.assertEqual(fetcher.no_gap([ln(25), ln(27)], D(2026, 11, 24), D(2026, 11, 28)), [ln(25)])      # 26 abhi khali: ruko
+        self.assertEqual(fetcher.no_gap([ln(25), ln(27)], D(2026, 11, 24), D(2026, 12, 3)), [ln(25), ln(27)])  # purana khali din: chhuti
+        self.assertEqual(fetcher.no_gap([ln(29)], D(2026, 11, 28), D(2026, 11, 30)), [ln(29)])
+        self.assertEqual(fetcher.no_gap([(D(2026, 12, 1), [1, 2, 3, 4], "site")], D(2026, 11, 29), D(2026, 12, 2))[0][0], D(2026, 12, 1))   # 30 = mahine ka aakhri din
+
+    def test_selfcheck_data_and_bad_json(self):
+        import shutil
+        import subprocess
+        import sys
+        import tempfile
+        tmp = tempfile.mkdtemp()
+        try:
+            data.save(data.load(), os.path.join(tmp, "results.csv"))
+            script = os.path.join(ROOT, "scripts", "selfcheck.py")
+            run = lambda: subprocess.run([sys.executable, script, "--data", "--no-file", "--dir", tmp], capture_output=True, text=True)
+            self.assertEqual(run().returncode, 0)
+            with open(os.path.join(tmp, "alerts.json"), "w") as f:
+                f.write("{aadha")
+            r = run()
+            self.assertEqual(r.returncode, 1)
+            self.assertIn("alerts.json", r.stdout)
+        finally:
+            shutil.rmtree(tmp)
 
 
 class StaleScanTests(unittest.TestCase):

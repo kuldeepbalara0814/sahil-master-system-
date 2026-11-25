@@ -86,14 +86,19 @@ def dost_baar(rk):
     return out
 
 
-def record(state, rep, rows):
-    """Is play_date ki tokri abhi tak nahi bani to LOCK karo. -> True agar nayi bani."""
+def record(state, rep, rows, known=None):
+    """Is play_date ki tokri abhi tak nahi bani to LOCK karo. -> True agar nayi bani.
+    known = partial/hath wale result {date: {game: n}}: us din ka koi result pehle hi aa chuka ho to tokri 'late' (ginti me nahi)."""
     play, naksha, top = baskets(rep, rows)
     days = state.setdefault("days", {})
     key = play.isoformat()
     if key in days:
         return False
+    if any(e.get("pattern") == "Naksha" for e in rep.get("errors") or []) or rep.get("play_date") not in (None, key):
+        return False                                              # tuta ya purana scan: tokri lock nahi karni
     days[key] = {"asof": rep.get("asof"), "scan_time": rep.get("time"), "naksha": naksha, "top30": top}
+    if (known or {}).get(key):
+        days[key]["late"] = True
     for d in sorted(days)[:-KEEP_DAYS]:
         del days[d]
     return True
@@ -157,7 +162,7 @@ def pocket(state, rows, manual, pocket_key):
     totals = {"days": 0, "hit_days": 0, "spent": 0, "net": 0, "by_game": {g: 0 for g, _ in LADDER}, "no_hit": 0, "low": 0}
     peak, dd = CAPITAL, 0
     for date in sorted(days):
-        if date < START.isoformat():
+        if date < START.isoformat() or days[date].get("late"):       # late = result aane ke baad bani tokri
             continue
         nums = numbers_of(days[date], pocket_key)
         res = _results(by, manual, date)
@@ -201,7 +206,7 @@ def view(state, rows, manual=None, today=None):
             nums = numbers_of(cur, k)
             plan[k] = {"numbers": nums, "count": len(nums), "mult": _mult(len(nums)) if nums else None,
                        "ladder": [{"game": g, "stake": s, "cost": s * len(nums)} for g, s in LADDER],
-                       "worst_cost": sum(s for _, s in LADDER) * len(nums), "counted": play >= START.isoformat()}
+                       "worst_cost": sum(s for _, s in LADDER) * len(nums), "counted": play >= START.isoformat() and not cur.get("late"), "late": bool(cur.get("late"))}
     return {"play_date": play, "start": START.isoformat(), "capital": CAPITAL, "ladder": [{"game": g, "stake": s} for g, s in LADDER],
             "naksha_new": cur.get("naksha", []) if cur else [], "top30": cur.get("top30", []) if cur else [], "locked": bool(cur),
             "scan_time": cur.get("scan_time") if cur else None, "plan": plan, "pockets": pockets,

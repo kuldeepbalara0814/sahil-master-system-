@@ -209,7 +209,7 @@ def _pick(best, top, only):
     return out
 
 
-CARRY = 4           # mahina badalne par purani window ke (abhi khule) design jo naye mahine me bhi chal rahe hain
+CARRY = 8           # mahina badalne par purani window ke (abhi khule) design jo naye mahine me chal rahe hain (top jitne, taaki beech me gayab na hon)
 
 
 def find(rows, Ls=LS, top=8, only=None, part=False):

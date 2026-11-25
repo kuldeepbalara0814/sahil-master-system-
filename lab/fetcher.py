@@ -115,6 +115,21 @@ def partial_line(site, last):
     return None
 
 
+WAIT_DAYS = 4
+
+
+def no_gap(lines, last, today):
+    """Beech ka din site ne abhi nahi bhara to uske BAAD ki lines abhi mat jodo (warna wo din hamesha ke liye chhoot jata).
+    WAIT_DAYS se purana khali din = sach me chhuti, tab aage badho."""
+    have = {ln[0] for ln in lines}
+    d = last + dt.timedelta(days=1)
+    while lines and d < lines[-1][0]:
+        if d not in have and not data.is_last_day(d) and (today - d).days <= WAIT_DAYS:
+            return [ln for ln in lines if ln[0] < d]
+        d += dt.timedelta(days=1)
+    return lines
+
+
 def months_between(a, b):
     y, m = a.year, a.month
     out = []
@@ -139,7 +154,7 @@ def new_lines(rows, today=None, fetch=fetch_month, pause=1.5):
             info["errors"].append(str(e))
         if pause:
             time.sleep(pause)
-    lines = [ln for ln in build_lines(site) if ln[0] > last]
+    lines = no_gap([ln for ln in build_lines(site) if ln[0] > last], last, today)
     eff = lines[-1][0] if lines else last
     info["partial"] = partial_line(site, eff)
     return lines, info

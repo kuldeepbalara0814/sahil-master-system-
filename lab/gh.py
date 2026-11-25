@@ -4,6 +4,7 @@ Padhna: public repo ho to bina token ke bhi chalta hai (raw.githubusercontent). 
 (fine-grained, sirf is repo par Contents: Read and write).
 """
 import base64
+import hashlib
 import json
 import os
 import threading
@@ -18,8 +19,17 @@ API = os.environ.get("GITHUB_API", "https://api.github.com").rstrip("/")
 RAW = os.environ.get("GITHUB_RAW", "https://raw.githubusercontent.com").rstrip("/")
 
 
+# aap ke haath se dali / dabayi cheezein: takraav me inhe bachana hai
+USER_FILES = {"manual_results.json", "help_requests.json", "ideas.json", "boards.json", "play_log.json", "review_log.json", "paper_ledger.json"}
+
+
 class SyncError(Exception):
     pass
+
+
+def blob_sha(content):
+    """Git jaisa file-sha (GitHub Contents API ka 'sha')."""
+    return hashlib.sha1(b"blob %d\0" % len(content) + content).hexdigest()
 
 
 class Sync:
@@ -47,30 +57,59 @@ class Sync:
         except Exception as e:
             raise SyncError(f"GitHub se baat nahi ho payi: {e}")
 
+    def _local(self, name):
+        try:
+            with open(os.path.join(self.dir, name), "rb") as f:
+                return f.read()
+        except OSError:
+            return None
+
+    def _write(self, name, content):
+        """Atomic: aadhi likhi file kabhi koi padh na paye."""
+        p = os.path.join(self.dir, name)
+        tmp = f"{p}.{os.getpid()}.{threading.get_ident()}.sync"
+        with open(tmp, "wb") as f:
+            f.write(content)
+        os.replace(tmp, p)
+
+    def _fetch(self, name):
+        """GitHub wali file: (content, sha) ya None (file nahi hai)."""
+        path = f"{self.subdir}/{name}"
+        if self.token:
+            code, body = self._req("GET", f"{API}/repos/{self.repo}/contents/{path}?ref={self.branch}")
+            if code == 404:
+                return None
+            if code != 200:
+                raise SyncError(f"{name} nahi mili (code {code})")
+            j = json.loads(body)
+            if j.get("content"):
+                return base64.b64decode(j["content"]), j["sha"]
+            code, content = self._req("GET", j["download_url"])
+            if code != 200:
+                raise SyncError(f"{name} nahi mili (code {code})")
+            return content, j["sha"]
+        code, content = self._req("GET", f"{RAW}/{self.repo}/{self.branch}/{path}", accept="*/*")
+        if code == 404:
+            return None
+        if code != 200:
+            raise SyncError(f"{name} nahi mili (code {code})")
+        return content, blob_sha(content)
+
     def pull(self, force=False):
+        """GitHub se taaza files. Local file sirf tab badalti hai jab GitHub wali file pichhli baar se badli ho -
+        isliye local par likha (abhi push na hua) kaam purane se nahi dabta."""
         with self.lock:
             if not force and time.time() - self.last < self.ttl:
                 return
             for name in FILES:
-                path = f"{self.subdir}/{name}"
-                if self.token:
-                    code, body = self._req("GET", f"{API}/repos/{self.repo}/contents/{path}?ref={self.branch}")
-                    if code == 200:
-                        j = json.loads(body)
-                        content = base64.b64decode(j["content"]) if j.get("content") else self._req("GET", j["download_url"])[1]
-                        self.sha[name] = j["sha"]
-                    elif code == 404:
-                        continue
-                    else:
-                        raise SyncError(f"{name} nahi mili (code {code})")
-                else:
-                    code, content = self._req("GET", f"{RAW}/{self.repo}/{self.branch}/{path}", accept="*/*")
-                    if code == 404:
-                        continue
-                    if code != 200:
-                        raise SyncError(f"{name} nahi mili (code {code})")
-                with open(os.path.join(self.dir, name), "wb") as f:
-                    f.write(content)
+                got = self._fetch(name)
+                if got is None:
+                    continue
+                content, sha = got
+                if self.sha.get(name) == sha and self._local(name) is not None:
+                    continue
+                self._write(name, content)
+                self.sha[name] = sha
             self.last = time.time()
 
     def dispatch(self, workflow="daily.yml"):
@@ -81,29 +120,36 @@ class Sync:
         return code, body.decode("utf-8", "replace")[:200]
 
     def push(self, names, message):
-        """Badli hui files GitHub par commit karo (token chahiye)."""
+        """Sirf badli hui files GitHub par commit karo (token chahiye). Takraav (409: beech me kisi aur ne badla) ho to
+        aap ke haath se dali files (USER_FILES) aap ki hi jati hain; apne aap banne wali files me GitHub wali (nayi) rehti hai."""
         if not self.can_write:
             raise SyncError("GITHUB_TOKEN set nahi hai, isliye GitHub par save nahi ho sakta.")
         with self.lock:
             for name in names:
-                p = os.path.join(self.dir, name)
-                if not os.path.exists(p):
+                data = self._local(name)
+                if data is None or self.sha.get(name) == blob_sha(data):          # badli hi nahi: khali commit nahi
                     continue
                 path = f"{self.subdir}/{name}"
+                if name not in self.sha:
+                    code, body = self._req("GET", f"{API}/repos/{self.repo}/contents/{path}?ref={self.branch}")
+                    if code == 200:
+                        self.sha[name] = json.loads(body)["sha"]
                 for attempt in range(2):
-                    if name not in self.sha or attempt:
-                        code, body = self._req("GET", f"{API}/repos/{self.repo}/contents/{path}?ref={self.branch}")
-                        if code == 200:
-                            self.sha[name] = json.loads(body)["sha"]
-                        elif code == 404:
-                            self.sha.pop(name, None)
-                    with open(p, "rb") as f:
-                        b = {"message": message, "content": base64.b64encode(f.read()).decode(), "branch": self.branch}
+                    b = {"message": message, "content": base64.b64encode(data).decode(), "branch": self.branch}
                     if name in self.sha:
                         b["sha"] = self.sha[name]
                     code, body = self._req("PUT", f"{API}/repos/{self.repo}/contents/{path}", b)
                     if code in (200, 201):
                         self.sha[name] = json.loads(body)["content"]["sha"]
                         break
-                    if code != 409 or attempt:
+                    if code not in (409, 422) or attempt:
                         raise SyncError(f"{name} GitHub par save nahi hui (code {code})")
+                    got = self._fetch(name)
+                    if got is None:
+                        self.sha.pop(name, None)
+                        continue
+                    content, sha = got
+                    self.sha[name] = sha
+                    if name not in USER_FILES:
+                        self._write(name, content)
+                        break
