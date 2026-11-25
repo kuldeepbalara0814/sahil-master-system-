@@ -2,7 +2,7 @@
  "schema": 5,
  "asof": "2026-11-24",
  "play_date": "2026-11-25",
- "time": "2026-11-25T15:40:59+05:30",
+ "time": "2026-11-26T03:59:45+05:30",
  "patterns": [
   {
    "id": "001",
@@ -42,7 +42,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:10:2013-01-19",
@@ -66,7 +66,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:10:2019-09-25",
@@ -90,7 +90,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:10:2016-09-08",
@@ -114,7 +114,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:10:2015-10-07",
@@ -153,7 +153,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:10:2025-09-07",
@@ -199,7 +199,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:10:2018-07-14",
@@ -223,7 +223,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:10:2019-05-17",
@@ -247,7 +247,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:10:2016-01-05",
@@ -271,7 +271,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:10:2016-02-23",
@@ -295,7 +295,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:10:2015-05-09",
@@ -319,7 +319,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:10:2021-02-23",
@@ -343,7 +343,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:12:2021-05-07",
@@ -367,7 +367,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:12:2015-10-05",
@@ -406,7 +406,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:12:2013-01-17",
@@ -430,7 +430,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:12:2025-09-05",
@@ -476,7 +476,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:12:2016-09-24",
@@ -524,7 +524,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:12:2019-05-15",
@@ -548,7 +548,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:12:2019-09-23",
@@ -572,7 +572,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:12:2025-06-11",
@@ -596,7 +596,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:12:2024-03-15",
@@ -620,7 +620,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:12:2014-10-10",
@@ -644,7 +644,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:12:2014-11-10",
@@ -668,7 +668,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:12:2023-02-18",
@@ -692,7 +692,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:15:2021-05-04",
@@ -716,7 +716,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:15:2018-12-03",
@@ -764,7 +764,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:15:2022-05-16",
@@ -788,7 +788,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:15:2023-02-15",
@@ -812,7 +812,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:15:2015-10-02",
@@ -851,7 +851,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:15:2016-02-01",
@@ -890,7 +890,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:15:2016-04-20",
@@ -914,7 +914,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:15:2014-09-22",
@@ -938,7 +938,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:15:2025-09-19",
@@ -962,7 +962,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:15:2019-07-16",
@@ -986,7 +986,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:15:2019-05-12",
@@ -1010,7 +1010,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:15:2019-09-20",
@@ -1034,7 +1034,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:18:2022-05-13",
@@ -1058,7 +1058,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:18:2023-02-02",
@@ -1097,7 +1097,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:18:2018-01-25",
@@ -1121,7 +1121,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:18:2025-08-29",
@@ -1167,7 +1167,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:18:2014-09-19",
@@ -1191,7 +1191,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:18:2017-08-20",
@@ -1239,7 +1239,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:18:2023-01-07",
@@ -1263,7 +1263,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:18:2023-10-15",
@@ -1287,7 +1287,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:18:2015-05-01",
@@ -1326,7 +1326,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:18:2022-04-10",
@@ -1350,7 +1350,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:18:2025-02-10",
@@ -1374,7 +1374,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha:18:2021-05-01",
@@ -1398,7 +1398,7 @@
       "key": "naksha",
       "naam": "Naksha"
      },
-     "new": true
+     "new": false
     }
    ],
    "summary": "Naye mahine ke naksha ko 13 saal me khoja; har lambai (10/12/15/18 line) ke sabse achhe 12 milan dikhaye (ek dusre se 20 din door). Sirf wahi link ginta hoon jahan same ya palat number same jagah par ho; rashi ya sirf rang wale link abhi nahi ginta, isliye aap ki aankh se kam milte hain. 'mazboot' tabhi jab z random ke best se bhi upar ho, baaki random jaisa."
@@ -1432,7 +1432,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:10:2025-11-26",
@@ -1517,7 +1517,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:10:2023-11-12",
@@ -1568,7 +1568,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:10:2020-01-14",
@@ -1592,7 +1592,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:10:2023-02-17",
@@ -1643,7 +1643,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:10:2020-09-09",
@@ -1715,7 +1715,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:10:2018-12-01",
@@ -1800,7 +1800,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:10:2016-08-02",
@@ -1872,7 +1872,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:10:2021-11-20",
@@ -2012,7 +2012,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:10:2023-01-22",
@@ -2106,7 +2106,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:10:2025-09-09",
@@ -2130,7 +2130,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:10:2013-07-26",
@@ -2202,7 +2202,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:12:2015-02-23",
@@ -2226,7 +2226,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:12:2025-11-24",
@@ -2311,7 +2311,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:12:2022-02-08",
@@ -2431,7 +2431,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:12:2025-08-20",
@@ -2508,7 +2508,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:12:2024-04-10",
@@ -2572,7 +2572,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:12:2020-01-12",
@@ -2636,7 +2636,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:12:2016-01-09",
@@ -2784,7 +2784,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:12:2023-06-15",
@@ -2856,7 +2856,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:12:2014-08-04",
@@ -2907,7 +2907,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:12:2023-11-10",
@@ -2958,7 +2958,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:12:2016-07-30",
@@ -3030,7 +3030,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:12:2016-06-07",
@@ -3102,7 +3102,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:15:2025-01-09",
@@ -3153,7 +3153,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:15:2024-05-21",
@@ -3204,7 +3204,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:15:2014-08-01",
@@ -3255,7 +3255,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:15:2017-08-15",
@@ -3396,7 +3396,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:15:2019-01-24",
@@ -3502,7 +3502,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:15:2016-01-06",
@@ -3650,7 +3650,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:15:2019-03-16",
@@ -3722,7 +3722,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:15:2018-11-28",
@@ -3871,7 +3871,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:15:2022-02-05",
@@ -3991,7 +3991,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:15:2019-07-16",
@@ -4084,7 +4084,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:15:2025-08-17",
@@ -4161,7 +4161,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:18:2017-08-12",
@@ -4349,7 +4349,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:18:2020-08-22",
@@ -4484,7 +4484,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:18:2024-09-11",
@@ -4632,7 +4632,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:18:2025-01-06",
@@ -4704,7 +4704,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:18:2017-04-17",
@@ -4776,7 +4776,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:18:2024-06-08",
@@ -4827,7 +4827,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:18:2021-11-22",
@@ -4912,7 +4912,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:18:2014-10-11",
@@ -5095,7 +5095,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:18:2019-09-06",
@@ -5209,7 +5209,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:18:2026-03-09",
@@ -5386,7 +5386,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:18:2014-03-26",
@@ -5534,7 +5534,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "naksha2:18:2019-07-13",
@@ -5640,7 +5640,7 @@
       "key": "naksha2",
       "naam": "Naksha-Rashi"
      },
-     "new": true
+     "new": false
     }
    ],
    "summary": "Naksha ka part 2: link number ka nahi, **rashi** ka. Purane 13 saal me wahi design (same duri, same jagah) jahan naye mahine ki rashi ki movement milti hai; har lambai ke sabse achhe 12 milan. Rashi ke 15 hi group hain, isliye random me bhi zyada milan aate hain; 'mazboot' tabhi jab z random ke best se upar ho."
@@ -5694,6 +5694,86 @@
      "new": false
     },
     {
+     "id": "steps:8:2026-09-03:2026-10-01",
+     "kind": "steps",
+     "name": "Steps-03Sep-01Oct-8box",
+     "status": "aaj",
+     "strength": "info",
+     "title": "8 box | 2 link | 3 mahine (03 Sep / 01 Oct / 18 Nov)",
+     "lines": [
+      "Boundary 8 box (har step me barabar): Step 1 03 Sep se 10 Sep, Step 2 01 Oct se 08 Oct, Step 3 18 Nov se 25 Nov.",
+      "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 me; Step 3 me USI BOX par 1 mila.",
+      "79/97: AAJ 25 Nov ke box me aana chahiye (box 8; design me DS, kisi bhi game me aaye to link bana).",
+      "Indicator (laal): 15/51 har boundary me aaya (ek hi cell mark).",
+      "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+     ],
+     "end": null,
+     "targets": [
+      {
+       "game": "DS",
+       "numbers": [
+        79,
+        97
+       ]
+      }
+     ],
+     "aage": [],
+     "target": {
+      "date": "2026-11-25",
+      "games": "DS",
+      "numbers": [
+       79,
+       97
+      ]
+     },
+     "pattern": {
+      "id": "007",
+      "key": "steps",
+      "naam": "Puzzle-Steps"
+     },
+     "new": false
+    },
+    {
+     "id": "steps:10:2026-09-03:2026-10-01",
+     "kind": "steps",
+     "name": "Steps-03Sep-01Oct-10box",
+     "status": "aaj",
+     "strength": "info",
+     "title": "10 box | 2 link | 3 mahine (03 Sep / 01 Oct / 18 Nov)",
+     "lines": [
+      "Boundary 10 box (har step me barabar): Step 1 03 Sep se 12 Sep, Step 2 01 Oct se 10 Oct, Step 3 18 Nov se 27 Nov.",
+      "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 me; Step 3 me USI BOX par 1 mila.",
+      "79/97: AAJ 25 Nov ke box me aana chahiye (box 8; design me DS, kisi bhi game me aaye to link bana).",
+      "Indicator (laal): 35/53 har boundary me aaya (ek hi cell mark).",
+      "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+     ],
+     "end": null,
+     "targets": [
+      {
+       "game": "DS",
+       "numbers": [
+        79,
+        97
+       ]
+      }
+     ],
+     "aage": [],
+     "target": {
+      "date": "2026-11-25",
+      "games": "DS",
+      "numbers": [
+       79,
+       97
+      ]
+     },
+     "pattern": {
+      "id": "007",
+      "key": "steps",
+      "naam": "Puzzle-Steps"
+     },
+     "new": false
+    },
+    {
      "id": "steps:10:2026-09-05:2026-10-20",
      "kind": "steps",
      "name": "Steps-05Sep-20Oct-10box",
@@ -5729,7 +5809,7 @@
       "key": "steps",
       "naam": "Puzzle-Steps"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "steps:10:2026-09-15:2026-10-20",
@@ -5761,6 +5841,46 @@
       "date": "2026-11-25",
       "games": "aaj koi box nahi (aage)",
       "numbers": []
+     },
+     "pattern": {
+      "id": "007",
+      "key": "steps",
+      "naam": "Puzzle-Steps"
+     },
+     "new": false
+    },
+    {
+     "id": "steps:12:2026-09-03:2026-10-01",
+     "kind": "steps",
+     "name": "Steps-03Sep-01Oct-12box",
+     "status": "aaj",
+     "strength": "info",
+     "title": "12 box | 2 link | 3 mahine (03 Sep / 01 Oct / 18 Nov)",
+     "lines": [
+      "Boundary 12 box (har step me barabar): Step 1 03 Sep se 14 Sep, Step 2 01 Oct se 12 Oct, Step 3 18 Nov se 29 Nov.",
+      "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 me; Step 3 me USI BOX par 1 mila.",
+      "79/97: AAJ 25 Nov ke box me aana chahiye (box 8; design me DS, kisi bhi game me aaye to link bana).",
+      "Indicator (laal): 05/50 har boundary me aaya (ek hi cell mark).",
+      "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+     ],
+     "end": null,
+     "targets": [
+      {
+       "game": "DS",
+       "numbers": [
+        79,
+        97
+       ]
+      }
+     ],
+     "aage": [],
+     "target": {
+      "date": "2026-11-25",
+      "games": "DS",
+      "numbers": [
+       79,
+       97
+      ]
      },
      "pattern": {
       "id": "007",
@@ -5805,7 +5925,7 @@
       "key": "steps",
       "naam": "Puzzle-Steps"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "steps:8:2026-09-02:2026-10-19",
@@ -5834,97 +5954,10 @@
       "key": "steps",
       "naam": "Puzzle-Steps"
      },
-     "new": true
-    },
-    {
-     "id": "steps:8:2026-09-03:2026-10-01",
-     "kind": "steps",
-     "name": "Steps-03Sep-01Oct-8box",
-     "status": "aaj",
-     "strength": "info",
-     "title": "8 box | 2 link | 3 mahine (03 Sep / 01 Oct / 18 Nov)",
-     "lines": [
-      "Boundary 8 box (har step me barabar): Step 1 03 Sep se 10 Sep, Step 2 01 Oct se 08 Oct, Step 3 18 Nov se 25 Nov.",
-      "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 me; Step 3 me USI BOX par 1 mila.",
-      "1 link ka pehla box abhi aage ki tarikh me (jamuni '?' box); jab pehla aaye to uska number/palat doosre box ke liye banega.",
-      "Indicator (laal): 15/51 har boundary me aaya (ek hi cell mark).",
-      "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
-     ],
-     "end": null,
-     "targets": [],
-     "aage": [],
-     "target": {
-      "date": "2026-11-25",
-      "games": "aaj koi box nahi (aage)",
-      "numbers": []
-     },
-     "pattern": {
-      "id": "007",
-      "key": "steps",
-      "naam": "Puzzle-Steps"
-     },
-     "new": true
-    },
-    {
-     "id": "steps:10:2026-09-01:2026-10-18",
-     "kind": "steps",
-     "name": "Steps-01Sep-18Oct-10box",
-     "status": "aaj",
-     "strength": "info",
-     "title": "10 box | 2 link | 3 mahine (01 Sep / 18 Oct / 18 Nov)",
-     "lines": [
-      "Boundary 10 box (har step me barabar): Step 1 01 Sep se 10 Sep, Step 2 18 Oct se 27 Oct, Step 3 18 Nov se 27 Nov.",
-      "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 me; Step 3 me USI BOX par 1 mila.",
-      "1 link ka pehla box abhi aage ki tarikh me (jamuni '?' box); jab pehla aaye to uska number/palat doosre box ke liye banega.",
-      "Indicator (laal): 58/85 har boundary me aaya (ek hi cell mark).",
-      "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
-     ],
-     "end": null,
-     "targets": [],
-     "aage": [],
-     "target": {
-      "date": "2026-11-25",
-      "games": "aaj koi box nahi (aage)",
-      "numbers": []
-     },
-     "pattern": {
-      "id": "007",
-      "key": "steps",
-      "naam": "Puzzle-Steps"
-     },
-     "new": false
-    },
-    {
-     "id": "steps:10:2026-09-03:2026-10-01",
-     "kind": "steps",
-     "name": "Steps-03Sep-01Oct-10box",
-     "status": "aaj",
-     "strength": "info",
-     "title": "10 box | 2 link | 3 mahine (03 Sep / 01 Oct / 18 Nov)",
-     "lines": [
-      "Boundary 10 box (har step me barabar): Step 1 03 Sep se 12 Sep, Step 2 01 Oct se 10 Oct, Step 3 18 Nov se 27 Nov.",
-      "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 me; Step 3 me USI BOX par 1 mila.",
-      "1 link ka pehla box abhi aage ki tarikh me (jamuni '?' box); jab pehla aaye to uska number/palat doosre box ke liye banega.",
-      "Indicator (laal): 35/53 har boundary me aaya (ek hi cell mark).",
-      "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
-     ],
-     "end": null,
-     "targets": [],
-     "aage": [],
-     "target": {
-      "date": "2026-11-25",
-      "games": "aaj koi box nahi (aage)",
-      "numbers": []
-     },
-     "pattern": {
-      "id": "007",
-      "key": "steps",
-      "naam": "Puzzle-Steps"
-     },
      "new": false
     }
    ],
-   "summary": "3 mahine ek sheet par step 1 (pichle se pichla mahina), step 2 (pichla mahina), step 3 (current): 8 design mile, 8 abhi chal rahe. Ye khoj hai; random data me bhi aise milan aate hai, isliye pass/fail se parkho."
+   "summary": "3 mahine ek sheet par step 1 (pichle se pichla mahina), step 2 (pichla mahina), step 3 (current): 8 design mile, 8 abhi chal rahe. Ye khoj hai; random data me bhi aise milan aate hai, isliye pass/fail se parkho. Aadhi line judi hai (FB, GB, GL aa chuke)."
   },
   {
    "id": "003",
@@ -5999,7 +6032,7 @@
       "key": "family",
       "naam": "Family"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "family:13:seedha:2026-11-22",
@@ -6053,7 +6086,7 @@
       "key": "family",
       "naam": "Family"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "family:23:seedha:2026-11-22",
@@ -6107,7 +6140,7 @@
       "key": "family",
       "naam": "Family"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "family:12:seedha:2026-11-19",
@@ -6517,7 +6550,7 @@
       "key": "dana",
       "naam": "Dana-Farak"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "dana:gap:2026-11-22-1:2026-11-24-0",
@@ -6556,7 +6589,7 @@
       "key": "dana",
       "naam": "Dana-Farak"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "dana:gap:2026-11-22-2:2026-11-24-0",
@@ -6595,7 +6628,7 @@
       "key": "dana",
       "naam": "Dana-Farak"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "dana:gap:2026-11-23-1:2026-11-24-0",
@@ -6634,7 +6667,7 @@
       "key": "dana",
       "naam": "Dana-Farak"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "dana:gap:2026-11-22-1:2026-11-24-1",
@@ -6673,7 +6706,7 @@
       "key": "dana",
       "naam": "Dana-Farak"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "dana:gap:2026-11-22-3:2026-11-24-1",
@@ -6712,7 +6745,7 @@
       "key": "dana",
       "naam": "Dana-Farak"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "dana:gap:2026-11-23-1:2026-11-24-1",
@@ -6751,7 +6784,7 @@
       "key": "dana",
       "naam": "Dana-Farak"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "dana:gap:2026-11-22-0:2026-11-24-3",
@@ -6790,7 +6823,7 @@
       "key": "dana",
       "naam": "Dana-Farak"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "dana:farak:2026-11-23-2:2026-11-24-3",
@@ -6834,7 +6867,7 @@
       "key": "dana",
       "naam": "Dana-Farak"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "dana:gap:2026-11-19-0:2026-11-21-2",
@@ -7333,7 +7366,7 @@
       "key": "dana",
       "naam": "Dana-Farak"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "dana:farak:2026-11-21-1:2026-11-22-3",
@@ -7385,7 +7418,7 @@
       "key": "dana",
       "naam": "Dana-Farak"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "dana:farak:2026-11-21-2:2026-11-22-0",
@@ -7435,7 +7468,7 @@
       "key": "dana",
       "naam": "Dana-Farak"
      },
-     "new": true
+     "new": false
     },
     {
      "id": "dana:farak:2026-11-23-2:2026-11-24-0",
@@ -7460,12 +7493,20 @@
       "key": "dana",
       "naam": "Dana-Farak"
      },
-     "new": true
+     "new": false
     }
    ],
    "summary": "Pichle 6 mahine (same + farak pair): saaf box 89/235 pass (random ~88), confusion box 105/539 (random ~104). Abhi 10 box chalu."
   }
  ],
  "errors": [],
+ "partial": {
+  "date": "2026-11-25",
+  "games": [
+   "FB",
+   "GB",
+   "GL"
+  ]
+ },
  "seconds": 1.2
 }
