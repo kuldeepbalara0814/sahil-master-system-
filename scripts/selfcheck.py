@@ -146,6 +146,7 @@ def check_git():
     dirty = git("status", "--porcelain")
     if dirty:
         add("warn", "git", "bina commit ke badlav: " + ", ".join(x[3:] for x in dirty.splitlines()[:8]))
+    git("fetch", "-q", "origin")                       # sirf jankari taaza (kuch badalta nahi)
     ahead = git("log", "--oneline", "@{u}..HEAD")
     if ahead:
         add("warn", "git", f"push nahi hue commit: {ahead.splitlines()[:5]}")

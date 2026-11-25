@@ -237,6 +237,9 @@ def _auto_run():
     try:
         rep, changed = _run_update()
         _auto["last"] = {"time": rep["time"], "added": rep["added"], "new": rep.get("partial_new") or [], "errors": [str(e)[:160] for e in rep["errors"]][:3]}
+        if rep["errors"] and not changed:                        # server se site nahi khuli: GitHub Action se turant mangao
+            code, _ = SYNC.dispatch()
+            _auto["last"]["action_chalayi"] = code == 204
         if changed:
             with _run_lock:
                 persist(gh.FILES, f"auto fetch {rep['last_date']} {' '.join(rep.get('partial_new') or [])}".strip())
