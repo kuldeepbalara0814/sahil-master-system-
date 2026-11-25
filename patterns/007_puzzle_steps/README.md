@@ -49,3 +49,13 @@ Cross (X) ka shape, **ulta (reverse)** pattern, flat/standing ki alag jodi, "loc
 
 ## Script (kisi bhi AI/Termux me dobara banane ke liye)
 `scripts/puzzle_pattern.py` (ek file, copy-paste): `python puzzle_pattern.py data/results.csv --out <folder>` -> `puzzle_steps.xlsx` aur `puzzle_steps.pdf`. App ka code: `lab/steps.py`. Poori vidhi: `patterns/AI_REBUILD_GUIDE.md`.
+
+## 25 Nov 2026: HU-BA-HU COPY (user ne aankh se kami pakdi)
+User: "jitni boundary/ginti step 1 me ho utni hi step 2, 3, 4, 5 me; step 1 ki copy jitni baar bane, aage banti jaye."
+- **Galti thi:** Step 3 me link ka doosra number boundary me kahin bhi aa jaye to rang lag kar "mila" gin leta tha. Udaharan: Step 1/2 me link 4 box ka, Step 3 me 2 box par dikha diya.
+- **Ab niyam:** doosra number **usi box (wahi doori)** par ho tabhi link bana. **Game koi bhi** (23 Nov wali baat waisi hi). Boundary me kahin aur aaye to sirf likha jata hai "box alag: copy me nahi gina". PASS = saare link apne box par.
+- **Step 4, 5...:** Step 2 ke baad design jitni baar dobara bane (kam se kam 2 link apne box par, bina ek dusre par chadhe) wo Step 3, 4... bante hain; chal rahi copy aakhri step. Har step me boundary box barabar.
+- **Aaj ke andaze** = sirf wo link jinka doosra box aaj ki tarikh ka hai; aage ke box alag (`aage`).
+- Meri Window: "Card 007 ke number" aur "Naksha + 007 sab ek saath copy".
+- Sakht niyam se "mila" pehle se kam dikhega. Ye khoj hai, pakka pattern nahi.
+

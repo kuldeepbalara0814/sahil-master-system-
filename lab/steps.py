@@ -108,51 +108,76 @@ def _indicator(vals, a, b, c, L, N, avoid):
     return k, cells
 
 
+def _same_box(vals, c, k, N):
+    """Copy (shuruat c) me link k: pehle cell ka number/palat THEEK usi doori wale box par (game koi bhi; pehle design wala game).
+    -> (pehla class, hit cell ya None). pehla None = abhi aaya hi nahi."""
+    i, aa, j, bb = k
+    if c + i >= N or cls(vals[c + i][aa]) == -1:
+        return None, None
+    first = cls(vals[c + i][aa])
+    row = c + j
+    if row < N:
+        for g in [bb] + [g for g in range(4) if g != bb]:
+            if i == j and g == aa:                       # flat link: wahi cell dobara nahi
+                continue
+            if cls(vals[row][g]) == first:
+                return first, (row, g)
+    return first, None
+
+
 def analyse(vals, D, a, b, c, L, part=False):
-    """Ek (a, b, c, L) ka poora hisaab."""
+    """Ek (a, b, c, L) ka poora hisaab. Step 3 (aur aage) Step 1 ki HU-BA-HU copy: link ka doosra number usi box (doori) par.
+    (user, 25 Nov 2026: "jitni step 1 me ho utni hi step 2, 3, 4 me"; pehle boundary me kahin bhi aane par gin leta tha - galat.)"""
     N = len(vals)
     ka, kb = _keyed(vals, a, L), _keyed(vals, b, L)
     common = sorted(set(ka) & set(kb))
     if len(common) < 2:
         return None
-    present, pend, pend2, found = [], [], [], {}
+    present, pend, pend2, found, missed, off = [], [], [], {}, [], {}
     for k in common:
         i, aa, j, bb = k
-        if c + i >= N:
+        first, hit = _same_box(vals, c, k, N)
+        if first is None:
             pend2.append(k)
-            continue
-        first = cls(vals[c + i][aa])
-        if first == -1:                                          # pehla cell aadhi line ka abhi-na-aaya game: dono cell aage
-            pend2.append(k)
-            continue
-        hit = None                                               # Step 3: wahi number boundary ke andar KISI BHI location me aa jaye (user ne tay kiya)
-        if i == j:                                               # flat link (usi din doosri location): usi row me aage ki location bhi boundary ke andar hai
-            for g in range(aa + 1, 4):
-                if cls(vals[c + i][g]) == first:
-                    hit = (c + i, g)
-                    break
-        for rr in ([] if hit else range(c + i + 1, min(N - 1, c + L - 1) + 1)):
-            for g in range(4):
-                if cls(vals[rr][g]) == first:
-                    hit = (rr, g)
-                    break
-            if hit:
-                break
-        if hit:
+        elif hit:
             present.append(k)
             found[k] = hit
-        elif (c + L - 1 >= N - 1) if part else (c + L - 1 > N - 1):      # boundary abhi khuli (aadhi line ho to uski tarikh par bhi)
+        elif c + j >= N or (part and c + j == N - 1):    # doosra box abhi poora nahi: intezaar
             pend.append((k, first))
+        else:                                            # box beet gaya, number wahan nahi
+            missed.append(k)
+            for rr in range(c + i + 1, min(N, c + L)):   # boundary me kahin aur aaya? (sirf bataane ko, copy me nahi ginte)
+                if any(cls(vals[rr][g]) == first for g in range(4)):
+                    off[k] = rr
+                    break
     link_cells = set()
-    for n, k in enumerate(common):
+    for k in common:
         i, aa, j, bb = k
-        for s in (a, b):
-            link_cells |= {(s + i, aa), (s + j, bb)}
+        for s0 in (a, b):
+            link_cells |= {(s0 + i, aa), (s0 + j, bb)}
         if k in present:
             link_cells |= {(c + i, aa), found[k]}
     ind = _indicator(vals, a, b, c, L, N, link_cells)
-    end_idx = c + L - 1
-    return {"L": L, "a": a, "b": b, "c": c, "common": common, "present": present, "found": found, "pend": pend, "pend2": pend2, "ind": ind, "end_idx": end_idx}
+    return {"L": L, "a": a, "b": b, "c": c, "common": common, "present": present, "found": found, "pend": pend, "pend2": pend2,
+            "missed": missed, "off": off, "ind": ind, "end_idx": c + L - 1, "copies": []}
+
+
+def extra_copies(vals, r):
+    """Step 2 ke baad aur chal rahi copy se pehle jitni baar design dobara bana (kam se kam 2 link usi box par, ek dusre par chadhe bina).
+    -> [(shuruat, mile link, {link: cell})] - ye Step 3, 4, 5... bante hain, chal rahi copy aakhri."""
+    out, c, L = [], r["b"] + r["L"], r["L"]
+    while c + L <= r["c"]:
+        found = {}
+        for k in r["common"]:
+            _, hit = _same_box(vals, c, k, len(vals))
+            if hit:
+                found[k] = hit
+        if len(found) >= 2:
+            out.append((c, [k for k in r["common"] if k in found], found))
+            c += L
+        else:
+            c += 1
+    return out
 
 
 def _windows(rows):
@@ -190,7 +215,7 @@ def _search(vals, D, N, rem, ym, Ls, only, part):
                     if not r or not (r["present"] or r["pend"] or r["pend2"]):
                         continue
                     ended = c + L - 1 < N - 1 if part else c + L - 1 <= N - 1
-                    sc = (len(r["common"]), not ended, len(r["present"]) + len(r["pend"]), r["ind"] is not None)
+                    sc = (len(r["common"]), not ended, len(r["present"]), len(r["present"]) + len(r["pend"]), r["ind"] is not None)
                     key = (L, x, y)
                     if key not in best or sc > best[key][0]:
                         best[key] = (sc, r)
@@ -220,9 +245,11 @@ def find(rows, Ls=LS, top=8, only=None, part=False):
     rem = _fut(D[-1])
     cur = (D[-1].year, D[-1].month)
     out = _pick(_search(vals, D, N, rem, cur, Ls, only, part), top, only)
-    if only and out:
-        return out
-    return out + _pick(_search(vals, D, N, rem, _prev_ym(cur), Ls, only, part), CARRY, only)
+    if not (only and out):
+        out = out + _pick(_search(vals, D, N, rem, _prev_ym(cur), Ls, only, part), CARRY, only)
+    for r in out:
+        r["copies"] = extra_copies(vals, r)
+    return out
 
 
 def pid(r, D):
@@ -254,19 +281,27 @@ def item(r, rows, today, part=False):
     fut = _fut(D[-1])
     st = status_of(r, N, part)
     end_d = _cd(D, r["end_idx"], N, fut)
-    lines = [f"Boundary {L} box: Step 1 {D[r['a']]:%d %b} se {D[r['a'] + L - 1]:%d %b}, Step 2 {D[r['b']]:%d %b} se {D[r['b'] + L - 1]:%d %b}, Step 3 {D[r['c']]:%d %b} se {end_d:%d %b}.",
-             f"{len(r['common'])} link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) {len(r['present'])} mila."]
-    tg, hint = [], []
+    n_live = 3 + len(r["copies"])                                # chal rahi copy ka step number
+    copies = "".join(f", Step {3 + x} {D[cc]:%d %b} se {D[cc + L - 1]:%d %b} ({len(ks)} link ki copy bani)" for x, (cc, ks, _) in enumerate(r["copies"]))
+    lines = [f"Boundary {L} box (har step me barabar): Step 1 {D[r['a']]:%d %b} se {D[r['a'] + L - 1]:%d %b}, Step 2 {D[r['b']]:%d %b} se {D[r['b'] + L - 1]:%d %b}{copies}, Step {n_live} {D[r['c']]:%d %b} se {end_d:%d %b}.",
+             f"{len(r['common'])} link (wahi number/palat, wahi jagah) Step 1 aur Step 2 me; Step {n_live} me USI BOX par {len(r['present'])} mila."]
+    tg, aage, hint = [], [], []
     for k, cl in r["pend"]:
         i, aa, j, bb = k
         dd = _cd(D, r["c"] + j, N, fut)
         nums = sorted({cl, pal(cl)})
-        tg.append({"game": GAMES[bb], "numbers": nums})
-        unknown = r["c"] + j >= N or (r["c"] + j < N and vals[r["c"] + j][bb] is None)
-        qtxt = f"; '?' box {dd:%d %b} {GAMES[bb]} par dikhaya" if unknown else "; (wo din beet chuka, '?' nahi, asli number dikh raha hai)"
-        hint.append(f"{'/'.join(f'{x:02d}' for x in nums)} kisi bhi location me boundary ({end_d:%d %b}) tak aana chahiye (andar = PASS, bahar = FAIL)" + qtxt)
+        one = {"game": GAMES[bb], "numbers": nums}
+        if dd == today:
+            tg.append(one)
+        else:
+            aage.append(dict(one, date=dd.isoformat()))
+        hint.append(f"{'/'.join(f'{x:02d}' for x in nums)}: {'AAJ ' if dd == today else ''}{dd:%d %b} ke box me aana chahiye (box {j + 1}; design me {GAMES[bb]}, kisi bhi game me aaye to link bana).")
+    for k in r["missed"]:
+        i, aa, j, bb = k
+        extra = f" (boundary me {D[r['off'][k]]:%d %b} ko aaya, par box alag: copy me nahi gina)" if k in r["off"] else ""
+        hint.append(f"Link box {i + 1} -> box {j + 1}: {_cd(D, r['c'] + j, N, fut):%d %b} ke box me number nahi aaya{extra}.")
     if r["pend2"]:
-        hint.append(f"{len(r['pend2'])} link ke dono cell abhi aage ki tarikh me (jamuni '?' box); jab pehla aaye to uska number aur palat agle box ki location me single khelne layak")
+        hint.append(f"{len(r['pend2'])} link ka pehla box abhi aage ki tarikh me (jamuni '?' box); jab pehla aaye to uska number/palat doosre box ke liye banega.")
     lines += hint
     if r["ind"]:
         k, cells = r["ind"]
@@ -275,13 +310,13 @@ def item(r, rows, today, part=False):
         lines.append("Indicator: koi ek number teeno boundary me nahi mila (zaroori nahi, pattern phir bhi ban sakta hai).")
     lines.append("Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md).")
     if st == "pass":
-        lines.append("PASS: Step 3 ki boundary me saare link ban gaye.")
+        lines.append(f"PASS: Step {n_live} me saare link apne-apne box par ban gaye.")
     elif st == "fail":
-        lines.append("FAIL: boundary poori hui, saare link nahi bane.")
+        lines.append("FAIL: boundary poori hui, saare link apne box par nahi bane.")
     return {"id": pid(r, D), "kind": "steps", "name": f"Steps-{D[r['a']]:%d%b}-{D[r['b']]:%d%b}-{L}box", "status": st, "strength": "info",
             "title": f"{L} box | {len(r['common'])} link | 3 mahine ({D[r['a']]:%d %b} / {D[r['b']]:%d %b} / {D[r['c']]:%d %b})",
-            "lines": lines, "end": end_d.isoformat() if st != "aaj" else None, "targets": tg if st == "aaj" else [],
-            "target": {"date": today.isoformat(), "games": ", ".join(sorted({t["game"] for t in tg})) or "jamuni box (aage)", "numbers": sorted({x for t in tg for x in t["numbers"]})} if st == "aaj" and (tg or r["pend2"]) else None}
+            "lines": lines, "end": end_d.isoformat() if st != "aaj" else None, "targets": tg if st == "aaj" else [], "aage": aage if st == "aaj" else [],
+            "target": {"date": today.isoformat(), "games": ", ".join(sorted({t["game"] for t in tg})) or "aaj koi box nahi (aage)", "numbers": sorted({x for t in tg for x in t["numbers"]})} if st == "aaj" and (tg or aage or r["pend2"]) else None}
 
 
 def scan(rows, asof, partial=None):
@@ -322,24 +357,32 @@ def _view(rows, p, part):
     vals = [list(x[1]) for x in rows]
     N = len(vals)
     fut = _fut(D[-1])
-    starts = [r["a"], r["b"], r["c"]]
-    colour = [{}, {}, {}]
+    starts = [r["a"], r["b"]] + [cc for cc, _, _ in r["copies"]] + [r["c"]]
+    last_w = len(starts) - 1                                     # chal rahi copy
+    colour = [{} for _ in starts]
     for n, k in enumerate(r["common"]):
         col = COLS[n % len(COLS)]
         i, aa, j, bb = k
         for w in range(2):
             colour[w][(starts[w] + i, aa)] = col
             colour[w][(starts[w] + j, bb)] = col
+        for x, (cc, _, f) in enumerate(r["copies"]):
+            if k in f:
+                colour[2 + x][(cc + i, aa)] = col
+                colour[2 + x][f[k]] = col
         if k in r["present"]:
-            colour[2][(r["c"] + i, aa)] = col
-            colour[2][r["found"][k]] = col
+            colour[last_w][(r["c"] + i, aa)] = col
+            colour[last_w][r["found"][k]] = col
     pend = {}
-    for n, (k, cl) in enumerate(r["pend"]):
+    for k, cl in r["pend"]:
         col = COLS[r["common"].index(k) % len(COLS)]
         i, aa, j, bb = k
-        colour[2][(r["c"] + i, aa)] = col
-        if r["c"] + j >= N or vals[r["c"] + j][bb] is None:    # beet chuki tarikh par asli number ke upar '?' nahi likhna
-            pend[(r["c"] + j, bb)] = (col, "%02d?" % cl if cl == pal(cl) else "%02d/%02d?" % (cl, pal(cl)))
+        colour[last_w][(r["c"] + i, aa)] = col
+        row = r["c"] + j
+        if row < N and vals[row][bb] is not None:                # aadhi line: design wala game aa chuka, baaki koi khali game
+            bb = next((g for g in range(4) if vals[row][g] is None), None)
+        if bb is not None:                                       # beet chuki tarikh par asli number ke upar '?' nahi likhna
+            pend[(row, bb)] = (col, "%02d?" % cl if cl == pal(cl) else "%02d/%02d?" % (cl, pal(cl)))
     for k in r["pend2"]:
         col = COLS[r["common"].index(k) % len(COLS)]
         i, aa, j, bb = k
@@ -361,7 +404,7 @@ def _view(rows, p, part):
             cell = (idx, g)
             if cell in colour[w]:
                 c[g], kind[g] = colour[w][cell], "step"
-            if w == 2 and cell in pend:
+            if w == last_w and cell in pend:
                 c[g], kind[g], txt[g] = _lt(pend[cell][0]), "light", pend[cell][1]
             if cell in indc and known:
                 ind[g] = True
@@ -374,24 +417,25 @@ def _view(rows, p, part):
         return dd, (None if half else (vals[idx] if known else None)), c, kind, txt, ind
 
     blocks = []
-    for w, nm in enumerate(("STEP 1", "STEP 2", "STEP 3 (adhura)")):
+    for w in range(len(starts)):
         rr = []
         for i in range(L):
             dd, v, c, kind, txt, ind = rowfor(starts[w] + i, w)
             rr.append(_row(dd.isoformat(), v, c, kind, txt))
+        nm = f"STEP {w + 1}" + (" (chal rahi)" if w == last_w else "")
         blocks.append({"label": f"{nm}: {D[starts[w]]:%d %b} se (boundary {L} box)", "rows": rr})
     # ek sheet: teeno mahine upar-neeche
     first_month = (D[r["a"]].year, D[r["a"]].month)
     srows = []
     stepof = {}
-    for w in range(3):
+    for w in range(len(starts)):
         for i in range(L):
             stepof[starts[w] + i] = (w + 1, i)
     idxs = [i for i, d in enumerate(D) if (d.year, d.month) >= first_month]
     last_idx = max(idxs[-1], r["c"] + L - 1)
     for idx in range(idxs[0], last_idx + 1):
         w = stepof.get(idx)
-        dd, v, c, kind, txt, ind = rowfor(idx, (w[0] - 1) if w else 2)
+        dd, v, c, kind, txt, ind = rowfor(idx, (w[0] - 1) if w else last_w)
         edge = ""
         if w:
             edge = "startend" if L == 1 else ("start" if w[1] == 0 else ("end" if w[1] == L - 1 else ""))
@@ -402,8 +446,8 @@ def _view(rows, p, part):
     legend = [{"color": COLS[n % len(COLS)], "text": f"Link {n + 1}: boundary ke {k[0] + 1}-ve box ki {GAMES[k[1]]} -> {k[2] - k[0]} box baad {GAMES[k[3]]} (wahi number/palat)"} for n, k in enumerate(r["common"])]
     if r["ind"]:
         legend.append({"color": RED, "text": f"Indicator {r['ind'][0]:02d}/{pal(r['ind'][0]):02d} (har boundary me ek cell)"})
-    note = ("Step 1 (upar), Step 2 (beech), Step 3 (niche, adhura) ek lambi sheet me. Moti border = boundary (%d box, pehle se aakhri cell, dono sire samet). "
-            "Ek link = ek rang. Laal = indicator (ek cell). Halka rang '?' = aane wala cell.") % L
+    note = ("Step 1 upar, phir uski copy Step 2, 3... niche; aakhri step chal rahi copy. Moti border = boundary (har step me %d box). "
+            "Ek link = ek rang, aur har step me wahi doori (box). Laal = indicator. Halka rang '?' = aane wala box.") % L
     title = f"Puzzle-Steps: {L} box, {len(r['common'])} link"
     if r["pend"] or r["pend2"]:
         legend.append({"color": "#9e9e9e", "text": "'?' = aane wale din ka box (abhi result nahi). Beet chuki tarikh par '?' nahi likhte: wahan asli number dikhta hai."})

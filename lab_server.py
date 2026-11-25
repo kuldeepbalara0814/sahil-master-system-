@@ -907,6 +907,7 @@ def api_window():
     rep = scan_today(rows)                                       # aaj ka scan (tokri isi se lock hoti hai)
     wl = jload("window_log.json", None) or window.new_state()
     out = window.view(wl, rows, partial.merged_results(jload("manual_results.json", {}) or {}, cur_partial(rows)))
+    out["steps007"] = window.steps007(rep)                       # card 007 ke aaj ke aur aage ke number
     try:                                                         # top 30 ke har number ke saath: kaun-kaun se pattern ('Pattern 03 (Family)') se aaya
         rk = rank.build(rep, rows, fr)
         allg = next(g for g in rk["groups"] if g["key"] == "all")

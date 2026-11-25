@@ -31,7 +31,7 @@ WORDS = ["Mor", "Sher", "Chita", "Hans", "Baaz", "Hathi", "Ghoda", "Tota", "Mach
 # random jagah par bhi best z kitna aata hai (120 random mahine, 13 saal): L -> (median, max). Isse 'mazboot/theek/kamzor' tay hota hai.
 BASE = {10: (6.5, 9.4), 12: (6.0, 9.7), 15: (5.8, 10.8), 18: (5.5, 7.8)}
 BASE_R = {10: (5.0, 8.9), 12: (5.0, 7.3), 15: (4.9, 6.2), 18: (4.5, 6.5)}   # rashi wala: 60 random jagah (13 saal)
-SCHEMA = 4                                               # scan ke item ka dhancha badle to badhao: purani saved scan dobara chalegi
+SCHEMA = 5                                               # scan ke item ka dhancha badle to badhao: purani saved scan dobara chalegi
 LENS = (10, 12, 15, 18)
 TOP = 12                                                 # har lambai ke itne milan dikhao
 PAL = ["FF9800", "AB47BC", "66BB6A", "EF5350", "26C6DA", "F06292", "8D6E63", "9CCC65"]

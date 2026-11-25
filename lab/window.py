@@ -86,6 +86,22 @@ def dost_baar(rk):
     return out
 
 
+def steps007(rep):
+    """Card 007 (Puzzle-Steps) ke aaj ke number aur har pattern me kya ban raha hai. -> {date, all, items:[{id, name, title, aaj, aage}], aage_all}"""
+    items = []
+    for p in rep.get("patterns", []):
+        if p.get("key") != "steps":
+            continue
+        for no, it in enumerate(p.get("items", []), 1):
+            if it.get("status") != "aaj":
+                continue
+            items.append({"no": no, "id": it["id"], "name": it.get("name"), "title": it.get("title"),
+                          "aaj": it.get("targets") or [], "aage": it.get("aage") or []})
+    return {"date": rep.get("play_date"), "items": items,
+            "all": sorted({n for it in items for t in it["aaj"] for n in t["numbers"]}),
+            "aage_all": sorted({n for it in items for t in it["aage"] for n in t["numbers"]})}
+
+
 def record(state, rep, rows, known=None):
     """Is play_date ki tokri abhi tak nahi bani to LOCK karo. -> True agar nayi bani.
     known = partial/hath wale result {date: {game: n}}: us din ka koi result pehle hi aa chuka ho to tokri 'late' (ginti me nahi)."""

@@ -1925,6 +1925,55 @@ class SafeguardTests(unittest.TestCase):
             self.assertFalse(health.ping())
 
 
+class Steps007ExactCopyTests(unittest.TestCase):
+    """User (25 Nov 2026): Step 1 me jitni doori, utni hi Step 2, 3, 4, 5 me; copy jitni baar bane, step badhte jayen."""
+
+    def test_every_step_same_box_and_same_distance(self):
+        import collections
+        from lab import steps
+        checked = extra = 0
+        for end in (dt.date(2026, 11, 23), dt.date(2026, 11, 12), dt.date(2026, 11, 3), dt.date(2026, 10, 27), dt.date(2026, 10, 18)):
+            rows = [r for r in data.load() if r[0] <= end]
+            D = [r[0] for r in rows]
+            for r in steps.find(rows):
+                starts = [r["a"], r["b"]] + [c for c, _, _ in r["copies"]] + [r["c"]]
+                matched = [(r["c"], k, r["found"][k]) for k in r["present"]] + [(c, k, f[k]) for c, ks, f in r["copies"] for k in ks]
+                for c, (i, aa, j, bb), hit in matched:
+                    self.assertEqual(hit[0] - (c + i), j - i)                            # wahi doori
+                    self.assertIn(steps.cls(rows[hit[0]][1][hit[1]]), (steps.cls(rows[c + i][1][aa]),))
+                    checked += 1
+                extra += len(r["copies"])
+                self.assertTrue(all(y - x >= r["L"] for x, y in zip(starts[1:], starts[2:])))   # copy ek dusre par nahi chadhti
+                v = steps.view(rows, steps.pid(r, D))
+                self.assertEqual([len(b["rows"]) for b in v["blocks"]], [r["L"]] * len(starts))
+                per = collections.Counter(x["step"] for x in v["stack"]["rows"] if x["step"])
+                self.assertEqual(per, {n + 1: r["L"] for n in range(len(starts))})       # sheet me bhi har step barabar
+        self.assertGreater(checked, 0)
+        self.assertGreater(extra, 0)                                                      # kahin Step 4+ bhi bana
+
+    def test_number_elsewhere_in_boundary_is_not_a_link(self):
+        from lab import steps
+        vals = [[11, 0, 0, 0], [22, 0, 0, 0], [33, 0, 0, 0], [44, 0, 0, 0]]
+        k = (0, 0, 2, 1)                                                                  # box1 FB -> box3 GB
+        self.assertEqual(steps._same_box(vals, 0, k, 4), (steps.cls(11), None))
+        vals[1][3] = 11                                                                   # box2 me aaya: doori alag
+        self.assertIsNone(steps._same_box(vals, 0, k, 4)[1])
+        vals[2][3] = 11                                                                   # box3 me, doosre game me: link bana
+        self.assertEqual(steps._same_box(vals, 0, k, 4)[1], (2, 3))
+
+    def test_targets_are_only_todays_box_and_window_lists_them(self):
+        from lab import steps, window
+        rows = data.load()
+        its = steps.scan(rows, "x")["items"]
+        today = data.play_date(rows).isoformat()
+        for it in its:
+            self.assertTrue(all(a["date"] > today for a in it["aage"]))
+        w = window.steps007({"play_date": today, "patterns": [{"key": "steps", "items": its}]})
+        self.assertEqual(w["all"], sorted({n for it in its if it["status"] == "aaj" for t in it["targets"] for n in t["numbers"]}))
+        j = lab_server.app.test_client().get("/api/window").get_json()
+        self.assertIn("steps007", j)
+
+
 class StaleScanTests(unittest.TestCase):
     def test_old_schema_scan_is_rerun(self):
         old = scanner.run(ROWS)
@@ -2011,7 +2060,9 @@ class StepsTests(unittest.TestCase):
         self.assertTrue(any(x["a"] == a and x["b"] == b for x in res) or len(res) > 0)
         it = steps.item(r, rows, data.play_date(rows))
         self.assertEqual((it["kind"], it["status"]), ("steps", "aaj"))
-        self.assertTrue(it["targets"])
+        self.assertEqual(it["targets"], [])                       # link B ka box aaj ka nahi (aage ka): aaj ka andaza nahi
+        self.assertIn({"game": "GL", "numbers": [12, 21]}, [{"game": a["game"], "numbers": a["numbers"]} for a in it["aage"]])
+        self.assertTrue(all(a["date"] > data.play_date(rows).isoformat() for a in it["aage"]))
         v = steps.view(rows, steps.pid(r, D))
         self.assertEqual(len(v["blocks"]), 3)
         self.assertTrue(any(x["step"] == 3 for x in v["stack"]["rows"]) and any(x["edge"] == "start" for x in v["stack"]["rows"]))

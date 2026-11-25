@@ -133,6 +133,19 @@ tabs.meri=async function(root){
   el("div",{class:"mut small",style:"margin-top:8px"},w.scan_time?`Tokri lock hui: ${istm(w.scan_time)}`:"Tokri abhi lock nahi hui",` | pocket ki ginti ${dm(w.start)} se`),
   counted?null:el("div",{class:"small",style:"margin-top:6px"},`Aaj (${dm(w.play_date)}) ki tokri sirf dikhane ke liye; pocket ki ginti start tarikh (${dm(w.start)}) se.`)));
  if(REP)root.append(openCard(w));
+ /* CARD 007 (Puzzle-Steps) KE NUMBER: aaj ke box wale, bahar pattern ka naam, andar jodi */
+ const s7=w.steps007||{items:[],all:[],aage_all:[]},nums7=ts=>[...new Set(ts.flatMap(t=>t.numbers))].sort((a,b)=>a-b);
+ root.append(el("div",{class:"card wn-007"},
+  el("h2",{style:"margin:0 0 6px"},`Card 007 ke number: ${dm(w.play_date)}`),
+  (s7.all||[]).length?[el("div",{class:"row"},copyBtn("Aaj ke 007 sab copy",s7.all,"sm")),el("div",{class:"act-nums"},s7.all.map(n=>chip(n,"green")))]
+   :el("p",{class:"mut"},"Aaj kisi 007 pattern ka box aaj ki tarikh par nahi hai."),
+  (s7.aage_all||[]).length?el("div",{class:"row",style:"margin-top:6px"},el("span",{class:"mut small"},"Aage ke box wale:"),copyBtn("Aage wale copy",s7.aage_all)):null,
+  (s7.items||[]).filter(it=>it.aaj.length||it.aage.length).map(it=>el("div",{class:"wn-pat"},
+   el("div",{class:"act-top"},el("b",{},it.name||it.title),el("span",{class:"row",style:"gap:6px"},copyBtn("Copy",nums7([...it.aaj,...it.aage])),
+    el("button",{type:"button",class:"b sm",on:{click:()=>openItem("steps",it.no)}},"Kholo"))),
+   it.aaj.map(t=>el("div",{class:"small",style:"margin:3px 0"},el("b",{},`Aaj ${fb(t.game)}: `),t.numbers.map(n=>chip(n,"green","sm")))),
+   it.aage.map(t=>el("div",{class:"small mut",style:"margin:3px 0"},`${dm(t.date)} ${fb(t.game)}: `,t.numbers.map(n=>chip(n,"grey","sm")))))),
+  el("p",{class:"mut small",style:"margin:6px 0 0"},"Number tab aata hai jab link ka pehla box aa chuka ho; doosra box usi doori par (Step 1 jaisa). Game design wala likha hai, kisi bhi game me aaye to link bana.")));
  /* NAKSHA KE NUMBER: aaj aur kal - pehle bane naksha ke aage wale '?' box samet */
  const GM=["FB","GB","GL","DS"],ydBox=el("div",{class:"wn-yaadbox"},el("p",{class:"load"},el("span",{class:"spin"}),"Naksha ke number gine ja rahe hain..."));
  const ydCard=(v,kal)=>{
@@ -151,7 +164,8 @@ tabs.meri=async function(root){
        el("span",{class:"mut"},` ${e.title}${e.pehle>1?` | ${e.pehle} din pehle se dikh raha`:""}`)))))}),
    el("p",{class:"mut small",style:"margin:6px 0 0"},"Naksha chart ke aage wale '?' box, pichle 8 din ke scan se (sirf Naksha 1). 900 din ki jaanch me inka hit random jitna hi nikla; faisla aapka."))};
  root.append(ydBox);
- api("GET","/yaad").then(yd=>{const cs=[ydCard(yd.aaj,false),ydCard(yd.kal,true)].filter(Boolean);ydBox.replaceChildren(...cs)}).catch(e=>ydBox.replaceChildren(el("div",{class:"warn"},"Naksha ke number nahi aaye: "+e.message)));
+ api("GET","/yaad").then(yd=>{const both=[...new Set([...((yd.aaj||{}).all||[]),...(s7.all||[])])].sort((a,b)=>a-b);
+  const cs=[both.length?el("div",{class:"card wn-both"},el("b",{},`Naksha + 007, ${dm(w.play_date)}: ${both.length} jodi`),el("div",{class:"row",style:"margin-top:6px"},copyBtn("Naksha + 007 sab ek saath copy",both,"sm")),el("div",{class:"act-nums"},both.map(n=>chip(n,(s7.all||[]).includes(n)?"green":"grey","sm"))),el("p",{class:"mut small",style:"margin:4px 0 0"},"Hara = 007 me bhi hai.")):null,ydCard(yd.aaj,false),ydCard(yd.kal,true)].filter(Boolean);ydBox.replaceChildren(...cs)}).catch(e=>ydBox.replaceChildren(el("div",{class:"warn"},"Naksha ke number nahi aaye: "+e.message)));
  /* naye Naksha pattern */
  root.append(el("div",{class:"card wn-naksha"},
   el("h2",{style:"margin:0 0 6px"},"Aaj ke naye Naksha pattern aur unki jodi"),
