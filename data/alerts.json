@@ -1,6 +1,184 @@
 {
  "items": [
   {
+   "id": "2026-11-26T06:28:53+05:30",
+   "time": "2026-11-26T06:28:53+05:30",
+   "label": "Subah ka final scan (DS aaya, line poori): sab pattern naye sire se",
+   "total": 57,
+   "groups": [
+    {
+     "key": "dana",
+     "naam": "Dana-Farak",
+     "count": 5,
+     "items": [
+      {
+       "id": "dana:farak:2026-11-24-3:2026-11-25-1",
+       "name": "Dana-farak-24Nov",
+       "numbers": [
+        15,
+        16,
+        51,
+        61
+       ],
+       "games": [
+        "ALL"
+       ]
+      },
+      {
+       "id": "dana:farak:2026-11-25-2:2026-11-25-3",
+       "name": "Dana-farak-25Nov",
+       "numbers": [
+        8,
+        79,
+        80,
+        97
+       ],
+       "games": [
+        "ALL"
+       ]
+      },
+      {
+       "id": "dana:gap:2026-11-23-0:2026-11-25-1",
+       "name": "Dana-gap-23Nov",
+       "numbers": [
+        17,
+        71
+       ],
+       "games": [
+        "ALL"
+       ]
+      },
+      {
+       "id": "dana:farak:2026-11-23-0:2026-11-25-3",
+       "name": "Dana-farak-23Nov",
+       "numbers": [
+        8,
+        18,
+        80,
+        81
+       ],
+       "games": [
+        "ALL"
+       ]
+      },
+      {
+       "id": "dana:farak:2026-11-24-2:2026-11-25-3",
+       "name": "Dana-farak-24Nov",
+       "numbers": [
+        8,
+        9,
+        80,
+        90
+       ],
+       "games": [
+        "ALL"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "naksha",
+     "naam": "Naksha",
+     "count": 8,
+     "items": [
+      {
+       "id": "naksha:10:2025-09-08",
+       "name": "Naksha-Hathi-83",
+       "numbers": [
+        9,
+        90
+       ],
+       "games": [
+        "GB"
+       ]
+      },
+      {
+       "id": "naksha:12:2025-09-06",
+       "name": "Naksha-Gainda-14",
+       "numbers": [
+        9,
+        90
+       ],
+       "games": [
+        "GB"
+       ]
+      },
+      {
+       "id": "naksha:12:2019-05-16",
+       "name": "Naksha-Kachua-75",
+       "numbers": [
+        44
+       ],
+       "games": [
+        "GL"
+       ]
+      },
+      {
+       "id": "naksha:15:2016-04-21",
+       "name": "Naksha-Mor-91",
+       "numbers": [
+        58,
+        85
+       ],
+       "games": [
+        "GL"
+       ]
+      },
+      {
+       "id": "naksha:15:2018-11-24",
+       "name": "Naksha-Machhli-67",
+       "numbers": [
+        37,
+        73
+       ],
+       "games": [
+        "DS"
+       ]
+      },
+      {
+       "id": "naksha:15:2024-03-13",
+       "name": "Naksha-Baaz-95",
+       "numbers": [
+        47,
+        67,
+        74,
+        76
+       ],
+       "games": [
+        "FB",
+        "GL"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "steps",
+     "naam": "Puzzle-Steps",
+     "count": 2,
+     "items": [
+      {
+       "id": "steps:8:2026-09-04:2026-10-02",
+       "name": "Steps-04Sep-02Oct-8box",
+       "numbers": [],
+       "games": []
+      },
+      {
+       "id": "steps:10:2026-09-01:2026-10-18",
+       "name": "Steps-01Sep-18Oct-10box",
+       "numbers": [],
+       "games": []
+      }
+     ]
+    },
+    {
+     "key": "naksha2",
+     "naam": "Naksha-Rashi",
+     "count": 42,
+     "items": []
+    }
+   ]
+  },
+  {
    "id": "2026-11-26T03:59:47+05:30",
    "time": "2026-11-26T03:59:47+05:30",
    "label": "Result aaya: FB 22, GB 61, GL 79 - ab ye current pattern active hue",

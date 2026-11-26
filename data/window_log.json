@@ -672,6 +672,292 @@
      "baar": 0
     }
    ]
+  },
+  "2026-11-26": {
+   "asof": "2026-11-25",
+   "scan_time": "2026-11-26T06:28:53+05:30",
+   "naksha": [
+    {
+     "id": "naksha:10:2025-09-08",
+     "name": "Naksha-Hathi-83",
+     "title": "#10 Sep 2025 jaisa (10 line)",
+     "numbers": [
+      9,
+      90
+     ],
+     "games": [
+      "GB"
+     ]
+    },
+    {
+     "id": "naksha:12:2025-09-06",
+     "name": "Naksha-Gainda-14",
+     "title": "#4 Sep 2025 jaisa (12 line)",
+     "numbers": [
+      9,
+      90
+     ],
+     "games": [
+      "GB"
+     ]
+    },
+    {
+     "id": "naksha:12:2019-05-16",
+     "name": "Naksha-Kachua-75",
+     "title": "#9 May 2019 jaisa (12 line)",
+     "numbers": [
+      44
+     ],
+     "games": [
+      "GL"
+     ]
+    },
+    {
+     "id": "naksha:15:2016-04-21",
+     "name": "Naksha-Mor-91",
+     "title": "#1 Apr 2016 jaisa (15 line)",
+     "numbers": [
+      58,
+      85
+     ],
+     "games": [
+      "GL"
+     ]
+    },
+    {
+     "id": "naksha:15:2018-11-24",
+     "name": "Naksha-Machhli-67",
+     "title": "#5 Nov 2018 jaisa (15 line)",
+     "numbers": [
+      37,
+      73
+     ],
+     "games": [
+      "DS"
+     ]
+    },
+    {
+     "id": "naksha:15:2024-03-13",
+     "name": "Naksha-Baaz-95",
+     "title": "#6 Mar 2024 jaisa (15 line)",
+     "numbers": [
+      47,
+      67,
+      74,
+      76
+     ],
+     "games": [
+      "FB",
+      "GL"
+     ]
+    },
+    {
+     "id": "naksha:18:2013-05-07",
+     "name": "Naksha-Nadi-27",
+     "title": "#2 May 2013 jaisa (18 line)",
+     "numbers": [
+      59,
+      95
+     ],
+     "games": [
+      "GL"
+     ]
+    },
+    {
+     "id": "naksha:18:2016-04-18",
+     "name": "Naksha-Badal-83",
+     "title": "#3 Apr 2016 jaisa (18 line)",
+     "numbers": [
+      58,
+      85
+     ],
+     "games": [
+      "GL"
+     ]
+    }
+   ],
+   "top30": [
+    {
+     "n": 90,
+     "score": 27,
+     "votes": 27,
+     "baar": 0
+    },
+    {
+     "n": 74,
+     "score": 24,
+     "votes": 22,
+     "baar": 1
+    },
+    {
+     "n": 9,
+     "score": 23,
+     "votes": 23,
+     "baar": 0
+    },
+    {
+     "n": 15,
+     "score": 21,
+     "votes": 21,
+     "baar": 0
+    },
+    {
+     "n": 45,
+     "score": 21,
+     "votes": 21,
+     "baar": 0
+    },
+    {
+     "n": 59,
+     "score": 21,
+     "votes": 21,
+     "baar": 0
+    },
+    {
+     "n": 4,
+     "score": 21,
+     "votes": 19,
+     "baar": 1
+    },
+    {
+     "n": 40,
+     "score": 21,
+     "votes": 19,
+     "baar": 1
+    },
+    {
+     "n": 47,
+     "score": 21,
+     "votes": 19,
+     "baar": 1
+    },
+    {
+     "n": 54,
+     "score": 20,
+     "votes": 20,
+     "baar": 0
+    },
+    {
+     "n": 95,
+     "score": 20,
+     "votes": 20,
+     "baar": 0
+    },
+    {
+     "n": 97,
+     "score": 20,
+     "votes": 20,
+     "baar": 0
+    },
+    {
+     "n": 29,
+     "score": 19,
+     "votes": 19,
+     "baar": 0
+    },
+    {
+     "n": 42,
+     "score": 19,
+     "votes": 19,
+     "baar": 0
+    },
+    {
+     "n": 53,
+     "score": 19,
+     "votes": 19,
+     "baar": 0
+    },
+    {
+     "n": 79,
+     "score": 19,
+     "votes": 19,
+     "baar": 0
+    },
+    {
+     "n": 92,
+     "score": 19,
+     "votes": 19,
+     "baar": 0
+    },
+    {
+     "n": 8,
+     "score": 18,
+     "votes": 18,
+     "baar": 0
+    },
+    {
+     "n": 24,
+     "score": 18,
+     "votes": 18,
+     "baar": 0
+    },
+    {
+     "n": 51,
+     "score": 17,
+     "votes": 17,
+     "baar": 0
+    },
+    {
+     "n": 80,
+     "score": 17,
+     "votes": 17,
+     "baar": 0
+    },
+    {
+     "n": 56,
+     "score": 14,
+     "votes": 14,
+     "baar": 0
+    },
+    {
+     "n": 58,
+     "score": 14,
+     "votes": 14,
+     "baar": 0
+    },
+    {
+     "n": 60,
+     "score": 14,
+     "votes": 14,
+     "baar": 0
+    },
+    {
+     "n": 85,
+     "score": 14,
+     "votes": 14,
+     "baar": 0
+    },
+    {
+     "n": 62,
+     "score": 14,
+     "votes": 12,
+     "baar": 1
+    },
+    {
+     "n": 6,
+     "score": 13,
+     "votes": 13,
+     "baar": 0
+    },
+    {
+     "n": 93,
+     "score": 13,
+     "votes": 13,
+     "baar": 0
+    },
+    {
+     "n": 21,
+     "score": 13,
+     "votes": 11,
+     "baar": 1
+    },
+    {
+     "n": 1,
+     "score": 12,
+     "votes": 12,
+     "baar": 0
+    }
+   ]
   }
  }
 }

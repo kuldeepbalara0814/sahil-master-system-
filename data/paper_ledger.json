@@ -2128,9 +2128,9 @@
    "game": "FD",
    "number": 93,
    "stake": 5,
-   "status": "pending",
-   "result": null,
-   "net": null
+   "status": "loss",
+   "result": 22,
+   "net": -5
   },
   {
    "strategy": "single",
@@ -2138,9 +2138,9 @@
    "game": "GL",
    "number": 93,
    "stake": 5,
-   "status": "pending",
-   "result": null,
-   "net": null
+   "status": "loss",
+   "result": 79,
+   "net": -5
   },
   {
    "strategy": "single",
@@ -2148,9 +2148,9 @@
    "game": "DS",
    "number": 93,
    "stake": 5,
-   "status": "pending",
-   "result": null,
-   "net": null
+   "status": "loss",
+   "result": 80,
+   "net": -5
   },
   {
    "strategy": "list10s",
@@ -2158,13 +2158,543 @@
    "game": "FD",
    "number": 93,
    "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 15,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 44,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 81,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 90,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 13,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 37,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 52,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 55,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 59,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GB",
+   "number": 15,
+   "stake": 5,
+   "status": "loss",
+   "result": 61,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GB",
+   "number": 44,
+   "stake": 5,
+   "status": "loss",
+   "result": 61,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GB",
+   "number": 81,
+   "stake": 5,
+   "status": "loss",
+   "result": 61,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GB",
+   "number": 90,
+   "stake": 5,
+   "status": "loss",
+   "result": 61,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GB",
+   "number": 13,
+   "stake": 5,
+   "status": "loss",
+   "result": 61,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GB",
+   "number": 37,
+   "stake": 5,
+   "status": "loss",
+   "result": 61,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GB",
+   "number": 52,
+   "stake": 5,
+   "status": "loss",
+   "result": 61,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GB",
+   "number": 53,
+   "stake": 5,
+   "status": "loss",
+   "result": 61,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GB",
+   "number": 55,
+   "stake": 5,
+   "status": "loss",
+   "result": 61,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GB",
+   "number": 59,
+   "stake": 5,
+   "status": "loss",
+   "result": 61,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GL",
+   "number": 93,
+   "stake": 5,
+   "status": "loss",
+   "result": 79,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GL",
+   "number": 15,
+   "stake": 5,
+   "status": "loss",
+   "result": 79,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GL",
+   "number": 44,
+   "stake": 5,
+   "status": "loss",
+   "result": 79,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GL",
+   "number": 81,
+   "stake": 5,
+   "status": "loss",
+   "result": 79,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GL",
+   "number": 13,
+   "stake": 5,
+   "status": "loss",
+   "result": 79,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GL",
+   "number": 37,
+   "stake": 5,
+   "status": "loss",
+   "result": 79,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GL",
+   "number": 52,
+   "stake": 5,
+   "status": "loss",
+   "result": 79,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GL",
+   "number": 53,
+   "stake": 5,
+   "status": "loss",
+   "result": 79,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GL",
+   "number": 55,
+   "stake": 5,
+   "status": "loss",
+   "result": 79,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "GL",
+   "number": 73,
+   "stake": 5,
+   "status": "loss",
+   "result": 79,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "DS",
+   "number": 93,
+   "stake": 5,
+   "status": "loss",
+   "result": 80,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "DS",
+   "number": 44,
+   "stake": 5,
+   "status": "loss",
+   "result": 80,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "DS",
+   "number": 81,
+   "stake": 5,
+   "status": "loss",
+   "result": 80,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "DS",
+   "number": 90,
+   "stake": 5,
+   "status": "loss",
+   "result": 80,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "DS",
+   "number": 13,
+   "stake": 5,
+   "status": "loss",
+   "result": 80,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "DS",
+   "number": 37,
+   "stake": 5,
+   "status": "loss",
+   "result": 80,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "DS",
+   "number": 52,
+   "stake": 5,
+   "status": "loss",
+   "result": 80,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "DS",
+   "number": 53,
+   "stake": 5,
+   "status": "loss",
+   "result": 80,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "DS",
+   "number": 55,
+   "stake": 5,
+   "status": "loss",
+   "result": 80,
+   "net": -5
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-25",
+   "game": "DS",
+   "number": 59,
+   "stake": 5,
+   "status": "loss",
+   "result": 80,
+   "net": -5
+  },
+  {
+   "strategy": "list10",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 93,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 15,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 44,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 81,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 90,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 13,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 37,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 52,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 55,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "list10",
+   "date": "2026-11-25",
+   "game": "FD",
+   "number": 59,
+   "stake": 5,
+   "status": "loss",
+   "result": 22,
+   "net": -5
+  },
+  {
+   "strategy": "single",
+   "date": "2026-11-26",
+   "game": "FD",
+   "number": 61,
+   "stake": 5,
+   "status": "pending",
+   "result": null,
+   "net": null
+  },
+  {
+   "strategy": "single",
+   "date": "2026-11-26",
+   "game": "GL",
+   "number": 61,
+   "stake": 5,
+   "status": "pending",
+   "result": null,
+   "net": null
+  },
+  {
+   "strategy": "single",
+   "date": "2026-11-26",
+   "game": "DS",
+   "number": 61,
+   "stake": 5,
    "status": "pending",
    "result": null,
    "net": null
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
+   "game": "FD",
+   "number": 61,
+   "stake": 5,
+   "status": "pending",
+   "result": null,
+   "net": null
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-26",
    "game": "FD",
    "number": 15,
    "stake": 5,
@@ -2174,7 +2704,7 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "FD",
    "number": 44,
    "stake": 5,
@@ -2184,7 +2714,17 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
+   "game": "FD",
+   "number": 80,
+   "stake": 5,
+   "status": "pending",
+   "result": null,
+   "net": null
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-26",
    "game": "FD",
    "number": 81,
    "stake": 5,
@@ -2194,7 +2734,7 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "FD",
    "number": 90,
    "stake": 5,
@@ -2204,27 +2744,7 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
-   "game": "FD",
-   "number": 13,
-   "stake": 5,
-   "status": "pending",
-   "result": null,
-   "net": null
-  },
-  {
-   "strategy": "list10s",
-   "date": "2026-11-25",
-   "game": "FD",
-   "number": 37,
-   "stake": 5,
-   "status": "pending",
-   "result": null,
-   "net": null
-  },
-  {
-   "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "FD",
    "number": 52,
    "stake": 5,
@@ -2234,9 +2754,9 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "FD",
-   "number": 55,
+   "number": 53,
    "stake": 5,
    "status": "pending",
    "result": null,
@@ -2244,9 +2764,9 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "FD",
-   "number": 59,
+   "number": 73,
    "stake": 5,
    "status": "pending",
    "result": null,
@@ -2254,7 +2774,17 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
+   "game": "FD",
+   "number": 79,
+   "stake": 5,
+   "status": "pending",
+   "result": null,
+   "net": null
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-26",
    "game": "GB",
    "number": 15,
    "stake": 5,
@@ -2264,7 +2794,7 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "GB",
    "number": 44,
    "stake": 5,
@@ -2274,7 +2804,17 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
+   "game": "GB",
+   "number": 80,
+   "stake": 5,
+   "status": "pending",
+   "result": null,
+   "net": null
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-26",
    "game": "GB",
    "number": 81,
    "stake": 5,
@@ -2284,7 +2824,7 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "GB",
    "number": 90,
    "stake": 5,
@@ -2294,9 +2834,9 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "GB",
-   "number": 13,
+   "number": 22,
    "stake": 5,
    "status": "pending",
    "result": null,
@@ -2304,17 +2844,7 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
-   "game": "GB",
-   "number": 37,
-   "stake": 5,
-   "status": "pending",
-   "result": null,
-   "net": null
-  },
-  {
-   "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "GB",
    "number": 52,
    "stake": 5,
@@ -2324,7 +2854,7 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "GB",
    "number": 53,
    "stake": 5,
@@ -2334,9 +2864,9 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "GB",
-   "number": 55,
+   "number": 73,
    "stake": 5,
    "status": "pending",
    "result": null,
@@ -2344,9 +2874,9 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "GB",
-   "number": 59,
+   "number": 79,
    "stake": 5,
    "status": "pending",
    "result": null,
@@ -2354,9 +2884,9 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "GL",
-   "number": 93,
+   "number": 61,
    "stake": 5,
    "status": "pending",
    "result": null,
@@ -2364,7 +2894,7 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "GL",
    "number": 15,
    "stake": 5,
@@ -2374,7 +2904,7 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "GL",
    "number": 44,
    "stake": 5,
@@ -2384,7 +2914,17 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
+   "game": "GL",
+   "number": 80,
+   "stake": 5,
+   "status": "pending",
+   "result": null,
+   "net": null
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-26",
    "game": "GL",
    "number": 81,
    "stake": 5,
@@ -2394,9 +2934,9 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "GL",
-   "number": 13,
+   "number": 90,
    "stake": 5,
    "status": "pending",
    "result": null,
@@ -2404,9 +2944,9 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "GL",
-   "number": 37,
+   "number": 22,
    "stake": 5,
    "status": "pending",
    "result": null,
@@ -2414,7 +2954,7 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "GL",
    "number": 52,
    "stake": 5,
@@ -2424,7 +2964,7 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "GL",
    "number": 53,
    "stake": 5,
@@ -2434,17 +2974,7 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
-   "game": "GL",
-   "number": 55,
-   "stake": 5,
-   "status": "pending",
-   "result": null,
-   "net": null
-  },
-  {
-   "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "GL",
    "number": 73,
    "stake": 5,
@@ -2454,9 +2984,9 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "DS",
-   "number": 93,
+   "number": 61,
    "stake": 5,
    "status": "pending",
    "result": null,
@@ -2464,7 +2994,17 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
+   "game": "DS",
+   "number": 15,
+   "stake": 5,
+   "status": "pending",
+   "result": null,
+   "net": null
+  },
+  {
+   "strategy": "list10s",
+   "date": "2026-11-26",
    "game": "DS",
    "number": 44,
    "stake": 5,
@@ -2474,7 +3014,7 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "DS",
    "number": 81,
    "stake": 5,
@@ -2484,7 +3024,7 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "DS",
    "number": 90,
    "stake": 5,
@@ -2494,9 +3034,9 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "DS",
-   "number": 13,
+   "number": 22,
    "stake": 5,
    "status": "pending",
    "result": null,
@@ -2504,17 +3044,7 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
-   "game": "DS",
-   "number": 37,
-   "stake": 5,
-   "status": "pending",
-   "result": null,
-   "net": null
-  },
-  {
-   "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "DS",
    "number": 52,
    "stake": 5,
@@ -2524,9 +3054,9 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "DS",
-   "number": 53,
+   "number": 73,
    "stake": 5,
    "status": "pending",
    "result": null,
@@ -2534,9 +3064,9 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "DS",
-   "number": 55,
+   "number": 79,
    "stake": 5,
    "status": "pending",
    "result": null,
@@ -2544,18 +3074,8 @@
   },
   {
    "strategy": "list10s",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "DS",
-   "number": 59,
-   "stake": 5,
-   "status": "pending",
-   "result": null,
-   "net": null
-  },
-  {
-   "strategy": "list10",
-   "date": "2026-11-25",
-   "game": "FD",
    "number": 93,
    "stake": 5,
    "status": "pending",
@@ -2564,7 +3084,17 @@
   },
   {
    "strategy": "list10",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
+   "game": "FD",
+   "number": 61,
+   "stake": 5,
+   "status": "pending",
+   "result": null,
+   "net": null
+  },
+  {
+   "strategy": "list10",
+   "date": "2026-11-26",
    "game": "FD",
    "number": 15,
    "stake": 5,
@@ -2574,7 +3104,7 @@
   },
   {
    "strategy": "list10",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "FD",
    "number": 44,
    "stake": 5,
@@ -2584,7 +3114,17 @@
   },
   {
    "strategy": "list10",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
+   "game": "FD",
+   "number": 80,
+   "stake": 5,
+   "status": "pending",
+   "result": null,
+   "net": null
+  },
+  {
+   "strategy": "list10",
+   "date": "2026-11-26",
    "game": "FD",
    "number": 81,
    "stake": 5,
@@ -2594,7 +3134,7 @@
   },
   {
    "strategy": "list10",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "FD",
    "number": 90,
    "stake": 5,
@@ -2604,27 +3144,7 @@
   },
   {
    "strategy": "list10",
-   "date": "2026-11-25",
-   "game": "FD",
-   "number": 13,
-   "stake": 5,
-   "status": "pending",
-   "result": null,
-   "net": null
-  },
-  {
-   "strategy": "list10",
-   "date": "2026-11-25",
-   "game": "FD",
-   "number": 37,
-   "stake": 5,
-   "status": "pending",
-   "result": null,
-   "net": null
-  },
-  {
-   "strategy": "list10",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "FD",
    "number": 52,
    "stake": 5,
@@ -2634,9 +3154,9 @@
   },
   {
    "strategy": "list10",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "FD",
-   "number": 55,
+   "number": 53,
    "stake": 5,
    "status": "pending",
    "result": null,
@@ -2644,9 +3164,19 @@
   },
   {
    "strategy": "list10",
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "game": "FD",
-   "number": 59,
+   "number": 73,
+   "stake": 5,
+   "status": "pending",
+   "result": null,
+   "net": null
+  },
+  {
+   "strategy": "list10",
+   "date": "2026-11-26",
+   "game": "FD",
+   "number": 79,
    "stake": 5,
    "status": "pending",
    "result": null,
