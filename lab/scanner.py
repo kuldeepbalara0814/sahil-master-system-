@@ -31,7 +31,7 @@ WORDS = ["Mor", "Sher", "Chita", "Hans", "Baaz", "Hathi", "Ghoda", "Tota", "Mach
 # random jagah par bhi best z kitna aata hai (120 random mahine, 13 saal): L -> (median, max). Isse 'mazboot/theek/kamzor' tay hota hai.
 BASE = {10: (6.5, 9.4), 12: (6.0, 9.7), 15: (5.8, 10.8), 18: (5.5, 7.8)}
 BASE_R = {10: (5.0, 8.9), 12: (5.0, 7.3), 15: (4.9, 6.2), 18: (4.5, 6.5)}   # rashi wala: 60 random jagah (13 saal)
-SCHEMA = 5                                               # scan ke item ka dhancha badle to badhao: purani saved scan dobara chalegi
+SCHEMA = 6                                               # scan ke item ka dhancha badle to badhao: purani saved scan dobara chalegi
 LENS = (10, 12, 15, 18)
 TOP = 12                                                 # har lambai ke itne milan dikhao
 PAL = ["FF9800", "AB47BC", "66BB6A", "EF5350", "26C6DA", "F06292", "8D6E63", "9CCC65"]
@@ -176,6 +176,12 @@ def match_info(rows, so, sc, L, mode="n"):
     return {"D": D, "V": V, "C": C, "comps": comps, "targets": targets, "ncommon": ncommon, "N": N}
 
 
+def best_order(zz):
+    """Sabse bada pehle; barabar score ho to purani jagah pehle. 'stable' zaroori: warna phone (ARM) aur server (x86) barabar walon me
+    se alag naksha chunte the aur dono jagah alag pattern dikhte the (26 Nov 2026 ko pakda gaya)."""
+    return np.argsort(-zz, kind="stable")
+
+
 def scan_naksha(rows, asof, mode="n"):
     D, V, C = _arrays(rows, mode)
     N = len(rows)
@@ -191,7 +197,7 @@ def scan_naksha(rows, asof, mode="n"):
         z = (m - m[valid].mean()) / (m[valid].std() + 1e-9)
         zz = np.where(valid, z, -9)
         picks = []
-        for i in np.argsort(-zz):                        # sabse achhe milan, ek dusre se kam se kam 20 din door
+        for i in best_order(zz):                          # sabse achhe milan, ek dusre se kam se kam 20 din door
             if zz[i] < 0 or len(picks) >= TOP:
                 break
             if all(abs(int(i) - j) >= 20 for j in picks):

@@ -2011,13 +2011,27 @@ class WindowPdfTests(unittest.TestCase):
     def test_naksha_aaj_maps_mark_todays_box(self):
         from lab import export_all, yaad
         rows = [r for r in data.load() if r[0] <= dt.date(2026, 11, 24)]
-        yd = yaad.view(rows)["aaj"]                                                      # 25 Nov ke box (Bhalu-96 GB 79/97 samet)
+        yd = yaad.view(rows)["aaj"]                                                      # 25 Nov ke box
         maps = export_all.naksha_aaj(rows, yd)
-        self.assertTrue(maps)
-        bh = [(it, v) for it, v in maps if it["name"] == "Naksha-Bhalu-96"]
-        self.assertTrue(bh)
-        row = next(r for r in bh[0][1]["blocks"][1]["rows"] if r["date"][:10] == "2026-11-25")
-        self.assertEqual((row["txt"][1], row["c"][1]), ("79/97", "FF5252"))
+        self.assertEqual(sorted({it["name"] for it, _ in maps}), sorted({e["name"] for e in yd["items"]}))
+        marked = 0
+        for e in yd["items"]:
+            want = "/".join(f"{n:02d}" for n in e["numbers"])
+            for it, v in maps:
+                if it["name"] != e["name"] or len(v["blocks"]) != 2:
+                    continue
+                for r in v["blocks"][1]["rows"]:
+                    if r["date"][:10] == yd["date"]:
+                        g = ("FB", "GB", "GL", "DS").index(e["game"])
+                        if r["c"][g] == "FF5252" and all(x in r["txt"][g] for x in want.split("/")):
+                            marked += 1
+        self.assertGreater(marked, 0)
+
+    def test_naksha_tie_order_is_same_on_every_machine(self):
+        import numpy as np
+        from lab import scanner
+        z = np.array([1.0, 3.0, 2.0, 3.0, 2.0, 3.0] * 500)
+        self.assertEqual(scanner.best_order(z).tolist(), sorted(range(len(z)), key=lambda i: (-z[i], i)))
 
     def test_pdf_api(self):
         c = lab_server.app.test_client()
