@@ -1,6 +1,47 @@
 {
  "items": [
   {
+   "id": "2026-11-27T03:50:29+05:30",
+   "time": "2026-11-27T03:50:29+05:30",
+   "label": "Result aaya: GL 52 (maps DS ke baad badlenge)",
+   "total": 10,
+   "groups": [
+    {
+     "key": "dana",
+     "naam": "Dana-Farak me laga",
+     "count": 2,
+     "items": [
+      {
+       "id": "dana:gap:2026-11-24-0:2026-11-24-3",
+       "name": "Dana-gap-24Nov",
+       "numbers": [
+        52
+       ],
+       "games": [
+        "GL"
+       ]
+      },
+      {
+       "id": "dana:farak:2026-11-23-2:2026-11-24-3",
+       "name": "Dana-farak-23Nov",
+       "numbers": [
+        52
+       ],
+       "games": [
+        "GL"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "naksha2",
+     "naam": "Naksha-Rashi me laga",
+     "count": 8,
+     "items": []
+    }
+   ]
+  },
+  {
    "id": "2026-11-26T22:16:10+05:30",
    "time": "2026-11-26T22:16:10+05:30",
    "label": "Result aaya: GB 24 (maps DS ke baad badlenge)",

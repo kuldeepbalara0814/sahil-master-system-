@@ -16145,6 +16145,12 @@
      "game": "FB",
      "n": 56,
      "src": "manual"
+    },
+    {
+     "date": "2026-11-26",
+     "game": "GL",
+     "n": 52,
+     "src": "manual"
     }
    ],
    "last_hit": "2026-11-26"
@@ -16259,6 +16265,12 @@
      "game": "FB",
      "n": 56,
      "src": "manual"
+    },
+    {
+     "date": "2026-11-26",
+     "game": "GL",
+     "n": 52,
+     "src": "manual"
     }
    ],
    "last_hit": "2026-11-26"
@@ -16282,6 +16294,12 @@
      "date": "2026-11-26",
      "game": "FB",
      "n": 56,
+     "src": "manual"
+    },
+    {
+     "date": "2026-11-26",
+     "game": "GL",
+     "n": 52,
      "src": "manual"
     }
    ],
@@ -16643,6 +16661,12 @@
      "game": "GB",
      "n": 24,
      "src": "manual"
+    },
+    {
+     "date": "2026-11-26",
+     "game": "GL",
+     "n": 52,
+     "src": "manual"
     }
    ],
    "last_hit": "2026-11-26"
@@ -16666,6 +16690,150 @@
      "date": "2026-11-26",
      "game": "GB",
      "n": 24,
+     "src": "manual"
+    }
+   ],
+   "last_hit": "2026-11-26"
+  },
+  "naksha2:10:2020-03-30": {
+   "id": "naksha2:10:2020-03-30",
+   "name": "Naksha-Rashi-Lomdi-18",
+   "title": "#10 Mar 2020 jaisa (10 line)",
+   "lines": [
+    "Naya 16 Nov se 25 Nov (10 line) ka naksha purane 30 Mar 2020 se 09 Apr 2020 me mila. 6 jode milte hain (step), z=3.6.",
+    "Random jagah par bhi best z ~5.0 aata hai (max 8.9). Isliye: kamzor.",
+    "Aaj 26 Nov ka andaza: FB me 13 / 18 / 31 / 36 / 63 / 68 / 81 / 86; DS me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; DS me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85"
+   ],
+   "pattern": {
+    "id": "002b",
+    "key": "naksha2",
+    "naam": "Naksha-Rashi"
+   },
+   "hits": [
+    {
+     "date": "2026-11-26",
+     "game": "GL",
+     "n": 52,
+     "src": "manual"
+    }
+   ],
+   "last_hit": "2026-11-26"
+  },
+  "naksha2:10:2023-03-14": {
+   "id": "naksha2:10:2023-03-14",
+   "name": "Naksha-Rashi-Titli-46",
+   "title": "#12 Mar 2023 jaisa (10 line)",
+   "lines": [
+    "Naya 16 Nov se 25 Nov (10 line) ka naksha purane 14 Mar 2023 se 23 Mar 2023 me mila. 5 jode milte hain (step), z=3.6.",
+    "Random jagah par bhi best z ~5.0 aata hai (max 8.9). Isliye: kamzor.",
+    "Aaj 26 Nov ka andaza: DS me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75"
+   ],
+   "pattern": {
+    "id": "002b",
+    "key": "naksha2",
+    "naam": "Naksha-Rashi"
+   },
+   "hits": [
+    {
+     "date": "2026-11-26",
+     "game": "GL",
+     "n": 52,
+     "src": "manual"
+    }
+   ],
+   "last_hit": "2026-11-26"
+  },
+  "naksha2:15:2017-10-13": {
+   "id": "naksha2:15:2017-10-13",
+   "name": "Naksha-Rashi-Jharna-43",
+   "title": "#8 Oct 2017 jaisa (15 line)",
+   "lines": [
+    "Naya 11 Nov se 25 Nov (15 line) ka naksha purane 13 Oct 2017 se 27 Oct 2017 me mila. 12 jode milte hain (step), z=4.0.",
+    "Random jagah par bhi best z ~4.9 aata hai (max 6.2). Isliye: kamzor.",
+    "Aaj 26 Nov ka andaza: DS me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; GB me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76; GL me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76; GB me 44 / 49 / 94 / 99; GL me 44 / 49 / 94 / 99"
+   ],
+   "pattern": {
+    "id": "002b",
+    "key": "naksha2",
+    "naam": "Naksha-Rashi"
+   },
+   "hits": [
+    {
+     "date": "2026-11-26",
+     "game": "GL",
+     "n": 52,
+     "src": "manual"
+    }
+   ],
+   "last_hit": "2026-11-26"
+  },
+  "naksha2:18:2017-08-13": {
+   "id": "naksha2:18:2017-08-13",
+   "name": "Naksha-Rashi-Kabutar-11",
+   "title": "#1 Aug 2017 jaisa (18 line)",
+   "lines": [
+    "Naya 08 Nov se 25 Nov (18 line) ka naksha purane 13 Aug 2017 se 30 Aug 2017 me mila. 14 jode milte hain (step), z=5.4.",
+    "Random jagah par bhi best z ~4.5 aata hai (max 6.5). Isliye: kamzor.",
+    "Aaj 26 Nov ka andaza: GB me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; FB me 34 / 39 / 43 / 48 / 84 / 89 / 93 / 98; DS me 34 / 39 / 43 / 48 / 84 / 89 / 93 / 98"
+   ],
+   "pattern": {
+    "id": "002b",
+    "key": "naksha2",
+    "naam": "Naksha-Rashi"
+   },
+   "hits": [
+    {
+     "date": "2026-11-26",
+     "game": "GL",
+     "n": 52,
+     "src": "manual"
+    }
+   ],
+   "last_hit": "2026-11-26"
+  },
+  "dana:gap:2026-11-24-0:2026-11-24-3": {
+   "id": "dana:gap:2026-11-24-0:2026-11-24-3",
+   "name": "Dana-gap-24Nov",
+   "title": "25 dana-farak | 24 Nov se",
+   "lines": [
+    "Pair: 24 Nov FB 53 + 24 Nov DS 15 (beech ka number gayab).",
+    "Khelo: 25 52 (27 Nov ke DS tak, 12 game baaki)."
+   ],
+   "pattern": {
+    "id": "005",
+    "key": "dana",
+    "naam": "Dana-Farak"
+   },
+   "hits": [
+    {
+     "date": "2026-11-26",
+     "game": "GL",
+     "n": 52,
+     "src": "manual"
+    }
+   ],
+   "last_hit": "2026-11-26"
+  },
+  "dana:farak:2026-11-23-2:2026-11-24-3": {
+   "id": "dana:farak:2026-11-23-2:2026-11-24-3",
+   "name": "Dana-farak-23Nov",
+   "title": "15 dana-farak | 23 Nov se | confusion",
+   "lines": [
+    "Pair: 23 Nov GL 52 + 24 Nov DS 15 (dana 10/01 ka farak).",
+    "Khelo: 15 25 51 52 (26 Nov ke DS tak, 8 game baaki).",
+    "Part 2 spot (series): 05 35 50 53 (khelna aap ki marzi)",
+    "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai."
+   ],
+   "pattern": {
+    "id": "005",
+    "key": "dana",
+    "naam": "Dana-Farak"
+   },
+   "hits": [
+    {
+     "date": "2026-11-26",
+     "game": "GL",
+     "n": 52,
      "src": "manual"
     }
    ],
@@ -16727,6 +16895,10 @@
   },
   "2026-11-26:GB": {
    "n": 24,
+   "src": "manual"
+  },
+  "2026-11-26:GL": {
+   "n": 52,
    "src": "manual"
   }
  }
