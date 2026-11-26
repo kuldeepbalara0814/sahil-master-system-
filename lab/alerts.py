@@ -43,6 +43,25 @@ def make(prev, new, label, now=None):
             "total": len(fresh), "groups": sorted(groups.values(), key=lambda g: (g["key"] in QUIET, g["key"]))}
 
 
+def make_hits(hit_state, date, games, label, now=None):
+    """Din ka result aaya: us tarikh/game par kis-kis map me laga. (Maps nahi badalte.) Kisi me na laga ho tab bhi khabar banti hai."""
+    groups = {}
+    for h in (hit_state or {}).get("hits", {}).values():
+        for q in h.get("hits", []):
+            if q.get("date") == date and q.get("game") in games:
+                pat = h.get("pattern") or {}
+                key = pat.get("key", "")
+                g = groups.setdefault(key, {"key": key, "naam": (pat.get("naam") or key) + " me laga", "count": 0, "items": []})
+                g["count"] += 1
+                if key not in QUIET and len(g["items"]) < MAX_NAMES:
+                    g["items"].append({"id": h["id"], "name": h.get("name"), "numbers": [q["n"]], "games": [q["game"]]})
+    now = now or dt.datetime.now(dt.timezone(dt.timedelta(hours=5, minutes=30)))
+    total = sum(g["count"] for g in groups.values())
+    return {"id": now.isoformat(timespec="seconds"), "time": now.isoformat(timespec="seconds"),
+            "label": label + ("" if total else " - kisi map me nahi laga"), "total": total,
+            "groups": sorted(groups.values(), key=lambda g: (g["key"] in QUIET, g["key"]))}
+
+
 def add(log, alert):
     """log = {"items": [...]} (naya pehle). Wahi label ke saath wahi ids dobara na jude."""
     items = log.setdefault("items", [])

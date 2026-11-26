@@ -26,3 +26,9 @@ User ne kaha: FB ka result 6:30-6:45 pm, GB 10:30 pm, GL 12:15 am, DS subah; har
 ## Khud-jaanch
 `python scripts/selfcheck.py --live --tests` -> `selfcheck_report.json` (git me nahi jati). Theek karke `--clean`.
 
+## 26 Nov 2026: MAPPING SIRF DS KE BAAD (user)
+User: "base to map scan hai; DS result ke baad hi mapping sahi hai, har result ke baad bug se mapping kharab hone ke chance hain."
+- Naya scan, 30 jodi tokri, active log: **sirf tab jab nayi poori line aaye (DS ke baad)**.
+- FB/GB/GL aane par: aadhi line save, hit jaanch, banner "Result aaya ... kis map me laga". Maps, chart, PDF nahi badalte. (007 ab din me aage nahi badhta; DS ke baad badhta hai.)
+- App ki ghadi (user ke time): FB 6:20 pm, GB 10:15 pm, GL 12:15 am, DS 5:30 am ke baad se har 10 min koshish.
+

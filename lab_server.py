@@ -588,18 +588,11 @@ def cur_partial(rows):
     return partial.clean(jload("partial_results.json", None), rows[-1][0])
 
 
-def _partial_games(p):
-    return sorted((p or {}).get("results") or {}) if p else []
-
-
 def scan_today(rows):
-    """Aaj ka scan (saved agar taaza ho, warna abhi chalao; ye 'auto' gina jaata hai)."""
+    """Aaj ka scan (saved agar taaza ho, warna abhi chalao; ye 'auto' gina jaata hai). Sirf poori lines se: mapping DS ke baad hi badalti hai."""
     rep = jload("patterns_today.json", None)
-    cp = cur_partial(rows)
-    saved_p = (rep or {}).get("partial") or {}
-    if not rep or rep.get("asof") != rows[-1][0].isoformat() or rep.get("schema") != scanner.SCHEMA \
-            or (saved_p.get("games") or []) != _partial_games(cp) or (cp and saved_p.get("date") != cp["date"]):
-        rep = scanner.run(rows, partial=cp)
+    if not rep or rep.get("asof") != rows[-1][0].isoformat() or rep.get("schema") != scanner.SCHEMA:
+        rep = scanner.run(rows)
         save_scan(rep, "auto")
     return rep
 
@@ -628,7 +621,7 @@ def api_active_scan():
         return c
     rows, _ = state()
     try:
-        rep = scanner.run(rows, partial=cur_partial(rows))
+        rep = scanner.run(rows)
     except Exception as e:
         app.logger.exception("active scan fail")
         return err(f"Script chali hi nahi: {type(e).__name__}: {str(e)[:200]}", 500)
@@ -650,7 +643,7 @@ def api_scanner_run():
         return c
     rows, _ = state()
     try:
-        rep = scanner.run(rows, partial=cur_partial(rows))
+        rep = scanner.run(rows)
     except Exception as e:
         app.logger.exception("scanner run fail")
         return err(f"Script chali hi nahi: {type(e).__name__}: {str(e)[:200]}", 500)
@@ -981,13 +974,12 @@ def api_window_pdf():
         return err("what: naksha / 007 / dono")
     rows, _ = state()
     play = data.play_date(rows).isoformat()
-    cp = cur_partial(rows)
     with _yaad_lock:                                             # bhari kaam: ek baar me ek
         parts = []
         if what in ("naksha", "dono"):
             parts.append(("Naksha", export_all.naksha_aaj(rows, yaad.view(rows)["aaj"])))
         if what in ("007", "dono"):
-            parts.append(("Card 007", export_all.steps_aaj(rows, scan_today(rows), cp)))
+            parts.append(("Card 007", export_all.steps_aaj(rows, scan_today(rows))))
         blob = export_all.aaj_pdf(parts, play)
     name = {"naksha": "Naksha", "007": "Card_007", "dono": "Naksha_007"}[what] + f"_{play}.pdf"
     return Response(blob, mimetype="application/pdf", headers={"Content-Disposition": f'attachment; filename="{name}"'})
@@ -1093,7 +1085,7 @@ def api_scanner_play():
 def api_scanner_view():
     rows, _ = state()
     try:
-        return jsonify(scan_view.view(rows, request.args.get("id", ""), cur_partial(rows)))
+        return jsonify(scan_view.view(rows, request.args.get("id", "")))
     except (ValueError, IndexError) as e:
         return err(str(e) or "Pattern nahi mila")
 

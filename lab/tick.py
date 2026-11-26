@@ -1,13 +1,13 @@
 """App ki apni ghadi: kaun sa result ab tak aa jana chahiye tha par nahi aaya (patterns/013_auto_fetch_alerts/README.md).
 
 GitHub ka schedule der karta hai ya chhod deta hai, isliye server khud bhi site dekhta hai (app khuli ho ya /api/tick ko ping mile).
-Line d ke result (IST): FB d 18:35, GB d 22:35, GL d+1 00:20, DS d+1 05:40 (tab line poori)."""
+Line d ke result (IST): FB d 18:20, GB d 22:15, GL d+1 00:15, DS d+1 05:30 (tab line poori)."""
 import datetime as dt
 
 from . import data
 
 GAP = 600                      # do koshish ke beech kam se kam 10 minute
-TIMES = (("FB", 0, 18, 35), ("GB", 0, 22, 35), ("GL", 1, 0, 20), ("DS", 1, 5, 40))
+TIMES = (("FB", 0, 18, 20), ("GB", 0, 22, 15), ("GL", 1, 0, 15), ("DS", 1, 5, 30))      # user ke bataye time (26 Nov 2026)
 
 
 def overdue(now, rows, part=None, hours=2):

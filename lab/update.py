@@ -99,51 +99,55 @@ def run(fetch=True, today=None, stake=5, auto_bets=True, data_dir=None, fetch_fn
         gamefiles.write_files(rows, data_dir)
     except Exception as e:
         rep.setdefault("scan_errors", []).append(f"game files nahi bani: {type(e).__name__}: {e}")
-    # 5) pattern scan (sikhaye hue pattern: aaj kya ban raha hai). Galti ho to baaki kaam na ruke.
+    # 5) pattern scan. (user, 26 Nov 2026) MAPPING SIRF DS KE BAAD: nayi poori line aaye tabhi maps / tokri dobara banti hain.
+    #    FB/GB/GL aane par (aadhi line) maps waise hi rehte hain - sirf result likhna, hit jaanchna aur banner me batana.
     try:
-        from . import scanner
+        from . import active, hits, scanner
+        known = partial.merged_results(_load_json(_path(data_dir, "manual_results.json"), {}), cur_partial)
+        day = today or active.now_ist().date()
         prev_scan = _load_json(_path(data_dir, "patterns_today.json"), None)
-        srep = scanner.run(rows, partial=cur_partial)
-        try:                                                          # banner khabar: result ke baad kaun se pattern NAYE active hue
-            label = None
-            if rep["added"]:
-                label = "Subah ka final scan (DS aaya, line poori): sab pattern naye sire se"
-            elif rep["partial_new"]:
-                label = "Result aaya: " + ", ".join(rep["partial_new"]) + " - ab ye current pattern active hue"
-            if label:
-                al = alerts.make(prev_scan, srep, label)
-                if al:
-                    lg = alerts.add(_load_json(_path(data_dir, "alerts.json"), None) or {"items": []}, al)
-                    _save_json(_path(data_dir, "alerts.json"), lg)
-                    rep["alert"] = al["total"]
-        except Exception as e:
-            rep.setdefault("scan_errors", []).append(f"khabar (alert) nahi bani: {type(e).__name__}: {e}")
-        try:
-            from . import active
-            lp = _path(data_dir, "active_log.json")
-            _save_json(lp, active.merge(_load_json(lp, None) or active.new_log(), srep, source="auto"))
-        except Exception as e:
-            rep["scan_errors"] = [f"active log nahi bana: {type(e).__name__}: {e}"]
+        full = bool(rep["added"]) or not prev_scan or prev_scan.get("asof") != rows[-1][0].isoformat() or prev_scan.get("schema") != scanner.SCHEMA
+        rep["mapping"] = "naya scan" if full else "maps waise hi (DS ke baad badlenge)"
+        srep = scanner.run(rows) if full else prev_scan
+        hp = _path(data_dir, "hit_log.json")
         try:                                                          # hit hue map: pehle purane andaze ka hisaab, phir naye
-            from . import active, hits
-            hp = _path(data_dir, "hit_log.json")
             hs = _load_json(hp, None) or hits.new_state()
-            hits.settle(hs, rows, partial.merged_results(_load_json(_path(data_dir, "manual_results.json"), {}), cur_partial), today or active.now_ist().date())
-            hits.archive(hs, srep)
+            hits.settle(hs, rows, known, day)
+            if full:
+                hits.archive(hs, srep)
             _save_json(hp, hs)
         except Exception as e:
             rep.setdefault("scan_errors", []).append(f"hit log nahi bana: {type(e).__name__}: {e}")
-        try:                                                          # Meri Window: us din ki tokri (naye Naksha + top 30) ek baar lock
-            from . import window
-            wp = _path(data_dir, "window_log.json")
-            wl = _load_json(wp, None) or window.new_state()
-            if window.record(wl, srep, rows, partial.merged_results(_load_json(_path(data_dir, "manual_results.json"), {}), cur_partial)):
-                _save_json(wp, wl)
+        try:                                                          # banner: subah naye pattern; din me result kis map me laga
+            al = None
+            if rep["added"]:
+                al = alerts.make(prev_scan, srep, "Subah ka final scan (DS aaya, line poori): sab pattern naye sire se")
+            elif rep["partial_new"] and cur_partial:
+                al = alerts.make_hits(hs, cur_partial["date"], [x.split()[0] for x in rep["partial_new"]],
+                                      "Result aaya: " + ", ".join(rep["partial_new"]) + " (maps DS ke baad badlenge)")
+            if al:
+                lg = alerts.add(_load_json(_path(data_dir, "alerts.json"), None) or {"items": []}, al)
+                _save_json(_path(data_dir, "alerts.json"), lg)
+                rep["alert"] = al["total"]
         except Exception as e:
-            rep.setdefault("scan_errors", []).append(f"window log nahi bana: {type(e).__name__}: {e}")
-        _save_json(_path(data_dir, "patterns_today.json"), srep)      # merge ke baad: items par "new" nishan
+            rep.setdefault("scan_errors", []).append(f"khabar (alert) nahi bani: {type(e).__name__}: {e}")
+        if full:
+            try:
+                lp = _path(data_dir, "active_log.json")
+                _save_json(lp, active.merge(_load_json(lp, None) or active.new_log(), srep, source="auto"))
+            except Exception as e:
+                rep.setdefault("scan_errors", []).append(f"active log nahi bana: {type(e).__name__}: {e}")
+            try:                                                      # Meri Window: us din ki tokri (naye Naksha + top 30) ek baar lock
+                from . import window
+                wp = _path(data_dir, "window_log.json")
+                wl = _load_json(wp, None) or window.new_state()
+                if window.record(wl, srep, rows, known):
+                    _save_json(wp, wl)
+            except Exception as e:
+                rep.setdefault("scan_errors", []).append(f"window log nahi bana: {type(e).__name__}: {e}")
+            _save_json(_path(data_dir, "patterns_today.json"), srep)  # merge ke baad: items par "new" nishan
         rep.setdefault("scan_errors", [])
-        rep["scan_errors"] += [f"{e['pattern']}: {e['error']}" for e in srep["errors"]]
+        rep["scan_errors"] += [f"{e['pattern']}: {e['error']}" for e in srep.get("errors", [])]
     except Exception as e:
         rep["scan_errors"] = [f"scan chala hi nahi: {type(e).__name__}: {e}"]
     # log

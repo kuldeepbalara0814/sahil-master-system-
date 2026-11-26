@@ -2042,6 +2042,46 @@ class WindowPdfTests(unittest.TestCase):
         self.assertEqual(c.get("/api/window/pdf?what=x").status_code, 400)
 
 
+class MappingOnlyAfterDsTests(unittest.TestCase):
+    """User (26 Nov 2026): FB/GB/GL aane par maps na badlen; sirf hit aur banner. Naya scan DS (poori line) ke baad."""
+
+    def test_partial_result_does_not_rescan_but_reports_hits(self):
+        import shutil
+        import tempfile
+        from unittest import mock
+        from lab import update, fetcher, scanner
+        tmp = tempfile.mkdtemp()
+        try:
+            rows = data.load()
+            data.save(rows, os.path.join(tmp, "results.csv"))
+            nxt = data.play_date(rows).isoformat()
+            def nl(p):
+                return lambda *a, **k: ([], {"errors": [], "months": [], "partial": p})
+            with mock.patch.object(fetcher, "new_lines", nl(None)):
+                r1 = update.run(today=rows[-1][0], data_dir=tmp, pause=0)
+            self.assertEqual(r1["mapping"], "naya scan")
+            pt = os.path.join(tmp, "patterns_today.json")
+            before = open(pt, "rb").read()
+            with mock.patch.object(fetcher, "new_lines", nl({"date": nxt, "results": {"FB": 53}})), mock.patch.object(scanner, "run", side_effect=AssertionError("scan nahi chalna chahiye")):
+                r2 = update.run(today=rows[-1][0], data_dir=tmp, pause=0)
+            self.assertEqual(r2["scan_errors"], [])
+            self.assertTrue(r2["mapping"].startswith("maps waise hi"))
+            self.assertEqual(open(pt, "rb").read(), before)
+            with open(os.path.join(tmp, "alerts.json"), encoding="utf-8") as f:
+                al = json.load(f)["items"][0]
+            self.assertIn("FB 53", al["label"])
+            self.assertEqual(al["total"], sum(g["count"] for g in al["groups"]))
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_make_hits_lists_only_that_day_and_game(self):
+        from lab import alerts
+        hs = {"hits": {"a": {"id": "a", "name": "N-A", "pattern": {"key": "naksha", "naam": "Naksha"}, "hits": [{"date": "2026-11-26", "game": "FB", "n": 53}, {"date": "2026-11-25", "game": "FB", "n": 1}]}}}
+        al = alerts.make_hits(hs, "2026-11-26", ["FB"], "Result aaya: FB 53")
+        self.assertEqual((al["total"], al["groups"][0]["items"][0]["numbers"]), (1, [53]))
+        self.assertIn("kisi map me nahi laga", alerts.make_hits(hs, "2026-11-26", ["GB"], "x")["label"])
+
+
 class StaleScanTests(unittest.TestCase):
     def test_old_schema_scan_is_rerun(self):
         old = scanner.run(ROWS)
