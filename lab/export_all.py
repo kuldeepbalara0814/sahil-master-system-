@@ -85,6 +85,8 @@ def safe_view(rows, it):
 
 
 def target_text(it):
+    if it.get("target") and not it["target"].get("numbers") and it["target"].get("games"):
+        return "Aaj ka andaza: " + it["target"]["games"]
     t = it.get("target")
     if not t:
         return ""
@@ -254,6 +256,83 @@ def to_xlsx(rows, key, items, total, limit):
     buf = io.BytesIO()
     wb.save(buf)
     return buf.getvalue()
+
+
+def pages_of(images, label):
+    """Taiyar pattern images -> A4 jaise page (pattern beech me nahi kat'ta)."""
+    pages, cur = [], None
+    x = y = rowh = 0
+    for im in images:
+        if cur is not None and x + im.width > CONTENT_W:
+            x, y, rowh = 0, y + rowh + 12, 0
+        if cur is None or y + im.height > CONTENT_H:
+            if cur is not None:
+                pages.append((label, cur))
+            cur = Image.new("RGB", (PW, PH), "white")
+            x = y = rowh = 0
+        cur.paste(im, (M + x, M + y))
+        x += im.width + 10
+        rowh = max(rowh, im.height)
+    if cur is not None:
+        pages.append((label, cur))
+    return pages
+
+
+def naksha_aaj(rows, yd):
+    """Meri Window: aaj ki tarikh par jin Naksha 1 maps ka box hai (naye aur pehle bane). yd = yaad.view(...)["aaj"].
+    Har map us din ke data se banta hai jis din bana tha; aaj ka box laal karke jodi likhi jati hai. -> [(item, view)]"""
+    target = yd["date"]
+    maps = {}
+    for e in yd["items"]:
+        maps.setdefault((e["asof"], e["id"]), []).append(e)
+    out = []
+    for (asof, pid), entries in sorted(maps.items(), key=lambda kv: (kv[0][0], kv[0][1]), reverse=True):
+        rs = [r for r in rows if r[0].isoformat() <= asof]
+        v = safe_view(rs, {"id": pid, "title": entries[0]["title"]})
+        marks = {}
+        for e in entries:
+            marks.setdefault(GAMES.index(e["game"]), set()).update(e["numbers"])
+        if len(v["blocks"]) == 2:
+            for r in v["blocks"][1]["rows"]:
+                if r["date"][:10] == target:
+                    for g, nums in marks.items():
+                        r["c"][g], r["kind"][g], r["txt"][g] = "FF5252", "step", "/".join(f"{n:02d}" for n in sorted(nums))
+        says = "; ".join(f"{GAMES[g]} me {' / '.join(f'{n:02d}' for n in sorted(nums))}" for g, nums in sorted(marks.items()))
+        v["note"] = f"Bana: {dt.date.fromisoformat(asof):%d %b} tak ke data se. Laal box = {dt.date.fromisoformat(target):%d %b} ka andaza."
+        item = {"name": entries[0]["name"], "title": entries[0]["title"],
+                "target": {"games": says, "numbers": []}}
+        out.append((item, v))
+    return out
+
+
+def steps_aaj(rows, rep, part=None):
+    """Card 007 ke wo pattern jinme aaj (play date) ke andaze hain. -> [(item, view)]"""
+    out = []
+    for p in rep.get("patterns", []):
+        if p.get("key") != "steps":
+            continue
+        for it in p.get("items", []):
+            if it.get("status") != "aaj" or not it.get("targets"):
+                continue
+            try:
+                v = scan_view.view(rows, it["id"], part)
+            except (ValueError, IndexError, KeyError):
+                continue
+            says = "; ".join(f"{t['game']} me {' / '.join(f'{n:02d}' for n in t['numbers'])}" for t in it["targets"])
+            out.append(({"name": it.get("name"), "title": it.get("title"), "target": {"games": says, "numbers": []}}, v))
+    return out
+
+
+def aaj_pdf(parts, date):
+    """parts = [(heading, [(item, view)])] -> ek PDF (bytes). Har hissa naye page se."""
+    pages = []
+    for head, items in parts:
+        title = Image.new("RGB", (CONTENT_W, 44), "white")
+        ImageDraw.Draw(title).text((4, 8), f"{head} - {date} ({len(items)} map)", font=font(22, True), fill="black")
+        if not items:
+            ImageDraw.Draw(title).text((4, 30), "Aaj koi map nahi.", font=font(13), fill="black")
+        pages += pages_of([title] + [draw_pattern(no, it, v) for no, (it, v) in enumerate(items, 1)], head)
+    return to_pdf(pages)
 
 
 def build(rows, rep, key, fmt, status="all", limit=120):

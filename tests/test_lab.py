@@ -2007,6 +2007,27 @@ class TickRecordAndDiagTests(unittest.TestCase):
                     f.write(old)
 
 
+class WindowPdfTests(unittest.TestCase):
+    def test_naksha_aaj_maps_mark_todays_box(self):
+        from lab import export_all, yaad
+        rows = [r for r in data.load() if r[0] <= dt.date(2026, 11, 24)]
+        yd = yaad.view(rows)["aaj"]                                                      # 25 Nov ke box (Bhalu-96 GB 79/97 samet)
+        maps = export_all.naksha_aaj(rows, yd)
+        self.assertTrue(maps)
+        bh = [(it, v) for it, v in maps if it["name"] == "Naksha-Bhalu-96"]
+        self.assertTrue(bh)
+        row = next(r for r in bh[0][1]["blocks"][1]["rows"] if r["date"][:10] == "2026-11-25")
+        self.assertEqual((row["txt"][1], row["c"][1]), ("79/97", "FF5252"))
+
+    def test_pdf_api(self):
+        c = lab_server.app.test_client()
+        for what in ("naksha", "007", "dono"):
+            r = c.get("/api/window/pdf?what=" + what)
+            self.assertEqual((r.status_code, r.data[:5]), (200, b"%PDF-"), what)
+            self.assertIn(".pdf", r.headers["Content-Disposition"])
+        self.assertEqual(c.get("/api/window/pdf?what=x").status_code, 400)
+
+
 class StaleScanTests(unittest.TestCase):
     def test_old_schema_scan_is_rerun(self):
         old = scanner.run(ROWS)

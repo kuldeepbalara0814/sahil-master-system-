@@ -973,6 +973,26 @@ def api_yaad():
         return jsonify(yaad.view(rows, partial.merged_results(jload("manual_results.json", {}) or {}, cur_partial(rows))))
 
 
+@app.get("/api/window/pdf")
+def api_window_pdf():
+    """Meri Window: aaj ke Naksha maps (naye + pehle bane) aur/ya card 007 ke aaj wale pattern, ek hi PDF me."""
+    what = request.args.get("what", "dono")
+    if what not in ("naksha", "007", "dono"):
+        return err("what: naksha / 007 / dono")
+    rows, _ = state()
+    play = data.play_date(rows).isoformat()
+    cp = cur_partial(rows)
+    with _yaad_lock:                                             # bhari kaam: ek baar me ek
+        parts = []
+        if what in ("naksha", "dono"):
+            parts.append(("Naksha", export_all.naksha_aaj(rows, yaad.view(rows)["aaj"])))
+        if what in ("007", "dono"):
+            parts.append(("Card 007", export_all.steps_aaj(rows, scan_today(rows), cp)))
+        blob = export_all.aaj_pdf(parts, play)
+    name = {"naksha": "Naksha", "007": "Card_007", "dono": "Naksha_007"}[what] + f"_{play}.pdf"
+    return Response(blob, mimetype="application/pdf", headers={"Content-Disposition": f'attachment; filename="{name}"'})
+
+
 @app.get("/api/ank")
 def api_ank():
     """009 Ank-Chal card (Active tab): aaj ke ank, 8 line ki table, kagaz ka khata (patterns/009_ank_chal/README.md)."""

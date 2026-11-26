@@ -133,6 +133,12 @@ tabs.meri=async function(root){
   el("div",{class:"mut small",style:"margin-top:8px"},w.scan_time?`Tokri lock hui: ${istm(w.scan_time)}`:"Tokri abhi lock nahi hui",` | pocket ki ginti ${dm(w.start)} se`),
   counted?null:el("div",{class:"small",style:"margin-top:6px"},`Aaj (${dm(w.play_date)}) ki tokri sirf dikhane ke liye; pocket ki ginti start tarikh (${dm(w.start)}) se.`)));
  if(REP)root.append(openCard(w));
+ /* PDF: aaj ke saare map ek saath */
+ root.append(el("div",{class:"card wn-pdf"},
+  el("h2",{style:"margin:0 0 6px"},`Aaj (${dm(w.play_date)}) ke map: PDF download`),
+  el("div",{class:"row",style:"gap:6px;flex-wrap:wrap"},[["naksha","Naksha PDF"],["007","Card 007 PDF"],["dono","Dono ek PDF"]].map(([k,l])=>
+   el("a",{href:"/api/window/pdf?what="+k,class:"dlx",download:""},el("button",{type:"button",class:"b sm"},l)))),
+  el("p",{class:"mut small",style:"margin:6px 0 0"},"Naksha me naye aur pehle bane dono map; aaj ka box laal. Button dabane ke baad 20-60 second lag sakte hain.")));
  /* CARD 007 (Puzzle-Steps) KE NUMBER: aaj ke box wale, bahar pattern ka naam, andar jodi */
  const s7=w.steps007||{items:[],all:[],aage_all:[]},nums7=ts=>[...new Set(ts.flatMap(t=>t.numbers))].sort((a,b)=>a-b);
  root.append(el("div",{class:"card wn-007"},

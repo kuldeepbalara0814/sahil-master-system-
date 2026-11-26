@@ -22,7 +22,7 @@ def _future(last, n=DAYS):
 
 
 def _boxes(rows):
-    """Is data tak ke naksha scan ke saare aage wale box: [(k, game, numbers, purani_line_ki_tarikh, naam, title)]."""
+    """Is data tak ke naksha scan ke saare aage wale box: [(k, game, numbers, purani_line_ki_tarikh, naam, title, id)]."""
     key = (len(rows), rows[-1][0], tuple(rows[-1][1]))
     if key in _cache:
         return _cache[key]
@@ -42,7 +42,7 @@ def _boxes(rows):
             for g in range(4):
                 for old, new in cl:
                     if C[po, g] == old:
-                        out.append((k, GAMES[g], tuple(sorted({new, scanner.pal(new)})), D[po], it["name"], it["title"]))
+                        out.append((k, GAMES[g], tuple(sorted({new, scanner.pal(new)})), D[po], it["name"], it["title"], it["id"]))
     if len(_cache) > 40:
         _cache.clear()
     _cache[key] = out
@@ -62,14 +62,14 @@ def for_date(rows, target, result=None):
         if target not in fut:
             continue
         k = fut.index(target)
-        for kk, g, nums, src, name, title in _boxes(rs):
+        for kk, g, nums, src, name, title, pid in _boxes(rs):
             if kk != k:
                 continue
             key = (g, nums, src)                                   # wahi purani line, wahi game, wahi jodi = wahi andaza (naam roz badalta hai)
             e = seen.get(key)
             if not e:
                 seen[key] = {"game": g, "numbers": list(nums), "name": name, "title": title, "purana": src.isoformat(),
-                             "pehle": k + 1, "scans": 1}
+                             "pehle": k + 1, "scans": 1, "id": pid, "asof": rs[-1][0].isoformat()}
             else:
                 e["pehle"] = max(e["pehle"], k + 1)
                 e["scans"] += 1

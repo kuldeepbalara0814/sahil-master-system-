@@ -423,7 +423,7 @@ def _view(rows, p, part):
             dd, v, c, kind, txt, ind = rowfor(starts[w] + i, w)
             rr.append(_row(dd.isoformat(), v, c, kind, txt))
         nm = f"STEP {w + 1}" + (" (chal rahi)" if w == last_w else "")
-        blocks.append({"label": f"{nm}: {D[starts[w]]:%d %b} se (boundary {L} box)", "rows": rr})
+        blocks.append({"label": f"{nm}: {D[starts[w]]:%d %b} se, {L} box", "rows": rr})
     # ek sheet: teeno mahine upar-neeche
     first_month = (D[r["a"]].year, D[r["a"]].month)
     srows = []
