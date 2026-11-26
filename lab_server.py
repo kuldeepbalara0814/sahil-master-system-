@@ -27,7 +27,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import active, alerts, ank_chal, help_bot, partial, tick, yaad, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
+from lab import active, alerts, fetcher, ank_chal, help_bot, partial, tick, yaad, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -178,7 +178,7 @@ def healthz():
 
 
 STATE_FILES = ["results.csv", "paper_ledger.json", "active_log.json", "hit_log.json", "review_log.json", "play_log.json", "manual_results.json",
-               "boards.json", "ideas.json", "fetch_log.json", "drift_log.json", "patterns_today.json", "window_log.json", "help_requests.json", "partial_results.json", "alerts.json"]
+               "boards.json", "ideas.json", "fetch_log.json", "drift_log.json", "patterns_today.json", "window_log.json", "help_requests.json", "partial_results.json", "alerts.json", "tick_log.json"]
 
 
 @app.get("/api/health")
@@ -233,7 +233,23 @@ def _run_update(stake=5):
         return rep, changed
 
 
+def _tick_note(entry):
+    """Server ki har auto-fetch koshish ka pakka record (app so jaye to bhi pata rahe). Wahi galti baar-baar ho to dobara commit nahi."""
+    log = jload("tick_log.json", [])
+    last = log[-1] if log else {}
+    same = not entry.get("changed") and last.get("errors") == entry.get("errors") and last.get("time", "")[:10] == entry["time"][:10]
+    if same:
+        return
+    log.append(entry)
+    jsave("tick_log.json", log[-60:])
+    try:
+        persist(["tick_log.json"], "auto fetch koshish ka record")
+    except Exception as e:
+        app.logger.warning("tick log: %s", e)
+
+
 def _auto_run():
+    changed = False
     try:
         rep, changed = _run_update()
         _auto["last"] = {"time": rep["time"], "added": rep["added"], "new": rep.get("partial_new") or [], "errors": [str(e)[:160] for e in rep["errors"]][:3]}
@@ -248,6 +264,8 @@ def _auto_run():
         _auto["last"] = {"time": dt.datetime.now(IST).isoformat(timespec="seconds"), "errors": [f"{type(e).__name__}: {str(e)[:160]}"]}
     finally:
         _auto["running"] = False
+        if _auto.get("last"):
+            _tick_note({k: v for k, v in dict(_auto["last"], changed=changed).items()})
 
 
 def maybe_auto_fetch(rows):
@@ -260,6 +278,23 @@ def maybe_auto_fetch(rows):
     _auto["t"], _auto["running"] = time.time(), True
     threading.Thread(target=_auto_run, daemon=True).start()
     return True
+
+
+_diag = {"t": 0.0, "out": None}
+
+
+@app.get("/api/diag/site")
+def api_diag_site():
+    """Kya ye server result wali site khol pa raha hai? (sirf jaanch; kuch save nahi). 10 minute me ek baar hi asli koshish."""
+    if _diag["out"] is None or time.time() - _diag["t"] >= 600:
+        _diag["t"] = time.time()
+        now = dt.datetime.now(IST)
+        try:
+            fetcher.parse_month(fetcher.fetch_month(now.year, now.month, timeout=20, retries=0), now.year, now.month)
+            _diag["out"] = {"khuli": True, "time": now.isoformat(timespec="seconds")}
+        except Exception as e:
+            _diag["out"] = {"khuli": False, "time": now.isoformat(timespec="seconds"), "galti": str(e)[:200]}
+    return jsonify(_diag["out"])
 
 
 @app.get("/api/tick")

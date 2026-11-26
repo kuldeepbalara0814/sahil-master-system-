@@ -1974,6 +1974,39 @@ class Steps007ExactCopyTests(unittest.TestCase):
         self.assertIn("steps007", j)
 
 
+class TickRecordAndDiagTests(unittest.TestCase):
+    def test_diag_reports_blocked_site_and_is_rate_limited(self):
+        from unittest import mock
+        from lab import fetcher
+        lab_server._diag.update(t=0.0, out=None)
+        with mock.patch.object(fetcher, "fetch_month", side_effect=fetcher.FetchError("HTTP Error 403: Forbidden")) as m:
+            c = lab_server.app.test_client()
+            j = c.get("/api/diag/site").get_json()
+            c.get("/api/diag/site")
+        self.assertFalse(j["khuli"])
+        self.assertIn("403", j["galti"])
+        self.assertEqual(m.call_count, 1)
+        lab_server._diag.update(t=0.0, out=None)
+
+    def test_tick_note_keeps_changes_not_repeats(self):
+        p = lab_server.jpath("tick_log.json")
+        old = open(p, "rb").read() if os.path.exists(p) else None
+        try:
+            if old is not None:
+                os.remove(p)
+            e = {"time": "2026-11-26T18:40:00+05:30", "errors": ["403"], "changed": False}
+            lab_server._tick_note(e)
+            lab_server._tick_note(dict(e, time="2026-11-26T18:50:00+05:30"))
+            lab_server._tick_note(dict(e, time="2026-11-26T19:00:00+05:30", errors=[], changed=True))
+            self.assertEqual(len(lab_server.jload("tick_log.json", [])), 2)
+        finally:
+            if os.path.exists(p):
+                os.remove(p)
+            if old is not None:
+                with open(p, "wb") as f:
+                    f.write(old)
+
+
 class StaleScanTests(unittest.TestCase):
     def test_old_schema_scan_is_rerun(self):
         old = scanner.run(ROWS)
