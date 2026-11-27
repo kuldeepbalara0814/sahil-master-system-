@@ -27,7 +27,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import active, alerts, fetcher, ank_chal, help_bot, partial, tick, yaad, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
+from lab import active, alerts, pockets, fetcher, ank_chal, help_bot, partial, tick, yaad, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -178,7 +178,7 @@ def healthz():
 
 
 STATE_FILES = ["results.csv", "paper_ledger.json", "active_log.json", "hit_log.json", "review_log.json", "play_log.json", "manual_results.json",
-               "boards.json", "ideas.json", "fetch_log.json", "drift_log.json", "patterns_today.json", "window_log.json", "help_requests.json", "partial_results.json", "alerts.json", "tick_log.json"]
+               "boards.json", "ideas.json", "fetch_log.json", "drift_log.json", "patterns_today.json", "window_log.json", "help_requests.json", "partial_results.json", "alerts.json", "tick_log.json", "pockets.json"]
 
 
 @app.get("/api/health")
@@ -554,7 +554,7 @@ def save_scan(rep, source="auto", push=False):
 def _save_scan(rep, source, push):
     names = ["patterns_today.json"]
     try:                                                       # merge pehle: wo items par "new" nishan lagata hai
-        jsave("active_log.json", active.merge(jload("active_log.json", None) or active.new_log(), rep, source=source))
+        jsave("active_log.json", active.close_dropped(active.merge(jload("active_log.json", None) or active.new_log(), rep, source=source), rep, state()[0]))
         names.append("active_log.json")
     except Exception:
         app.logger.exception("active log merge fail")
@@ -567,6 +567,14 @@ def _save_scan(rep, source, push):
         names.append("hit_log.json")
     except Exception:
         app.logger.exception("hit log fail")
+    try:                                                       # har list ka kagaz ka pocket (din me ek baar lock)
+        rws, _ = state()
+        ps = jload("pockets.json", None) or pockets.new_state()
+        if pockets.record(ps, rep, rws, partial.merged_results(jload("manual_results.json", {}), cur_partial(rws))):
+            jsave("pockets.json", ps)
+            names.append("pockets.json")
+    except Exception:
+        app.logger.exception("pocket fail")
     try:                                                       # Meri Window: us din ki tokri (naye Naksha + top 30) ek baar lock
         rws, _ = state()
         wl = jload("window_log.json", None) or window.new_state()
@@ -983,6 +991,25 @@ def api_window_pdf():
         blob = export_all.aaj_pdf(parts, play)
     name = {"naksha": "Naksha", "007": "Card_007", "dono": "Naksha_007"}[what] + f"_{play}.pdf"
     return Response(blob, mimetype="application/pdf", headers={"Content-Disposition": f'attachment; filename="{name}"'})
+
+
+def _pocket_data():
+    rows, _ = state()
+    return (jload("pockets.json", None) or pockets.new_state(), rows, partial.merged_results(jload("manual_results.json", {}) or {}, cur_partial(rows)))
+
+
+@app.get("/api/pockets")
+def api_pockets():
+    """Auto paper pockets: har list ka apna Rs 10,000 ka kagaz ka hisaab (patterns/015_auto_pockets/README.md)."""
+    scan_today(state()[0])                                       # aaj ki tokri lock ho jaye (agar scan purana ho)
+    return jsonify(pockets.view(*_pocket_data()))
+
+
+@app.get("/api/pockets.xlsx")
+def api_pockets_xlsx():
+    blob = pockets.xlsx(*_pocket_data())
+    return Response(blob, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    headers={"Content-Disposition": f'attachment; filename="Pocket_statement_{state()[0][-1][0].isoformat()}.xlsx"'})
 
 
 @app.get("/api/ank")

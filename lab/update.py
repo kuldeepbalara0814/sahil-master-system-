@@ -134,7 +134,7 @@ def run(fetch=True, today=None, stake=5, auto_bets=True, data_dir=None, fetch_fn
         if full:
             try:
                 lp = _path(data_dir, "active_log.json")
-                _save_json(lp, active.merge(_load_json(lp, None) or active.new_log(), srep, source="auto"))
+                _save_json(lp, active.close_dropped(active.merge(_load_json(lp, None) or active.new_log(), srep, source="auto"), srep, rows))
             except Exception as e:
                 rep.setdefault("scan_errors", []).append(f"active log nahi bana: {type(e).__name__}: {e}")
             try:                                                      # Meri Window: us din ki tokri (naye Naksha + top 30) ek baar lock
@@ -145,6 +145,14 @@ def run(fetch=True, today=None, stake=5, auto_bets=True, data_dir=None, fetch_fn
                     _save_json(wp, wl)
             except Exception as e:
                 rep.setdefault("scan_errors", []).append(f"window log nahi bana: {type(e).__name__}: {e}")
+            try:                                                      # har list ka kagaz ka pocket: us din ki tokri ek baar lock
+                from . import pockets
+                pp = _path(data_dir, "pockets.json")
+                ps = _load_json(pp, None) or pockets.new_state()
+                if pockets.record(ps, srep, rows, known):
+                    _save_json(pp, ps)
+            except Exception as e:
+                rep.setdefault("scan_errors", []).append(f"pocket nahi bana: {type(e).__name__}: {e}")
             _save_json(_path(data_dir, "patterns_today.json"), srep)  # merge ke baad: items par "new" nishan
         rep.setdefault("scan_errors", [])
         rep["scan_errors"] += [f"{e['pattern']}: {e['error']}" for e in srep.get("errors", [])]

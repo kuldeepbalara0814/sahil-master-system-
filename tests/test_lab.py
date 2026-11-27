@@ -1656,7 +1656,7 @@ class AutoFetchPartialTests(unittest.TestCase):
 
     def test_scanner_with_partial_and_steps_view(self):
         from lab import scanner, scan_view, steps
-        rows = data.load()
+        rows = [r for r in data.load() if r[0] <= dt.date(2026, 11, 23)]                 # asli data roz badhta hai
         nxt = (rows[-1][0] + dt.timedelta(days=1)).isoformat()
         p = {"date": nxt, "results": {"FB": 53}}
         rep = scanner.run(rows, partial=p)
@@ -2080,6 +2080,81 @@ class MappingOnlyAfterDsTests(unittest.TestCase):
         al = alerts.make_hits(hs, "2026-11-26", ["FB"], "Result aaya: FB 53")
         self.assertEqual((al["total"], al["groups"][0]["items"][0]["numbers"]), (1, [53]))
         self.assertIn("kisi map me nahi laga", alerts.make_hits(hs, "2026-11-26", ["GB"], "x")["label"])
+
+
+class AutoPocketTests(unittest.TestCase):
+    """User (27 Nov 2026): har list ka apna Rs 10,000 pocket, ek hi niyam, statement Excel, mahine ka closing = agla opening."""
+
+    def _state(self):
+        st = {"days": {"2026-12-01": {"lists": {"top30": [5, 6]}}, "2026-12-02": {"lists": {"top30": [7, 8]}},
+                       "2026-11-27": {"lists": {"top30": [1]}}, "2027-01-02": {"lists": {"top30": [9]}},
+                       "2027-01-03": {"lists": {"top30": [50]}, "late": True}}}
+        rows = [(dt.date(2026, 11, 27), [1, 1, 1, 1], "t"), (dt.date(2026, 12, 1), [5, 0, 0, 0], "t"), (dt.date(2026, 12, 2), [0, 0, 0, 0], "t"),
+                (dt.date(2027, 1, 2), [0, 9, 0, 0], "t"), (dt.date(2027, 1, 3), [50, 0, 0, 0], "t")]
+        return st, rows
+
+    def test_statement_math_months_and_late(self):
+        from lab import pockets
+        st, rows = self._state()
+        s = pockets.statement(st, rows, {}, "top30")
+        a = 10 * 95 - 20                                        # 1 Dec: FB hit, 2 jodi
+        b = -2 * (10 + 15 + 20 + 25)                            # 2 Dec: kahin nahi
+        c = 15 * 95 - 10 - 15                                   # 2 Jan: GB hit, 1 jodi
+        self.assertEqual([x["date"] for x in s["lines"]], ["2026-12-01", "2026-12-02", "2027-01-02"])     # START se pehle aur late nahi
+        self.assertEqual(s["balance"], pockets.CAPITAL + a + b + c)
+        m = s["months"]
+        self.assertEqual((m[0]["opening"], m[0]["closing"]), (10000, 10000 + a + b))
+        self.assertEqual(m[1]["opening"], m[0]["closing"])      # closing agle mahine ka opening
+        self.assertEqual((s["totals"]["hit_days"], s["totals"]["by_game"]["FB"], s["totals"]["by_game"]["GB"]), (2, 1, 1))
+        self.assertEqual(s["totals"]["won"] - s["totals"]["spent"], s["totals"]["net"])
+
+    def test_record_locks_every_list_once_and_excel_and_api(self):
+        from lab import pockets, scanner
+        rows = data.load()
+        rep = scanner.run(rows)
+        st = pockets.new_state()
+        self.assertTrue(pockets.record(st, rep, rows))
+        self.assertFalse(pockets.record(st, rep, rows))
+        day = st["days"][data.play_date(rows).isoformat()]["lists"]
+        self.assertEqual(sorted(day), sorted(k for k, _ in pockets.LISTS))
+        self.assertTrue(all(len(v) == len(set(v)) and all(0 <= n <= 99 for n in v) for v in day.values()))
+        for k in ("top30", "dost", "rashi", "random"):
+            self.assertLessEqual(len(day[k]), 30)
+        x, r = self._state()
+        wb = load_workbook(io.BytesIO(pockets.xlsx(x, r, {})))
+        self.assertEqual(wb.sheetnames[:2], ["Index", "Mahine"])
+        self.assertEqual(len(wb.sheetnames), 2 + len(pockets.LISTS))
+        c = lab_server.app.test_client()
+        j = c.get("/api/pockets").get_json()
+        self.assertEqual(len(j["pockets"]), len(pockets.LISTS))
+        self.assertEqual(c.get("/api/pockets.xlsx").status_code, 200)
+
+
+class DroppedDesignAndHolidayTests(unittest.TestCase):
+    """27 Nov 2026: list se hata 007 design hamesha 'aaj' na rahe; mahine ke aakhri din (chhutti) par '?' nahi."""
+
+    def test_dropped_items_get_pass_fail_or_hata_and_can_return(self):
+        from lab import active
+        rows = [(dt.date(2026, 11, 25), [22, 61, 79, 80], "t"), (dt.date(2026, 11, 26), [56, 24, 52, 66], "t")]
+        it = lambda i, date, nums: {"id": i, "status": "aaj", "pattern": {"key": "steps"}, "target": {"date": date, "numbers": nums}, "lines": ["79/97: AAJ 25 Nov ke box me"]}
+        log = {"items": {x["id"]: x for x in (it("p", "2026-11-25", [79, 97]), it("f", "2026-11-26", [8, 80]), it("h", "2026-11-26", []),
+                                              it("w", "2026-11-27", [1]), it("live", "2026-11-25", [2]))}}
+        rep = {"patterns": [{"key": "steps", "naam": "Puzzle-Steps", "items": [{"id": "live"}]}], "errors": []}
+        out = active.close_dropped(log, rep, rows)["items"]
+        self.assertEqual({k: v["status"] for k, v in out.items()}, {"p": "pass", "f": "fail", "h": "hata", "w": "aaj", "live": "aaj"})
+        self.assertNotIn("AAJ", out["p"]["lines"][0])
+        back = {"patterns": [{"id": "007", "key": "steps", "naam": "Puzzle-Steps", "items": [{"id": "f", "kind": "steps", "status": "aaj"}]}]}
+        again = active.merge({"items": out}, back, now=dt.datetime(2026, 11, 27, 7, 0))["items"]["f"]
+        self.assertEqual((again["status"], again["resolved_on"]), ("aaj", None))
+        err = {"patterns": [{"key": "steps", "naam": "Puzzle-Steps", "items": []}], "errors": [{"pattern": "Puzzle-Steps", "error": "x"}]}
+        keep = active.close_dropped({"items": {"p": it("p", "2026-11-25", [79])}}, err, rows)
+        self.assertEqual(keep["items"]["p"]["status"], "aaj")                      # pattern tuta ho to kuch band nahi karna
+
+    def test_no_question_mark_on_month_last_day(self):
+        from lab import gapchain
+        res = {"chains": [{"cls": [25, 52], "gap": 7, "len": 2, "status": "chhuti", "status_text": "chhuti", "due": "2026-11-30", "next_due": None, "color": "C6FF00",
+                           "steps": [{"date": "2026-11-16", "hits": []}, {"date": "2026-11-23", "hits": []}]}]}
+        self.assertEqual([m for m in gapchain.marks(res) if m["kind"] == "due"], [])
 
 
 class StaleScanTests(unittest.TestCase):

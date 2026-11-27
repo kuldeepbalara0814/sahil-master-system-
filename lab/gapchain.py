@@ -78,7 +78,7 @@ def marks(res):
             for h in ch["steps"][2]["hits"]:                 # 3rd step: alag nishan (moti border)
                 out.append({"date": ch["steps"][2]["date"], "g": h["g"], "color": ch["color"], "kind": "pass", "text": "", "tip": tip})
         for dd in (ch["due"], ch["next_due"]):
-            if dd:
+            if dd and not data.is_last_day(dt.date.fromisoformat(dd)):          # mahine ke aakhri din chhutti: waha koi '?' nahi
                 i = slot.get(dd, 0)
                 slot[dd] = i + 1
                 out.append({"date": dd, "g": i % 4, "color": ch["color"], "kind": "due", "text": f"{a:02d}?", "tip": tip})

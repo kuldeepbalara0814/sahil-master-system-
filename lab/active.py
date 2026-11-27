@@ -53,6 +53,9 @@ def merge(log, report, now=None, source="auto"):
             old = items.get(it["id"])
             if old is None:
                 old = items[it["id"]] = {"id": it["id"], "first_seen": day, "resolved_on": None, "status": "aaj"}
+            if old.get("dropped") and it["status"] == "aaj":          # wahi design list me wapas aaya
+                old.update(status="aaj", resolved_on=None)
+            old.pop("dropped", None)
             old["pattern"] = _pat(p, it)
             old["last_seen"] = day
             if old["resolved_on"] is None:                     # nateeja aa gaya to wahi rahega
@@ -74,6 +77,36 @@ def merge(log, report, now=None, source="auto"):
             del items[v["id"]]
     log["scans"].append({"time": now.strftime("%Y-%m-%dT%H:%M:%S"), "source": "manual" if source == "manual" else "auto", "asof": report.get("asof")})
     log["scans"] = log["scans"][-KEEP_SCANS:]
+    return log
+
+
+def close_dropped(log, report, rows):
+    """Jo 'aaj' wala item aaj ke scan me nahi raha (007 roz ke top me se hat jata hai) wo hamesha 'aaj' na pada rahe:
+    uske box ki tarikh beet gayi ho to PASS/FAIL (us din kisi bhi game me number), koi andaza hi na tha to 'hata'."""
+    live, kinds = set(), set()
+    bad = {e.get("pattern") for e in report.get("errors") or []}
+    for p in report.get("patterns", []):
+        if p.get("naam") not in bad:
+            kinds.add(p.get("key"))
+            live.update(it.get("id") for it in p.get("items", []))
+    by = {d.isoformat(): v for d, v, *_ in rows}
+    last = rows[-1][0].isoformat()
+    for v in log.get("items", {}).values():
+        if v.get("status") != "aaj" or v["id"] in live or (v.get("pattern") or {}).get("key") not in kinds:
+            continue
+        t = v.get("target") or {}
+        date, nums = str(t.get("date") or ""), t.get("numbers") or []
+        if nums and date > last:                                   # box ki tarikh abhi aani hai
+            continue
+        if nums and date in by:
+            got = [x for x in by[date] if x in nums]
+            v["status"], v["resolved_on"] = ("pass" if got else "fail"), date
+            note = f"List se hatne ke baad hisaab: {date} ko " + (f"{got[0]:02d} aaya - PASS" if got else "number nahi aaya - FAIL")
+        else:
+            v["status"], v["resolved_on"] = "hata", last
+            note = "Ye design aaj ki list me nahi raha aur uska koi beeta andaza nahi tha: na pass, na fail."
+        v["dropped"] = True
+        v["lines"] = [x.replace("AAJ ", "") for x in (v.get("lines") or [])] + [note]
     return log
 
 
