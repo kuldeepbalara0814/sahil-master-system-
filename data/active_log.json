@@ -322,7 +322,7 @@
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-farak-21Nov",
    "title": "13 dana-farak | 21 Nov se",
    "lines": [
@@ -438,7 +438,7 @@
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-farak-21Nov",
    "title": "49 dana-farak | 21 Nov se | confusion",
    "lines": [
@@ -1020,24 +1020,24 @@
     "key": "steps",
     "naam": "Puzzle-Steps"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Steps-03Sep-18Oct-12box",
-   "title": "12 box | 3 link | 3 mahine (03 Sep / 18 Oct / 15 Nov)",
+   "title": "12 box | 3 link | 3 mahine (03 Sep / 18 Oct / 19 Nov)",
    "lines": [
-    "Boundary 12 box (har step me barabar): Step 1 03 Sep se 14 Sep, Step 2 18 Oct se 29 Oct, Step 3 15 Nov se 26 Nov.",
+    "Boundary 12 box (har step me barabar): Step 1 03 Sep se 14 Sep, Step 2 18 Oct se 29 Oct, Step 3 19 Nov se 01 Dec.",
     "3 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 me; Step 3 me USI BOX par 1 mila.",
-    "08/80: AAJ 26 Nov ke box me aana chahiye (box 12; design me GL, kisi bhi game me aaye to link bana).",
-    "Link box 1 -> box 2: 16 Nov ke box me number nahi aaya (boundary me 18 Nov ko aaya, par box alag: copy me nahi gina).",
-    "Indicator (laal): 05/50 har boundary me aaya (ek hi cell mark).",
+    "67/76: 01 Dec ke box me aana chahiye (box 12; design me GL, kisi bhi game me aaye to link bana).",
+    "24/42: AAJ 27 Nov ke box me aana chahiye (box 9; design me FB, kisi bhi game me aaye to link bana).",
+    "Indicator (laal): 08/80 har boundary me aaya (ek hi cell mark).",
     "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
    ],
    "strength": "info",
    "target": {
-    "date": "2026-11-26",
-    "games": "GL",
+    "date": "2026-11-27",
+    "games": "FB",
     "numbers": [
-     8,
-     80
+     24,
+     42
     ]
    }
   },
@@ -1051,25 +1051,18 @@
     "key": "steps",
     "naam": "Puzzle-Steps"
    },
-   "last_seen": "2026-11-24",
+   "last_seen": "2026-11-27",
    "name": "Steps-03Sep-20Oct-8box",
-   "title": "8 box | 2 link | 3 mahine (03 Sep / 20 Oct / 17 Nov)",
+   "title": "8 box | 2 link | 3 mahine (03 Sep / 20 Oct / 20 Nov)",
    "lines": [
-    "Boundary 8 box: Step 1 03 Sep se 10 Sep, Step 2 20 Oct se 27 Oct, Step 3 17 Nov se 24 Nov.",
-    "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 dono me mile; Step 3 me (kisi bhi location) 1 mila.",
-    "37/73 kisi bhi location me boundary (24 Nov) tak aana chahiye (andar = PASS, bahar = FAIL); (wo din beet chuka, '?' nahi, asli number dikh raha hai)",
+    "Boundary 8 box (har step me barabar): Step 1 03 Sep se 10 Sep, Step 2 20 Oct se 27 Oct, Step 3 20 Nov se 27 Nov.",
+    "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 me; Step 3 me USI BOX par 1 mila.",
+    "Link box 7 -> box 7: 26 Nov ke box me number nahi aaya.",
     "Indicator (laal): 08/80 har boundary me aaya (ek hi cell mark).",
     "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
    ],
    "strength": "info",
-   "target": {
-    "date": "2026-11-24",
-    "games": "DS",
-    "numbers": [
-     37,
-     73
-    ]
-   }
+   "target": null
   },
   "steps:8:2026-09-04:2026-10-02": {
    "id": "steps:8:2026-09-04:2026-10-02",
@@ -1224,7 +1217,7 @@
     "key": "steps",
     "naam": "Puzzle-Steps"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Steps-03Sep-01Oct-10box",
    "title": "10 box | 2 link | 3 mahine (03 Sep / 01 Oct / 18 Nov)",
    "lines": [
@@ -1247,7 +1240,7 @@
     "key": "family",
     "naam": "Family"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Family-Hiran-90",
    "title": "04 rashi | seedha | 21 Nov se",
    "lines": [
@@ -1270,7 +1263,7 @@
     "key": "family",
     "naam": "Family"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Family-Sagar-30",
    "title": "44 rashi | ulta | 21 Nov se | jodi rashi",
    "lines": [
@@ -1293,7 +1286,7 @@
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-same-22Nov",
    "title": "27 dana-farak | 22 Nov se",
    "lines": [
@@ -1369,7 +1362,7 @@
     "key": "family",
     "naam": "Family"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Family-Hathi-83",
    "title": "04 rashi | ulta | 22 Nov se",
    "lines": [
@@ -1392,7 +1385,7 @@
     "key": "family",
     "naam": "Family"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Family-Bagula-25",
    "title": "13 rashi | seedha | 22 Nov se",
    "lines": [
@@ -1415,7 +1408,7 @@
     "key": "family",
     "naam": "Family"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Family-Chakor-38",
    "title": "23 rashi | seedha | 22 Nov se",
    "lines": [
@@ -1431,30 +1424,24 @@
   "dana:gap:2026-11-24-0:2026-11-24-3": {
    "id": "dana:gap:2026-11-24-0:2026-11-24-3",
    "first_seen": "2026-11-25",
-   "resolved_on": null,
-   "status": "aaj",
+   "resolved_on": "2026-11-26",
+   "status": "pass",
    "pattern": {
     "id": "005",
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-gap-24Nov",
    "title": "25 dana-farak | 24 Nov se",
    "lines": [
     "Pair: 24 Nov FB 53 + 24 Nov DS 15 (beech ka number gayab).",
-    "Khelo: 25 52 (27 Nov ke DS tak, 12 game baaki)."
+    "Khelo: 25 52 (27 Nov ke DS tak, 12 game baaki).",
+    "PASS: 26 Nov GL 52"
    ],
    "strength": "info",
    "ambiguous": false,
-   "target": {
-    "date": "2026-11-26",
-    "games": "baaki game, 27 Nov DS tak",
-    "numbers": [
-     25,
-     52
-    ]
-   }
+   "target": null
   },
   "dana:gap:2026-11-22-1:2026-11-24-0": {
    "id": "dana:gap:2026-11-22-1:2026-11-24-0",
@@ -1466,7 +1453,7 @@
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-gap-22Nov",
    "title": "36 dana-farak | 22 Nov se | confusion",
    "lines": [
@@ -1489,7 +1476,7 @@
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-gap-22Nov",
    "title": "45 dana-farak | 22 Nov se | confusion",
    "lines": [
@@ -1505,31 +1492,25 @@
   "dana:gap:2026-11-23-1:2026-11-24-0": {
    "id": "dana:gap:2026-11-23-1:2026-11-24-0",
    "first_seen": "2026-11-25",
-   "resolved_on": null,
-   "status": "aaj",
+   "resolved_on": "2026-11-26",
+   "status": "fail",
    "pattern": {
     "id": "005",
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-gap-23Nov",
    "title": "36 dana-farak | 23 Nov se | confusion",
    "lines": [
     "Pair: 23 Nov GB 73 + 24 Nov FB 53 (beech ka number gayab).",
     "Khelo: 36 63 (26 Nov ke DS tak, 11 game baaki).",
-    "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai."
+    "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai.",
+    "FAIL: box poora, koi number nahi aaya"
    ],
    "strength": "info",
    "ambiguous": true,
-   "target": {
-    "date": "2026-11-26",
-    "games": "baaki game, 26 Nov DS tak",
-    "numbers": [
-     36,
-     63
-    ]
-   }
+   "target": null
   },
   "dana:gap:2026-11-22-1:2026-11-24-1": {
    "id": "dana:gap:2026-11-22-1:2026-11-24-1",
@@ -1541,7 +1522,7 @@
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-gap-22Nov",
    "title": "38 dana-farak | 22 Nov se | confusion",
    "lines": [
@@ -1564,7 +1545,7 @@
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-gap-22Nov",
    "title": "49 dana-farak | 22 Nov se | confusion",
    "lines": [
@@ -1580,31 +1561,25 @@
   "dana:gap:2026-11-23-1:2026-11-24-1": {
    "id": "dana:gap:2026-11-23-1:2026-11-24-1",
    "first_seen": "2026-11-25",
-   "resolved_on": null,
-   "status": "aaj",
+   "resolved_on": "2026-11-26",
+   "status": "fail",
    "pattern": {
     "id": "005",
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-gap-23Nov",
    "title": "38 dana-farak | 23 Nov se | confusion",
    "lines": [
     "Pair: 23 Nov GB 73 + 24 Nov GB 93 (beech ka number gayab).",
     "Khelo: 38 83 (26 Nov ke DS tak, 10 game baaki).",
-    "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai."
+    "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai.",
+    "FAIL: box poora, koi number nahi aaya"
    ],
    "strength": "info",
    "ambiguous": true,
-   "target": {
-    "date": "2026-11-26",
-    "games": "baaki game, 26 Nov DS tak",
-    "numbers": [
-     38,
-     83
-    ]
-   }
+   "target": null
   },
   "dana:gap:2026-11-22-0:2026-11-24-3": {
    "id": "dana:gap:2026-11-22-0:2026-11-24-3",
@@ -1616,7 +1591,7 @@
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-gap-22Nov",
    "title": "14 dana-farak | 22 Nov se | confusion",
    "lines": [
@@ -1632,34 +1607,26 @@
   "dana:farak:2026-11-23-2:2026-11-24-3": {
    "id": "dana:farak:2026-11-23-2:2026-11-24-3",
    "first_seen": "2026-11-25",
-   "resolved_on": null,
-   "status": "aaj",
+   "resolved_on": "2026-11-26",
+   "status": "pass",
    "pattern": {
     "id": "005",
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-farak-23Nov",
    "title": "15 dana-farak | 23 Nov se | confusion",
    "lines": [
     "Pair: 23 Nov GL 52 + 24 Nov DS 15 (dana 10/01 ka farak).",
     "Khelo: 15 25 51 52 (26 Nov ke DS tak, 8 game baaki).",
     "Part 2 spot (series): 05 35 50 53 (khelna aap ki marzi)",
-    "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai."
+    "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai.",
+    "PASS: 26 Nov GL 52"
    ],
    "strength": "info",
    "ambiguous": true,
-   "target": {
-    "date": "2026-11-26",
-    "games": "baaki game, 26 Nov DS tak",
-    "numbers": [
-     15,
-     25,
-     51,
-     52
-    ]
-   }
+   "target": null
   },
   "dana:same:2026-11-21-0:2026-11-24-2": {
    "id": "dana:same:2026-11-21-0:2026-11-24-2",
@@ -1671,7 +1638,7 @@
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-same-21Nov",
    "title": "01 dana-farak | 21 Nov se | confusion",
    "lines": [
@@ -1694,7 +1661,7 @@
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-farak-21Nov",
    "title": "39 dana-farak | 21 Nov se | confusion",
    "lines": [
@@ -1718,7 +1685,7 @@
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-gap-21Nov",
    "title": "04 dana-farak | 21 Nov se | confusion",
    "lines": [
@@ -1741,7 +1708,7 @@
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-farak-23Nov",
    "title": "25 dana-farak | 23 Nov se",
    "lines": [
@@ -1764,7 +1731,7 @@
     "key": "steps",
     "naam": "Puzzle-Steps"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Steps-15Sep-20Oct-10box",
    "title": "10 box | 2 link | 3 mahine (15 Sep / 20 Oct / 20 Nov)",
    "lines": [
@@ -1776,7 +1743,7 @@
    ],
    "strength": "info",
    "target": {
-    "date": "2026-11-26",
+    "date": "2026-11-27",
     "games": "aaj koi box nahi (aage)",
     "numbers": []
    }
@@ -1791,7 +1758,7 @@
     "key": "steps",
     "naam": "Puzzle-Steps"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Steps-13Sep-18Oct-12box",
    "title": "12 box | 2 link | 3 mahine (13 Sep / 18 Oct / 18 Nov)",
    "lines": [
@@ -1803,7 +1770,7 @@
    ],
    "strength": "info",
    "target": {
-    "date": "2026-11-26",
+    "date": "2026-11-27",
     "games": "aaj koi box nahi (aage)",
     "numbers": []
    }
@@ -1875,25 +1842,18 @@
     "key": "steps",
     "naam": "Puzzle-Steps"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Steps-03Sep-01Oct-12box",
    "title": "12 box | 2 link | 3 mahine (03 Sep / 01 Oct / 18 Nov)",
    "lines": [
     "Boundary 12 box (har step me barabar): Step 1 03 Sep se 14 Sep, Step 2 01 Oct se 12 Oct, Step 3 18 Nov se 29 Nov.",
     "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 me; Step 3 me USI BOX par 1 mila.",
-    "79/97: AAJ 25 Nov ke box me aana chahiye (box 8; design me DS, kisi bhi game me aaye to link bana).",
+    "Link box 8 -> box 8: 25 Nov ke box me number nahi aaya.",
     "Indicator (laal): 05/50 har boundary me aaya (ek hi cell mark).",
     "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
    ],
    "strength": "info",
-   "target": {
-    "date": "2026-11-25",
-    "games": "DS",
-    "numbers": [
-     79,
-     97
-    ]
-   }
+   "target": null
   },
   "dana:farak:2026-11-24-3:2026-11-25-1": {
    "id": "dana:farak:2026-11-24-3:2026-11-25-1",
@@ -1905,7 +1865,7 @@
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-farak-24Nov",
    "title": "15 dana-farak | 24 Nov se",
    "lines": [
@@ -1916,7 +1876,7 @@
    "strength": "info",
    "ambiguous": false,
    "target": {
-    "date": "2026-11-26",
+    "date": "2026-11-27",
     "games": "baaki game, 27 Nov DS tak",
     "numbers": [
      15,
@@ -1936,7 +1896,7 @@
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-farak-25Nov",
    "title": "08 dana-farak | 25 Nov se",
    "lines": [
@@ -1947,7 +1907,7 @@
    "strength": "info",
    "ambiguous": false,
    "target": {
-    "date": "2026-11-26",
+    "date": "2026-11-27",
     "games": "baaki game, 28 Nov DS tak",
     "numbers": [
      8,
@@ -1960,63 +1920,49 @@
   "dana:gap:2026-11-23-0:2026-11-25-1": {
    "id": "dana:gap:2026-11-23-0:2026-11-25-1",
    "first_seen": "2026-11-26",
-   "resolved_on": null,
-   "status": "aaj",
+   "resolved_on": "2026-11-26",
+   "status": "fail",
    "pattern": {
     "id": "005",
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-gap-23Nov",
    "title": "17 dana-farak | 23 Nov se | confusion",
    "lines": [
     "Pair: 23 Nov FB 81 + 25 Nov GB 61 (beech ka number gayab).",
     "Khelo: 17 71 (26 Nov ke DS tak, 6 game baaki).",
-    "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai."
+    "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai.",
+    "FAIL: box poora, koi number nahi aaya"
    ],
    "strength": "info",
    "ambiguous": true,
-   "target": {
-    "date": "2026-11-26",
-    "games": "baaki game, 26 Nov DS tak",
-    "numbers": [
-     17,
-     71
-    ]
-   }
+   "target": null
   },
   "dana:farak:2026-11-23-0:2026-11-25-3": {
    "id": "dana:farak:2026-11-23-0:2026-11-25-3",
    "first_seen": "2026-11-26",
-   "resolved_on": null,
-   "status": "aaj",
+   "resolved_on": "2026-11-26",
+   "status": "fail",
    "pattern": {
     "id": "005",
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-farak-23Nov",
    "title": "08 dana-farak | 23 Nov se | confusion",
    "lines": [
     "Pair: 23 Nov FB 81 + 25 Nov DS 80 (dana 10/01 ka farak).",
     "Khelo: 08 18 80 81 (26 Nov ke DS tak, 4 game baaki).",
     "Part 2 spot (series): 28 79 82 97 (khelna aap ki marzi)",
-    "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai."
+    "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai.",
+    "FAIL: box poora, koi number nahi aaya"
    ],
    "strength": "info",
    "ambiguous": true,
-   "target": {
-    "date": "2026-11-26",
-    "games": "baaki game, 26 Nov DS tak",
-    "numbers": [
-     8,
-     18,
-     80,
-     81
-    ]
-   }
+   "target": null
   },
   "dana:farak:2026-11-24-2:2026-11-25-3": {
    "id": "dana:farak:2026-11-24-2:2026-11-25-3",
@@ -2028,7 +1974,7 @@
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-farak-24Nov",
    "title": "08 dana-farak | 24 Nov se | confusion",
    "lines": [
@@ -2040,7 +1986,7 @@
    "strength": "info",
    "ambiguous": true,
    "target": {
-    "date": "2026-11-26",
+    "date": "2026-11-27",
     "games": "baaki game, 27 Nov DS tak",
     "numbers": [
      8,
@@ -2060,7 +2006,7 @@
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-gap-22Nov",
    "title": "06 dana-farak | 22 Nov se | confusion",
    "lines": [
@@ -2083,7 +2029,7 @@
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-gap-22Nov",
    "title": "69 dana-farak | 22 Nov se | confusion",
    "lines": [
@@ -2106,7 +2052,7 @@
     "key": "dana",
     "naam": "Dana-Farak"
    },
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "name": "Dana-gap-23Nov",
    "title": "08 dana-farak | 23 Nov se | confusion",
    "lines": [
@@ -2114,6 +2060,356 @@
     "Khelo: 08 80 (26 Nov ke DS tak, 5 game baaki).",
     "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai.",
     "PASS: 25 Nov DS 80"
+   ],
+   "strength": "info",
+   "ambiguous": true,
+   "target": null
+  },
+  "steps:10:2026-09-02:2026-10-17": {
+   "id": "steps:10:2026-09-02:2026-10-17",
+   "first_seen": "2026-11-27",
+   "resolved_on": null,
+   "status": "aaj",
+   "pattern": {
+    "id": "007",
+    "key": "steps",
+    "naam": "Puzzle-Steps"
+   },
+   "last_seen": "2026-11-27",
+   "name": "Steps-02Sep-17Oct-10box",
+   "title": "10 box | 2 link | 3 mahine (02 Sep / 17 Oct / 18 Nov)",
+   "lines": [
+    "Boundary 10 box (har step me barabar): Step 1 02 Sep se 11 Sep, Step 2 17 Oct se 26 Oct, Step 3 18 Nov se 27 Nov.",
+    "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 me; Step 3 me USI BOX par 1 mila.",
+    "24/42: AAJ 27 Nov ke box me aana chahiye (box 10; design me FB, kisi bhi game me aaye to link bana).",
+    "Indicator (laal): 08/80 har boundary me aaya (ek hi cell mark).",
+    "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+   ],
+   "strength": "info",
+   "target": {
+    "date": "2026-11-27",
+    "games": "FB",
+    "numbers": [
+     24,
+     42
+    ]
+   }
+  },
+  "steps:10:2026-09-04:2026-10-21": {
+   "id": "steps:10:2026-09-04:2026-10-21",
+   "first_seen": "2026-11-27",
+   "resolved_on": null,
+   "status": "aaj",
+   "pattern": {
+    "id": "007",
+    "key": "steps",
+    "naam": "Puzzle-Steps"
+   },
+   "last_seen": "2026-11-27",
+   "name": "Steps-04Sep-21Oct-10box",
+   "title": "10 box | 2 link | 3 mahine (04 Sep / 21 Oct / 21 Nov)",
+   "lines": [
+    "Boundary 10 box (har step me barabar): Step 1 04 Sep se 13 Sep, Step 2 21 Oct se 30 Oct, Step 3 21 Nov se 01 Dec.",
+    "2 link (wahi number/palat, wahi jagah) Step 1 aur Step 2 me; Step 3 me USI BOX par 1 mila.",
+    "Link box 6 -> box 6: 26 Nov ke box me number nahi aaya.",
+    "Indicator (laal): 16/61 har boundary me aaya (ek hi cell mark).",
+    "Ye khoj hai, pakka pattern nahi: random data me bhi aise 3 link mil jate hai (patterns/007_puzzle_steps/README.md)."
+   ],
+   "strength": "info",
+   "target": null
+  },
+  "family:1:ulta:2026-11-24": {
+   "id": "family:1:ulta:2026-11-24",
+   "first_seen": "2026-11-27",
+   "resolved_on": null,
+   "status": "aaj",
+   "pattern": {
+    "id": "003",
+    "key": "family",
+    "naam": "Family"
+   },
+   "last_seen": "2026-11-27",
+   "name": "Family-Kabutar-54",
+   "title": "01 rashi | ulta | 24 Nov se",
+   "lines": [
+    "Step 1 (24 Nov): DS 15. Step 2 (26 Nov): FB 56.",
+    "Family 01 rashi: 01 06 10 15 51 56 60 65",
+    "location (zyada paise): FB, DS | baaki halka",
+    "Aaj 27 Nov (3rd step): family ka koi bhi number kisi bhi game me aaye to PASS. Paper: har number 10 Rs, location par 20 Rs."
+   ],
+   "strength": "info",
+   "ambiguous": false,
+   "target": {
+    "date": "2026-11-27",
+    "games": "FB, DS zyada",
+    "numbers": [
+     1,
+     6,
+     10,
+     15,
+     51,
+     56,
+     60,
+     65
+    ]
+   }
+  },
+  "family:3:seedha:2026-11-24": {
+   "id": "family:3:seedha:2026-11-24",
+   "first_seen": "2026-11-27",
+   "resolved_on": null,
+   "status": "aaj",
+   "pattern": {
+    "id": "003",
+    "key": "family",
+    "naam": "Family"
+   },
+   "last_seen": "2026-11-27",
+   "name": "Family-Mor-39",
+   "title": "03 rashi | seedha | 24 Nov se",
+   "lines": [
+    "Step 1 (24 Nov): FB 53. Step 2 (25 Nov): DS 80.",
+    "Family 03 rashi: 03 08 30 35 53 58 80 85",
+    "location (zyada paise): FB, DS | baaki halka",
+    "Aaj 27 Nov (3rd step): family ka koi bhi number kisi bhi game me aaye to PASS. Paper: har number 10 Rs, location par 20 Rs."
+   ],
+   "strength": "info",
+   "ambiguous": false,
+   "target": {
+    "date": "2026-11-27",
+    "games": "FB, DS zyada",
+    "numbers": [
+     3,
+     8,
+     30,
+     35,
+     53,
+     58,
+     80,
+     85
+    ]
+   }
+  },
+  "dana:farak:2026-11-26-1:2026-11-26-2": {
+   "id": "dana:farak:2026-11-26-1:2026-11-26-2",
+   "first_seen": "2026-11-27",
+   "resolved_on": null,
+   "status": "aaj",
+   "pattern": {
+    "id": "005",
+    "key": "dana",
+    "naam": "Dana-Farak"
+   },
+   "last_seen": "2026-11-27",
+   "name": "Dana-farak-26Nov",
+   "title": "24 dana-farak | 26 Nov se",
+   "lines": [
+    "Pair: 26 Nov GB 24 + 26 Nov GL 52 (dana 10/01 ka farak).",
+    "Khelo: 24 25 42 52 (29 Nov ke DS tak, 13 game baaki).",
+    "Part 2 spot (series): 23 26 32 62 (khelna aap ki marzi)"
+   ],
+   "strength": "info",
+   "ambiguous": false,
+   "target": {
+    "date": "2026-11-27",
+    "games": "baaki game, 29 Nov DS tak",
+    "numbers": [
+     24,
+     25,
+     42,
+     52
+    ]
+   }
+  },
+  "dana:gap:2026-11-25-0:2026-11-26-1": {
+   "id": "dana:gap:2026-11-25-0:2026-11-26-1",
+   "first_seen": "2026-11-27",
+   "resolved_on": null,
+   "status": "aaj",
+   "pattern": {
+    "id": "005",
+    "key": "dana",
+    "naam": "Dana-Farak"
+   },
+   "last_seen": "2026-11-27",
+   "name": "Dana-gap-25Nov",
+   "title": "23 dana-farak | 25 Nov se | confusion",
+   "lines": [
+    "Pair: 25 Nov FB 22 + 26 Nov GB 24 (beech ka number gayab).",
+    "Khelo: 23 32 (28 Nov ke DS tak, 10 game baaki).",
+    "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai."
+   ],
+   "strength": "info",
+   "ambiguous": true,
+   "target": {
+    "date": "2026-11-27",
+    "games": "baaki game, 28 Nov DS tak",
+    "numbers": [
+     23,
+     32
+    ]
+   }
+  },
+  "dana:farak:2026-11-24-0:2026-11-26-2": {
+   "id": "dana:farak:2026-11-24-0:2026-11-26-2",
+   "first_seen": "2026-11-27",
+   "resolved_on": null,
+   "status": "aaj",
+   "pattern": {
+    "id": "005",
+    "key": "dana",
+    "naam": "Dana-Farak"
+   },
+   "last_seen": "2026-11-27",
+   "name": "Dana-farak-24Nov",
+   "title": "25 dana-farak | 24 Nov se | confusion",
+   "lines": [
+    "Pair: 24 Nov FB 53 + 26 Nov GL 52 (dana 10/01 ka farak).",
+    "Khelo: 25 35 52 53 (27 Nov ke DS tak, 5 game baaki).",
+    "Part 2 spot (series): 15 45 51 54 (khelna aap ki marzi)",
+    "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai."
+   ],
+   "strength": "info",
+   "ambiguous": true,
+   "target": {
+    "date": "2026-11-27",
+    "games": "baaki game, 27 Nov DS tak",
+    "numbers": [
+     25,
+     35,
+     52,
+     53
+    ]
+   }
+  },
+  "dana:farak:2026-11-24-3:2026-11-26-2": {
+   "id": "dana:farak:2026-11-24-3:2026-11-26-2",
+   "first_seen": "2026-11-27",
+   "resolved_on": null,
+   "status": "aaj",
+   "pattern": {
+    "id": "005",
+    "key": "dana",
+    "naam": "Dana-Farak"
+   },
+   "last_seen": "2026-11-27",
+   "name": "Dana-farak-24Nov",
+   "title": "15 dana-farak | 24 Nov se | confusion",
+   "lines": [
+    "Pair: 24 Nov DS 15 + 26 Nov GL 52 (dana 10/01 ka farak).",
+    "Khelo: 15 25 51 52 (27 Nov ke DS tak, 5 game baaki).",
+    "Part 2 spot (series): 05 35 50 53 (khelna aap ki marzi)",
+    "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai."
+   ],
+   "strength": "info",
+   "ambiguous": true,
+   "target": {
+    "date": "2026-11-27",
+    "games": "baaki game, 27 Nov DS tak",
+    "numbers": [
+     15,
+     25,
+     51,
+     52
+    ]
+   }
+  },
+  "dana:farak:2026-11-26-0:2026-11-26-3": {
+   "id": "dana:farak:2026-11-26-0:2026-11-26-3",
+   "first_seen": "2026-11-27",
+   "resolved_on": null,
+   "status": "aaj",
+   "pattern": {
+    "id": "005",
+    "key": "dana",
+    "naam": "Dana-Farak"
+   },
+   "last_seen": "2026-11-27",
+   "name": "Dana-farak-26Nov",
+   "title": "56 dana-farak | 26 Nov se | confusion",
+   "lines": [
+    "Pair: 26 Nov FB 56 + 26 Nov DS 66 (dana 10/01 ka farak).",
+    "Khelo: 56 65 66 (29 Nov ke DS tak, 12 game baaki).",
+    "Part 2 spot (series): 46 64 67 76 (khelna aap ki marzi)",
+    "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai."
+   ],
+   "strength": "info",
+   "ambiguous": true,
+   "target": {
+    "date": "2026-11-27",
+    "games": "baaki game, 29 Nov DS tak",
+    "numbers": [
+     56,
+     65,
+     66
+    ]
+   }
+  },
+  "dana:farak:2026-11-23-2:2026-11-26-1": {
+   "id": "dana:farak:2026-11-23-2:2026-11-26-1",
+   "first_seen": "2026-11-26",
+   "resolved_on": "2026-11-26",
+   "status": "pass",
+   "pattern": {
+    "id": "005",
+    "key": "dana",
+    "naam": "Dana-Farak"
+   },
+   "last_seen": "2026-11-27",
+   "name": "Dana-farak-23Nov",
+   "title": "24 dana-farak | 23 Nov se | confusion",
+   "lines": [
+    "Pair: 23 Nov GL 52 + 26 Nov GB 24 (dana 10/01 ka farak).",
+    "Khelo: 24 25 42 52 (26 Nov ke DS tak, 2 game baaki).",
+    "Part 2 spot (series): 23 26 32 62 (khelna aap ki marzi)",
+    "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai.",
+    "PASS: 26 Nov GL 52"
+   ],
+   "strength": "info",
+   "ambiguous": true,
+   "target": null
+  },
+  "dana:same:2026-11-23-2:2026-11-26-2": {
+   "id": "dana:same:2026-11-23-2:2026-11-26-2",
+   "first_seen": "2026-11-26",
+   "resolved_on": "2026-11-26",
+   "status": "fail",
+   "pattern": {
+    "id": "005",
+    "key": "dana",
+    "naam": "Dana-Farak"
+   },
+   "last_seen": "2026-11-27",
+   "name": "Dana-same-23Nov",
+   "title": "15 dana-farak | 23 Nov se | confusion",
+   "lines": [
+    "Pair: 23 Nov GL 52 + 26 Nov GL 52 (ek hi number do baar).",
+    "Khelo: 15 25 26 51 52 62 (26 Nov ke DS tak, 1 game baaki).",
+    "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai.",
+    "FAIL: box poora, koi number nahi aaya"
+   ],
+   "strength": "info",
+   "ambiguous": true,
+   "target": null
+  },
+  "dana:gap:2026-11-23-3:2026-11-26-1": {
+   "id": "dana:gap:2026-11-23-3:2026-11-26-1",
+   "first_seen": "2026-11-26",
+   "resolved_on": "2026-11-26",
+   "status": "fail",
+   "pattern": {
+    "id": "005",
+    "key": "dana",
+    "naam": "Dana-Farak"
+   },
+   "last_seen": "2026-11-27",
+   "name": "Dana-gap-23Nov",
+   "title": "34 dana-farak | 23 Nov se | confusion",
+   "lines": [
+    "Pair: 23 Nov DS 44 + 26 Nov GB 24 (beech ka number gayab).",
+    "Khelo: 34 43 (26 Nov ke DS tak, 2 game baaki).",
+    "Is box me ek se zyada pair ban gaye, game saaf nahi bana, confusion hai. Khelne se pehle apne anubhav se soch-vichar karo. Skip karna uchit ho sakta hai.",
+    "FAIL: box poora, koi number nahi aaya"
    ],
    "strength": "info",
    "ambiguous": true,
@@ -2170,6 +2466,11 @@
    "time": "2026-11-26T15:22:09",
    "source": "auto",
    "asof": "2026-11-25"
+  },
+  {
+   "time": "2026-11-27T05:59:40",
+   "source": "auto",
+   "asof": "2026-11-26"
   }
  ],
  "seen": {
@@ -2751,6 +3052,114 @@
   "naksha2:12:2019-01-28": "2026-11-26",
   "naksha2:15:2015-02-21": "2026-11-26",
   "naksha2:18:2015-08-25": "2026-11-26",
-  "naksha2:18:2022-12-12": "2026-11-26"
+  "naksha2:18:2022-12-12": "2026-11-26",
+  "naksha:10:2021-05-11": "2026-11-27",
+  "naksha:10:2013-05-18": "2026-11-27",
+  "naksha:10:2015-05-11": "2026-11-27",
+  "naksha:10:2018-11-04": "2026-11-27",
+  "naksha:10:2019-07-23": "2026-11-27",
+  "naksha:10:2025-09-09": "2026-11-27",
+  "naksha:10:2013-02-14": "2026-11-27",
+  "naksha:10:2013-03-12": "2026-11-27",
+  "naksha:10:2013-04-12": "2026-11-27",
+  "naksha:10:2013-06-08": "2026-11-27",
+  "naksha:10:2013-07-20": "2026-11-27",
+  "naksha:10:2013-09-05": "2026-11-27",
+  "naksha:12:2021-05-09": "2026-11-27",
+  "naksha:12:2013-01-19": "2026-11-27",
+  "naksha:12:2015-10-07": "2026-11-27",
+  "naksha:12:2016-09-08": "2026-11-27",
+  "naksha:12:2017-08-05": "2026-11-27",
+  "naksha:12:2019-09-25": "2026-11-27",
+  "naksha:12:2021-03-21": "2026-11-27",
+  "naksha:12:2025-09-07": "2026-11-27",
+  "naksha:12:2013-05-16": "2026-11-27",
+  "naksha:12:2013-07-26": "2026-11-27",
+  "naksha:12:2013-11-16": "2026-11-27",
+  "naksha:12:2014-04-03": "2026-11-27",
+  "naksha:15:2021-05-06": "2026-11-27",
+  "naksha:15:2015-10-04": "2026-11-27",
+  "naksha:15:2016-09-23": "2026-11-27",
+  "naksha:15:2019-07-18": "2026-11-27",
+  "naksha:15:2026-09-14": "2026-11-27",
+  "naksha:15:2013-01-16": "2026-11-27",
+  "naksha:15:2013-06-24": "2026-11-27",
+  "naksha:15:2014-01-28": "2026-11-27",
+  "naksha:15:2014-05-07": "2026-11-27",
+  "naksha:15:2015-05-10": "2026-11-27",
+  "naksha:15:2016-01-02": "2026-11-27",
+  "naksha:15:2017-08-02": "2026-11-27",
+  "naksha:18:2018-12-02": "2026-11-27",
+  "naksha:18:2021-05-03": "2026-11-27",
+  "naksha:18:2013-07-09": "2026-11-27",
+  "naksha:18:2014-09-21": "2026-11-27",
+  "naksha:18:2015-03-21": "2026-11-27",
+  "naksha:18:2015-05-03": "2026-11-27",
+  "naksha:18:2015-10-01": "2026-11-27",
+  "naksha:18:2016-01-30": "2026-11-27",
+  "naksha:18:2016-04-19": "2026-11-27",
+  "naksha:18:2016-09-20": "2026-11-27",
+  "naksha:18:2017-07-29": "2026-11-27",
+  "naksha:18:2017-10-17": "2026-11-27",
+  "naksha2:10:2023-11-14": "2026-11-27",
+  "naksha2:10:2015-05-13": "2026-11-27",
+  "naksha2:10:2017-03-07": "2026-11-27",
+  "naksha2:10:2018-06-08": "2026-11-27",
+  "naksha2:10:2025-08-09": "2026-11-27",
+  "naksha2:10:2013-02-19": "2026-11-27",
+  "naksha2:10:2015-03-24": "2026-11-27",
+  "naksha2:10:2016-07-18": "2026-11-27",
+  "naksha2:10:2019-12-30": "2026-11-27",
+  "naksha2:10:2020-06-06": "2026-11-27",
+  "naksha2:10:2020-09-13": "2026-11-27",
+  "naksha2:10:2021-05-29": "2026-11-27",
+  "naksha2:12:2015-02-25": "2026-11-27",
+  "naksha2:12:2023-11-12": "2026-11-27",
+  "naksha2:12:2025-11-26": "2026-11-27",
+  "naksha2:12:2013-02-17": "2026-11-27",
+  "naksha2:12:2023-01-22": "2026-11-27",
+  "naksha2:12:2013-07-26": "2026-11-27",
+  "naksha2:12:2014-10-18": "2026-11-27",
+  "naksha2:12:2015-03-22": "2026-11-27",
+  "naksha2:12:2015-05-06": "2026-11-27",
+  "naksha2:12:2018-06-06": "2026-11-27",
+  "naksha2:12:2018-12-01": "2026-11-27",
+  "naksha2:12:2019-09-12": "2026-11-27",
+  "naksha2:15:2017-04-22": "2026-11-27",
+  "naksha2:15:2016-01-08": "2026-11-27",
+  "naksha2:15:2025-08-19": "2026-11-27",
+  "naksha2:15:2024-09-27": "2026-11-27",
+  "naksha2:15:2015-02-22": "2026-11-27",
+  "naksha2:15:2018-06-03": "2026-11-27",
+  "naksha2:15:2022-11-07": "2026-11-27",
+  "naksha2:15:2025-11-23": "2026-11-27",
+  "naksha2:15:2013-07-26": "2026-11-27",
+  "naksha2:15:2014-08-03": "2026-11-27",
+  "naksha2:15:2019-01-26": "2026-11-27",
+  "naksha2:15:2021-05-24": "2026-11-27",
+  "naksha2:18:2017-08-14": "2026-11-27",
+  "naksha2:18:2025-01-08": "2026-11-27",
+  "naksha2:18:2014-01-13": "2026-11-27",
+  "naksha2:18:2018-12-02": "2026-11-27",
+  "naksha2:18:2019-01-23": "2026-11-27",
+  "naksha2:18:2020-11-29": "2026-11-27",
+  "naksha2:18:2015-03-02": "2026-11-27",
+  "naksha2:18:2019-07-15": "2026-11-27",
+  "naksha2:18:2020-06-01": "2026-11-27",
+  "naksha2:18:2022-11-04": "2026-11-27",
+  "naksha2:18:2014-04-18": "2026-11-27",
+  "naksha2:18:2016-06-03": "2026-11-27",
+  "steps:10:2026-09-02:2026-10-17": "2026-11-27",
+  "steps:10:2026-09-04:2026-10-21": "2026-11-27",
+  "family:1:ulta:2026-11-24": "2026-11-27",
+  "family:3:seedha:2026-11-24": "2026-11-27",
+  "dana:farak:2026-11-26-1:2026-11-26-2": "2026-11-27",
+  "dana:gap:2026-11-25-0:2026-11-26-1": "2026-11-27",
+  "dana:farak:2026-11-24-0:2026-11-26-2": "2026-11-27",
+  "dana:farak:2026-11-24-3:2026-11-26-2": "2026-11-27",
+  "dana:farak:2026-11-26-0:2026-11-26-3": "2026-11-27",
+  "dana:farak:2026-11-23-2:2026-11-26-1": "2026-11-27",
+  "dana:same:2026-11-23-2:2026-11-26-2": "2026-11-27",
+  "dana:gap:2026-11-23-3:2026-11-26-1": "2026-11-27"
  }
 }

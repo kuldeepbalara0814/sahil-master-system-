@@ -1,6 +1,241 @@
 {
  "items": [
   {
+   "id": "2026-11-27T05:59:40+05:30",
+   "time": "2026-11-27T05:59:40+05:30",
+   "label": "Subah ka final scan (DS aaya, line poori): sab pattern naye sire se",
+   "total": 66,
+   "groups": [
+    {
+     "key": "dana",
+     "naam": "Dana-Farak",
+     "count": 5,
+     "items": [
+      {
+       "id": "dana:farak:2026-11-26-1:2026-11-26-2",
+       "name": "Dana-farak-26Nov",
+       "numbers": [
+        24,
+        25,
+        42,
+        52
+       ],
+       "games": [
+        "ALL"
+       ]
+      },
+      {
+       "id": "dana:gap:2026-11-25-0:2026-11-26-1",
+       "name": "Dana-gap-25Nov",
+       "numbers": [
+        23,
+        32
+       ],
+       "games": [
+        "ALL"
+       ]
+      },
+      {
+       "id": "dana:farak:2026-11-24-0:2026-11-26-2",
+       "name": "Dana-farak-24Nov",
+       "numbers": [
+        25,
+        35,
+        52,
+        53
+       ],
+       "games": [
+        "ALL"
+       ]
+      },
+      {
+       "id": "dana:farak:2026-11-24-3:2026-11-26-2",
+       "name": "Dana-farak-24Nov",
+       "numbers": [
+        15,
+        25,
+        51,
+        52
+       ],
+       "games": [
+        "ALL"
+       ]
+      },
+      {
+       "id": "dana:farak:2026-11-26-0:2026-11-26-3",
+       "name": "Dana-farak-26Nov",
+       "numbers": [
+        56,
+        65,
+        66
+       ],
+       "games": [
+        "ALL"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "family",
+     "naam": "Family",
+     "count": 2,
+     "items": [
+      {
+       "id": "family:1:ulta:2026-11-24",
+       "name": "Family-Kabutar-54",
+       "numbers": [
+        1,
+        6,
+        10,
+        15,
+        51,
+        56,
+        60,
+        65
+       ],
+       "games": [
+        "DS",
+        "FB"
+       ]
+      },
+      {
+       "id": "family:3:seedha:2026-11-24",
+       "name": "Family-Mor-39",
+       "numbers": [
+        3,
+        8,
+        30,
+        35,
+        53,
+        58,
+        80,
+        85
+       ],
+       "games": [
+        "DS",
+        "FB"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "naksha",
+     "naam": "Naksha",
+     "count": 14,
+     "items": [
+      {
+       "id": "naksha:10:2018-11-04",
+       "name": "Naksha-Bulbul-64",
+       "numbers": [
+        47,
+        74
+       ],
+       "games": [
+        "GL"
+       ]
+      },
+      {
+       "id": "naksha:10:2013-06-08",
+       "name": "Naksha-Bagula-45",
+       "numbers": [
+        67,
+        76
+       ],
+       "games": [
+        "DS"
+       ]
+      },
+      {
+       "id": "naksha:12:2016-09-08",
+       "name": "Naksha-Kabutar-10",
+       "numbers": [
+        37,
+        73
+       ],
+       "games": [
+        "GL"
+       ]
+      },
+      {
+       "id": "naksha:12:2017-08-05",
+       "name": "Naksha-Mor-62",
+       "numbers": [
+        25,
+        52
+       ],
+       "games": [
+        "DS"
+       ]
+      },
+      {
+       "id": "naksha:12:2013-07-26",
+       "name": "Naksha-Hathi-77",
+       "numbers": [
+        18,
+        81
+       ],
+       "games": [
+        "DS"
+       ]
+      },
+      {
+       "id": "naksha:12:2014-04-03",
+       "name": "Naksha-Mor-38",
+       "numbers": [
+        57,
+        75
+       ],
+       "games": [
+        "DS"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "steps",
+     "naam": "Puzzle-Steps",
+     "count": 4,
+     "items": [
+      {
+       "id": "steps:10:2026-09-02:2026-10-17",
+       "name": "Steps-02Sep-17Oct-10box",
+       "numbers": [
+        24,
+        42
+       ],
+       "games": [
+        "FB"
+       ]
+      },
+      {
+       "id": "steps:8:2026-09-03:2026-10-20",
+       "name": "Steps-03Sep-20Oct-8box",
+       "numbers": [],
+       "games": []
+      },
+      {
+       "id": "steps:10:2026-09-04:2026-10-21",
+       "name": "Steps-04Sep-21Oct-10box",
+       "numbers": [],
+       "games": []
+      },
+      {
+       "id": "steps:12:2026-09-03:2026-10-01",
+       "name": "Steps-03Sep-01Oct-12box",
+       "numbers": [],
+       "games": []
+      }
+     ]
+    },
+    {
+     "key": "naksha2",
+     "naam": "Naksha-Rashi",
+     "count": 41,
+     "items": []
+    }
+   ]
+  },
+  {
    "id": "2026-11-27T03:50:29+05:30",
    "time": "2026-11-27T03:50:29+05:30",
    "label": "Result aaya: GL 52 (maps DS ke baad badlenge)",
