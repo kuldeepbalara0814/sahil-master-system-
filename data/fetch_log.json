@@ -172,5 +172,13 @@
   "settled": 0,
   "new_bets": 0,
   "last_date": "2026-11-26"
+ },
+ {
+  "time": "2026-11-28T00:13:58+05:30",
+  "added": [],
+  "errors": [],
+  "settled": 0,
+  "new_bets": 0,
+  "last_date": "2026-11-26"
  }
 ]
