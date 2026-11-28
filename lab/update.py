@@ -185,7 +185,20 @@ def main(argv=None):
     if r["problems"]:
         print("Data me samasya:", *r["problems"], sep="\n  ")
     print(f"Paper: {r['settled']} bet ka result likha, {r['new_bets']} nayi bet lagi | dost badlaav: {r['drift_changes']}")
-    return 1 if (r["problems"] or (r["errors"] and not r["added"] and r["errors"])) else 0
+    code = exit_code(r, data.load())
+    if r["errors"] and not code:
+        print("::warning::Site se is baar nahi mila (agli run dobara koshish karegi); koi result abhi 2 ghante se zyada atka nahi.")
+    return code
+
+
+def exit_code(rep, rows, now=None):
+    """Action laal (aur email) tabhi: data me samasya, ya site se nahi mila AUR koi result 2 ghante se zyada atka hai."""
+    if rep["problems"]:
+        return 1
+    if not rep["errors"] or rep["added"]:
+        return 0
+    now = now or dt.datetime.now(dt.timezone(dt.timedelta(hours=5, minutes=30)))
+    return 1 if tick.overdue(now, rows, rep.get("partial")) else 0
 
 
 if __name__ == "__main__":

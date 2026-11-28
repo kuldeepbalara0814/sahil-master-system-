@@ -234,10 +234,11 @@ def _run_update(stake=5):
 
 
 def _tick_note(entry):
-    """Server ki har auto-fetch koshish ka pakka record (app so jaye to bhi pata rahe). Wahi galti baar-baar ho to dobara commit nahi."""
+    """Server ki auto-fetch koshish ka pakka record (app so jaye to bhi pata rahe). Ek hi ghante me wahi haal dobara ho to nahi likhte."""
     log = jload("tick_log.json", [])
     last = log[-1] if log else {}
-    same = not entry.get("changed") and last.get("errors") == entry.get("errors") and last.get("time", "")[:10] == entry["time"][:10]
+    same = (not entry.get("changed") and last.get("errors") == entry.get("errors") and last.get("due") == entry.get("due")
+            and last.get("time", "")[:13] == entry["time"][:13])          # [:13] = tarikh + ghanta
     if same:
         return
     log.append(entry)
@@ -251,8 +252,9 @@ def _tick_note(entry):
 def _auto_run():
     changed = False
     try:
+        baaki = _auto.get("due") or []
         rep, changed = _run_update()
-        _auto["last"] = {"time": rep["time"], "added": rep["added"], "new": rep.get("partial_new") or [], "errors": [str(e)[:160] for e in rep["errors"]][:3]}
+        _auto["last"] = {"due": baaki, "time": rep["time"], "added": rep["added"], "new": rep.get("partial_new") or [], "errors": [str(e)[:160] for e in rep["errors"]][:3]}
         if rep["errors"] and not changed:                        # server se site nahi khuli: GitHub Action se turant mangao
             code, _ = SYNC.dispatch()
             _auto["last"]["action_chalayi"] = code == 204
@@ -273,9 +275,10 @@ def maybe_auto_fetch(rows):
     GitHub ka schedule der karta hai/chhod deta hai, isliye uske bharose nahi. -> True agar abhi koshish shuru hui."""
     if not (SYNC and SYNC.can_write) or _auto["running"] or time.time() - _auto["t"] < tick.GAP:
         return False
-    if not tick.due(dt.datetime.now(IST), rows, cur_partial(rows)):
+    baaki = tick.due(dt.datetime.now(IST), rows, cur_partial(rows))
+    if not baaki:
         return False
-    _auto["t"], _auto["running"] = time.time(), True
+    _auto["t"], _auto["running"], _auto["due"] = time.time(), True, baaki
     threading.Thread(target=_auto_run, daemon=True).start()
     return True
 

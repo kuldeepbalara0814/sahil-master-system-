@@ -1996,7 +1996,7 @@ class TickRecordAndDiagTests(unittest.TestCase):
                 os.remove(p)
             e = {"time": "2026-11-26T18:40:00+05:30", "errors": ["403"], "changed": False}
             lab_server._tick_note(e)
-            lab_server._tick_note(dict(e, time="2026-11-26T18:50:00+05:30"))
+            lab_server._tick_note(dict(e, time="2026-11-26T18:50:00+05:30"))              # usi ghante me wahi haal: nahi likhte
             lab_server._tick_note(dict(e, time="2026-11-26T19:00:00+05:30", errors=[], changed=True))
             self.assertEqual(len(lab_server.jload("tick_log.json", [])), 2)
         finally:
@@ -2155,6 +2155,22 @@ class DroppedDesignAndHolidayTests(unittest.TestCase):
         res = {"chains": [{"cls": [25, 52], "gap": 7, "len": 2, "status": "chhuti", "status_text": "chhuti", "due": "2026-11-30", "next_due": None, "color": "C6FF00",
                            "steps": [{"date": "2026-11-16", "hits": []}, {"date": "2026-11-23", "hits": []}]}]}
         self.assertEqual([m for m in gapchain.marks(res) if m["kind"] == "due"], [])
+
+
+class ActionExitCodeTests(unittest.TestCase):
+    """28 Nov 2026: site 403 de par koi result atka na ho to Action laal / email nahi."""
+
+    def test_exit_code(self):
+        from lab import update
+        rows = [r for r in data.load() if r[0] <= dt.date(2026, 11, 27)]
+        ist = dt.timezone(dt.timedelta(hours=5, minutes=30))
+        rep = {"problems": [], "errors": ["403"], "added": [], "partial": None}
+        self.assertEqual(update.exit_code(rep, rows, dt.datetime(2026, 11, 28, 15, 0, tzinfo=ist)), 0)      # 28 ka FB abhi aana baaki
+        self.assertEqual(update.exit_code(rep, rows, dt.datetime(2026, 11, 28, 20, 30, tzinfo=ist)), 1)     # FB 2 ghante se atka
+        part = dict(rep, partial={"date": "2026-11-28", "results": {"FB": 1}})
+        self.assertEqual(update.exit_code(part, rows, dt.datetime(2026, 11, 28, 20, 30, tzinfo=ist)), 0)
+        self.assertEqual(update.exit_code(dict(rep, problems=["x"]), rows), 1)
+        self.assertEqual(update.exit_code(dict(rep, errors=[]), rows), 0)
 
 
 class StaleScanTests(unittest.TestCase):
