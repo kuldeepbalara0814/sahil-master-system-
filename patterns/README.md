@@ -17,6 +17,7 @@ Niyam: pattern sirf 3-6 mahine me parkho. Aap ki pushti ke baad hi pakka maano. 
 | 007 | **Puzzle-Steps** (3 mahine ek sheet, step 1/2/3, boundary, link-rang, indicator) | APPROVED, live (23 Nov 2026), jaanch: random jaisa |
 | 006 | single sheet pattern ke niyam (same duri, rang, flat/standing) | sikhana jari, kuch banaya nahi |
 | 005 | dana-farak (4 din box) | likha, aap ki pushti baaki, 6 mahine ki jaanch likhi, software (Pattern Scan) me hai |
+| 017 | **Roz ka card** (30 jodi + Naksha + Dost teeno me; baar window me bhi = SOLID; DS ke baad roz, lock) | Meri Window me, README patterns/017_roz_ka_card |
 
 HANDOFF.md = niyam aur facts. GLOSSARY.md = shabd (rashi, cross, jodi, half jodi, gap).
 

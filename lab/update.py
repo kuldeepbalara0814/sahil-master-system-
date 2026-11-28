@@ -154,6 +154,18 @@ def run(fetch=True, today=None, stake=5, auto_bets=True, data_dir=None, fetch_fn
             except Exception as e:
                 rep.setdefault("scan_errors", []).append(f"pocket nahi bana: {type(e).__name__}: {e}")
             _save_json(_path(data_dir, "patterns_today.json"), srep)  # merge ke baad: items par "new" nishan
+        try:                                                          # roz ka card (017): DS ke baad ki lock tokri se, din me ek baar
+            from . import card
+            cp = _path(data_dir, "cards.json")
+            cs = _load_json(cp, None) or card.new_state()
+            made, cday, why = card.make(cs, rows, srep, _load_json(_path(data_dir, "pockets.json"), None), today=day)
+            if made:
+                _save_json(cp, cs)
+            rep["card"] = {"date": cday, "bana": made, "kyun": why}
+            if cday in cs.get("days", {}):
+                card.save_jpg(cs, cday, _path(data_dir, "cards"))
+        except Exception as e:
+            rep.setdefault("scan_errors", []).append(f"card nahi bana: {type(e).__name__}: {e}")
         rep.setdefault("scan_errors", [])
         rep["scan_errors"] += [f"{e['pattern']}: {e['error']}" for e in srep.get("errors", [])]
     except Exception as e:

@@ -155,7 +155,7 @@ def main(argv=None):
         check_code(a.head, files)
         run_script("data jaanch", os.path.join("scripts", "selfcheck.py"), "--data", "--no-file")
         if a.tests and any(not p.startswith(("data/", "patterns/", "research/")) and not p.endswith(".md") for _, p in files):
-            run_script("tests", "-m", "unittest", "tests.test_lab", "tests.test_core", "tests.test_fetcher", "tests.test_paper", "tests.test_server")
+            run_script("tests", "-m", "unittest", "tests.test_lab", "tests.test_core", "tests.test_fetcher", "tests.test_paper", "tests.test_server", "tests.test_card")
     for w in warn:
         print("  dhyan:", w)
     for b in bad:

@@ -109,3 +109,33 @@ class NoTokenSyncTests(unittest.TestCase):
             self.assertIn("GITHUB_TOKEN", r.get_json()["error"])
         finally:
             lab_server.SYNC = None
+
+
+class CardRouteTests(unittest.TestCase):
+    """Roz ka card (017): /api/card ka haal, locked card ki JPG, galat/na bani tarikh."""
+
+    def test_card_routes(self):
+        c = lab_server.app.test_client()
+        v = c.get("/api/card").get_json()
+        self.assertIn("play_date", v)
+        self.assertIn("kyun", v)
+        cp = os.path.join(lab_server.DATA_DIR, "cards.json")
+        old = open(cp, encoding="utf-8").read() if os.path.exists(cp) else None
+        try:
+            cs = json.load(open(cp, encoding="utf-8")) if old else {"days": {}}
+            cs["days"]["2026-11-28"] = {"solid": [58, 79, 85, 97], "spot": [10, 15, 24, 42, 51, 52, 59, 74]}
+            with open(cp, "w", encoding="utf-8") as f:
+                json.dump(cs, f)
+            r = c.get("/api/card/2026-11-28.jpg")
+            self.assertEqual(r.status_code, 200)
+            self.assertEqual(r.mimetype, "image/jpeg")
+            self.assertTrue(r.data.startswith(b"\xff\xd8"))
+            self.assertIn("attachment", c.get("/api/card/2026-11-28.jpg?download=1").headers.get("Content-Disposition", ""))
+            self.assertEqual(c.get("/api/card/1999-01-01.jpg").status_code, 404)
+            self.assertEqual(c.get("/api/card/kal.jpg").status_code, 400)
+        finally:
+            if old is None:
+                os.remove(cp)
+            else:
+                with open(cp, "w", encoding="utf-8") as f:
+                    f.write(old)

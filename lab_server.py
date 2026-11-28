@@ -27,7 +27,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import active, mcp_endpoint, mcp_tools, alerts, pockets, fetcher, ank_chal, help_bot, partial, tick, yaad, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
+from lab import active, card, mcp_endpoint, mcp_tools, alerts, pockets, fetcher, ank_chal, help_bot, partial, tick, yaad, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -591,6 +591,14 @@ def _save_scan(rep, source, push):
             names.append("window_log.json")
     except Exception:
         app.logger.exception("window log fail")
+    try:                                                       # roz ka card (017): DS ke baad ki lock tokri se, din me ek baar
+        rws, _ = state()
+        cs = jload("cards.json", None) or card.new_state()
+        if card.make(cs, rws, rep, jload("pockets.json", None))[0]:
+            jsave("cards.json", cs)
+            names.append("cards.json")
+    except Exception:
+        app.logger.exception("card fail")
     jsave("patterns_today.json", rep)
     if push:
         try:
@@ -1018,6 +1026,53 @@ def api_pockets_xlsx():
     blob = pockets.xlsx(*_pocket_data())
     return Response(blob, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     headers={"Content-Disposition": f'attachment; filename="Pocket_statement_{state()[0][-1][0].isoformat()}.xlsx"'})
+
+
+_card_jpg = {}
+
+
+def card_state(rows):
+    """cards.json + aaj ka card abhi tak na bana ho aur shartein poori hon to abhi lock (GitHub par bhi, koshish bhar)."""
+    rep = scan_today(rows)                                       # tokri aur card isi scan se lock hote hain
+    with _wlock:
+        cs = jload("cards.json", None) or card.new_state()
+        made, _, _ = card.make(cs, rows, rep, jload("pockets.json", None))
+        if made:
+            jsave("cards.json", cs)
+            try:
+                persist(["cards.json"], "roz ka card")
+            except Exception as e:
+                app.logger.warning("card persist: %s", e)
+    return cs, rep
+
+
+@app.get("/api/card")
+def api_card():
+    """Roz ka card (patterns/017_roz_ka_card/README.md): aaj ka haal (bana / kyun nahi) + pichle card."""
+    rows, _ = state()
+    cs, rep = card_state(rows)
+    return jsonify(card.view(cs, rows, rep, jload("pockets.json", None)))
+
+
+@app.get("/api/card/<date>.jpg")
+def api_card_jpg(date):
+    """Locked card ki JPG. ?download=1 = file ki tarah. Card na bana ho to 404 (purane data par kabhi nahi banta)."""
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
+        return err("tarikh YYYY-MM-DD me do")
+    rows, _ = state()
+    cs, _ = card_state(rows)
+    day = cs.get("days", {}).get(date)
+    if not day:
+        return err(f"{date} ka card abhi nahi bana (DS ke baad subah ki tokri lock hone par banta hai)", 404)
+    key = (date, tuple(day["solid"]), tuple(day["spot"]))
+    if key not in _card_jpg:
+        if len(_card_jpg) > 20:
+            _card_jpg.clear()
+        _card_jpg[key] = card.render(date, day["solid"], day["spot"])
+    headers = {"Cache-Control": "public, max-age=3600"}
+    if request.args.get("download"):
+        headers["Content-Disposition"] = f'attachment; filename="Sahil_Lab_card_{date}.jpg"'
+    return Response(_card_jpg[key], mimetype="image/jpeg", headers=headers)
 
 
 @app.get("/api/ank")

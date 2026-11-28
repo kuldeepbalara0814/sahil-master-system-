@@ -132,6 +132,20 @@ tabs.meri=async function(root){
   el("div",{class:"big"},"Ye meri apni window hai: sirf mere chune hue. Baaki sab main app me chalta rehta hai."),
   el("div",{class:"mut small",style:"margin-top:8px"},w.scan_time?`Tokri lock hui: ${istm(w.scan_time)}`:"Tokri abhi lock nahi hui",` | pocket ki ginti ${dm(w.start)} se`),
   counted?null:el("div",{class:"small",style:"margin-top:6px"},`Aaj (${dm(w.play_date)}) ki tokri sirf dikhane ke liye; pocket ki ginti start tarikh (${dm(w.start)}) se.`)));
+ /* ROZ KA CARD (017): DS ke baad subah ki lock tokri se, din me ek baar bana hua JPG */
+ const cardBox=el("div",{class:"card wn-card"},el("p",{class:"load"},el("span",{class:"spin"}),"Aaj ka card dekh rahe hain..."));
+ root.append(cardBox);
+ api("GET","/card").then(c=>{const src=d=>"/api/card/"+d+".jpg";
+  const old=(c.pichle||[]).filter(x=>x.date!==c.play_date).slice(0,10);
+  cardBox.replaceChildren(...[
+   el("h2",{style:"margin:0 0 6px"},`Roz ka card: ${dm(c.play_date)}`),
+   c.bana?[el("img",{src:src(c.play_date),alt:"Aaj ka card",style:"width:100%;max-width:360px;border-radius:12px;display:block;margin:6px 0"}),
+     el("a",{href:src(c.play_date)+"?download=1",class:"dlx",download:""},el("button",{type:"button",class:"b sm"},"Card JPG download"))]
+    :el("p",{class:"mut"},"Aaj ka card abhi nahi bana: "+(c.kyun||"")+". DS ka result aane aur subah ka scan hone ke baad apne aap banega."),
+   old.length?el("div",{class:"row",style:"gap:6px;flex-wrap:wrap;margin-top:8px"},el("span",{class:"mut small"},"Pichle card:"),
+    old.map(x=>el("a",{href:src(x.date),target:"_blank",rel:"noopener"},el("button",{type:"button",class:"b g sm"},dm(x.date))))):null,
+   el("p",{class:"mut small",style:"margin:6px 0 0"},"30 jodi + Naksha (naye aur pehle bane) + Dost, teeno me jo jodi; inme jo us baar ki window me bhi = SOLID (hara), baaki SPOT. Kagaz ka puzzle (paper test), asli paisa nahi; ab tak natija random jaisa.")].flat().filter(Boolean))})
+  .catch(e=>cardBox.replaceChildren(el("div",{class:"warn"},"Card nahi aaya: "+e.message)));
  if(REP)root.append(openCard(w));
  /* PDF: aaj ke saare map ek saath */
  root.append(el("div",{class:"card wn-pdf"},
