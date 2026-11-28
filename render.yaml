@@ -31,3 +31,5 @@ services:
         sync: false
       - key: HELP_PIN       # Sahil Lab Help chat ka password; na ho to ADMIN_PIN use hota hai
         sync: false
+      - key: MCP_KEY        # Claude connector ka gupt hissa (/mcp/<MCP_KEY>), 24+ akshar; na ho to connector band. Sirf Render dashboard me
+        sync: false

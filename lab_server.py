@@ -27,7 +27,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import active, alerts, pockets, fetcher, ank_chal, help_bot, partial, tick, yaad, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
+from lab import active, mcp_endpoint, alerts, pockets, fetcher, ank_chal, help_bot, partial, tick, yaad, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -184,6 +184,11 @@ STATE_FILES = ["results.csv", "paper_ledger.json", "active_log.json", "hit_log.j
 @app.get("/api/health")
 def api_health():
     """Sehat ek nazar me: aakhri data tarikh, aakhri scan (kab/kaise), galtiyan, state files ka size (badhte to nahi?). Kuch likhta nahi."""
+    return jsonify(health_data())
+
+
+def health_data():
+    """/api/health aur MCP 'sehat' tool dono ka ek hi hisaab (kuch likhta nahi)."""
     rows, _ = state()
     now = dt.datetime.now(IST)
     exp = expected_last(now)
@@ -197,13 +202,13 @@ def api_health():
             sizes[n] = os.path.getsize(jpath(n))
         except OSError:
             sizes[n] = None
-    return jsonify({"ok": rows[-1][0] >= exp and not rep.get("errors"), "now_ist": now.strftime("%Y-%m-%dT%H:%M:%S"),
-                    "last_date": rows[-1][0].isoformat(), "expected_last": exp.isoformat(), "behind_days": max(0, (exp - rows[-1][0]).days),
-                    "days": len(rows), "play_date": data.play_date(rows).isoformat(),
-                    "last_scan": scans[-1] if scans else None, "scan_asof": rep.get("asof"), "scan_errors": rep.get("errors") or [],
-                    "last_fetch": last_fetch(flog), "github": bool(SYNC), "can_write": bool(SYNC and SYNC.can_write) or not SYNC_ON,
-                    "data_problems": data.validate(rows)[:10], "file_bytes": sizes,
-                    "partial": cur_partial(rows), "due": tick.due(now, rows, cur_partial(rows)), "auto_last": _auto.get("last")})
+    return {"ok": rows[-1][0] >= exp and not rep.get("errors"), "now_ist": now.strftime("%Y-%m-%dT%H:%M:%S"),
+            "last_date": rows[-1][0].isoformat(), "expected_last": exp.isoformat(), "behind_days": max(0, (exp - rows[-1][0]).days),
+            "days": len(rows), "play_date": data.play_date(rows).isoformat(),
+            "last_scan": scans[-1] if scans else None, "scan_asof": rep.get("asof"), "scan_errors": rep.get("errors") or [],
+            "last_fetch": last_fetch(flog), "github": bool(SYNC), "can_write": bool(SYNC and SYNC.can_write) or not SYNC_ON,
+            "data_problems": data.validate(rows)[:10], "file_bytes": sizes,
+            "partial": cur_partial(rows), "due": tick.due(now, rows, cur_partial(rows)), "auto_last": _auto.get("last")}
 
 
 _auto = {"t": 0.0, "running": False}
@@ -1282,6 +1287,11 @@ def api_today():
     known = [num(v) for v in request.args.get("known", "").split(",") if v.strip() != ""]
     if None in known or len(known) > 3:
         return err("aaj ke result (FD, GB, GL) 0-99 ke number me")
+    return jsonify(today_plan(rows, fr, known))
+
+
+def today_plan(rows, fr, known):
+    """/api/today aur MCP 'aaj_ki_list' tool dono ka ek hi hisaab (kuch likhta nahi)."""
     plan = picks.daily_plan(rows, known)
     plan["known"] = known
     plan["ds_rule"] = {"numbers": ds_rule.numbers_for(rows, len(rows), ds_rule.MODES["four"]), "lags": list(ds_rule.MODES["four"]),
@@ -1292,7 +1302,7 @@ def api_today():
     plan["dost"] = [{"when": w, "game": g, "number": n,
                      "top": {per: [{"n": f["n"], "together": f["together"]} for f in friends.top_friends(fr.cnt[per], n, 3)] for per in fr.cnt}}
                     for w, g, n in srcs]
-    return jsonify(plan)
+    return plan
 
 
 # ---------------- paper trading ----------------
@@ -1394,6 +1404,106 @@ def api_fetch():
 def download():
     state()
     return send_file(jpath("results.csv"), mimetype="text/csv", as_attachment=True, download_name="results.csv")
+
+
+# ---------------- MCP (Claude connector) ----------------
+# Pata: /mcp/<MCP_KEY>. MCP_KEY sirf Render dashboard me (24+ akshar); na ho to ye pata band (404).
+# Saare tool SIRF PADHTE hain: koi bet, fetch, scan-save ya GitHub push nahi. Isliye ye un /api route ko nahi bulate
+# jo kholne par kuch save karte hain (/api/paper settle save, /api/monitor, /api/active scan, /api/status auto-fetch).
+MCP_KEY = os.environ.get("MCP_KEY", "")
+
+
+def _mcp_results(din=7):
+    rows, _ = state()
+    return {"days_total": len(rows), "results": [{"date": d.isoformat(), **dict(zip(data.GAMES, v))} for d, v, *_ in rows[-din:]]}
+
+
+def _mcp_today(known=""):
+    rows, fr = state()
+    ks = [num(v) for v in known.split(",") if v.strip() != ""]
+    if None in ks or len(ks) > 3:
+        raise ValueError("known me aaj ke 0-3 result (FD, GB, GL ke kram me), 0-99, comma se: jaise '12,47'")
+    return today_plan(rows, fr, ks)
+
+
+def _mcp_paper():
+    import copy
+    rows, _ = state()
+    L = copy.deepcopy(ledger())
+    paper.settle(L, rows)                                      # sirf copy par (dikhane ke liye); file/GitHub par kuch nahi likhta
+    summ = paper.summary_all(L)
+    for s in summ.values():
+        s["curve"] = s["curve"][-10:]                          # poora curve lamba hai; aakhri 10 din kaafi
+    recent = sorted(L["bets"], key=lambda b: (b["date"], b["game"]), reverse=True)[:20]
+    return {"note": "Paper trading: asli paisa nahi.", "capital": L["capital"], "summary": summ, "recent": recent}
+
+
+def _mcp_monitor():
+    rows, _ = state()
+    m = jload("monitor.json", None)
+    if not m or m.get("asof") != rows[-1][0].isoformat():
+        m = monitor.health(rows)                               # taaza nahi tha: gin lo, par save nahi
+    return m
+
+
+def _mcp_ds_rule():
+    rows, _ = state()
+    return ds_rule.view(rows)
+
+
+def _mcp_ank():
+    rows, _ = state()
+    return ank_chal.view(rows)
+
+
+def _mcp_active(din=3):
+    rows, _ = state()
+    rep = jload("patterns_today.json", None) or {}
+    log = jload("active_log.json", None) or active.new_log()
+    out = active.view(log, din, report=rep or None)            # naya scan nahi chalata (wo save karta hai); aakhri save hua scan
+    out["patterns"] = [{"id": p["id"], "naam": p["naam"], "summary": p.get("summary", "")} for p in rep.get("patterns", [])]
+    out["scan_asof"] = rep.get("asof")
+    out["scan_purana"] = rep.get("asof") != rows[-1][0].isoformat()
+    out["scan_errors"] = rep.get("errors") or []
+    out["alerts"] = (jload("alerts.json", None) or {}).get("items", [])[:5]
+    out["partial"] = cur_partial(rows)
+    return out
+
+
+_DIN = {"type": "integer", "minimum": 1, "maximum": 60, "description": "Kitne din (1-60)"}
+MCP_TOOLS = {t.name: t for t in [
+    mcp_endpoint.Tool("sehat", "Sahil Lab ki sehat",
+                      "App ki sehat: aakhri data tarikh, kitne din peeche, aakhri fetch aur scan, galtiyan. Pehle yahi dekho.", health_data),
+    mcp_endpoint.Tool("aakhri_result", "Aakhri result",
+                      "Pichle kuch din ke result (FD, GB, GL, DS), naye sabse neeche.", _mcp_results,
+                      {"din": dict(_DIN, description="Kitne din (1-60, default 7)")}),
+    mcp_endpoint.Tool("aaj_ki_list", "Aaj ki list",
+                      "Aaj khelne ki paper list: single jodi, 10-number list, DS rule 008 ke number, dost jodi.", _mcp_today,
+                      {"known": {"type": "string", "description": "Aaj ke aa chuke result FD,GB,GL ke kram me, comma se (jaise '12,47'). Khali chhod sakte ho."}}),
+    mcp_endpoint.Tool("paper_khata", "Paper trading khata",
+                      "Paper trading (asli paisa nahi): har strategy ka hisaab (bet, jeet, net, ROI, drawdown) aur aakhri 20 bet.", _mcp_paper),
+    mcp_endpoint.Tool("monitor", "Monitor (backtest)",
+                      "Backtest monitor: poore, pichle 12 mahine aur 30 din ka hit % har strategy ke liye, random se tulna.", _mcp_monitor),
+    mcp_endpoint.Tool("ds_rule_008", "DS rule 008",
+                      "DS Recency (pattern 008) ka paper forward test: aaj ke number aur ab tak ka khata.", _mcp_ds_rule),
+    mcp_endpoint.Tool("ank_009", "Ank-Chal 009",
+                      "Ank-Chal (pattern 009): aaj ke ank, 8 line ki table aur kagaz ka khata.", _mcp_ank),
+    mcp_endpoint.Tool("active_patterns", "Active patterns aur alerts",
+                      "Aakhri save hue scan ke active pattern (aaj, pass, fail), alerts aur aaj ki aadhi line.", _mcp_active,
+                      {"din": {"type": "integer", "minimum": 1, "maximum": 3, "description": "Kitne din ka pass/fail (1-3, default 3)"}}),
+]}
+
+
+@app.route("/mcp/<key>", methods=["POST", "GET", "DELETE"])
+def mcp(key):
+    if not mcp_endpoint.key_ok(key, MCP_KEY):
+        return err("Not found", 404)
+    if request.method != "POST":                               # stream (GET) aur session (DELETE) nahi rakhe
+        return Response(status=405, headers={"Allow": "POST"})
+    code, out = mcp_endpoint.handle(request.get_data(), MCP_TOOLS, log=lambda name, e: app.logger.warning("mcp %s: %r", name, e))
+    if out is None:
+        return Response(status=code)
+    return Response(json.dumps(out, ensure_ascii=False, default=str), status=code, mimetype="application/json")
 
 
 @app.errorhandler(Exception)

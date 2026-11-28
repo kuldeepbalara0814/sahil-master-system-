@@ -24,7 +24,7 @@ SECRETS = [
     ("GitHub token", re.compile(r"\b(ghp|gho|ghs|ghu)_[A-Za-z0-9]{30,}\b|\bgithub_pat_[A-Za-z0-9_]{40,}\b")),
     ("API key (sk_)", re.compile(r"\bsk[_-][A-Za-z0-9_-]{20,}\b")),
     ("AWS key", re.compile(r"\bAKIA[0-9A-Z]{16}\b")),
-    ("PIN/key/password seedha likha", re.compile(r"\b(SARVAM_API_KEY|HELP_PIN|ADMIN_PIN|GITHUB_TOKEN)\b\s*[=:]\s*[\"']?(?!\$|\{|<|os\.|sync|secrets)[A-Za-z0-9_\-]{4,}[\"']?\s*($|#)")),
+    ("PIN/key/password seedha likha", re.compile(r"\b(SARVAM_API_KEY|HELP_PIN|ADMIN_PIN|GITHUB_TOKEN|MCP_KEY)\b\s*[=:]\s*[\"']?(?!\$|\{|<|os\.|sync|secrets)[A-Za-z0-9_\-]{4,}[\"']?\s*($|#)")),
 ]
 bad, warn = [], []
 
