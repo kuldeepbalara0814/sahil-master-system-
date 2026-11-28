@@ -1320,6 +1320,336 @@
      "baar": 1
     }
    ]
+  },
+  "2026-11-28": {
+   "asof": "2026-11-27",
+   "scan_time": "2026-11-28T07:15:40+05:30",
+   "naksha": [
+    {
+     "id": "naksha:10:2021-05-12",
+     "name": "Naksha-Koyal-98",
+     "title": "#1 May 2021 jaisa (10 line)",
+     "numbers": [
+      44
+     ],
+     "games": [
+      "GL"
+     ]
+    },
+    {
+     "id": "naksha:10:2018-07-17",
+     "name": "Naksha-Ghariyal-78",
+     "title": "#7 Jul 2018 jaisa (10 line)",
+     "numbers": [
+      59,
+      95
+     ],
+     "games": [
+      "FB"
+     ]
+    },
+    {
+     "id": "naksha:10:2019-07-24",
+     "name": "Naksha-Titli-21",
+     "title": "#9 Jul 2019 jaisa (10 line)",
+     "numbers": [
+      47,
+      74
+     ],
+     "games": [
+      "FB"
+     ]
+    },
+    {
+     "id": "naksha:12:2021-05-10",
+     "name": "Naksha-Bijli-69",
+     "title": "#1 May 2021 jaisa (12 line)",
+     "numbers": [
+      44
+     ],
+     "games": [
+      "GL"
+     ]
+    },
+    {
+     "id": "naksha:12:2016-09-09",
+     "name": "Naksha-Bakri-34",
+     "title": "#12 Sep 2016 jaisa (12 line)",
+     "numbers": [
+      25,
+      52
+     ],
+     "games": [
+      "DS"
+     ]
+    },
+    {
+     "id": "naksha:15:2021-05-07",
+     "name": "Naksha-Chanda-76",
+     "title": "#1 May 2021 jaisa (15 line)",
+     "numbers": [
+      44
+     ],
+     "games": [
+      "GL"
+     ]
+    },
+    {
+     "id": "naksha:15:2024-03-15",
+     "name": "Naksha-Cheel-76",
+     "title": "#6 Mar 2024 jaisa (15 line)",
+     "numbers": [
+      67,
+      76
+     ],
+     "games": [
+      "FB"
+     ]
+    },
+    {
+     "id": "naksha:15:2013-01-17",
+     "name": "Naksha-Garud-98",
+     "title": "#7 Jan 2013 jaisa (15 line)",
+     "numbers": [
+      57,
+      75
+     ],
+     "games": [
+      "GL"
+     ]
+    },
+    {
+     "id": "naksha:15:2013-04-08",
+     "name": "Naksha-Badal-86",
+     "title": "#8 Apr 2013 jaisa (15 line)",
+     "numbers": [
+      49,
+      94
+     ],
+     "games": [
+      "FB"
+     ]
+    },
+    {
+     "id": "naksha:15:2018-07-12",
+     "name": "Naksha-Bijli-47",
+     "title": "#11 Jul 2018 jaisa (15 line)",
+     "numbers": [
+      58,
+      59,
+      85,
+      95
+     ],
+     "games": [
+      "FB"
+     ]
+    },
+    {
+     "id": "naksha:18:2021-05-04",
+     "name": "Naksha-Uloo-76",
+     "title": "#4 May 2021 jaisa (18 line)",
+     "numbers": [
+      44
+     ],
+     "games": [
+      "GL"
+     ]
+    },
+    {
+     "id": "naksha:18:2016-04-20",
+     "name": "Naksha-Tara-10",
+     "title": "#11 Apr 2016 jaisa (18 line)",
+     "numbers": [
+      37,
+      73
+     ],
+     "games": [
+      "GB"
+     ]
+    }
+   ],
+   "top30": [
+    {
+     "n": 97,
+     "score": 34,
+     "votes": 32,
+     "baar": 1
+    },
+    {
+     "n": 24,
+     "score": 30,
+     "votes": 30,
+     "baar": 0
+    },
+    {
+     "n": 79,
+     "score": 30,
+     "votes": 28,
+     "baar": 1
+    },
+    {
+     "n": 42,
+     "score": 27,
+     "votes": 27,
+     "baar": 0
+    },
+    {
+     "n": 74,
+     "score": 27,
+     "votes": 27,
+     "baar": 0
+    },
+    {
+     "n": 29,
+     "score": 26,
+     "votes": 26,
+     "baar": 0
+    },
+    {
+     "n": 52,
+     "score": 26,
+     "votes": 26,
+     "baar": 0
+    },
+    {
+     "n": 92,
+     "score": 26,
+     "votes": 26,
+     "baar": 0
+    },
+    {
+     "n": 47,
+     "score": 24,
+     "votes": 24,
+     "baar": 0
+    },
+    {
+     "n": 56,
+     "score": 19,
+     "votes": 19,
+     "baar": 0
+    },
+    {
+     "n": 58,
+     "score": 18,
+     "votes": 16,
+     "baar": 1
+    },
+    {
+     "n": 85,
+     "score": 18,
+     "votes": 16,
+     "baar": 1
+    },
+    {
+     "n": 25,
+     "score": 17,
+     "votes": 17,
+     "baar": 0
+    },
+    {
+     "n": 57,
+     "score": 17,
+     "votes": 17,
+     "baar": 0
+    },
+    {
+     "n": 75,
+     "score": 17,
+     "votes": 17,
+     "baar": 0
+    },
+    {
+     "n": 80,
+     "score": 17,
+     "votes": 17,
+     "baar": 0
+    },
+    {
+     "n": 2,
+     "score": 16,
+     "votes": 16,
+     "baar": 0
+    },
+    {
+     "n": 8,
+     "score": 16,
+     "votes": 16,
+     "baar": 0
+    },
+    {
+     "n": 20,
+     "score": 16,
+     "votes": 16,
+     "baar": 0
+    },
+    {
+     "n": 53,
+     "score": 16,
+     "votes": 16,
+     "baar": 0
+    },
+    {
+     "n": 70,
+     "score": 16,
+     "votes": 16,
+     "baar": 0
+    },
+    {
+     "n": 7,
+     "score": 15,
+     "votes": 15,
+     "baar": 0
+    },
+    {
+     "n": 30,
+     "score": 15,
+     "votes": 15,
+     "baar": 0
+    },
+    {
+     "n": 35,
+     "score": 15,
+     "votes": 15,
+     "baar": 0
+    },
+    {
+     "n": 59,
+     "score": 15,
+     "votes": 15,
+     "baar": 0
+    },
+    {
+     "n": 3,
+     "score": 14,
+     "votes": 14,
+     "baar": 0
+    },
+    {
+     "n": 10,
+     "score": 14,
+     "votes": 14,
+     "baar": 0
+    },
+    {
+     "n": 15,
+     "score": 14,
+     "votes": 14,
+     "baar": 0
+    },
+    {
+     "n": 95,
+     "score": 14,
+     "votes": 14,
+     "baar": 0
+    },
+    {
+     "n": 51,
+     "score": 13,
+     "votes": 13,
+     "baar": 0
+    }
+   ]
   }
  }
 }

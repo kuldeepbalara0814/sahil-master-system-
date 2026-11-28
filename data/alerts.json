@@ -1,6 +1,245 @@
 {
  "items": [
   {
+   "id": "2026-11-28T07:15:40+05:30",
+   "time": "2026-11-28T07:15:40+05:30",
+   "label": "Subah ka final scan (DS aaya, line poori): sab pattern naye sire se",
+   "total": 66,
+   "groups": [
+    {
+     "key": "dana",
+     "naam": "Dana-Farak",
+     "count": 6,
+     "items": [
+      {
+       "id": "dana:gap:2026-11-27-0:2026-11-27-1",
+       "name": "Dana-gap-27Nov",
+       "numbers": [
+        9,
+        90
+       ],
+       "games": [
+        "ALL"
+       ]
+      },
+      {
+       "id": "dana:farak:2026-11-27-0:2026-11-27-2",
+       "name": "Dana-farak-27Nov",
+       "numbers": [
+        79,
+        89,
+        97,
+        98
+       ],
+       "games": [
+        "ALL"
+       ]
+      },
+      {
+       "id": "dana:same:2026-11-25-2:2026-11-27-2",
+       "name": "Dana-same-25Nov",
+       "numbers": [
+        8,
+        69,
+        79,
+        80,
+        96,
+        97
+       ],
+       "games": [
+        "ALL"
+       ]
+      },
+      {
+       "id": "dana:farak:2026-11-25-3:2026-11-27-2",
+       "name": "Dana-farak-25Nov",
+       "numbers": [
+        8,
+        79,
+        80,
+        97
+       ],
+       "games": [
+        "ALL"
+       ]
+      },
+      {
+       "id": "dana:gap:2026-11-26-0:2026-11-27-3",
+       "name": "Dana-gap-26Nov",
+       "numbers": [
+        55
+       ],
+       "games": [
+        "ALL"
+       ]
+      },
+      {
+       "id": "dana:gap:2026-11-26-2:2026-11-27-3",
+       "name": "Dana-gap-26Nov",
+       "numbers": [
+        35,
+        53
+       ],
+       "games": [
+        "ALL"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "family",
+     "naam": "Family",
+     "count": 3,
+     "items": [
+      {
+       "id": "family:11:seedha:2026-11-25",
+       "name": "Family-Titli-28",
+       "numbers": [
+        11,
+        16,
+        61,
+        66
+       ],
+       "games": [
+        "DS",
+        "GB"
+       ]
+      },
+      {
+       "id": "family:24:seedha:2026-11-25",
+       "name": "Family-Tara-66",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ],
+       "games": [
+        "GB",
+        "GL"
+       ]
+      },
+      {
+       "id": "family:24:ulta:2026-11-25",
+       "name": "Family-Bulbul-14",
+       "numbers": [
+        24,
+        29,
+        42,
+        47,
+        74,
+        79,
+        92,
+        97
+       ],
+       "games": [
+        "GL"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "naksha",
+     "naam": "Naksha",
+     "count": 12,
+     "items": [
+      {
+       "id": "naksha:10:2021-05-12",
+       "name": "Naksha-Koyal-98",
+       "numbers": [
+        44
+       ],
+       "games": [
+        "GL"
+       ]
+      },
+      {
+       "id": "naksha:10:2018-07-17",
+       "name": "Naksha-Ghariyal-78",
+       "numbers": [
+        59,
+        95
+       ],
+       "games": [
+        "FB"
+       ]
+      },
+      {
+       "id": "naksha:10:2019-07-24",
+       "name": "Naksha-Titli-21",
+       "numbers": [
+        47,
+        74
+       ],
+       "games": [
+        "FB"
+       ]
+      },
+      {
+       "id": "naksha:12:2021-05-10",
+       "name": "Naksha-Bijli-69",
+       "numbers": [
+        44
+       ],
+       "games": [
+        "GL"
+       ]
+      },
+      {
+       "id": "naksha:12:2016-09-09",
+       "name": "Naksha-Bakri-34",
+       "numbers": [
+        25,
+        52
+       ],
+       "games": [
+        "DS"
+       ]
+      },
+      {
+       "id": "naksha:15:2021-05-07",
+       "name": "Naksha-Chanda-76",
+       "numbers": [
+        44
+       ],
+       "games": [
+        "GL"
+       ]
+      }
+     ]
+    },
+    {
+     "key": "steps",
+     "naam": "Puzzle-Steps",
+     "count": 2,
+     "items": [
+      {
+       "id": "steps:10:2026-09-04:2026-10-02",
+       "name": "Steps-04Sep-02Oct-10box",
+       "numbers": [],
+       "games": []
+      },
+      {
+       "id": "steps:8:2026-09-04:2026-10-21",
+       "name": "Steps-04Sep-21Oct-8box",
+       "numbers": [],
+       "games": []
+      }
+     ]
+    },
+    {
+     "key": "naksha2",
+     "naam": "Naksha-Rashi",
+     "count": 43,
+     "items": []
+    }
+   ]
+  },
+  {
    "id": "2026-11-28T00:14:02+05:30",
    "time": "2026-11-28T00:14:02+05:30",
    "label": "Result aaya: GB 19, GL 79 (maps DS ke baad badlenge)",

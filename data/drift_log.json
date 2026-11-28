@@ -310,5 +310,82 @@
     "new": 56
    }
   ]
+ },
+ {
+  "asof": "2026-11-27",
+  "changes": [
+   {
+    "number": 19,
+    "period": "last3m",
+    "old": 31,
+    "new": 24
+   },
+   {
+    "number": 22,
+    "period": "month",
+    "old": 56,
+    "new": 66
+   },
+   {
+    "number": 24,
+    "period": "last3m",
+    "old": 1,
+    "new": 79
+   },
+   {
+    "number": 24,
+    "period": "month",
+    "old": 69,
+    "new": 79
+   },
+   {
+    "number": 56,
+    "period": "last3m",
+    "old": 22,
+    "new": 79
+   },
+   {
+    "number": 56,
+    "period": "month",
+    "old": 61,
+    "new": 79
+   },
+   {
+    "number": 61,
+    "period": "month",
+    "old": 56,
+    "new": 66
+   },
+   {
+    "number": 66,
+    "period": "month",
+    "old": 61,
+    "new": 79
+   },
+   {
+    "number": 79,
+    "period": "last3m",
+    "old": 62,
+    "new": 24
+   },
+   {
+    "number": 79,
+    "period": "month",
+    "old": 62,
+    "new": 24
+   },
+   {
+    "number": 80,
+    "period": "month",
+    "old": 56,
+    "new": 23
+   },
+   {
+    "number": 98,
+    "period": "month",
+    "old": 10,
+    "new": 52
+   }
+  ]
  }
 ]
