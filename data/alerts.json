@@ -1,6 +1,20 @@
 {
  "items": [
   {
+   "id": "2026-11-28T19:21:45+05:30",
+   "time": "2026-11-28T19:21:45+05:30",
+   "label": "Result aaya: FB 60 (maps DS ke baad badlenge)",
+   "total": 11,
+   "groups": [
+    {
+     "key": "naksha2",
+     "naam": "Naksha-Rashi me laga",
+     "count": 11,
+     "items": []
+    }
+   ]
+  },
+  {
    "id": "2026-11-28T07:15:40+05:30",
    "time": "2026-11-28T07:15:40+05:30",
    "label": "Subah ka final scan (DS aaya, line poori): sab pattern naye sire se",
