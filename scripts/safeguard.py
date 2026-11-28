@@ -132,6 +132,14 @@ def check_code(head, files):
         warn.append("ruff nahi mila (pip install ruff)")
 
 
+def check_note(files):
+    """Code badla par HANDOFF me 'kya aur kyu' nahi likha to roko - taaki koi naya AI / aadmi bina bataye samajh sake."""
+    code = [p for _, p in files if p == "lab_server.py" or p.startswith(("lab/", "lab_static/"))]
+    if code and not any(p == "patterns/HANDOFF.md" for _, p in files):
+        msg = f"code badla ({code[0]}) par patterns/HANDOFF.md me note nahi (kya, kyu, wapas kaise)"
+        (warn if os.environ.get("ALLOW_NO_NOTE") == "1" else bad).append(msg)
+
+
 def run_script(label, *args):
     r = subprocess.run([sys.executable, *args], cwd=ROOT, capture_output=True, text=True)
     if r.returncode:
@@ -152,6 +160,7 @@ def main(argv=None):
     if not a.records_only:
         files = changed(a.base, a.head)
         check_files(a.base, a.head, files)
+        check_note(files)
         check_code(a.head, files)
         run_script("data jaanch", os.path.join("scripts", "selfcheck.py"), "--data", "--no-file")
         if a.tests and any(not p.startswith(("data/", "patterns/", "research/")) and not p.endswith(".md") for _, p in files):

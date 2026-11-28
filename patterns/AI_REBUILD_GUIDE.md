@@ -3,7 +3,7 @@
 **Ye kya hai:** ek **puzzle-logic R&D** (research) hai. Maksad: number ke chart me design/copy kaise banti hai aur koi system kaise kaam karta hai, ye vigyan aur logic se samajhna. **Sirf paper (kalpnik) trading; asli paisa nahi.** Isse user ko apni jama-punji bachani hai: agar koi sach me pakad sake to wo apna faisla le, nahi to na bigade. Docs/app me jua-satte wala koi shabd mat likho (user ka kehna, jab tak R&D poori na ho); neutral "puzzle", "result", "chart", "system" likho.
 
 **Agar tum koi AI ho jise user ne ye file di hai:**
-1. **Pehle kuch mat poochho.** Is guide, `patterns/README.md`, `patterns/HANDOFF.md` (items 1-45), `patterns/006_single_sheet_naksha/README.md` (sikhaai ke niyam) aur `patterns/007_puzzle_steps/README.md` padho. Wahin poora mapping hai.
+1. **Pehle kuch mat poochho.** Sabse pehle repo ke upar `CLAUDE.md` aur `patterns/SAMAJH.md` padho; phir is guide, `patterns/README.md`, `patterns/HANDOFF.md` (poori), `patterns/006_single_sheet_naksha/README.md` (sikhaai ke niyam) aur `patterns/007_puzzle_steps/README.md` padho. Wahin poora mapping hai.
 2. **User ko ek poori script do** jise wo **Termux me copy-paste** karke chala sake (taaki jab chahe model dobara bana le). Seedhi chalne wali script pehle se hai: `scripts/puzzle_pattern.py` (ek file). Agar bug ho to **poori sahi ki hui file** do, "ye line badlo" jaisa adhura jawab nahi.
 3. User ki **bhasha: saaf Hinglish (Roman)**, chhote vakya; phone screen par table saaf.
 4. **Software sirf dikhata hai, faisla insaan ka.** Koi mark bina logic ke nahi.

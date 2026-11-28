@@ -2199,6 +2199,60 @@ class RedBoxTests(unittest.TestCase):
         self.assertIn("khatra", lab_server.app.test_client().get("/api/alerts").get_json())
 
 
+class KitabAndBackupTests(unittest.TestCase):
+    """User (28 Nov 2026): koi bhi AI bina bataye samajh sake; suchi apne aap taaza; 3-2-1 backup."""
+
+    def _run(self, *args):
+        import subprocess
+        return subprocess.run([sys.executable, *args], cwd=ROOT, capture_output=True, text=True)
+
+    def test_auto_index_is_fresh_and_start_files_exist(self):
+        r = self._run(os.path.join("scripts", "kitab.py"), "--check")
+        self.assertEqual(r.returncode, 0, r.stdout)
+        for f in ("CLAUDE.md", "AGENTS.md", "GEMINI.md", "patterns/SAMAJH.md"):
+            self.assertTrue(os.path.exists(os.path.join(ROOT, f)), f)
+        with open(os.path.join(ROOT, "patterns", "SAMAJH.md"), encoding="utf-8") as f:
+            text = f.read()
+        for d in sorted(os.listdir(os.path.join(ROOT, "patterns"))):
+            if d[:3] in ("001", "002", "003", "004", "005", "007", "008", "009", "012", "015"):
+                self.assertIn(d[:3], text, "SAMAJH me pattern " + d)
+
+    def test_backup_zip_can_be_restored(self):
+        import shutil
+        import subprocess
+        import tempfile
+        import zipfile
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import backup
+        tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmp)
+        notes = os.path.join(tmp, "notes_src")
+        os.makedirs(notes)
+        with open(os.path.join(notes, "a.md"), "w") as f:
+            f.write("yaad")
+        if subprocess.run(["git", "-C", ROOT, "rev-parse", "--is-shallow-repository"], capture_output=True, text=True).stdout.strip() == "true":
+            self.skipTest("shallow clone (CI): bundle poori history nahi bana sakta")
+        p = backup.make(os.path.join(tmp, "out"), notes=notes)
+        with zipfile.ZipFile(p) as z:
+            self.assertEqual({"sahil-lab.bundle", "RESTORE.md", "INFO.txt", "notes/a.md"} - set(z.namelist()), set())
+            z.extract("sahil-lab.bundle", tmp)
+        back = os.path.join(tmp, "back")
+        subprocess.run(["git", "clone", "-q", os.path.join(tmp, "sahil-lab.bundle"), back], check=True, capture_output=True)
+        self.assertTrue(os.path.exists(os.path.join(back, "CLAUDE.md")) or os.path.exists(os.path.join(back, "lab_server.py")))
+
+    def test_safeguard_blocks_code_without_note(self):
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import safeguard
+        safeguard.bad.clear()
+        safeguard.warn.clear()
+        safeguard.check_note([("M", "lab/rank.py")])
+        self.assertEqual(len(safeguard.bad), 1)
+        safeguard.bad.clear()
+        safeguard.check_note([("M", "lab/rank.py"), ("M", "patterns/HANDOFF.md")])
+        safeguard.check_note([("M", "requirements.txt"), ("M", "tests/test_lab.py")])
+        self.assertEqual(safeguard.bad, [])
+
+
 class StaleScanTests(unittest.TestCase):
     def test_old_schema_scan_is_rerun(self):
         old = scanner.run(ROWS)
