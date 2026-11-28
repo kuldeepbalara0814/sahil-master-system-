@@ -13,9 +13,11 @@ import json
 
 # Jo MCP versions ye server samajhta hai (naya pehle). Client jo maange, wo is list me ho to wahi lautao.
 VERSIONS = ["2025-11-25", "2025-06-18", "2025-03-26", "2024-11-05"]
-SERVER_INFO = {"name": "sahil-lab", "title": "Sahil Lab", "version": "1.0"}
-INSTRUCTIONS = ("Sahil Lab ek paper-trading research app hai (asli paisa nahi). Ye tools sirf padhte hain: sehat, results, "
-                "aaj ki list, paper khata, monitor, DS rule 008, ank 009, active patterns aur alerts. "
+SERVER_INFO = {"name": "sahil-lab", "title": "Sahil Lab (kagaz ka puzzle khel)", "version": "1.1"}
+INSTRUCTIONS = ("Sahil Lab ek KAGAZ KA KALPNIK PUZZLE KHEL hai (paper trading testing; asli paisa nahi). Har jawab me ye saaf rakho: "
+                "ise asli khel, salah ya bhavishyavani na samjho; ab tak natija random jaisa hai. Jawab saral Hinglish me, jodi do ankon me (07). "
+                "Tools sirf padhte hain: sehat, results, aaj ki list/tokri, do list ki tulna, jodi khojo, naksha, card 007, din ka natija, "
+                "kagaz pocket, error jaanch, guide. Koi badlav ya bug theek karna ho to user se kaho ki wo Claude Code (Ruflo) ko bataye. "
                 "Free server so jata hai, isliye pehla jawab der se aa sakta hai; fail ho to ek baar dobara poochho.")
 MAX_TEXT = 60000          # ek jawab ki had (characters), taaki Claude ke context me bahut bada data na jaye
 MIN_KEY = 24              # isse chhoti key ho to endpoint band (andaza lagane layak key na chale)

@@ -27,7 +27,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import active, mcp_endpoint, alerts, pockets, fetcher, ank_chal, help_bot, partial, tick, yaad, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
+from lab import active, mcp_endpoint, mcp_tools, alerts, pockets, fetcher, ank_chal, help_bot, partial, tick, yaad, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -1473,25 +1473,28 @@ def _mcp_active(din=3):
 _DIN = {"type": "integer", "minimum": 1, "maximum": 60, "description": "Kitne din (1-60)"}
 MCP_TOOLS = {t.name: t for t in [
     mcp_endpoint.Tool("sehat", "Sahil Lab ki sehat",
-                      "App ki sehat: aakhri data tarikh, kitne din peeche, aakhri fetch aur scan, galtiyan. Pehle yahi dekho.", health_data),
+                      "App ki sehat: aakhri data tarikh, kitne din peeche, aakhri fetch aur scan, galtiyan. Pehle yahi dekho.", mcp_tools.mohar(health_data)),
     mcp_endpoint.Tool("aakhri_result", "Aakhri result",
-                      "Pichle kuch din ke result (FD, GB, GL, DS), naye sabse neeche.", _mcp_results,
+                      "Pichle kuch din ke result (FD, GB, GL, DS), naye sabse neeche.", mcp_tools.mohar(_mcp_results),
                       {"din": dict(_DIN, description="Kitne din (1-60, default 7)")}),
     mcp_endpoint.Tool("aaj_ki_list", "Aaj ki list",
-                      "Aaj khelne ki paper list: single jodi, 10-number list, DS rule 008 ke number, dost jodi.", _mcp_today,
+                      "Aaj ki kagaz wali list (kalpnik puzzle khel): single jodi, 10-number list, DS rule 008 ke number, dost jodi.", mcp_tools.mohar(_mcp_today),
                       {"known": {"type": "string", "description": "Aaj ke aa chuke result FD,GB,GL ke kram me, comma se (jaise '12,47'). Khali chhod sakte ho."}}),
     mcp_endpoint.Tool("paper_khata", "Paper trading khata",
-                      "Paper trading (asli paisa nahi): har strategy ka hisaab (bet, jeet, net, ROI, drawdown) aur aakhri 20 bet.", _mcp_paper),
+                      "Paper trading (asli paisa nahi): har strategy ka hisaab (bet, jeet, net, ROI, drawdown) aur aakhri 20 bet.", mcp_tools.mohar(_mcp_paper)),
     mcp_endpoint.Tool("monitor", "Monitor (backtest)",
-                      "Backtest monitor: poore, pichle 12 mahine aur 30 din ka hit % har strategy ke liye, random se tulna.", _mcp_monitor),
+                      "Backtest monitor: poore, pichle 12 mahine aur 30 din ka hit % har strategy ke liye, random se tulna.", mcp_tools.mohar(_mcp_monitor)),
     mcp_endpoint.Tool("ds_rule_008", "DS rule 008",
-                      "DS Recency (pattern 008) ka paper forward test: aaj ke number aur ab tak ka khata.", _mcp_ds_rule),
+                      "DS Recency (pattern 008) ka paper forward test: aaj ke number aur ab tak ka khata.", mcp_tools.mohar(_mcp_ds_rule)),
     mcp_endpoint.Tool("ank_009", "Ank-Chal 009",
-                      "Ank-Chal (pattern 009): aaj ke ank, 8 line ki table aur kagaz ka khata.", _mcp_ank),
+                      "Ank-Chal (pattern 009): aaj ke ank, 8 line ki table aur kagaz ka khata.", mcp_tools.mohar(_mcp_ank)),
     mcp_endpoint.Tool("active_patterns", "Active patterns aur alerts",
-                      "Aakhri save hue scan ke active pattern (aaj, pass, fail), alerts aur aaj ki aadhi line.", _mcp_active,
+                      "Aakhri save hue scan ke active pattern (aaj, pass, fail), alerts aur aaj ki aadhi line.", mcp_tools.mohar(_mcp_active),
                       {"din": {"type": "integer", "minimum": 1, "maximum": 3, "description": "Kitne din ka pass/fail (1-3, default 3)"}}),
 ]}
+_mcp_reader = mcp_tools.Reader(lambda: state(), lambda n, d: jload(n, d),
+                               lambda rows: partial.merged_results(jload("manual_results.json", {}) or {}, cur_partial(rows)))
+MCP_TOOLS.update({t.name: t for t in mcp_tools.tools(_mcp_reader, mcp_endpoint.Tool)})
 
 
 @app.route("/mcp/<key>", methods=["POST", "GET", "DELETE"])

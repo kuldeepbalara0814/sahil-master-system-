@@ -126,14 +126,16 @@ class RouteTests(unittest.TestCase):
     def test_all_tools_read_only(self):
         tools = self.post(rpc("tools/list")).get_json()["result"]["tools"]
         self.assertEqual({t["name"] for t in tools}, {"sehat", "aakhri_result", "aaj_ki_list", "paper_khata", "monitor",
-                                                     "ds_rule_008", "ank_009", "active_patterns"})
+                                                     "ds_rule_008", "ank_009", "active_patterns", "aaj_ki_tokri", "tulna", "jodi_khojo",
+                                                     "naksha_aaj", "card_007", "din_ka_natija", "pocket_report", "error_jaanch", "guide"})
         before = self.snapshot()
         for t in tools:
             r = self.post(rpc("tools/call", {"name": t["name"], "arguments": {}}))
             self.assertEqual(r.status_code, 200, t["name"])
             res = r.get_json()["result"]
             self.assertFalse(res["isError"], (t["name"], res["content"][0]["text"][:300]))
-            json.loads(res["content"][0]["text"])                     # poora JSON aaya (kata nahi)
+            body = json.loads(res["content"][0]["text"])              # poora JSON aaya (kata nahi)
+            self.assertIn("KALPNIK PUZZLE", body["dhyan"], t["name"])   # har jawab par kagaz wali mohar
         self.assertEqual(self.snapshot(), before)                      # kisi tool ne koi file nahi badli
 
     def test_tool_args(self):
@@ -147,6 +149,31 @@ class RouteTests(unittest.TestCase):
         self.assertTrue(out["isError"])
         out = self.post(rpc("tools/call", {"name": "aakhri_result", "arguments": {"din": 500}})).get_json()["result"]
         self.assertTrue(out["isError"])
+
+    def call(self, name, args=None):
+        res = self.post(rpc("tools/call", {"name": name, "arguments": args or {}})).get_json()["result"]
+        return res["isError"], res["content"][0]["text"]
+
+    def test_new_tools_answers(self):
+        err, t = self.call("tulna", {"pehli": "top30", "doosri": "dost"})
+        self.assertFalse(err, t)
+        j = json.loads(t)
+        a, b = j["pehli"]["ginti"], j["doosri"]["ginti"]
+        self.assertEqual(j["dono_me"]["ginti"] + len(j["sirf_pehli_me"]), a)
+        self.assertEqual(j["dono_me"]["ginti"] + len(j["sirf_doosri_me"]), b)
+        n = json.loads(self.call("naksha_aaj")[1])
+        self.assertEqual(n["kul_alag_jodi"], len(n["jodi"]))
+        self.assertTrue(set(n["30_jodi_me_bhi"]) <= set(n["jodi"]))
+        k = json.loads(self.call("jodi_khojo", {"jodi": int(n["jodi"][0])})[1])
+        self.assertTrue(k["naksha_aaj"])
+        last = json.loads(self.call("aakhri_result", {"din": 1})[1])["results"][0]
+        d = json.loads(self.call("din_ka_natija", {"tarikh": last["date"]})[1])
+        self.assertEqual({g: int(v) for g, v in d["result"].items()}, {g: last[g] for g in ("FD", "GB", "GL", "DS")})   # chaaron, app jaise naam
+        self.assertNotIn('"FB"', self.call("naksha_aaj")[1])
+        self.assertIn("007", self.call("guide", {"vishay": "007"})[1])
+        self.assertTrue(self.call("guide", {"vishay": "../../etc"})[0])
+        self.assertTrue(self.call("tulna", {"pehli": "galat"})[0])
+        self.assertTrue(self.call("jodi_khojo", {"jodi": 100})[0])
 
     def test_old_routes_same(self):
         h = self.c.get("/api/health")
