@@ -8,14 +8,14 @@ import datetime as dt
 import io
 import random
 
-from . import baar, data, rank, window, yaad
+from . import baar, card, data, rank, window, yaad
 
 START = dt.date(2026, 12, 1)
 CAPITAL = 10000
 TOP = 30
 LISTS = (("top30", "30 jodi (sab pattern)"), ("dost", "Dost 30"), ("baar", "Baar (din) ki jodi"), ("rashi", "Rashi (Naksha-Rashi) 30"),
          ("naksha", "Naksha (naye)"), ("naksha_sab", "Naksha sab (naye + pehle bane)"), ("card007", "Card 007"), ("family", "Family"),
-         ("dana", "Dana-Farak"), ("copy", "Jodi-Copy"), ("random", "Random 30 (sirf tulna)"))
+         ("dana", "Dana-Farak"), ("copy", "Jodi-Copy"), ("card", "Roz ka card (30 + Naksha + Dost)"), ("random", "Random 30 (sirf tulna)"))
 GAMES = ("FB", "GB", "GL", "DS")
 
 
@@ -29,12 +29,22 @@ def baskets(rep, rows):
     rk = rank.build(rep, rows)
     g = {x["key"]: x["lists"]["ALL"] for x in rk["groups"]}
     top = lambda key: sorted(r["n"] for r in g.get(key, [])[:TOP])
-    return {"top30": top("all"), "dost": top("dost"), "rashi": top("naksha2"), "family": top("family"), "dana": top("dana"), "copy": top("copy"),
+    out = {"top30": top("all"), "dost": top("dost"), "rashi": top("naksha2"), "family": top("family"), "dana": top("dana"), "copy": top("copy"),
             "baar": sorted(baar.tokri(rows, play.weekday(), asof=play)["numbers"]),
             "naksha": sorted({n for it in window.baskets(rep, rows)[1] for n in it["numbers"]}),
             "naksha_sab": sorted(yaad.view(rows)["aaj"]["all"]),
             "card007": sorted(window.steps007(rep)["all"]),
             "random": sorted(random.Random(f"sahil-{play.isoformat()}").sample(range(100), TOP))}
+    out["card"] = card.numbers(out)["teeno"]                 # roz ke card ke saare number (solid + spot), isi lock se
+    return out
+
+
+def lists_of(day):
+    """Lock tokri ki lists; purane din me 'card' na ho to usi lock se nikaal lo (file nahi badalti)."""
+    lists = dict((day or {}).get("lists") or {})
+    if lists and "card" not in lists:
+        lists["card"] = card.numbers(lists)["teeno"]
+    return lists
 
 
 def record(state, rep, rows, known=None):
@@ -58,7 +68,7 @@ def statement(state, rows, manual, key):
         day = state["days"][date]
         if date < START.isoformat() or day.get("late"):
             continue
-        nums = day["lists"].get(key) or []
+        nums = lists_of(day).get(key) or []
         res = window._results(by, manual, date)
         ld = window.ladder_day(nums, res, bal)
         opening = bal
@@ -94,7 +104,7 @@ def view(state, rows, manual=None):
     for key, _ in LISTS:
         s = statement(state, rows, manual, key)
         s["lines"] = s["lines"][-45:][::-1]
-        s["today"] = (cur or {}).get("lists", {}).get(key, [])
+        s["today"] = lists_of(cur).get(key, [])
         s["today_cost"] = len(s["today"]) * sum(st for _, st in window.LADDER)
         out.append(s)
     return {"start": START.isoformat(), "capital": CAPITAL, "play_date": play, "late": bool((cur or {}).get("late")),

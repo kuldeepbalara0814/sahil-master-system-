@@ -7,7 +7,7 @@ import os
 import time
 import urllib.request
 
-from . import data, pockets, rank, tick, window, yaad
+from . import card, data, pockets, rank, reqbox, tick, window, yaad
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DHYAN = ("KAGAZ KA KALPNIK PUZZLE KHEL (paper trading testing). Asli paisa nahi, koi salah ya bhavishyavani nahi. "
@@ -55,7 +55,7 @@ class Reader:
         play = data.play_date(rows).isoformat()
         day = (self.jload("pockets.json", None) or {}).get("days", {}).get(play)
         if day:
-            return play, day["lists"], True
+            return play, pockets.lists_of(day), True
         if not rep:
             return play, {}, False
         return play, pockets.baskets(rep, rows), False
@@ -118,6 +118,18 @@ class Reader:
                 "pattern": [{"naam": it["name"], "title": it["title"], "aaj": it["aaj"], "aage": it["aage"]} for it in s["items"] if it["aaj"] or it["aage"]],
                 "note": "Card 007 ka niyam user ke mutabik abhi poora sahi nahi; sudhaar baaki."}
 
+    def roz_ka_card(self):
+        rows, _, rep = self.scan()
+        v = card.view(self.jload("cards.json", None) or card.new_state(), rows, rep, self.jload("pockets.json", None))
+        cur = v["card"]
+        return {"tarikh": v["play_date"], "bana": v["bana"], "kyun": v["kyun"], "solid": _s(cur["solid"]) if cur else [], "spot": _s(cur["spot"]) if cur else [],
+                "pichle": [{"date": x["date"], "solid": _s(x["solid"]), "spot": _s(x["spot"])} for x in v["pichle"][:7]],
+                "matlab": "30 jodi + Naksha + Dost teeno me jo jodi; Baar me bhi = solid, baaki spot."}
+
+    def requests_dekho(self):
+        items = (self.jload(reqbox.FILE, None) or reqbox.new_box()).get("items", [])
+        return {"kul": len(items), "naya": sum(1 for x in items if x["haal"] == "naya"), "list": items[-15:][::-1]}
+
     # ---- natija / paisa (kagaz) ----
     def din_ka_natija(self, tarikh=""):
         rows, _, _ = self.scan()
@@ -125,7 +137,7 @@ class Reader:
         date = tarikh or rows[-1][0].isoformat()
         res = window._results(by, self.known(rows), date)
         day = (self.jload("pockets.json", None) or {}).get("days", {}).get(date)
-        lists = dict(day["lists"]) if day else {}
+        lists = pockets.lists_of(day) if day else {}
         w = (self.jload("window_log.json", None) or {}).get("days", {}).get(date)
         if "top30" not in lists and w:
             lists["top30"] = [x["n"] for x in w["top30"]]
@@ -219,7 +231,7 @@ def guide(vishay="app"):
     return {"vishay": v, "pattern_list": [d for d in dirs], "likha_hai": text[:MAX_DOC]}
 
 
-def tools(reader, Tool):
+def tools(reader, Tool, likho):
     lst = {"type": "string", "description": "list: " + ", ".join(f"{k} = {n}" for k, n in pockets.LISTS)}
     return [
         Tool("aaj_ki_tokri", "Aaj ki saari jodi list", "Aaj ki har list ki jodi (30 jodi, dost, baar, rashi, naksha, card 007, family, dana, copy, random). Kagaz ka puzzle khel.",
@@ -236,6 +248,14 @@ def tools(reader, Tool):
              mohar(fd_naam(reader.pocket_report)), {"list": lst}),
         Tool("error_jaanch", "Site ki sehat aur bug", "Data, scan, auto-fetch, atke result, khabar; github='haan' do to GitHub ki pichli run bhi.",
              mohar(fd_naam(reader.error_jaanch)), {"github": {"type": "string", "description": "'haan' = GitHub run bhi"}}),
+        Tool("roz_ka_card", "Roz ka card", "Aaj ke card ke solid aur spot number (kagaz ka puzzle), pichle card, aur na bana ho to kyun.", mohar(reader.roz_ka_card)),
+        Tool("requests_dekho", "Request box dekho", "Duet ne jo bug/idea likhe aur unka haal (naya / ho gaya / mana).", mohar(reader.requests_dekho)),
+        Tool("request_likho", "Request likho (Ruflo ke liye)",
+             "Bug, idea, badlav ya sawal request box me likho; Ruflo (Claude Code) baad me jaanchega. User ki marzi se hi likho. Public repo me jata hai: key/PIN/pata kabhi nahi.",
+             mohar(likho), {"kism": {"type": "string", "description": "bug, idea, badlav ya sawal"},
+                            "title": {"type": "string", "description": "Ek line (3-120 akshar)"},
+                            "vivran": {"type": "string", "description": "Poori baat: kya dekha, kya hona chahiye (10-4000 akshar)"}},
+             ["kism", "title", "vivran"], write=True),
         Tool("guide", "Guide: app aur pattern ka matlab", "App ka tarika, pattern ke niyam, shabd, aur ab tak ke faisle. Samjhane ya idea sochne se pehle padho.",
              mohar(reader.guide), {"vishay": {"type": "string", "description": "app, patterns, shabd, handoff, ya 001..016"}}),
     ]

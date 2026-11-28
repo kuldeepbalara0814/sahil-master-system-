@@ -16,8 +16,8 @@ VERSIONS = ["2025-11-25", "2025-06-18", "2025-03-26", "2024-11-05"]
 SERVER_INFO = {"name": "sahil-lab", "title": "Sahil Lab (kagaz ka puzzle khel)", "version": "1.1"}
 INSTRUCTIONS = ("Sahil Lab ek KAGAZ KA KALPNIK PUZZLE KHEL hai (paper trading testing; asli paisa nahi). Har jawab me ye saaf rakho: "
                 "ise asli khel, salah ya bhavishyavani na samjho; ab tak natija random jaisa hai. Jawab saral Hinglish me, jodi do ankon me (07). "
-                "Tools sirf padhte hain: sehat, results, aaj ki list/tokri, do list ki tulna, jodi khojo, naksha, card 007, din ka natija, "
-                "kagaz pocket, error jaanch, guide. Koi badlav ya bug theek karna ho to user se kaho ki wo Claude Code (Ruflo) ko bataye. "
+                "Ek request_likho ke alawa saare tools sirf padhte hain: sehat, results, aaj ki list/tokri, do list ki tulna, jodi khojo, naksha, card 007, din ka natija, "
+                "kagaz pocket, error jaanch, guide. Bug, idea ya badlav ho to user se poochh kar request_likho se likho (public repo me jata hai: key/PIN kabhi nahi); Ruflo (Claude Code) jaanch kar user ki haan ke baad badlega. requests_dekho se haal pata karo. "
                 "Free server so jata hai, isliye pehla jawab der se aa sakta hai; fail ho to ek baar dobara poochho.")
 MAX_TEXT = 60000          # ek jawab ki had (characters), taaki Claude ke context me bahut bada data na jaye
 MIN_KEY = 24              # isse chhoti key ho to endpoint band (andaza lagane layak key na chale)
@@ -26,18 +26,19 @@ PARSE_ERROR, INVALID_REQUEST, METHOD_NOT_FOUND, INVALID_PARAMS, INTERNAL_ERROR =
 
 
 class Tool:
-    """Ek padhne wala tool: naam, Claude ke liye samjhane wali line, input ka JSON schema, aur chalane wala function."""
+    """Ek tool: naam, Claude ke liye samjhane wali line, input ka JSON schema, aur chalane wala function.
+    write=True sirf request box ke liye (baaki sab sirf padhte hain)."""
 
-    def __init__(self, name, title, description, fn, properties=None, required=None):
-        self.name, self.title, self.description, self.fn = name, title, description, fn
+    def __init__(self, name, title, description, fn, properties=None, required=None, write=False):
+        self.name, self.title, self.description, self.fn, self.write = name, title, description, fn, write
         self.schema = {"type": "object", "properties": properties or {}, "additionalProperties": False}
         if required:
             self.schema["required"] = list(required)
 
     def spec(self):
         return {"name": self.name, "title": self.title, "description": self.description, "inputSchema": self.schema,
-                "annotations": {"title": self.title, "readOnlyHint": True, "destructiveHint": False,
-                                "idempotentHint": True, "openWorldHint": False}}
+                "annotations": {"title": self.title, "readOnlyHint": not self.write, "destructiveHint": False,
+                                "idempotentHint": not self.write, "openWorldHint": False}}
 
 
 def key_ok(given, expected):

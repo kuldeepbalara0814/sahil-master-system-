@@ -14,13 +14,13 @@ import urllib.request
 
 from .fetcher import ipv4_first
 
-FILES = ["results.csv", "paper_ledger.json", "friends_snapshot.json", "drift_log.json", "monitor.json", "fetch_log.json", "ideas.json", "boards.json", "patterns_today.json", "play_log.json", "active_log.json", "hit_log.json", "review_log.json", "manual_results.json", "window_log.json", "help_requests.json", "partial_results.json", "alerts.json", "tick_log.json", "pockets.json", "cards.json"]
+FILES = ["results.csv", "paper_ledger.json", "friends_snapshot.json", "drift_log.json", "monitor.json", "fetch_log.json", "ideas.json", "boards.json", "patterns_today.json", "play_log.json", "active_log.json", "hit_log.json", "review_log.json", "manual_results.json", "window_log.json", "help_requests.json", "partial_results.json", "alerts.json", "tick_log.json", "pockets.json", "cards.json", "duet_requests.json"]
 API = os.environ.get("GITHUB_API", "https://api.github.com").rstrip("/")
 RAW = os.environ.get("GITHUB_RAW", "https://raw.githubusercontent.com").rstrip("/")
 
 
 # aap ke haath se dali / dabayi cheezein: takraav me inhe bachana hai
-USER_FILES = {"manual_results.json", "help_requests.json", "ideas.json", "boards.json", "play_log.json", "review_log.json", "paper_ledger.json"}
+USER_FILES = {"duet_requests.json", "manual_results.json", "help_requests.json", "ideas.json", "boards.json", "play_log.json", "review_log.json", "paper_ledger.json"}
 
 
 class SyncError(Exception):

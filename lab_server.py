@@ -27,7 +27,7 @@ os.environ["LAB_DATA_FILE"] = os.path.join(DATA_DIR, "results.csv")
 from flask import Flask, Response, jsonify, request, send_file, send_from_directory   # noqa: E402
 from werkzeug.exceptions import HTTPException                              # noqa: E402
 
-from lab import active, card, mcp_endpoint, mcp_tools, alerts, pockets, fetcher, ank_chal, help_bot, partial, tick, yaad, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
+from lab import active, card, mcp_endpoint, mcp_tools, reqbox, alerts, pockets, fetcher, ank_chal, help_bot, partial, tick, yaad, window, backtest, baar, band, data, ds_rule, export_all, export_xlsx, friends, gamefiles, gapchain, gh, hits, idea, monitor, paper, picks, rank, scan_view, scanner, update            # noqa: E402
 
 app = Flask(__name__, static_folder=os.path.join(ROOT, "lab_static"), static_url_path="/static")
 ADMIN_PIN = os.environ.get("ADMIN_PIN", "")
@@ -178,7 +178,7 @@ def healthz():
 
 
 STATE_FILES = ["results.csv", "paper_ledger.json", "active_log.json", "hit_log.json", "review_log.json", "play_log.json", "manual_results.json",
-               "boards.json", "ideas.json", "fetch_log.json", "drift_log.json", "patterns_today.json", "window_log.json", "help_requests.json", "partial_results.json", "alerts.json", "tick_log.json", "pockets.json"]
+               "boards.json", "ideas.json", "fetch_log.json", "drift_log.json", "patterns_today.json", "window_log.json", "help_requests.json", "partial_results.json", "alerts.json", "tick_log.json", "pockets.json", "cards.json", "duet_requests.json"]
 
 
 @app.get("/api/health")
@@ -1549,7 +1549,25 @@ MCP_TOOLS = {t.name: t for t in [
 ]}
 _mcp_reader = mcp_tools.Reader(lambda: state(), lambda n, d: jload(n, d),
                                lambda rows: partial.merged_results(jload("manual_results.json", {}) or {}, cur_partial(rows)))
-MCP_TOOLS.update({t.name: t for t in mcp_tools.tools(_mcp_reader, mcp_endpoint.Tool)})
+
+
+def _mcp_request(kism, title, vivran):
+    """Connector ka akela likhne wala kaam: request box me ek line (aur GitHub par save). Aur kuch nahi badalta."""
+    refresh()
+    with _wlock:
+        box = jload(reqbox.FILE, None) or reqbox.new_box()
+        item = reqbox.add(box, kism, title, vivran, secret=MCP_KEY)
+        before = jload(reqbox.FILE, None)
+        jsave(reqbox.FILE, box)
+        try:
+            persist([reqbox.FILE], f"duet request {item['id']}")
+        except Exception:
+            jsave(reqbox.FILE, before or reqbox.new_box())       # GitHub par na gaya to likha hua mat maano (restart par mit jata)
+            raise
+    return {"likh_diya": item["id"], "agla": "Ruflo (Claude Code) agle session me dekhega; badlav user ki haan ke baad hi."}
+
+
+MCP_TOOLS.update({t.name: t for t in mcp_tools.tools(_mcp_reader, mcp_endpoint.Tool, _mcp_request)})
 
 
 @app.route("/mcp/<key>", methods=["POST", "GET", "DELETE"])

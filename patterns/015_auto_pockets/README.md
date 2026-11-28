@@ -29,3 +29,5 @@ Ek bhi na ho to nateeja: **random se alag saabit nahi.** Chaaron ho jayen to bhi
 **Sankhya (kyun):** random 30 jodi ek din me 76% pass hoti hai (30 din me 22-23). 30 me 28 random me ~70 me 1 baar. Seedhi me fayda sirf 78% se upar pass din par.
 
 **Parakh ke dauran niyam jama:** December-January me 30 jodi banane ka tarika (`lab/rank.py`, aur usme vote dene wale pattern) nahi badlega. Badalna pada to parakh usi din se dobara shuru, aur yahan likha jayega.
+- **Roz ka card pocket (28 Nov, user: "us card ko 10000 pocket se jod do, jahan pass wahin stop"):** card ke saare number (solid + spot) usi lock tokri se; wahi seedhi aur niyam; 01 Dec se. Isse 30 jodi ki parakh par koi asar nahi.
+

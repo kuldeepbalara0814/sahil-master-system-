@@ -127,9 +127,14 @@ class RouteTests(unittest.TestCase):
         tools = self.post(rpc("tools/list")).get_json()["result"]["tools"]
         self.assertEqual({t["name"] for t in tools}, {"sehat", "aakhri_result", "aaj_ki_list", "paper_khata", "monitor",
                                                      "ds_rule_008", "ank_009", "active_patterns", "aaj_ki_tokri", "tulna", "jodi_khojo",
-                                                     "naksha_aaj", "card_007", "din_ka_natija", "pocket_report", "error_jaanch", "guide"})
+                                                     "naksha_aaj", "card_007", "din_ka_natija", "pocket_report", "error_jaanch", "guide",
+                                                     "roz_ka_card", "requests_dekho", "request_likho"})
+        writers = [t["name"] for t in tools if not t["annotations"]["readOnlyHint"]]
+        self.assertEqual(writers, ["request_likho"])                    # likhne wala sirf yahi ek
         before = self.snapshot()
         for t in tools:
+            if t["name"] in writers:
+                continue
             r = self.post(rpc("tools/call", {"name": t["name"], "arguments": {}}))
             self.assertEqual(r.status_code, 200, t["name"])
             res = r.get_json()["result"]
@@ -174,6 +179,52 @@ class RouteTests(unittest.TestCase):
         self.assertTrue(self.call("guide", {"vishay": "../../etc"})[0])
         self.assertTrue(self.call("tulna", {"pehli": "galat"})[0])
         self.assertTrue(self.call("jodi_khojo", {"jodi": 100})[0])
+
+    def test_request_box_writes_only_its_file_and_refuses_secrets(self):
+        p = os.path.join(self.s.DATA_DIR, "duet_requests.json")
+        old = open(p, "rb").read() if os.path.exists(p) else None
+        try:
+            if old is not None:
+                os.remove(p)
+            before = self.snapshot()
+            err, t = self.call("request_likho", {"kism": "bug", "title": "Card nahi dikha", "vivran": "Meri Window me aaj ka card nahi aaya subah 8 baje."})
+            self.assertFalse(err, t)
+            self.assertEqual(json.loads(t)["likh_diya"], "R0001")
+            after = self.snapshot()
+            self.assertEqual({k for k in set(before) | set(after) if before.get(k) != after.get(k)}, {"duet_requests.json"})
+            j = json.loads(self.call("requests_dekho")[1])
+            self.assertEqual((j["naya"], j["list"][0]["haal"]), (1, "naya"))
+            for bad in ({"kism": "hukm", "title": "abc", "vivran": "x" * 20}, {"kism": "bug", "title": "ab", "vivran": "x" * 20},
+                        {"kism": "bug", "title": "key", "vivran": "meri key ghp_" + "a" * 36}, {"kism": "bug", "title": "pata", "vivran": "https://x/mcp/abc ye pata hai"},
+                        {"kism": "bug", "title": "key", "vivran": "dekho " + KEY + " ye"}, {"kism": "bug", "title": "lamba", "vivran": "y " * 3000},
+                        {"kism": "bug", "title": "abc"}):
+                self.assertTrue(self.call("request_likho", bad)[0], bad)
+            self.assertEqual(self.snapshot(), after)                          # mana hui cheez kahin nahi likhi
+        finally:
+            if os.path.exists(p):
+                os.remove(p)
+            if old is not None:
+                with open(p, "wb") as f:
+                    f.write(old)
+
+    def test_request_limits(self):
+        from lab import reqbox
+        box = reqbox.new_box()
+        for i in range(reqbox.MAX_PER_DAY):
+            reqbox.add(box, "idea", f"idea {i}", "kuch naya sochne layak baat")
+        with self.assertRaises(ValueError):
+            reqbox.add(box, "idea", "ek aur", "kuch naya sochne layak baat")
+
+    def test_card_pocket_follows_card_numbers_and_stops_at_pass(self):
+        import datetime as dt
+        from lab import card, pockets
+        lists = {"top30": [1, 2, 3], "naksha": [2], "naksha_sab": [3], "dost": [2, 3, 9], "baar": [2]}
+        self.assertEqual(pockets.lists_of({"lists": lists})["card"], card.numbers(lists)["teeno"])
+        self.assertEqual(card.numbers(lists)["teeno"], [2, 3])
+        st = {"days": {"2026-12-01": {"lists": dict(lists, card=[2, 3])}}}
+        rows = [(dt.date(2026, 12, 1), [7, 3, 2, 2], "t")]               # FD nahi, GB me 3 -> hit, wahin ruk
+        line = pockets.statement(st, rows, {}, "card")["lines"][0]
+        self.assertEqual((line["stop"], line["spent"], line["net"]), ("GB", 2 * 10 + 2 * 15, 15 * 95 - 50))
 
     def test_old_routes_same(self):
         h = self.c.get("/api/health")
