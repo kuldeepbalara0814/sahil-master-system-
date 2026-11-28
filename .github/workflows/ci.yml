@@ -53,7 +53,7 @@ jobs:
       - run: pip install -r requirements.txt playwright==1.55.0
       - run: python -m playwright install --with-deps chromium
       - run: python tests/ui_smoke.py
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: ui-shots
