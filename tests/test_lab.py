@@ -2283,6 +2283,14 @@ class FirstSeenBackfillTests(unittest.TestCase):
         self.assertEqual((out["ok"]["first_seen"], out["ok"]["resolved_on"], out["ok"]["status"]), ("2026-11-21", "2026-11-24", "pass"))
         self.assertEqual((out["live"]["first_seen"], out["live"]["status"]), ("2026-11-27", "aaj"))
 
+    def test_revived_design_keeps_its_first_seen_on_purpose(self):
+        """List se hatkar wapas aaya design wahi design hai: 'pehli baar dikha' purana hi rehta hai (jaanbujh kar), nateeja saaf."""
+        from lab import active
+        log = {"items": {"d": {"id": "d", "status": "fail", "dropped": True, "first_seen": "2026-11-23", "resolved_on": "2026-11-26"}}}
+        rep = {"patterns": [{"id": "007", "key": "steps", "naam": "Puzzle-Steps", "items": [{"id": "d", "kind": "steps", "status": "aaj"}]}]}
+        v = active.merge(log, rep, now=dt.datetime(2026, 11, 28, 7, 0))["items"]["d"]
+        self.assertEqual((v["first_seen"], v["status"], v["resolved_on"]), ("2026-11-23", "aaj", None))
+
 
 class StaleScanTests(unittest.TestCase):
     def test_old_schema_scan_is_rerun(self):
