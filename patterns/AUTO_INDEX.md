@@ -95,14 +95,13 @@
 - `tests/test_card.py`: 8 test
 - `tests/test_core.py`: 6 test
 - `tests/test_fetcher.py`: 5 test
-- `tests/test_lab.py`: 167 test
+- `tests/test_lab.py`: 168 test
 - `tests/test_mcp.py`: 13 test
 - `tests/test_paper.py`: 7 test
 - `tests/test_server.py`: 8 test
 
-## HANDOFF ke aakhri faisle (kul 83)
+## HANDOFF ke aakhri faisle (kul 84)
 
-- 72. Mapping sirf DS ke baad (user, 26 Nov 2026):
 - 73. Auto paper pockets (user, 27 Nov 2026):
 - 74. 3 bug (bahari jaanch, 27 Nov, maine verify ki):
 - 75. 28 Nov 2026:
@@ -114,3 +113,4 @@
 - 81. Bada laal box (user, 28 Nov 2026):
 - 82. "Koi bhi AI bina bataye samajh sake" + 3-2-1 backup (user, 28 Nov 2026: "itni mehnat se app bani, kal kuch ho to sab suru se batana possible nahi"):
 - 83. GitHub panna + branch ka tareeka (user, 28 Nov 2026: "open source, jaise git par diya hota hai, naksha ke photo; engineer ki tarah branch"):
+- 84. first_seen backfill (bahari AI jaanch, 28 Nov 2026; maine verify ki):

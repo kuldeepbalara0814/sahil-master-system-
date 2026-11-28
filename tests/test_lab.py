@@ -2270,6 +2270,20 @@ class KitabAndBackupTests(unittest.TestCase):
         self.assertEqual(safeguard.bad, [])
 
 
+class FirstSeenBackfillTests(unittest.TestCase):
+    """28 Nov 2026: jo purane item ab scan me nahi aate unka bhi 'pehli baar dikha' nateeje ke baad ka na rahe."""
+
+    def test_old_items_not_in_scan_are_corrected(self):
+        from lab import active
+        log = {"items": {"old": {"id": "old", "status": "fail", "first_seen": "2026-11-23", "resolved_on": "2026-11-20"},
+                         "ok": {"id": "ok", "status": "pass", "first_seen": "2026-11-21", "resolved_on": "2026-11-24"},
+                         "live": {"id": "live", "status": "aaj", "first_seen": "2026-11-27", "resolved_on": None}}}
+        out = active.merge(log, {"patterns": []}, now=dt.datetime(2026, 11, 28, 7, 0))["items"]
+        self.assertEqual(out["old"]["first_seen"], "2026-11-20")
+        self.assertEqual((out["ok"]["first_seen"], out["ok"]["resolved_on"], out["ok"]["status"]), ("2026-11-21", "2026-11-24", "pass"))
+        self.assertEqual((out["live"]["first_seen"], out["live"]["status"]), ("2026-11-27", "aaj"))
+
+
 class StaleScanTests(unittest.TestCase):
     def test_old_schema_scan_is_rerun(self):
         old = scanner.run(ROWS)

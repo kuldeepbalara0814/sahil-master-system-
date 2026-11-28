@@ -71,6 +71,9 @@ def merge(log, report, now=None, source="auto"):
                         old[k] = it[k]
             if old.get("resolved_on") and old["first_seen"] > old["resolved_on"]:   # nateeja pehli baar dekhne se pehle ka ho to shuruat bhi wahi (kitne din chala galat na aaye)
                 old["first_seen"] = old["resolved_on"]
+    for v in items.values():                                   # purane item jo ab scan me nahi aate unka bhi: shuruat nateeje ke baad ki nahi ho sakti
+        if v.get("resolved_on") and v.get("first_seen", "") > v["resolved_on"]:
+            v["first_seen"] = v["resolved_on"]
     if len(items) > MAX_ITEMS:                                 # sabse purane resolved pehle hatao
         done = sorted((v for v in items.values() if v.get("resolved_on")), key=lambda v: (v["resolved_on"], v["first_seen"]))
         for v in done[:len(items) - MAX_ITEMS]:
