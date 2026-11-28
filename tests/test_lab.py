@@ -2240,6 +2240,23 @@ class KitabAndBackupTests(unittest.TestCase):
         subprocess.run(["git", "clone", "-q", os.path.join(tmp, "sahil-lab.bundle"), back], check=True, capture_output=True)
         self.assertTrue(os.path.exists(os.path.join(back, "CLAUDE.md")) or os.path.exists(os.path.join(back, "lab_server.py")))
 
+    def test_readme_photos_exist_and_can_be_remade(self):
+        import shutil
+        import tempfile
+        with open(os.path.join(ROOT, "README.md"), encoding="utf-8") as f:
+            text = f.read()
+        self.assertIn("kagaz ka kalpnik puzzle", text)
+        import re
+        pics = re.findall(r'docs/photo/[A-Za-z0-9_]+\.(?:png|jpg)', text)
+        self.assertEqual(len(set(pics)), 3)
+        for p in pics:
+            self.assertGreater(os.path.getsize(os.path.join(ROOT, p)), 5000, p)
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import photo
+        tmp = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, tmp)
+        self.assertEqual(set(photo.main(tmp)), {"naksha.png", "puzzle_steps.png", "roz_ka_card.jpg"})
+
     def test_safeguard_blocks_code_without_note(self):
         sys.path.insert(0, os.path.join(ROOT, "scripts"))
         import safeguard

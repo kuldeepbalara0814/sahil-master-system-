@@ -34,7 +34,7 @@ Kisi bhi AI se pattern ka code **naya mat likhwao**; farak aa jayega.
 2. Code badla to **test likho/badlo**, poore test pass:
    `python -m unittest tests.test_lab tests.test_core tests.test_fetcher tests.test_paper tests.test_server tests.test_mcp tests.test_card`
 3. Usi push me `patterns/HANDOFF.md` me naya number: kya, kyu (user ke shabd), wapas kaise. Pattern ka README bhi.
-4. `python scripts/kitab.py` (AUTO_INDEX taaza). Purani suchi = test fail.
+4. `python scripts/kitab.py` (AUTO_INDEX taaza). Purani suchi = test fail. Chart / card ki dikhawat badli ho to `python scripts/photo.py` (README ki photo). Branch ka tareeka: `patterns/BRANCHES.md`.
 5. `python scripts/safeguard.py --base origin/main` (pehredaar; HANDOFF note ke bina code push rokta hai).
 6. User ki haan -> push -> GitHub `code-tests` pass -> Render deploy -> **live par jaanch**, tab "ho gaya" bolo.
 7. Wapas lena: `git revert <hash>`.

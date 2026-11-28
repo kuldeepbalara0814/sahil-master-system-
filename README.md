@@ -1,31 +1,43 @@
-# Sahil Lab  -  data, dost list, aaj ki list, paper trading
+# Sahil Lab: number chart ka puzzle (paper test)
 
-Paper trading (kalpnik paisa) aur R&D ke liye software. **Asli paisa lagane ki salaah nahi.**
-Result lagbhag random hain; 13 saal ke test me sirf chhota, ghat-ta hua "number kuch din me dobara aata hai" wala asar mila.
+> **Saaf chetavni:** ye **kagaz ka kalpnik puzzle khel** aur R&D hai. Asli paisa lagane ke liye **nahi**, koi salah ya bhavishyavani nahi.
+> 13 saal (2013 se) ke data par ab tak ki har jaanch me natija **random jaisa** nikla hai. Koi "pakka number" nahi hota; jo aisa kahe, bharosa mat karo.
 
-## Kya kya hai  (index)
-| # | Hissa | Kahan |
-|---|---|---|
-| 1 | Data (2013 se, duplicate-free) + roz auto fetch | `data/results.csv`, `lab/fetcher.py`, `lab/update.py`, `.github/workflows/daily.yml` |
-| 2 | Dost Khojo (3 samay: poora, pichle 3 mahine, is mahina; hara/peela/narangi; drift) | `lab/friends.py` |
-| 3 | Aaj ki List (single jodi + 10 number ki list) | `lab/picks.py` |
-| 4 | Paper Trading + Monitor | `lab/paper.py`, `lab/monitor.py` |
-| - | Web app | `lab_server.py`, `lab_static/index.html` (andar "Guide" tab me poori samjhaayi) |
+## Ye kya karta hai
+Har din ke 4 number (FD, GB, GL, DS) ke chart me design dhundhta hai: purane saalon me bana koi naksha aaj phir ban raha hai kya, aur kagaz par (asli paisa nahi) parakhta hai ki wo random se behtar hai ya nahi.
 
-## Roz ka kaam kaise chalta hai
-1. **Subah 7:00 IST** GitHub Action `daily-update` chalta hai: site se kal ki poori line (DS subah 5:30 ko khulta hai), paper bet settle, aaj ki nayi paper bet, dost-list ka drift, monitor. Badla hua `data/` commit ho jaata hai.
-2. **Manual:** web app ke "Data" tab me *Abhi result fetch karo* (PIN), ya GitHub > Actions > daily-update > *Run workflow*, ya phone se `bash scripts/fetch_now.sh`.
-3. **Backup:** phone me `/sdcard/SahilLab_Data/` (results.csv ki copy). Bhari ho to Drive me move.
+## Dekhiye
+**Naksha:** naye din ka rang wala design purane saal me kahan bana tha. Same rang = jude hue jode, '?' = aane wala box.
 
-## Data ka niyam
-FD GB GL usi tarikh ke. DS = agli subah khula Desawar, usi tarikh ki line me. Mahine ka aakhri din chhuti (us din ki line nahi).
-`00` ko `0` likha hai. Site ke chart me DS us tarikh par dikhta hai jis subah khula; isliye `line(d).DS = site DS (d+1)`.
+![Naksha chart](docs/photo/naksha.png)
 
-## Chalana
+**Puzzle-Steps (007):** teen mahine ek ke neeche ek, wahi design dobara.
+
+![Puzzle steps](docs/photo/puzzle_steps.png)
+
+**Roz ka card:**
+
+<img src="docs/photo/roz_ka_card.jpg" alt="Roz ka card" width="320">
+
+## Kaise kaam karta hai
+1. DS ka result aate hi nayi line judti hai, saare pattern Python code se dobara bante hain (koi AI nahi).
+2. Aaj ki jodi ki tokri **result se pehle lock** hoti hai, baad me nahi badalti.
+3. Har list ka Rs 10,000 ka **kagaz** pocket chalta hai, saath me ek **Random 30** pocket: koi list usse saaf aage na ho to fayda saabit nahi.
+4. Result na aaye to app bada laal box dikhati hai; purane data se aaj ka kuch nahi banta.
+
+Poori baat (har pattern kaise banta hai): [patterns/SAMAJH.md](patterns/SAMAJH.md) | faisle aur wajah: [patterns/HANDOFF.md](patterns/HANDOFF.md) | code ki suchi: [patterns/AUTO_INDEX.md](patterns/AUTO_INDEX.md)
+
+## Apne computer par chalana
 ```
 pip install -r requirements.txt
-python -m unittest discover -s tests          # 24 test
-python -m lab.update                          # fetch + paper + monitor
-PORT=5000 LAB_SYNC=0 python lab_server.py     # web app (local)
+python -m lab.update --no-fetch              # maujooda data se scan
+LAB_SYNC=0 PORT=5000 python lab_server.py    # app: http://127.0.0.1:5000
+python -m unittest tests.test_lab tests.test_core tests.test_fetcher tests.test_paper tests.test_server tests.test_mcp tests.test_card
 ```
-Render: `render.yaml` (Blueprint). Env: `GITHUB_TOKEN` (Contents: Read and write, sirf is repo par) aur `ADMIN_PIN`.
+Koi key zaroori nahi (help chat aur connector ke bina bhi app chalti hai).
+
+## Kaam karne ke niyam
+Pehle [CLAUDE.md](CLAUDE.md) (insaan aur AI dono ke liye): alag branch, test, note, pehredaar, maalik ki haan, tab push.
+
+## Haq (LICENSE)
+Abhi **koi open-source LICENSE nahi** diya gaya hai. Code dekhne ke liye khula hai; copy karne, chalane-bechne ya naye roop me baantne ki ijazat maalik se leni hogi. Sab haq surakshit.

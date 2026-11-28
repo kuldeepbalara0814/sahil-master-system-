@@ -72,6 +72,7 @@
 | scripts/kitab.py | patterns/AUTO_INDEX.md code se apne aap banata hai (files, pattern, API, data, tools, tests). Hath se mat badlo. |
 | scripts/make_zolly.py | Zolly (animated avatar) ke app-assets banata hai: ek video (mp4) se. |
 | scripts/pattern_excel.py | Pattern ki Excel copy: record chart + aap ke nishaan rang me (blue = pichla mahina, yellow = is mahine) + 'Padho' sheet. |
+| scripts/photo.py | README ki photo asli data se banata hai: docs/photo/ me naksha chart, card 007 chart aur roz ka card. |
 | scripts/puzzle_pattern.py | Puzzle-Steps: EK FILE ki script (copy-paste karke kisi bhi jagah chala sakte ho, Termux me bhi). |
 | scripts/safeguard.py | PEHREDAAR: galat cheez GitHub tak na pahuche (patterns/014_safeguard/README.md). Sirf padhta hai, kuch badalta nahi. |
 | scripts/selfcheck.py | Sahil Lab khud-jaanch. JSON report banata hai; padho, theek karo, --clean se report mita do. Kuch badalta nahi, sirf padhta hai. |
@@ -94,14 +95,13 @@
 - `tests/test_card.py`: 8 test
 - `tests/test_core.py`: 6 test
 - `tests/test_fetcher.py`: 5 test
-- `tests/test_lab.py`: 166 test
+- `tests/test_lab.py`: 167 test
 - `tests/test_mcp.py`: 13 test
 - `tests/test_paper.py`: 7 test
 - `tests/test_server.py`: 8 test
 
-## HANDOFF ke aakhri faisle (kul 82)
+## HANDOFF ke aakhri faisle (kul 83)
 
-- 71. Naksha har machine par alag chunta tha (26 Nov 2026, CI ne pakda):
 - 72. Mapping sirf DS ke baad (user, 26 Nov 2026):
 - 73. Auto paper pockets (user, 27 Nov 2026):
 - 74. 3 bug (bahari jaanch, 27 Nov, maine verify ki):
@@ -113,3 +113,4 @@
 - 80. Roz ke card ka pocket + duet ka request box (user, 28 Nov 2026):
 - 81. Bada laal box (user, 28 Nov 2026):
 - 82. "Koi bhi AI bina bataye samajh sake" + 3-2-1 backup (user, 28 Nov 2026: "itni mehnat se app bani, kal kuch ho to sab suru se batana possible nahi"):
+- 83. GitHub panna + branch ka tareeka (user, 28 Nov 2026: "open source, jaise git par diya hota hai, naksha ke photo; engineer ki tarah branch"):
