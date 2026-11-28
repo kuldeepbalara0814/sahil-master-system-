@@ -979,7 +979,8 @@ def api_alerts():
     rows, _ = state()
     maybe_auto_fetch(rows)                                       # app khuli ho to har minute yahi ghadi
     log = jload("alerts.json", None) or {"items": []}
-    return jsonify({"items": log.get("items", [])[:5], "partial": cur_partial(rows)})
+    return jsonify({"items": log.get("items", [])[:5], "partial": cur_partial(rows),
+                    "khatra": tick.khatra(dt.datetime.now(IST), rows, jload("patterns_today.json", None), jload("pockets.json", None))})
 
 
 @app.get("/api/yaad")

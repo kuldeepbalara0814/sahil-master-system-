@@ -9,6 +9,8 @@ function nums(it){const n=(it.numbers||[]).map(x=>String(x).padStart(2,"0")).joi
 function draw(j){
  const b=bar(),al=(j.items||[])[0],p=j.partial;
  const parts=[];
+ const k=j.khatra;                                            // bada laal box: aaj ka data / scan / tokri nahi bana (band nahi hota)
+ if(k)parts.push(el("div",{class:"al-danger",role:"alert"},el("div",{class:"al-dt"},"\u26A0 "+k.title),(k.baat||[]).map(t=>el("div",{class:"al-dl"},t))));
  if(al&&al.id!==seen()){
   const t=String(al.time||"").replace("T"," ").slice(11,16);
   parts.push(el("div",{class:"al-card"},

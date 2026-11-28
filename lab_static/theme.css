@@ -190,3 +190,6 @@ th{color:var(--cy)}
 #alert-bar .al-x{margin-left:auto;background:none;border:0;color:inherit;font-size:22px;line-height:1;padding:0 4px;cursor:pointer}
 #alert-bar .al-ul{margin:4px 0 6px;padding-left:18px}
 #alert-bar .al-part{color:var(--cy,#22d3ee);padding:2px 2px 6px}
+#alert-bar .al-danger{background:#b91c1c;color:#fff;border:3px solid #fecaca;border-radius:14px;padding:16px 14px;margin-bottom:8px;box-shadow:0 0 18px rgba(239,68,68,.55)}
+#alert-bar .al-dt{font-size:22px;font-weight:800;margin-bottom:8px;letter-spacing:.3px}
+#alert-bar .al-dl{font-size:15px;line-height:1.4;margin-top:4px}

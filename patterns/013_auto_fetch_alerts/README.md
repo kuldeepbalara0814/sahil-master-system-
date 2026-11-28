@@ -32,3 +32,6 @@ User: "base to map scan hai; DS result ke baad hi mapping sahi hai, har result k
 - FB/GB/GL aane par: aadhi line save, hit jaanch, banner "Result aaya ... kis map me laga". Maps, chart, PDF nahi badalte. (007 ab din me aage nahi badhta; DS ke baad badhta hai.)
 - App ki ghadi (user ke time): FB 6:20 pm, GB 10:15 pm, GL 12:15 am, DS 5:30 am ke baad se har 10 min koshish.
 
+## 28 Nov 2026: BADA LAAL BOX (user)
+App ke har tab ke upar laal box, jab: (1) DS nahi aaya (6:30 ke baad) -> "DS UPDATE NAHI HUA", neeche ka sab purana; (2) data aaya par scan nahi hua / galti; (3) 7:30 ke baad bhi aaj ki tokri lock nahi. Band nahi hota, theek hote hi apne aap hat jata hai. Purana chhota warning hata diya. `lab/tick.khatra`, `/api/alerts`.
+

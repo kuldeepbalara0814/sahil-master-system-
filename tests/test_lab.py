@@ -2173,6 +2173,32 @@ class ActionExitCodeTests(unittest.TestCase):
         self.assertEqual(update.exit_code(dict(rep, errors=[]), rows), 0)
 
 
+class RedBoxTests(unittest.TestCase):
+    """User (28 Nov 2026): DS na aaye aur pattern apne aap na banen to upar bada laal box."""
+
+    def test_khatra_cases(self):
+        from lab import tick
+        rows = [r for r in data.load() if r[0] <= dt.date(2026, 11, 27)]
+        rep = {"asof": "2026-11-27", "errors": []}
+        ps = {"days": {"2026-11-28": {}}}
+        k = lambda d, h, m, rep=rep, ps=ps: tick.khatra(dt.datetime(2026, 11, d, h, m), rows, rep, ps)
+        self.assertIsNone(k(28, 12, 0))                                      # 27 ka DS aa chuka, tokri bani
+        self.assertIsNone(k(29, 6, 0))                                       # 28 ka DS 6:30 tak intezaar
+        self.assertEqual(k(29, 6, 45)["kyun"], "ds")
+        self.assertIn("PURANA", " ".join(k(29, 9, 0)["baat"]))
+        self.assertEqual(k(28, 12, 0, rep={"asof": "2026-11-26"})["kyun"], "scan")
+        self.assertEqual(k(28, 12, 0, rep=dict(rep, errors=[{"pattern": "x"}]))["kyun"], "scan")
+        self.assertEqual(k(28, 12, 0, ps={"days": {}})["kyun"], "tokri")
+        self.assertIsNone(k(28, 7, 0, ps={"days": {}}))                      # 7:30 se pehle tokri ka intezaar
+
+    def test_month_holiday_no_false_alarm_and_api(self):
+        from lab import tick
+        rows = [r for r in data.load() if r[0] <= dt.date(2026, 11, 27)] + [(dt.date(2026, 11, 28), [1, 2, 3, 4], "t"), (dt.date(2026, 11, 29), [5, 6, 7, 8], "t")]
+        rep = {"asof": "2026-11-29", "errors": []}
+        self.assertIsNone(tick.khatra(dt.datetime(2026, 12, 1, 6, 0), rows, rep, {"days": {}}))            # 30 = chhutti
+        self.assertIn("khatra", lab_server.app.test_client().get("/api/alerts").get_json())
+
+
 class StaleScanTests(unittest.TestCase):
     def test_old_schema_scan_is_rerun(self):
         old = scanner.run(ROWS)
