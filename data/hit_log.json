@@ -23621,6 +23621,12 @@
      "game": "FB",
      "n": 60,
      "src": "manual"
+    },
+    {
+     "date": "2026-11-28",
+     "game": "GL",
+     "n": 87,
+     "src": "manual"
     }
    ],
    "last_hit": "2026-11-28"
@@ -23644,6 +23650,12 @@
      "date": "2026-11-28",
      "game": "FB",
      "n": 60,
+     "src": "manual"
+    },
+    {
+     "date": "2026-11-28",
+     "game": "GL",
+     "n": 87,
      "src": "manual"
     }
    ],
@@ -23692,6 +23704,12 @@
      "date": "2026-11-28",
      "game": "FB",
      "n": 60,
+     "src": "manual"
+    },
+    {
+     "date": "2026-11-28",
+     "game": "GL",
+     "n": 87,
      "src": "manual"
     }
    ],
@@ -23747,6 +23765,12 @@
      "game": "FB",
      "n": 60,
      "src": "manual"
+    },
+    {
+     "date": "2026-11-28",
+     "game": "GL",
+     "n": 87,
+     "src": "manual"
     }
    ],
    "last_hit": "2026-11-28"
@@ -23794,6 +23818,12 @@
      "date": "2026-11-28",
      "game": "FB",
      "n": 60,
+     "src": "manual"
+    },
+    {
+     "date": "2026-11-28",
+     "game": "GL",
+     "n": 87,
      "src": "manual"
     }
    ],
@@ -23924,6 +23954,78 @@
     }
    ],
    "last_hit": "2026-11-28"
+  },
+  "naksha2:12:2014-07-23": {
+   "id": "naksha2:12:2014-07-23",
+   "name": "Naksha-Rashi-Ghariyal-58",
+   "title": "#6 Jul 2014 jaisa (12 line)",
+   "lines": [
+    "Naya 16 Nov se 27 Nov (12 line) ka naksha purane 23 Jul 2014 se 04 Aug 2014 me mila. 7 jode milte hain (step), z=3.9.",
+    "Random jagah par bhi best z ~5.0 aata hai (max 7.3). Isliye: kamzor.",
+    "Aaj 28 Nov ka andaza: GB me 23 / 28 / 32 / 37 / 73 / 78 / 82 / 87; GB me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85; GB me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76"
+   ],
+   "pattern": {
+    "id": "002b",
+    "key": "naksha2",
+    "naam": "Naksha-Rashi"
+   },
+   "hits": [
+    {
+     "date": "2026-11-28",
+     "game": "GL",
+     "n": 87,
+     "src": "manual"
+    }
+   ],
+   "last_hit": "2026-11-28"
+  },
+  "naksha2:15:2015-02-23": {
+   "id": "naksha2:15:2015-02-23",
+   "name": "Naksha-Rashi-Sarus-92",
+   "title": "#7 Feb 2015 jaisa (15 line)",
+   "lines": [
+    "Naya 13 Nov se 27 Nov (15 line) ka naksha purane 23 Feb 2015 se 10 Mar 2015 me mila. 9 jode milte hain (step), z=3.6.",
+    "Random jagah par bhi best z ~4.9 aata hai (max 6.2). Isliye: kamzor.",
+    "Aaj 28 Nov ka andaza: FB me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76; GL me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95; GB me 23 / 28 / 32 / 37 / 73 / 78 / 82 / 87; DS me 23 / 28 / 32 / 37 / 73 / 78 / 82 / 87; FB me 04 / 09 / 40 / 45 / 54 / 59 / 90 / 95"
+   ],
+   "pattern": {
+    "id": "002b",
+    "key": "naksha2",
+    "naam": "Naksha-Rashi"
+   },
+   "hits": [
+    {
+     "date": "2026-11-28",
+     "game": "GL",
+     "n": 87,
+     "src": "manual"
+    }
+   ],
+   "last_hit": "2026-11-28"
+  },
+  "naksha2:18:2019-03-16": {
+   "id": "naksha2:18:2019-03-16",
+   "name": "Naksha-Rashi-Tota-19",
+   "title": "#8 Mar 2019 jaisa (18 line)",
+   "lines": [
+    "Naya 10 Nov se 27 Nov (18 line) ka naksha purane 16 Mar 2019 se 03 Apr 2019 me mila. 14 jode milte hain (step), z=3.6.",
+    "Random jagah par bhi best z ~4.5 aata hai (max 6.5). Isliye: kamzor.",
+    "Aaj 28 Nov ka andaza: GB me 02 / 07 / 20 / 25 / 52 / 57 / 70 / 75; GL me 23 / 28 / 32 / 37 / 73 / 78 / 82 / 87; DS me 23 / 28 / 32 / 37 / 73 / 78 / 82 / 87; GB me 12 / 17 / 21 / 26 / 62 / 67 / 71 / 76; GL me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85; DS me 03 / 08 / 30 / 35 / 53 / 58 / 80 / 85"
+   ],
+   "pattern": {
+    "id": "002b",
+    "key": "naksha2",
+    "naam": "Naksha-Rashi"
+   },
+   "hits": [
+    {
+     "date": "2026-11-28",
+     "game": "GL",
+     "n": 87,
+     "src": "manual"
+    }
+   ],
+   "last_hit": "2026-11-28"
   }
  },
  "done": {
@@ -24013,6 +24115,10 @@
   },
   "2026-11-28:GB": {
    "n": 84,
+   "src": "manual"
+  },
+  "2026-11-28:GL": {
+   "n": 87,
    "src": "manual"
   }
  }
