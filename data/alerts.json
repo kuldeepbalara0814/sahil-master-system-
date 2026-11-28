@@ -1,6 +1,20 @@
 {
  "items": [
   {
+   "id": "2026-11-28T22:48:37+05:30",
+   "time": "2026-11-28T22:48:37+05:30",
+   "label": "Result aaya: GB 84 (maps DS ke baad badlenge)",
+   "total": 5,
+   "groups": [
+    {
+     "key": "naksha2",
+     "naam": "Naksha-Rashi me laga",
+     "count": 5,
+     "items": []
+    }
+   ]
+  },
+  {
    "id": "2026-11-28T19:21:45+05:30",
    "time": "2026-11-28T19:21:45+05:30",
    "label": "Result aaya: FB 60 (maps DS ke baad badlenge)",
