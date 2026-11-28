@@ -11,3 +11,21 @@ User: "30 jori ka auto jaisa har tarah ki list ka alag 10000 pocket, roz apne aa
 - Code: `lab/pockets.py`, `/api/pockets`, `/api/pockets.xlsx`, `lab_static/tabs_pockets.js`, `data/pockets.json` (kabhi kaata nahi jata).
 - Meri Window ke purane 2 pocket waise hi hain (25 Nov se).
 - **Abhi nahi:** 009 Ank-Chal (ank ka khel, payout alag).
+
+## 30 jodi ki parakh: PEHLE SE TAY NIYAM (user ki "haan", 28 Nov 2026; result dekhne se pehle likha, baad me nahi badlega)
+
+**Kya parakhna hai:** pocket "30 jodi (sab pattern)" (`top30`). Baaki 10 list me se koi achhi nikle to wo is parakh me nahi ginti.
+
+**Pass din:** us din ki lock hui 30 jodi me FB/GB/GL/DS ka koi ek result aaya. Pocket me paisa tha ya nahi, isse farak nahi. Late (result ke baad bani) tokri wala din nahi ginta.
+
+**Manne ke liye chaaron zaroori:**
+1. **December 2026** (30 khel din, 31 chhutti): fail din **2 se zyada nahi** (30 me 28), aur kam se kam 28 din gine gaye hon.
+2. December me "30 jodi" **Random 30** pocket se **kam se kam 4 pass din aage**, aur balance bhi zyada.
+3. **January 2027** me dobara: **30 me 26** ya zyada (fail 4 se zyada nahi).
+4. January me bhi Random 30 se aage (pass din aur balance dono).
+
+Ek bhi na ho to nateeja: **random se alag saabit nahi.** Chaaron ho jayen to bhi sirf "isme kuch hai, aage dekho"; asli paisa nahi.
+
+**Sankhya (kyun):** random 30 jodi ek din me 76% pass hoti hai (30 din me 22-23). 30 me 28 random me ~70 me 1 baar. Seedhi me fayda sirf 78% se upar pass din par.
+
+**Parakh ke dauran niyam jama:** December-January me 30 jodi banane ka tarika (`lab/rank.py`, aur usme vote dene wale pattern) nahi badlega. Badalna pada to parakh usi din se dobara shuru, aur yahan likha jayega.
